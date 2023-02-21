@@ -14,7 +14,7 @@ class ZnoTestingHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return ZnoTopHeaderSmall(
       child: Container(
-        margin: EdgeInsets.fromLTRB(0, 35.h, 0, 0),
+        margin: EdgeInsets.fromLTRB(0, MediaQuery.of(context).padding.top, 0, 0),
         child: Center(
             child: Text(
               text,

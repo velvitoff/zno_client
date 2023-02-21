@@ -1,12 +1,10 @@
 import 'dart:convert';
-
 import 'package:client/dto/test_data.dart';
 import 'package:client/routes/testing_route/testing_display.dart';
 import 'package:client/routes/testing_route/zno_testing_header.dart';
 import 'package:client/services/interfaces/storage_service.dart';
 import 'package:client/widgets/zno_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../dto/session_data.dart';
 import '../../locator.dart';
 

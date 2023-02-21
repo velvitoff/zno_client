@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:client/dto/question_data.dart';
-import 'package:client/dto/test_data.dart';
 import 'package:client/services/interfaces/storage_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
