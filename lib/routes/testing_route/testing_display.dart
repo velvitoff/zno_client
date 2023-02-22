@@ -17,35 +17,35 @@ class TestingDisplay extends StatefulWidget {
 }
 
 class _TestingDisplayState extends State<TestingDisplay> {
-
   late ScrollController _scrollController;
+  late PageController _pageController;
 
   @override
   void initState(){
     super.initState();
     _scrollController = ScrollController();
+    _pageController = PageController();
   }
 
   @override
   void dispose(){
     _scrollController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    return Scrollbar(
-      controller: _scrollController,
-      interactive: true,
-      thickness: 15.w,
-      radius: const Radius.circular(7.5),
-      child: ListView.builder(
-        controller: _scrollController,
-        scrollDirection: Axis.vertical,
-        itemCount: widget.questions.length,
-        itemBuilder: (context, position) {
-          return ConstrainedBox(
+    return PageView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      controller: _pageController,
+      scrollDirection: Axis.vertical,
+      itemCount: widget.questions.length,
+      itemBuilder: (context, position) {
+        return SingleChildScrollView(
+          controller: _scrollController,
+          child: ConstrainedBox(
             constraints: BoxConstraints(
                 minHeight: 630.h + MediaQuery.of(context).padding.top
             ),
@@ -57,14 +57,20 @@ class _TestingDisplayState extends State<TestingDisplay> {
                   question: widget.questions[position],
                 ),
                 TestingButtons(
-                  onBack: () {},
-                  onForward: () {},
+                  onBack: () => _pageController.previousPage(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOutSine
+                  ),
+                  onForward: () => _pageController.nextPage(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOutSine
+                  ),
                 )
               ],
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 

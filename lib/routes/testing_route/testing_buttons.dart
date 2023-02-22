@@ -20,12 +20,12 @@ class TestingButtons extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            width: 145.w,
-            height: 50.w,
-            color: const Color(0xFF428449),
-            child: GestureDetector(
-              onTap: onBack,
+          GestureDetector(
+            onTap: onBack,
+            child: Container(
+              width: 145.w,
+              height: 50.w,
+              color: const Color(0xFF428449),
               child: Center(
                 child: Text(
                   'Назад',
@@ -36,14 +36,14 @@ class TestingButtons extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
+            )
           ),
-          Container(
-            width: 145.w,
-            height: 50.w,
-            color: const Color(0xFF428449),
-            child: GestureDetector(
-              onTap: onForward,
+          GestureDetector(
+            onTap: onForward,
+            child: Container(
+              width: 145.w,
+              height: 50.w,
+              color: const Color(0xFF428449),
               child: Center(
                 child: Text(
                   'Далі',
