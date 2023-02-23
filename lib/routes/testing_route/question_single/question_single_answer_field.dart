@@ -1,66 +1,56 @@
-import 'package:client/widgets/icons/zno_correct_cross.dart';
+import 'package:client/models/testing_route_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import '../../../widgets/answer_cell.dart';
 
-//TODO: Fix stateful widget
-
-class QuestionSingleAnswerField extends StatefulWidget {
+class QuestionSingleAnswerField extends StatelessWidget {
   final List<String> variants;
+  final int index;
 
   const QuestionSingleAnswerField({
     Key? key,
-    required this.variants
+    required this.variants,
+    required this.index
   }) : super(key: key);
-
-  @override
-  State<QuestionSingleAnswerField> createState() => _QuestionSingleAnswerFieldState();
-}
-
-class _QuestionSingleAnswerFieldState extends State<QuestionSingleAnswerField> {
-
-  String _selected = "";
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 310.w,
-      height: 90.h,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: widget.variants.map((variant) {
-          return Column(
+        width: 310.w,
+        height: 90.h,
+        child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                variant,
-                style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w500),
-              ),
-              variant == _selected
-              ?
-              CustomPaint(
-                size: Size(46.5.r, 46.5.r),
-                painter: const ZnoCorrectCross(),
-              )
-              :
-              Container(
-                height: 46.5.r,
-                width: 46.5.r,
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(7)),
-                    border: Border.all(
-                        color: const Color(0xFF545454),
-                        width: 3
-                    )
-                ),
-                child: GestureDetector(
-                  onTap: () => setState(() => _selected = variant)
-                ),
-              )
-            ],
-          );
-          }
-        ).toList()
-      )
+            children: variants.map((variant) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    variant,
+                    style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w500),
+                  ),
+                  Selector<TestingRouteModel, dynamic>(
+                    selector: (_, model) => model.getAnswer(index),
+                    builder: (_, answer, __) {
+                      if (answer is String && answer == variant){
+                        return AnswerCell(
+                          marked: true,
+                          onTap: () => {},
+                        );
+                      }
+                      else{
+                        return AnswerCell(
+                          onTap: () => context.read<TestingRouteModel>().addAnswer(index, variant),
+                        );
+                      }
+                    },
+                  )
+                ],
+              );
+            }
+            ).toList()
+        )
     );
   }
 }
+

@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:client/dto/test_data.dart';
-import 'package:client/routes/testing_route/testing_display.dart';
+import 'package:client/models/testing_route_model.dart';
+import 'package:client/routes/testing_route/testing_pages.dart';
 import 'package:client/routes/testing_route/zno_testing_header.dart';
 import 'package:client/services/interfaces/storage_service.dart';
 import 'package:client/widgets/zno_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../dto/session_data.dart';
 import '../../locator.dart';
 
@@ -48,7 +50,10 @@ class _TestingRouteState extends State<TestingRoute> {
                   future: futureTestData,
                   builder: (BuildContext context, AsyncSnapshot<TestData> snapshot) {
                     if (snapshot.hasData) {
-                      return TestingDisplay(questions: snapshot.data!.questions);
+                      return ChangeNotifierProvider(
+                        create: (context) => TestingRouteModel(),
+                        child: TestingPages(questions: snapshot.data!.questions),
+                      );
                     }
                     else if (snapshot.hasError) {
                       return Text("error: ${snapshot.error!}");

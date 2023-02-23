@@ -22,7 +22,7 @@ class QuestionWidget extends StatelessWidget {
         return Column(
           children: [
             ZnoDivider(text: '${index+1}'),
-            QuestionSingleWidget(question: question.single!)
+            QuestionSingleWidget(question: question.single!, index: index)
           ],
         );
       case QuestionEnum.complex:

@@ -7,16 +7,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class QuestionSingleWidget extends StatelessWidget {
   final QuestionSingle question;
+  final int index;
 
   const QuestionSingleWidget({
     Key? key,
-    required this.question
+    required this.question,
+    required this.index
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 10.h),
+      margin: EdgeInsets.fromLTRB(20.w, 10.h, 0, 10.h),
       child: Column(
         children: [
           QuestionRenderData(data: question.render),
@@ -25,6 +27,7 @@ class QuestionSingleWidget extends StatelessWidget {
           ),
           QuestionSingleAnswerField(
             variants: question.answers.keys.toList(),
+            index: index,
           )
         ],
       ),
