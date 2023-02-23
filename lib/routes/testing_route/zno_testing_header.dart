@@ -15,15 +15,30 @@ class ZnoTestingHeader extends StatelessWidget {
     return ZnoTopHeaderSmall(
       child: Container(
         margin: EdgeInsets.fromLTRB(0, MediaQuery.of(context).padding.top, 0, 0),
-        child: Center(
-            child: Text(
-              text,
-              style: TextStyle(
-                  fontSize: text.length > 20 ? 20.sp : 24.sp,
-                  fontWeight: FontWeight.w400,
-                  color: const Color(0xFFF3F3F3)
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                text,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: text.length > 20 ? 20.sp : 24.sp,
+                    fontWeight: FontWeight.w400,
+                    color: const Color(0xFFF3F3F3)
+                ),
               ),
+            ),
+            Align(
+              alignment: const Alignment(0.98, 0.0),
+              child: Icon(
+                Icons.more_vert,
+                size: 36.sp,
+                color: Colors.white,
+              )
             )
+          ]
         ),
       ),
     );

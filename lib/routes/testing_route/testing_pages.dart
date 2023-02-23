@@ -1,4 +1,4 @@
-import 'package:client/routes/testing_page.dart';
+import 'package:client/routes/testing_route/testing_page.dart';
 import 'package:flutter/material.dart';
 import '../../dto/question_data.dart';
 
