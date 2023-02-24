@@ -67,10 +67,3 @@ class _TestingPagesState extends State<TestingPages> {
   }
 
 }
-
-/*
-onBack: () => _pageController.previousPage(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeInOutSine
-              ),
-*/

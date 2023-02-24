@@ -27,10 +27,6 @@ class QuestionSingleWidget extends StatelessWidget {
           QuestionSingleAnswerVariants(
               answers: question.answers
           ),
-          QuestionSingleAnswerField(
-            variants: question.answers.keys.toList(),
-            index: index,
-          ),
         ],
       ),
     );

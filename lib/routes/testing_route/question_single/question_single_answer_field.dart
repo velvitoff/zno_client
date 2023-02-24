@@ -16,39 +16,44 @@ class QuestionSingleAnswerField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final realSize = MediaQuery.of(context).size;
+
     return Container(
         width: 360.w,
         height: 90.h,
-        padding: EdgeInsets.fromLTRB(25.w, 0, 25.w, 0),
+        margin: EdgeInsets.fromLTRB(0, 7.h, 0, 7.h),
         child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: realSize.height > realSize.width ? MainAxisAlignment.center : MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: variants.map((variant) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    variant,
-                    style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w500),
-                  ),
-                  Selector<TestingRouteModel, dynamic>(
-                    selector: (_, model) => model.getAnswer(index),
-                    builder: (_, answer, __) {
-                      if (answer is String && answer == variant){
-                        return AnswerCell(
-                          marked: true,
-                          onTap: () => {},
-                        );
-                      }
-                      else{
-                        return AnswerCell(
-                          onTap: () => context.read<TestingRouteModel>().addAnswer(index, variant),
-                        );
-                      }
-                    },
-                  )
-                ],
+              return Container(
+                margin: EdgeInsets.fromLTRB(0, 0, 10.w, 0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      variant,
+                      style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w500),
+                    ),
+                    Selector<TestingRouteModel, dynamic>(
+                      selector: (_, model) => model.getAnswer(index),
+                      builder: (_, answer, __) {
+                        if (answer is String && answer == variant){
+                          return AnswerCell(
+                            marked: true,
+                            onTap: () => {},
+                          );
+                        }
+                        else{
+                          return AnswerCell(
+                            onTap: () => context.read<TestingRouteModel>().addAnswer(index, variant),
+                          );
+                        }
+                      },
+                    )
+                  ],
+                ),
               );
             }
             ).toList()
