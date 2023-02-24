@@ -41,42 +41,38 @@ class _TestingPageState extends State<TestingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQueryTop = MediaQuery.of(context).padding.top;
-
-    return Container(
-      child: SingleChildScrollView(
-        controller: _scrollController,
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-              minHeight: 700.h - mediaQueryTop
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              QuestionWidget(
-                index: widget.index,
-                question: widget.question,
+    return SingleChildScrollView(
+      controller: _scrollController,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+            minHeight: 700.h - MediaQuery.of(context).padding.top
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            QuestionWidget(
+              index: widget.index,
+              question: widget.question,
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(20.w, 0, 20.w, 0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  AnswerWidget(
+                    index: widget.index,
+                    question: widget.question,
+                  ),
+                  TestingButtons(
+                    onBack: widget.onDecrementPage,
+                    onForward: widget.onIncrementPage,
+                  )
+                ],
               ),
-              Container(
-                margin: EdgeInsets.fromLTRB(20.w, 0, 20.w, 0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    AnswerWidget(
-                      index: widget.index,
-                      question: widget.question,
-                    ),
-                    TestingButtons(
-                      onBack: widget.onDecrementPage,
-                      onForward: widget.onIncrementPage,
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );

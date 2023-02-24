@@ -99,21 +99,35 @@ class QuestionComplex {
   final int order;
   final List<List<String>> render;
   final List<String> titleList;
-  //TODO: tableList
-  //TODO: correctMap
+  final List<Map<String, List<String>>> tableList;
+  final Map<String, String> correctMap;
 
   const QuestionComplex({
     required this.order,
     required this.render,
-    required this.titleList
+    required this.titleList,
+    required this.tableList,
+    required this.correctMap
   });
 
   factory QuestionComplex.fromJson(Map<String, dynamic> map) => QuestionComplex(
     order: map['order'] as int,
     render: List<List<String>>.from(map['render'].map((x) => List<String>.from(x.map((x) => x)))),
     titleList: List<String>.from(map['title_list'].map((x) => x)),
-    //tableList: List<TableList>.from(json["table_list"].map((x) => TableList.fromJson(x))),
-    //correctMap: Map.from(json["correct_map"]).map((k, v) => MapEntry<String, Correct>(k, correctValues.map[v]!)),
+    tableList:
+    List<Map<String, List<String>>>.from(
+      List<dynamic>.from(map['table_list'])
+          .map((mapItem) => Map<String, List<String>>.fromEntries(
+          Map<String, dynamic>.from(mapItem).entries
+              .map((entry) => MapEntry<String, List<String>>(
+                entry.key,
+                List<String>.from(entry.value.map((x) => x))
+            )
+          )
+        )
+      ).toList()
+    ),
+    correctMap: Map<String, String>.from(Map<String, dynamic>.from(map['correct_map'])),
   );
 
   Map<String, dynamic> toJson() => {
