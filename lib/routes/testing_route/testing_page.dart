@@ -4,7 +4,6 @@ import 'package:client/routes/testing_route/question_widget.dart';
 import 'package:client/routes/testing_route/testing_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
 class TestingPage extends StatefulWidget {
   final int index;
@@ -41,18 +40,24 @@ class _TestingPageState extends State<TestingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQueryTop = MediaQuery.of(context).padding.top;
+
     return SingleChildScrollView(
       controller: _scrollController,
       child: ConstrainedBox(
         constraints: BoxConstraints(
-            minHeight: 630.h + MediaQuery.of(context).padding.top
+            minHeight: 700.h - mediaQueryTop
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            QuestionWidget(
-              index: widget.index,
-              question: widget.question,
+            SizedBox(
+              height: 635.h - mediaQueryTop,
+              child: QuestionWidget(
+                index: widget.index,
+                question: widget.question,
+              ),
             ),
             TestingButtons(
               onBack: widget.onDecrementPage,

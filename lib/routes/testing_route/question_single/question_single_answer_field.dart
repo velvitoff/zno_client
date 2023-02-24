@@ -16,14 +16,17 @@ class QuestionSingleAnswerField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        width: 310.w,
+    return Container(
+        width: 360.w,
         height: 90.h,
+        padding: EdgeInsets.fromLTRB(25.w, 0, 25.w, 0),
         child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: variants.map((variant) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     variant,

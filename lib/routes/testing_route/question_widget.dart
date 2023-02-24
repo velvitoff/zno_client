@@ -20,13 +20,19 @@ class QuestionWidget extends StatelessWidget {
     switch (question.type) {
       case QuestionEnum.single:
         return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ZnoDivider(text: '${index+1}'),
-            QuestionSingleWidget(question: question.single!, index: index)
+            Expanded(
+              child: QuestionSingleWidget(question: question.single!, index: index),
+            )
           ],
         );
       case QuestionEnum.complex:
         return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ZnoDivider(text: '${index+1}'),
             QuestionComplexWidget(question: question.complex!)
@@ -34,6 +40,8 @@ class QuestionWidget extends StatelessWidget {
         );
       case QuestionEnum.noAnswer:
         return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ZnoDivider(text: '${index+1}'),
             QuestionNoAnswerWidget(question: question.noAnswer!)

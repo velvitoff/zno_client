@@ -18,8 +18,10 @@ class QuestionSingleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(20.w, 10.h, 0, 10.h),
+      margin: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 10.h),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           QuestionRenderData(data: question.render),
           QuestionSingleAnswerVariants(
@@ -28,7 +30,7 @@ class QuestionSingleWidget extends StatelessWidget {
           QuestionSingleAnswerField(
             variants: question.answers.keys.toList(),
             index: index,
-          )
+          ),
         ],
       ),
     );

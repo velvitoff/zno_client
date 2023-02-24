@@ -42,10 +42,10 @@ class _TestingRouteState extends State<TestingRoute> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ZnoTestingHeader(text: widget.dto.subjectName),
-            MediaQuery.removePadding(
-              context: context,
-              removeTop: true,
-              child: Expanded(
+            Expanded(
+              child: MediaQuery.removePadding(
+                context: context,
+                removeTop: true,
                 child: FutureBuilder(
                   future: futureTestData,
                   builder: (BuildContext context, AsyncSnapshot<TestData> snapshot) {
@@ -64,8 +64,7 @@ class _TestingRouteState extends State<TestingRoute> {
                   },
                 ),
               ),
-            ),
-            const ZnoBottomNavigationBar(activeIndex: 0)
+            )
           ],
         )
     );

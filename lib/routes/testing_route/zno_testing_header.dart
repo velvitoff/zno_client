@@ -1,3 +1,4 @@
+import 'package:client/routes/testing_route/zno_more_dropdown.dart';
 import 'package:client/widgets/zno_top_header_small.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,13 +31,9 @@ class ZnoTestingHeader extends StatelessWidget {
                 ),
               ),
             ),
-            Align(
-              alignment: const Alignment(0.98, 0.0),
-              child: Icon(
-                Icons.more_vert,
-                size: 36.sp,
-                color: Colors.white,
-              )
+            const Align(
+              alignment: Alignment(0.98, 0.0),
+              child: ZnoMoreDropdown()
             )
           ]
         ),

@@ -20,8 +20,8 @@ class QuestionSingleAnswerVariants extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  width: 35.w,
-                  height: 35.w,
+                  width: 35.r,
+                  height: 35.r,
                   margin: EdgeInsets.fromLTRB(0, 5.h, 10.w, 5.h),
                   decoration: const BoxDecoration(
                     color: Color(0xFF60B558),

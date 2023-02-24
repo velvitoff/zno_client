@@ -15,7 +15,7 @@ class TestingButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 320.w,
-      height: 50.w,
+      height: 50.h,
       margin: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -24,7 +24,7 @@ class TestingButtons extends StatelessWidget {
             onTap: onBack,
             child: Container(
               width: 145.w,
-              height: 50.w,
+              height: 50.h,
               color: const Color(0xFF428449),
               child: Center(
                 child: Text(
@@ -42,7 +42,7 @@ class TestingButtons extends StatelessWidget {
             onTap: onForward,
             child: Container(
               width: 145.w,
-              height: 50.w,
+              height: 50.h,
               color: const Color(0xFF428449),
               child: Center(
                 child: Text(
