@@ -24,15 +24,18 @@ class ZnoDivider extends StatelessWidget {
           FittedBox(
             fit: BoxFit.fill,
             child: Container(
-              padding: EdgeInsets.all(7.r),
+              width: 25.w,
+              padding: EdgeInsets.all(3.r),
               color: const Color(0xFFFFFFFF),
               //TODO: Fix color, themes
-              child: Text(
-                text,
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  color: const Color(0xFF787878),
-                  fontWeight: FontWeight.w400
+              child: Center(
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 20.sp,
+                      color: const Color(0xFF787878),
+                      fontWeight: FontWeight.w400
+                  ),
                 ),
               ),
             ),

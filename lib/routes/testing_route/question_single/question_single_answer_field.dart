@@ -19,7 +19,7 @@ class QuestionSingleAnswerField extends StatelessWidget {
     final realSize = MediaQuery.of(context).size;
 
     return Container(
-        width: 360.w,
+        width: 320.w,
         height: 90.h,
         margin: EdgeInsets.fromLTRB(0, 7.h, 0, 7.h),
         child: Row(
