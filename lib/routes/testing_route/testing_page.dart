@@ -52,12 +52,9 @@ class _TestingPageState extends State<TestingPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
-              height: 635.h - mediaQueryTop,
-              child: QuestionWidget(
-                index: widget.index,
-                question: widget.question,
-              ),
+            QuestionWidget(
+              index: widget.index,
+              question: widget.question,
             ),
             TestingButtons(
               onBack: widget.onDecrementPage,
