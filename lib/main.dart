@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
           title: 'zno_project',
           theme: ThemeData(
             primarySwatch: Colors.blue,
-            fontFamily: 'Roboto',
+            fontFamily: 'Ubuntu',
           ),
         );
       }
