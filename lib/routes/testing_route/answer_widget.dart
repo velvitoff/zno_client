@@ -1,3 +1,4 @@
+import 'package:client/routes/testing_route/question_complex/question_complex_answer_field.dart';
 import 'package:client/routes/testing_route/question_single/question_single_answer_field.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,11 @@ class AnswerWidget extends StatelessWidget {
           index: index,
         );
       case QuestionEnum.complex:
-        return Container();
+        return QuestionComplexAnswerField(
+          index: index,
+          variants: question.complex!.tableList
+              .map((innerMap) => innerMap.keys.toList()).toList(),
+        );
       case QuestionEnum.noAnswer:
         return Container();
     }

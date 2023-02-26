@@ -42,7 +42,7 @@ class QuestionSingleAnswerField extends StatelessWidget {
                         if (answer is String && answer == variant){
                           return AnswerCell(
                             marked: true,
-                            onTap: () => {},
+                            onTap: () {},
                           );
                         }
                         else{

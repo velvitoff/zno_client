@@ -31,7 +31,7 @@ class AnswerCell extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(7)),
             border: Border.all(
                 color: const Color(0xFF545454),
-                width: 3
+                width: 3.r
             )
         ),
       ),

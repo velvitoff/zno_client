@@ -57,14 +57,10 @@ class UiGenerator{
     for (var node in doc.nodes) {
       //nodeType 3 - text, 1 - html
       if (node.nodeType != 1) {
-        textSpans.add(
-            TextSpan(text: node.text, style: style ?? TextStyle(fontSize: 22.sp))
-        );
+        textSpans.add(TextSpan(text: node.text, style: style ?? TextStyle(fontSize: 22.sp)));
       }
       else {
-        textSpans.add(TextSpan(text: node.text,
-            style: style ?? _getStyleFromNode(node))
-        );
+        textSpans.add(TextSpan(text: node.text,style: style ?? _getStyleFromNode(node)));
       }
     }
 

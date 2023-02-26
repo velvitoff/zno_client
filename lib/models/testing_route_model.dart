@@ -7,13 +7,12 @@ class TestingRouteModel extends ChangeNotifier {
 
   dynamic getAnswer(int key) => _answers[key];
 
-  bool addAnswer(int key, dynamic value) {
+  void addAnswer(int key, dynamic value) {
+    print('value: $value');
     if (value is String || value is Map<String, String>) {
       _answers[key] = value;
       notifyListeners();
-      return true;
     }
-    return false;
   }
 
 }
