@@ -21,13 +21,13 @@ class ZnoDivider extends StatelessWidget {
             height: 2.h,
             color: const Color(0xFFCECECE),
           ),
-          FittedBox(
-            fit: BoxFit.fill,
-            child: Container(
-              width: 25.w,
-              padding: EdgeInsets.all(3.r),
-              color: const Color(0xFFFFFFFF),
-              //TODO: Fix color, themes
+          Container(
+            width: 25.w,
+            padding: EdgeInsets.all(3.r),
+            color: const Color(0xFFFFFFFF),
+            //TODO: Fix color, themes
+            child: FittedBox(
+              fit: BoxFit.fill,
               child: Center(
                 child: Text(
                   text,
