@@ -1,18 +1,16 @@
 import 'package:client/dto/question_data.dart';
 import 'package:client/routes/testing_route/question_render_data.dart';
 import 'package:client/routes/testing_route/question_single/question_single_answer_field.dart';
-import 'package:client/routes/testing_route/question_single/question_single_answer_variants.dart';
+import 'package:client/routes/testing_route/answer_variants_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class QuestionSingleWidget extends StatelessWidget {
   final QuestionSingle question;
-  final int index;
 
   const QuestionSingleWidget({
     Key? key,
-    required this.question,
-    required this.index
+    required this.question
   }) : super(key: key);
 
   @override
@@ -24,7 +22,7 @@ class QuestionSingleWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           QuestionRenderData(data: question.render),
-          QuestionSingleAnswerVariants(
+          AnswerVariantsTable(
               answers: question.answers
           ),
         ],

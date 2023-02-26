@@ -24,7 +24,7 @@ class QuestionWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ZnoDivider(text: '${index+1}'),
-            QuestionSingleWidget(question: question.single!, index: index)
+            QuestionSingleWidget(question: question.single!)
           ],
         );
       case QuestionEnum.complex:

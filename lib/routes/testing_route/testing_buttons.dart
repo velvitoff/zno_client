@@ -16,7 +16,7 @@ class TestingButtons extends StatelessWidget {
     return Container(
       width: 320.w,
       height: 50.h,
-      margin: EdgeInsets.fromLTRB(0, 10.h, 0, 4.h),
+      margin: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

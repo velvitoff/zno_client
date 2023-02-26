@@ -134,7 +134,7 @@ class QuestionComplex {
     "order": order,
     "render": List<dynamic>.from(render.map((x) => List<dynamic>.from(x.map((x) => x)))),
     "title_list": List<dynamic>.from(titleList.map((x) => x)),
-    //"table_list": List<dynamic>.from(tableList.map((x) => x.toJson())),
+    //"table_list": List<dynamic>.from(tableList.map((x) => x)),
     //"correct_map": Map.from(correctMap).map((k, v) => MapEntry<String, dynamic>(k, correctValues.reverse[v])),
   };
 
