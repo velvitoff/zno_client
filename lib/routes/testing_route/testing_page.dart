@@ -5,19 +5,20 @@ import 'package:client/routes/testing_route/question_widget.dart';
 import 'package:client/routes/testing_route/testing_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+
+import '../../widgets/zno_divider.dart';
 
 class TestingPage extends StatefulWidget {
   final int index;
   final Question question;
-  final void Function() onIncrementPage;
-  final void Function() onDecrementPage;
+  final int questionsLength;
 
   const TestingPage({
     Key? key,
     required this.index,
     required this.question,
-    required this.onIncrementPage,
-    required this.onDecrementPage
+    required this. questionsLength
   }) : super(key: key);
 
   @override
@@ -51,9 +52,14 @@ class _TestingPageState extends State<TestingPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            QuestionWidget(
-              index: widget.index,
-              question: widget.question,
+            Column(
+              children: [
+                ZnoDivider(activeIndex: widget.index, itemCount: widget.questionsLength),
+                QuestionWidget(
+                  index: widget.index,
+                  question: widget.question,
+                )
+              ],
             ),
             Container(
               margin: EdgeInsets.fromLTRB(20.w, 0, 20.w, 0),
@@ -66,8 +72,8 @@ class _TestingPageState extends State<TestingPage> {
                     question: widget.question,
                   ),
                   TestingButtons(
-                    onBack: widget.onDecrementPage,
-                    onForward: widget.onIncrementPage,
+                    onBack: () => context.read<TestingRouteModel>().decrementPage(),
+                    onForward: () => context.read<TestingRouteModel>().incrementPage(),
                   )
                 ],
               ),

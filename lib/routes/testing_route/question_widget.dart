@@ -23,7 +23,6 @@ class QuestionWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            ZnoDivider(text: '${index+1}'),
             QuestionSingleWidget(question: question.single!)
           ],
         );
@@ -32,7 +31,6 @@ class QuestionWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            ZnoDivider(text: '${index+1}'),
             QuestionComplexWidget(question: question.complex!)
           ],
         );
@@ -41,7 +39,6 @@ class QuestionWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            ZnoDivider(text: '${index+1}'),
             QuestionNoAnswerWidget(question: question.noAnswer!)
           ],
         );

@@ -51,7 +51,7 @@ class _TestingRouteState extends State<TestingRoute> {
                   builder: (BuildContext context, AsyncSnapshot<TestData> snapshot) {
                     if (snapshot.hasData) {
                       return ChangeNotifierProvider(
-                        create: (context) => TestingRouteModel(),
+                        create: (context) => TestingRouteModel(pageAmount: snapshot.data!.questions.length),
                         child: TestingPages(questions: snapshot.data!.questions),
                       );
                     }
