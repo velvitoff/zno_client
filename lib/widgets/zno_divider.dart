@@ -27,7 +27,7 @@ class ZnoDivider extends StatelessWidget {
             color: const Color(0xFFFFFFFF),
             //TODO: Fix color, themes
             child: FittedBox(
-              fit: BoxFit.fill,
+              fit: BoxFit.contain,
               child: Center(
                 child: Text(
                   text,
