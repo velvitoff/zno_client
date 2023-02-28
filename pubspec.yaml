@@ -41,6 +41,7 @@ dependencies:
   html: ^0.15.1
   provider: ^6.0.5
   dropdown_button2: ^1.9.4
+  listview_utils: ^1.0.0-nullsafety
 
 dev_dependencies:
   flutter_test:
