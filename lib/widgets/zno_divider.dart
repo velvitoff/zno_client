@@ -21,7 +21,7 @@ class ZnoDivider extends StatefulWidget {
 
 class _ZnoDividerState extends State<ZnoDivider> {
 
-  final double headerWidth = 140.w;
+  final double headerWidth = 130.w;
   late final ScrollController _scrollController;
   late final int selected;
 
@@ -41,8 +41,8 @@ class _ZnoDividerState extends State<ZnoDivider> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 30.h,
-        margin: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
+        height: 40.h,
+        margin: EdgeInsets.fromLTRB(0, 10.h, 0, 5.h),
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -66,12 +66,15 @@ class _ZnoDividerState extends State<ZnoDivider> {
                     context.read<TestingRouteModel>().jumpPage(index);
                   },
                   child: Container(
-                    width: 40.r,
+                    width: 50.r,
+                    height: 50.r,
                     margin: EdgeInsets.fromLTRB(15.r, 0, 15.r, 0),
                     color: const Color(0xFFFAFAFA),
                     child: Center(
                       child: Container(
-                        width: 30.r,
+                        width: 40.r,
+                        height: 40.r,
+                        padding: index != selected ? EdgeInsets.all(6.r) : EdgeInsets.all(3.r),
                         decoration: index != selected ? null : BoxDecoration(
                             border: Border.all(
                               width: 3.r,
