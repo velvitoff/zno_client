@@ -42,7 +42,7 @@ class _ZnoDividerState extends State<ZnoDivider> {
   Widget build(BuildContext context) {
     return Container(
         height: 30.h,
-        margin: EdgeInsets.fromLTRB(0, 5.h, 0, 5.h),
+        margin: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
         child: Stack(
           alignment: Alignment.center,
           children: [

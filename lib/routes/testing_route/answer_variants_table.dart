@@ -16,7 +16,7 @@ class AnswerVariantsTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 15.h, 0, 15.h),
+      margin: EdgeInsets.fromLTRB(0, 20.h, 0, 20.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

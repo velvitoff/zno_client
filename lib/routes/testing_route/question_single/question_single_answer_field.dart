@@ -21,7 +21,7 @@ class QuestionSingleAnswerField extends StatelessWidget {
     return Container(
         width: 320.w,
         height: 90.h,
-        margin: EdgeInsets.fromLTRB(0, 7.h, 0, 7.h),
+        margin: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
         child: Row(
             mainAxisAlignment: realSize.height > realSize.width ? MainAxisAlignment.center : MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
