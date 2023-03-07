@@ -3,7 +3,6 @@ import 'package:client/routes/history_route.dart';
 import 'package:client/routes/session_route/index.dart';
 import 'package:client/routes/storage_route.dart';
 import 'package:client/routes/testing_route/index.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:client/routes/subjects_route/index.dart';
@@ -22,7 +21,7 @@ class Routes {
   static const testingRoute = '/testing';
 
   static final _router = GoRouter(
-      debugLogDiagnostics: kDebugMode,
+      //debugLogDiagnostics: kDebugMode,
       initialLocation: subjectsRoute,
       routes: [
         GoRoute(

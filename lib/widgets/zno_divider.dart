@@ -1,7 +1,6 @@
 import 'package:client/models/testing_route_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:listview_utils/listview_utils.dart';
 
@@ -29,7 +28,7 @@ class _ZnoDividerState extends State<ZnoDivider> {
   void initState() {
     super.initState();
     selected = context.read<TestingRouteModel>().getPageIndex();
-    _scrollController = ScrollController(initialScrollOffset: selected * 70.r);
+    _scrollController = ScrollController(initialScrollOffset: selected * 80.r);
   }
 
   @override

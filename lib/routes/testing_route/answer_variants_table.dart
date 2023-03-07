@@ -1,7 +1,9 @@
-import 'package:client/routes/testing_route/ui_generator.dart';
+import 'package:client/widgets/ui_generator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../widgets/ui_gen_handler.dart';
 
 class AnswerVariantsTable extends StatelessWidget {
   final String? title;
@@ -42,7 +44,10 @@ class AnswerVariantsTable extends StatelessWidget {
                   ),
                   SizedBox(
                     width: 270.w,
-                    child: entry.value[0] == 'p' ? UiGenerator.textToWidget(entry.value[1], style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w400)) : Container(),
+                    child: UiGenHandler(
+                      data: entry.value,
+                      textStyle: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w400),
+                    ),
                   )
                 ],
               )).toList()

@@ -1,7 +1,8 @@
 import 'package:client/dto/question_data.dart';
-import 'package:client/routes/testing_route/question_render_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../widgets/ui_gen_handler.dart';
 
 class QuestionNoAnswerWidget extends StatelessWidget {
   final QuestionNoAnswer question;
@@ -16,9 +17,7 @@ class QuestionNoAnswerWidget extends StatelessWidget {
     return Container(
       margin: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 10.h),
       child: Column(
-        children: [
-          QuestionRenderData(data: question.render)
-        ],
+        children: question.render.map((list) => UiGenHandler(data: list)).toList(),
       ),
     );
   }

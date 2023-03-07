@@ -1,7 +1,11 @@
+import 'dart:typed_data';
+import 'package:client/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:html/dom.dart' as html;
 import 'package:html/parser.dart' as html_parser;
+
+import '../services/interfaces/storage_service.dart';
 
 class UiGenerator{
   UiGenerator._();
@@ -70,4 +74,23 @@ class UiGenerator{
       ),
     );
   }
+
+  //TODO: add error/loading render
+  static Widget imageToWidget(String subjectFolderName, String sessionName, String fileName) {
+    return FutureBuilder(
+      future: locator.get<StorageService>().getImage(subjectFolderName, sessionName, fileName),
+      builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
+        if (snapshot.hasData) {
+          return Image.memory(snapshot.data!);
+        }
+        else if (snapshot.hasError) {
+          return const Text('Error loading image');
+        }
+        else {
+          return const Text('Loading image');
+        }
+      },
+    );
+  }
+
 }

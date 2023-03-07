@@ -4,7 +4,6 @@ import 'package:client/models/testing_route_model.dart';
 import 'package:client/routes/testing_route/testing_pages.dart';
 import 'package:client/routes/testing_route/zno_testing_header.dart';
 import 'package:client/services/interfaces/storage_service.dart';
-import 'package:client/widgets/zno_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../dto/session_data.dart';
@@ -51,7 +50,11 @@ class _TestingRouteState extends State<TestingRoute> {
                   builder: (BuildContext context, AsyncSnapshot<TestData> snapshot) {
                     if (snapshot.hasData) {
                       return ChangeNotifierProvider(
-                        create: (context) => TestingRouteModel(pageAmount: snapshot.data!.questions.length),
+                        create: (context) => TestingRouteModel(
+                          pageAmount: snapshot.data!.questions.length,
+                          subjectFolderName: widget.dto.folderName,
+                          sessionFileName: widget.dto.fileName.replaceFirst('.json', '')
+                        ),
                         child: TestingPages(questions: snapshot.data!.questions),
                       );
                     }

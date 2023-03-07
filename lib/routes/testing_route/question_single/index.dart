@@ -1,7 +1,6 @@
 import 'package:client/dto/question_data.dart';
-import 'package:client/routes/testing_route/question_render_data.dart';
-import 'package:client/routes/testing_route/question_single/question_single_answer_field.dart';
 import 'package:client/routes/testing_route/answer_variants_table.dart';
+import 'package:client/widgets/ui_gen_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -21,7 +20,9 @@ class QuestionSingleWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          QuestionRenderData(data: question.render),
+          Column(
+            children: question.render.map((list) => UiGenHandler(data: list)).toList(),
+          ),
           AnswerVariantsTable(
               answers: question.answers
           ),

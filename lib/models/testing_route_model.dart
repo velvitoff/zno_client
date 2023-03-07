@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 class TestingRouteModel extends ChangeNotifier {
   //page_number: answer(String, or Map<String, String>)
   Map<int, dynamic> _answers = {};
+  final String subjectFolderName;
+  final String sessionFileName;
   PageController pageController = PageController();
   int _pageIndex = 0;
   final int pageAmount;
 
   TestingRouteModel({
-    required this.pageAmount
+    required this.pageAmount,
+    required this.subjectFolderName,
+    required this.sessionFileName
   });
 
   dynamic getAnswer(int key) => _answers[key];

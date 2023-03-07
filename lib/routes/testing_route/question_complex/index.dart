@@ -1,8 +1,9 @@
 import 'package:client/dto/question_data.dart';
 import 'package:client/routes/testing_route/answer_variants_complex.dart';
-import 'package:client/routes/testing_route/question_render_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../widgets/ui_gen_handler.dart';
 
 class QuestionComplexWidget extends StatelessWidget {
   final QuestionComplex question;
@@ -20,7 +21,9 @@ class QuestionComplexWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          QuestionRenderData(data: question.render),
+          Column(
+            children: question.render.map((list) => UiGenHandler(data: list)).toList(),
+          ),
           AnswerVariantsComplex(
             titleList: question.titleList,
             tableList: question.tableList,
