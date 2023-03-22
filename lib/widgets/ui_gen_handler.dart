@@ -17,7 +17,6 @@ class UiGenHandler extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     assert(data.length == 2);
-
     switch (data[0]) {
       case 'p':
         return UiGenerator.textToWidget(data[1], style: textStyle);

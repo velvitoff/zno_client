@@ -14,11 +14,15 @@ class UiGenerator{
     Set<String> result = {};
 
     final activeNodeString = node.toString();
+    //print('$activeNodeString : ${node.text}');
     if (activeNodeString.contains('em>') || activeNodeString.contains('i>')){
       result.add('i');
     }
     else if (activeNodeString.contains('b>') || activeNodeString.contains('strong>')){
       result.add('b');
+    }
+    else if (activeNodeString.contains(' u>')) {
+      result.add('u');
     }
 
     for (var child in node.children) {
@@ -28,9 +32,10 @@ class UiGenerator{
     return result;
   }
 
-  static TextStyle _getStyleFromNode(html.Node node) {
-    var fontStyle = FontStyle.normal;
-    var fontWeight = FontWeight.w400;
+  static TextStyle _getStyleFromNode(html.Node node, TextStyle? style) {
+    var fontStyle = style?.fontStyle ?? FontStyle.normal;
+    var fontWeight = style?.fontWeight ?? FontWeight.w400;
+    var textDecoration = style?.decoration ?? TextDecoration.none;
 
     Set<String> styles = _getStylesFromNodeTree(node);
     for (var style in styles) {
@@ -41,13 +46,17 @@ class UiGenerator{
         case 'b':
           fontWeight = FontWeight.w700;
           break;
+        case 'u':
+          textDecoration = TextDecoration.underline;
+          break;
       }
     }
 
     return TextStyle(
       fontSize: 22.sp,
       fontWeight: fontWeight,
-      fontStyle: fontStyle
+      fontStyle: fontStyle,
+      decoration: textDecoration
     );
   }
 
@@ -64,7 +73,7 @@ class UiGenerator{
         textSpans.add(TextSpan(text: node.text, style: style ?? TextStyle(fontSize: 22.sp)));
       }
       else {
-        textSpans.add(TextSpan(text: node.text,style: style ?? _getStyleFromNode(node)));
+        textSpans.add(TextSpan(text: node.text, style: _getStyleFromNode(node, style)));
       }
     }
 
