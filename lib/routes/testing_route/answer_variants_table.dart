@@ -28,28 +28,31 @@ class AnswerVariantsTable extends StatelessWidget {
               :
           UiGenerator.textToWidget(title!),
           ...answers.entries.map((entry) =>
-              Row(
-                children: [
-                  Container(
-                    width: 35.r,
-                    height: 35.r,
-                    margin: EdgeInsets.fromLTRB(0, 5.h, 10.w, 5.h),
-                    decoration: const BoxDecoration(
-                        color: Color(0xFF60B558),
-                        borderRadius: BorderRadius.all(Radius.circular(3))
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 5.h, 0, 5.h),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 35.r,
+                      height: 35.r,
+                      margin: EdgeInsets.fromLTRB(0, 0.h, 10.w, 0.h),
+                      decoration: const BoxDecoration(
+                          color: Color(0xFF60B558),
+                          borderRadius: BorderRadius.all(Radius.circular(3))
+                      ),
+                      child: Center(
+                        child: Text(entry.key, style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w500)),
+                      ),
                     ),
-                    child: Center(
-                      child: Text(entry.key, style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w500)),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 270.w,
-                    child: UiGenHandler(
-                      data: entry.value,
-                      textStyle: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w400),
-                    ),
-                  )
-                ],
+                    SizedBox(
+                      width: 270.w,
+                      child: UiGenHandler(
+                        data: entry.value,
+                        textStyle: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w400),
+                      ),
+                    )
+                  ],
+                ),
               )).toList()
         ],
       ),

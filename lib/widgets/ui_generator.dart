@@ -25,10 +25,6 @@ class UiGenerator{
       result.add('u');
     }
 
-    for (var child in node.children) {
-      result.addAll(_getStylesFromNodeTree(child));
-    }
-
     return result;
   }
 
@@ -60,10 +56,10 @@ class UiGenerator{
     );
   }
 
-  static Widget textToWidget(String text, {TextStyle? style}) {
+  static List<TextSpan> _textToSpans(String text, {TextStyle? style}) {
     final doc = html_parser.parseFragment(text);
     if (doc.nodes.isEmpty) {
-      return Container();
+      return [];
     }
 
     var textSpans = <TextSpan>[];
@@ -73,13 +69,29 @@ class UiGenerator{
         textSpans.add(TextSpan(text: node.text, style: style ?? TextStyle(fontSize: 22.sp)));
       }
       else {
-        textSpans.add(TextSpan(text: node.text, style: _getStyleFromNode(node, style)));
+        if (node.nodes.isEmpty) {
+          print('Add HTML SOLO node(${node.nodeType}): ${node.text}');
+          textSpans.add(TextSpan(text: node.text, style: _getStyleFromNode(node, style)));
+        }
+        else {
+          for(var innerNode in node.nodes) {
+            textSpans.addAll(
+              _textToSpans(innerNode.text ?? "",
+              style: _getStyleFromNode(innerNode, _getStyleFromNode(node, style)))
+            );
+          }
+        }
       }
     }
 
+    return textSpans;
+
+  }
+
+  static Widget textToWidget(String text, {TextStyle? style}) {
     return Text.rich(
       TextSpan(
-          children: textSpans
+          children: _textToSpans(text, style: style)
       ),
     );
   }
