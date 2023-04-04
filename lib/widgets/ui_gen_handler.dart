@@ -23,6 +23,8 @@ class UiGenHandler extends StatelessWidget {
       case 'img':
         var model = context.read<TestingRouteModel>();
         return UiGenerator.imageToWidget(model.subjectFolderName, model.sessionFileName, data[1]);
+      case 'table':
+        return UiGenerator.textToTable(context, data[1]);
       default:
         return Container();
     }

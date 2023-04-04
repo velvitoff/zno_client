@@ -31,6 +31,7 @@ class AnswerVariantsTable extends StatelessWidget {
               Container(
                 margin: EdgeInsets.fromLTRB(0, 5.h, 0, 5.h),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
                       width: 35.r,
@@ -44,8 +45,8 @@ class AnswerVariantsTable extends StatelessWidget {
                         child: Text(entry.key, style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w500)),
                       ),
                     ),
-                    SizedBox(
-                      width: 270.w,
+                    LimitedBox(
+                      maxWidth: 270.w,
                       child: UiGenHandler(
                         data: entry.value,
                         textStyle: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w400),

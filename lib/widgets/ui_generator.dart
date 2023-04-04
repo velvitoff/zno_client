@@ -1,10 +1,12 @@
 import 'dart:typed_data';
 import 'package:client/locator.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:html/dom.dart' as html;
 import 'package:html/parser.dart' as html_parser;
-
+import 'dart:convert';
+import '../models/testing_route_model.dart';
 import '../services/interfaces/storage_service.dart';
 
 class UiGenerator{
@@ -70,7 +72,6 @@ class UiGenerator{
       }
       else {
         if (node.nodes.isEmpty) {
-          print('Add HTML SOLO node(${node.nodeType}): ${node.text}');
           textSpans.add(TextSpan(text: node.text, style: _getStyleFromNode(node, style)));
         }
         else {
@@ -111,6 +112,48 @@ class UiGenerator{
           return const Text('Loading image');
         }
       },
+    );
+  }
+
+
+  static Widget textToTable(BuildContext context, String data) {
+    final List<List<List<String>>> json = List<List<List<String>>>.from(
+        jsonDecode(data).map((x) => List<List<String>>.from(
+          x.map((x) => List<String>.from(x))
+        ))
+    );
+
+    return Column(
+      children: json.map((row) =>
+          Container(
+            width: 320.w,
+            margin: EdgeInsets.fromLTRB(0, 5.h, 0, 5.h),
+            child: Row(
+              children: row.map((data) {
+                switch (data[0]) {
+                  case 'p':
+                    return Container(
+                      width: 194.w,
+                      margin: EdgeInsets.fromLTRB(3.w, 0, 3.w, 0),
+                      child: textToWidget(data[1]),
+                    );
+                  case 'img':
+                    var model = context.read<TestingRouteModel>();
+                    return Container(
+                      margin: EdgeInsets.fromLTRB(3.w, 0, 3.w, 0),
+                      child: LimitedBox(
+                        maxWidth: 114.w,
+                        child: UiGenerator.imageToWidget(model.subjectFolderName, model.sessionFileName, data[1]),
+                      ),
+                    );
+                  default:
+                    return Container();
+                }
+              }
+              ).toList(),
+            ),
+          )
+      ).toList(),
     );
   }
 
