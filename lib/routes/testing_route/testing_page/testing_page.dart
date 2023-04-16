@@ -1,12 +1,13 @@
 import 'package:client/dto/question_data.dart';
 import 'package:client/models/testing_route_model.dart';
-import 'package:client/routes/testing_route/answer_widget.dart';
-import 'package:client/routes/testing_route/question_widget.dart';
-import 'package:client/routes/testing_route/testing_buttons.dart';
+import 'package:client/routes/testing_route/testing_page/answer_widget.dart';
+import 'package:client/routes/testing_route/testing_page/end_session_buttons.dart';
+import 'package:client/routes/testing_route/testing_page/question_widget.dart';
+import 'package:client/routes/testing_route/testing_page/testing_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import '../../widgets/zno_divider.dart';
+import '../../../widgets/zno_divider.dart';
 
 class TestingPage extends StatefulWidget {
   final int index;
@@ -70,6 +71,13 @@ class _TestingPageState extends State<TestingPage> {
                     index: widget.index,
                     question: widget.question,
                   ),
+                  widget.index == widget.questionsLength - 1
+                  ?
+                  EndSessionButtons(
+                    onBack: () => context.read<TestingRouteModel>().decrementPage(),
+                    onEndSession: () => print("End session"),
+                  )
+                  :
                   TestingButtons(
                     onBack: () => context.read<TestingRouteModel>().decrementPage(),
                     onForward: () => context.read<TestingRouteModel>().incrementPage(),

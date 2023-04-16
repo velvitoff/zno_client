@@ -1,5 +1,5 @@
 import 'package:client/dto/question_data.dart';
-import 'package:client/routes/testing_route/answer_variants_table.dart';
+import 'package:client/routes/testing_route/testing_page/answer_variants_table.dart';
 import 'package:client/widgets/ui_gen_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

@@ -1,5 +1,5 @@
 import 'package:client/models/testing_route_model.dart';
-import 'package:client/routes/testing_route/testing_page.dart';
+import 'package:client/routes/testing_route/testing_page/testing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../dto/question_data.dart';

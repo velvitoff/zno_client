@@ -3,7 +3,7 @@ import 'package:client/routes/testing_route/question_single/question_single_answ
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../dto/question_data.dart';
+import '../../../dto/question_data.dart';
 
 class AnswerWidget extends StatelessWidget {
   final Question question;

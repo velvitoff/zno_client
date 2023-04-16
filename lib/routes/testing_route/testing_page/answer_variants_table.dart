@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../widgets/ui_gen_handler.dart';
+import '../../../widgets/ui_gen_handler.dart';
 
 class AnswerVariantsTable extends StatelessWidget {
   final String? title;

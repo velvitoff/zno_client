@@ -1,4 +1,4 @@
-import 'package:client/routes/testing_route/answer_variants_table.dart';
+import 'package:client/routes/testing_route/testing_page/answer_variants_table.dart';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 
