@@ -1,11 +1,12 @@
 import 'package:client/dto/question_data.dart';
 import 'package:client/models/testing_route_model.dart';
+import 'package:client/routes.dart';
 import 'package:client/routes/testing_route/testing_page/answer_widget.dart';
-import 'package:client/routes/testing_route/testing_page/end_session_buttons.dart';
 import 'package:client/routes/testing_route/testing_page/question_widget.dart';
 import 'package:client/routes/testing_route/testing_page/testing_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../../widgets/zno_divider.dart';
 
@@ -40,6 +41,12 @@ class _TestingPageState extends State<TestingPage> {
     super.dispose();
   }
 
+  void onEndSession(BuildContext context) {
+    //TODO: call a modal window to confirm
+    //TODO: call storage service to save history file
+    context.go(Routes.subjectsRoute);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -71,16 +78,16 @@ class _TestingPageState extends State<TestingPage> {
                     index: widget.index,
                     question: widget.question,
                   ),
-                  widget.index == widget.questionsLength - 1
-                  ?
-                  EndSessionButtons(
-                    onBack: () => context.read<TestingRouteModel>().decrementPage(),
-                    onEndSession: () => print("End session"),
-                  )
-                  :
                   TestingButtons(
                     onBack: () => context.read<TestingRouteModel>().decrementPage(),
-                    onForward: () => context.read<TestingRouteModel>().incrementPage(),
+                    onForward: 
+                      widget.index == widget.questionsLength - 1
+                      ?
+                      () => onEndSession(context)    
+                      :
+                      () => context.read<TestingRouteModel>().incrementPage(),
+                    isFirstPage: widget.index == 0,
+                    isLastPage: widget.index == widget.questionsLength - 1,
                   )
                 ],
               ),

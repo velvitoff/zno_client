@@ -15,6 +15,8 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
 
   void onChoice(String value) {
     if (value == 'Вийти') {
+      //TODO: call a modal window to confirm
+      //TODO: call storage service to save history file
       context.go(Routes.subjectsRoute);
     }
     else if (value == 'Налаштування') {
