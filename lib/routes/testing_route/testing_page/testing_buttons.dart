@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../widgets/zno_button.dart';
+
 class TestingButtons extends StatelessWidget {
   final void Function() onBack;
   final void Function() onForward;
@@ -22,74 +24,41 @@ class TestingButtons extends StatelessWidget {
 
     if (!isFirstPage) {
       childList.add(
-          GestureDetector(
-              onTap: onBack,
-              child: Container(
-                width: 145.w,
-                height: 50.h,
-                margin: EdgeInsets.fromLTRB(7.5.w, 0, 7.5.w, 0),
-                padding: EdgeInsets.all(5.r),
-                color: const Color(0xFF428449),
-                child: Center(
-                  child: Text(
-                    'Назад',
-                    style: TextStyle(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w400,
-                        color: const Color(0xFFFFFFFF)
-                    ),
-                  ),
-                ),
-              )
+          ZnoButton(
+            onTap: onBack,
+            width: 145.w,
+            height: 50.h,
+            margin: EdgeInsets.fromLTRB(7.5.w, 0, 7.5.w, 0),
+            padding: EdgeInsets.all(5.r),
+            text: 'Назад',
+            fontSize: 20.sp,
           )
       );
     }
 
     if (!isLastPage) {
       childList.add(
-          GestureDetector(
+          ZnoButton(
             onTap: onForward,
-            child: Container(
-              width: isFirstPage? 290.w : 145.w,
-              height: 50.h,
-              margin: EdgeInsets.fromLTRB(7.5.w, 0, 7.5.w, 0),
-              padding: EdgeInsets.all(5.r),
-              color: const Color(0xFF428449),
-              child: Center(
-                child: Text(
-                  'Далі',
-                  style: TextStyle(
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFFFFFFFF)
-                  ),
-                ),
-              ),
-            ),
+            width: isFirstPage? 290.w : 145.w,
+            height: 50.h,
+            margin: EdgeInsets.fromLTRB(7.5.w, 0, 7.5.w, 0),
+            padding: EdgeInsets.all(5.r),
+            text: 'Далі',
+            fontSize: 20.sp,
           )
       );
     }
     else {
       childList.add(
-          GestureDetector(
+          ZnoButton(
             onTap: onForward,
-            child: Container(
-              width: 145.w,
-              height: 50.h,
-              margin: EdgeInsets.fromLTRB(7.5.w, 0, 7.5.w, 0),
-              padding: EdgeInsets.all(5.r),
-              color: const Color(0xFF428449),
-              child: Center(
-                child: Text(
-                  'Завершити спробу',
-                  style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFFFFFFFF)
-                  ),
-                ),
-              ),
-            ),
+            width: 145.w,
+            height: 50.h,
+            margin: EdgeInsets.fromLTRB(7.5.w, 0, 7.5.w, 0),
+            padding: EdgeInsets.all(5.r),
+            text: 'Завершити спробу',
+              fontSize: 18.sp
           )
       );
     }

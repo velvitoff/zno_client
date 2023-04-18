@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import '../../../widgets/confirm_dialog.dart';
 import '../../../widgets/zno_divider.dart';
 
 class TestingPage extends StatefulWidget {
@@ -42,9 +43,20 @@ class _TestingPageState extends State<TestingPage> {
   }
 
   void onEndSession(BuildContext context) {
-    //TODO: call a modal window to confirm
-    //TODO: call storage service to save history file
-    context.go(Routes.subjectsRoute);
+    showDialog<bool>(
+        context: context,
+        builder: (BuildContext context) => const ConfirmDialog(
+          text: 'Завершити спробу?',
+        )
+    )
+    .then((bool? value) {
+      if (value != null) {
+        if (value) {
+          //TODO: call storage service to save history file
+          context.go(Routes.subjectsRoute);
+        }
+      }
+    });
   }
 
   @override

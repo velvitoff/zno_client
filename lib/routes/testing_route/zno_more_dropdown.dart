@@ -1,4 +1,5 @@
 import 'package:client/routes.dart';
+import 'package:client/widgets/confirm_dialog.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,9 +16,20 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
 
   void onChoice(String value) {
     if (value == 'Вийти') {
-      //TODO: call a modal window to confirm
-      //TODO: call storage service to save history file
-      context.go(Routes.subjectsRoute);
+      showDialog<bool>(
+        context: context,
+        builder: (BuildContext context) => const ConfirmDialog(
+          text: 'Ви дійсно хочете покинути спробу?',
+        )
+      )
+      .then((bool? value) {
+        if (value != null) {
+          if (value) {
+            //TODO: call storage service to save history file
+            context.go(Routes.subjectsRoute);
+          }
+        }
+      });
     }
     else if (value == 'Налаштування') {
 
