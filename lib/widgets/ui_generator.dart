@@ -143,7 +143,11 @@ class UiGenerator{
                       margin: EdgeInsets.fromLTRB(3.w, 0, 3.w, 0),
                       child: LimitedBox(
                         maxWidth: 114.w,
-                        child: UiGenerator.imageToWidget(model.subjectFolderName, model.sessionFileName, data[1]),
+                        child: UiGenerator.imageToWidget(
+                          model.sessionData.folderName,
+                          model.sessionData.fileName,
+                          data[1]
+                        ),
                       ),
                     );
                   default:

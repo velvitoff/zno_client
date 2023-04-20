@@ -1,9 +1,14 @@
+import 'package:client/models/testing_route_model.dart';
 import 'package:client/routes.dart';
+import 'package:client/services/interfaces/storage_service.dart';
 import 'package:client/widgets/confirm_dialog.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
+import '../../locator.dart';
 
 class ZnoMoreDropdown extends StatefulWidget {
   const ZnoMoreDropdown({Key? key}) : super(key: key);
@@ -14,7 +19,7 @@ class ZnoMoreDropdown extends StatefulWidget {
 
 class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
 
-  void onChoice(String value) {
+  void onChoice(BuildContext context, String value) {
     if (value == 'Вийти') {
       showDialog<bool>(
         context: context,
@@ -25,7 +30,10 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
       .then((bool? value) {
         if (value != null) {
           if (value) {
-            //TODO: call storage service to save history file
+            locator.get<StorageService>().saveSessionEnd(
+              context.read<TestingRouteModel>(),
+              false
+            );
             context.go(Routes.subjectsRoute);
           }
         }
@@ -62,7 +70,7 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
                 ),
               )
           ).toList(),
-          onChanged: (String? newValue) => onChoice(newValue!),
+          onChanged: (String? newValue) => onChoice(context, newValue!),
       ),
     );
   }

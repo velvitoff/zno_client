@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:path_provider/path_provider.dart' as path;
+import '../../../models/testing_route_model.dart';
 import '../../interfaces/storage_service.dart';
+import 'dart:convert';
 
 class LocalStorageService with StorageService {
   final Directory _appDir;
@@ -17,6 +19,8 @@ class LocalStorageService with StorageService {
 
   String get _testsDir => '${_appDir.path}${Platform.pathSeparator}zno_client${Platform.pathSeparator}tests';
   String get _imageDir => '${_appDir.path}${Platform.pathSeparator}zno_client${Platform.pathSeparator}images';
+  String get _historyDir => '${_appDir.path}${Platform.pathSeparator}zno_client${Platform.pathSeparator}history';
+
   String _sessionPath(String subjectFolderName, String sessionFileName) {
     return '$_testsDir${Platform.pathSeparator}'
            '$subjectFolderName${Platform.pathSeparator}'
@@ -24,6 +28,13 @@ class LocalStorageService with StorageService {
   }
   String _imagePath(String subjectFolderName, String sessionFolderName, String fileName) {
     return '$_imageDir${Platform.pathSeparator}'
+           '$subjectFolderName${Platform.pathSeparator}'
+           '$sessionFolderName${Platform.pathSeparator}'
+           '$fileName';
+  }
+
+  String _historyPath(String subjectFolderName, String sessionFolderName, String fileName) {
+    return '$_historyDir${Platform.pathSeparator}'
            '$subjectFolderName${Platform.pathSeparator}'
            '$sessionFolderName${Platform.pathSeparator}'
            '$fileName';
@@ -85,6 +96,28 @@ class LocalStorageService with StorageService {
     ).exists();
   }
 
+  @override
+  Future<void> saveSessionEnd(TestingRouteModel data, bool completed) async {
+    if (data.allAnswers.isEmpty) {
+      return;
+    }
+    String fileName = DateTime.now().microsecondsSinceEpoch.toString();
+
+    Map<String, dynamic> map = {
+      'session_name': data.sessionData.fileName,
+      'session_id': fileName,
+      'date': fileName,
+      'completed': completed,
+      'last_page': data.pageIndex,
+      'answers': data.allAnswers.toString()
+    };
+
+    await File(
+      _historyPath(data.sessionData.folderName, data.sessionData.fileName, fileName)
+    )
+    .create(recursive: true)
+    .then((file) => file.writeAsString(json.encode(map)));
+  }
 
 
 }

@@ -37,38 +37,43 @@ class _TestingRouteState extends State<TestingRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            ZnoTestingHeader(text: widget.dto.subjectName),
-            Expanded(
-              child: MediaQuery.removePadding(
-                context: context,
-                removeTop: true,
-                child: FutureBuilder(
-                  future: futureTestData,
-                  builder: (BuildContext context, AsyncSnapshot<TestData> snapshot) {
-                    if (snapshot.hasData) {
-                      return ChangeNotifierProvider(
-                        create: (context) => TestingRouteModel(
-                          pageAmount: snapshot.data!.questions.length,
-                          subjectFolderName: widget.dto.folderName,
-                          sessionFileName: widget.dto.fileName.replaceFirst('.json', '')
-                        ),
-                        child: TestingPages(questions: snapshot.data!.questions),
-                      );
-                    }
-                    else if (snapshot.hasError) {
-                      return Text("error: ${snapshot.error!}");
-                    }
-                    else {
-                      return const Text('Loading');
-                    }
-                  },
+        body: ChangeNotifierProvider(
+          create: (context) => TestingRouteModel(
+              pageAmount: 1,//will properly initialize later
+              sessionData: SessionData(
+                  subjectName: widget.dto.subjectName,
+                  sessionName: widget.dto.sessionName,
+                  folderName: widget.dto.folderName,
+                  fileName: widget.dto.fileName.replaceFirst('.json', '')
+              )
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              ZnoTestingHeader(text: widget.dto.subjectName),
+              Expanded(
+                child: MediaQuery.removePadding(
+                  context: context,
+                  removeTop: true,
+                  child: FutureBuilder(
+                    future: futureTestData,
+                    builder: (BuildContext context, AsyncSnapshot<TestData> snapshot) {
+                      if (snapshot.hasData) {
+                        context.read<TestingRouteModel>().setPageAmount(snapshot.data!.questions.length);
+                        return TestingPages(questions: snapshot.data!.questions);
+                      }
+                      else if (snapshot.hasError) {
+                        return Text("error: ${snapshot.error!}");
+                      }
+                      else {
+                        return const Text('Loading');
+                      }
+                    },
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         )
     );
   }

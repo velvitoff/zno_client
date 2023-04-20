@@ -4,6 +4,9 @@ import 'package:client/services/implementations/storage_service/local_storage_se
 import 'package:client/services/interfaces/external_storage_service.dart';
 import 'package:client/services/interfaces/storage_service.dart';
 
+import '../../../dto/session_data.dart';
+import '../../../models/testing_route_model.dart';
+
 class MainStorageService with StorageService {
 
   final ExternalStorageService externalStorage;//Supabase / Firebase storage service
@@ -83,5 +86,9 @@ class MainStorageService with StorageService {
     await localStorage.saveImagesToFolder(subjectName, sessionName, imageMap);
   }
 
+  @override
+  Future<void> saveSessionEnd(TestingRouteModel data, bool completed) async {
+    localStorage.saveSessionEnd(data, completed);
+  }
 
 }

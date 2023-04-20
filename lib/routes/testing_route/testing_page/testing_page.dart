@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import '../../../locator.dart';
+import '../../../services/interfaces/storage_service.dart';
 import '../../../widgets/confirm_dialog.dart';
 import '../../../widgets/zno_divider.dart';
 
@@ -52,7 +54,10 @@ class _TestingPageState extends State<TestingPage> {
     .then((bool? value) {
       if (value != null) {
         if (value) {
-          //TODO: call storage service to save history file
+          locator.get<StorageService>().saveSessionEnd(
+              context.read<TestingRouteModel>(),
+              true
+          );
           context.go(Routes.subjectsRoute);
         }
       }
