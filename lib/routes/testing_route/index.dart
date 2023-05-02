@@ -1,12 +1,8 @@
 import 'dart:convert';
 import 'package:client/dto/test_data.dart';
-import 'package:client/models/testing_route_model.dart';
-import 'package:client/routes/testing_route/testing_pages.dart';
 import 'package:client/routes/testing_route/testing_route_provider.dart';
-import 'package:client/routes/testing_route/zno_testing_header.dart';
 import 'package:client/services/interfaces/storage_service.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../dto/session_data.dart';
 import '../../locator.dart';
 
@@ -48,7 +44,7 @@ class _TestingRouteState extends State<TestingRoute> {
               );
             }
             else if (snapshot.hasError) {
-              return const Text('Помилка завантаження сесії');
+              return Text('Помилка завантаження сесії ${snapshot.error!.toString()}');
             }
             else {
               return const Text('Завантаження...');

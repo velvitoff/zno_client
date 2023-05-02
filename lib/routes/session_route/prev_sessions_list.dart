@@ -49,6 +49,9 @@ class _PastSessionsListState extends State<PrevSessionsList> {
                     )
                 );
               }
+
+              List<PreviousSessionData> sessionsList = List.from(snapshot.data!);
+              sessionsList.sort((a, b) => b.date.compareTo(a.date));
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -75,11 +78,9 @@ class _PastSessionsListState extends State<PrevSessionsList> {
                       )
                     ),
                     child: ListView(
-                      children: snapshot.data!.map((item) {
+                      children: sessionsList.map((item) {
                         return PrevSessionItem(
-                          date: item.date,
-                          score: item.score,
-                          completed: item.completed,
+                          data: item,
                         );
                       }).toList(),
                     ),

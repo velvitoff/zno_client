@@ -18,7 +18,7 @@ class SessionsList extends StatelessWidget {
   }) : super(key: key);
 
   String fileNameToSessionName(String name) {
-    name = name.replaceAll('.json', '');
+    name = name.replaceFirst('.json', '');
     List<String> split = name.split('_');
 
     for (int i = 0; i < split.length; ++i) {
@@ -43,7 +43,8 @@ class SessionsList extends StatelessWidget {
                 subjectName: subjectName,
                 sessionName: sessionName,
                 folderName: folderName,
-                fileName: data
+                fileName: data,
+                fileNameNoExtension: data.replaceFirst('.json', '')
             )
         ));
       }).toList(),

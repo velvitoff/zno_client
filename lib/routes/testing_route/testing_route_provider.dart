@@ -26,7 +26,8 @@ class TestingRouteProvider extends StatelessWidget {
             subjectName: sessionData.subjectName,
             sessionName: sessionData.sessionName,
             folderName: sessionData.folderName,
-            fileName: sessionData.fileName.replaceFirst('.json', ''),
+            fileName: sessionData.fileName,
+            fileNameNoExtension: sessionData.fileName.replaceFirst('.json', '')
           )
       ),
       child: Column(

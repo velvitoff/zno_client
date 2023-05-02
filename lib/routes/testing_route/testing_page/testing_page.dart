@@ -58,7 +58,10 @@ class _TestingPageState extends State<TestingPage> {
               context.read<TestingRouteModel>(),
               true
           );
-          context.go(Routes.subjectsRoute);
+          context.go(
+            Routes.sessionRoute,
+            extra: context.read<TestingRouteModel>().sessionData
+          );
         }
       }
     });

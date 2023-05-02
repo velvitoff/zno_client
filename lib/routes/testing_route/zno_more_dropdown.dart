@@ -34,7 +34,10 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
               context.read<TestingRouteModel>(),
               false
             );
-            context.go(Routes.subjectsRoute);
+            context.go(
+              Routes.sessionRoute,
+              extra: context.read<TestingRouteModel>().sessionData
+            );
           }
         }
       });
