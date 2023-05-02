@@ -37,7 +37,7 @@ class QuestionSingleAnswerField extends StatelessWidget {
                       style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w500),
                     ),
                     Selector<TestingRouteModel, dynamic>(
-                      selector: (_, model) => model.getAnswer(index),
+                      selector: (_, model) => model.getAnswer((index + 1).toString()),
                       builder: (_, answer, __) {
                         if (answer is String && answer == variant){
                           return AnswerCell(
@@ -47,7 +47,7 @@ class QuestionSingleAnswerField extends StatelessWidget {
                         }
                         else{
                           return AnswerCell(
-                            onTap: () => context.read<TestingRouteModel>().addAnswer(index, variant),
+                            onTap: () => context.read<TestingRouteModel>().addAnswer((index + 1).toString(), variant),
                           );
                         }
                       },

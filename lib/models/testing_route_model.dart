@@ -1,29 +1,30 @@
 import 'package:flutter/material.dart';
 
+import '../dto/question_data.dart';
 import '../dto/session_data.dart';
 
 
 class TestingRouteModel extends ChangeNotifier {
   //page_number: answer(String, or Map<String, String>)
-  Map<int, dynamic> _answers = {};
+  Map<String, dynamic> _answers = {};
   final SessionData sessionData;
+  final List<Question> questions;
   PageController pageController = PageController();
   int _pageIndex = 0;
-  int pageAmount;
 
   TestingRouteModel({
-    required this.pageAmount,
-    required this.sessionData
+    required this.sessionData,
+    required this.questions
   });
 
-  void setPageAmount(int i) => pageAmount = i;
 
-  dynamic getAnswer(int key) => _answers[key];
+  dynamic getAnswer(String key) => _answers[key];
 
+  int get pageAmount => questions.length;
   int get pageIndex => _pageIndex;
-  Map<int, dynamic> get allAnswers => _answers;
+  Map<String, dynamic> get allAnswers => _answers;
 
-  void addAnswer(int key, dynamic value) {
+  void addAnswer(String key, dynamic value) {
     if (value is String || value is Map<String, String>) {
       _answers[key] = value;
       notifyListeners();

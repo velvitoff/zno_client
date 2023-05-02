@@ -1,5 +1,6 @@
 import 'package:client/dto/session_data.dart';
 import 'package:client/routes.dart';
+import 'package:client/routes/session_route/prev_sessions_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -50,13 +51,9 @@ class SessionDisplay extends StatelessWidget {
               ),
             ),
           ),
-          Text(
-            'Немає попередніх спроб',
-            style: TextStyle(
-              color: const Color(0xFF5F5F5F),
-              fontSize: 20.sp,
-              fontWeight: FontWeight.w400
-            )
+          PrevSessionsList(
+            subjectName: dto.folderName,
+            sessionName: dto.fileName.replaceAll('.json', '')
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,

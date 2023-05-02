@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:client/dto/previous_session_data.dart';
+import 'package:client/dto/question_data.dart';
 import 'package:path_provider/path_provider.dart' as path;
 import '../../../models/testing_route_model.dart';
 import '../../interfaces/storage_service.dart';
@@ -101,6 +103,38 @@ class LocalStorageService with StorageService {
     if (data.allAnswers.isEmpty) {
       return;
     }
+
+    //calculating a mark
+    int score = 0;
+
+    for (var answerEntry in data.allAnswers.entries) {
+      var q = data.questions[int.parse(answerEntry.key)-1];
+      if (q.single != null) {
+        if (q.single!.correct == answerEntry.value) {
+          score += 1;
+        }
+      }
+      else if (q.complex != null) {
+        Map<String, String> answerMap = answerEntry.value as Map<String, String>;
+        for (var correctEntry in q.complex!.correctMap.entries) {
+          if (correctEntry.value == answerMap[correctEntry.key]) {
+            score += 1;
+          }
+        }
+      }
+    }
+
+    int total = 0;
+    for (var q in data.questions) {
+      if (q.single != null) {
+        total += 1;
+      }
+      else if (q.complex != null) {
+        total += q.complex!.correctMap.entries.length;
+      }
+    }
+
+
     String fileName = DateTime.now().microsecondsSinceEpoch.toString();
 
     Map<String, dynamic> map = {
@@ -109,7 +143,8 @@ class LocalStorageService with StorageService {
       'date': fileName,
       'completed': completed,
       'last_page': data.pageIndex,
-      'answers': data.allAnswers.toString()
+      'answers': jsonEncode(data.allAnswers),
+      'score': '$score/$total'
     };
 
     await File(
@@ -117,6 +152,32 @@ class LocalStorageService with StorageService {
     )
     .create(recursive: true)
     .then((file) => file.writeAsString(json.encode(map)));
+  }
+
+  @override
+  Future<List<PreviousSessionData>> getPreviousSessionsList(String subjectName, String sessionName) async {
+    var dir = Directory(
+        '$_historyDir${Platform.pathSeparator}'
+        '$subjectName${Platform.pathSeparator}'
+        '$sessionName${Platform.pathSeparator}'
+    );
+
+    if (! await dir.exists()) {
+      return [];
+    }
+
+    final List<File> files = await dir.list()
+        .where((entity) => entity is File)
+        .map((entity) => entity as File)
+        .toList();
+
+    final List<String> strings = await Future.wait(
+      files.map((file) async => await file.readAsString())
+    );
+
+    return strings
+        .map((string) => PreviousSessionData.fromJson(jsonDecode(string)))
+        .toList();
   }
 
 

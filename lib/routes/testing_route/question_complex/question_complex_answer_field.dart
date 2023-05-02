@@ -25,7 +25,7 @@ class QuestionComplexAnswerField extends StatelessWidget {
       width: 320.w,
       margin: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
       child: Selector<TestingRouteModel, dynamic>(
-        selector: (_, model) => model.getAnswer(index),
+        selector: (_, model) => model.getAnswer((index + 1).toString()),
         builder: (_, answer, __) {
 
           Map<String, String> answers;
@@ -82,7 +82,7 @@ class QuestionComplexAnswerField extends StatelessWidget {
                             AnswerCell(
                               onTap: () {
                                 answers[variantVertical] = variantHorizontal;
-                                context.read<TestingRouteModel>().addAnswer(index, answers);
+                                context.read<TestingRouteModel>().addAnswer((index + 1).toString(), answers);
                               },
                             ),
                           )

@@ -2,6 +2,7 @@ import 'package:client/models/testing_route_model.dart';
 import 'package:client/routes/testing_route/testing_page/testing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 import '../../dto/question_data.dart';
 
 class TestingPages extends StatelessWidget {
@@ -14,19 +15,19 @@ class TestingPages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Selector<TestingRouteModel, PageController>(
-      selector: (_, model) => model.pageController,
-      builder: (_, pageController, __) {
+    return Selector<TestingRouteModel, Tuple2<PageController, List<Question>>>(
+      selector: (_, model) => Tuple2(model.pageController, model.questions),
+      builder: (_, data, __) {
         return PageView.builder(
           physics: const NeverScrollableScrollPhysics(),
-          controller: pageController,
+          controller: data.item1,
           scrollDirection: Axis.vertical,
-          itemCount: questions.length,
+          itemCount: data.item2.length,
           itemBuilder: (context, position) {
             return TestingPage(
                 index: position,
-                question: questions[position],
-                questionsLength: questions.length
+                question: data.item2[position],
+                questionsLength: data.item2.length
             );
           },
         );

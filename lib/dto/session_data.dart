@@ -8,7 +8,7 @@ class SessionData {
     required this.subjectName,
     required this.sessionName,
     required this.folderName,
-    required this.fileName
+    required this.fileName,
   });
 
 }
