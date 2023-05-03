@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
 
+import '../dto/previous_session_data.dart';
 import '../dto/question_data.dart';
 import '../dto/session_data.dart';
 
 
 class TestingRouteModel extends ChangeNotifier {
+  final SessionData sessionData;
+  final PreviousSessionData? prevSessionData;
+  final List<Question> questions;
+
   //page_number: answer(String, or Map<String, String>)
   Map<String, dynamic> _answers = {};
-  final SessionData sessionData;
-  final List<Question> questions;
   PageController pageController = PageController();
   int _pageIndex = 0;
 
   TestingRouteModel({
     required this.sessionData,
-    required this.questions
-  });
+    required this.questions,
+    required this.prevSessionData
+  }) {
+    if (prevSessionData != null) {
+      _answers = prevSessionData!.answers;
+    }
+  }
 
 
   dynamic getAnswer(String key) => _answers[key];

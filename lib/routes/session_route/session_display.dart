@@ -1,22 +1,25 @@
 import 'package:client/dto/session_data.dart';
+import 'package:client/dto/testing_route_data.dart';
+import 'package:client/models/session_route_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/session_route/prev_sessions_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import '../../widgets/zno_list_item.dart';
 import '../../widgets/zno_radio_box.dart';
 
 class SessionDisplay extends StatelessWidget {
-  final SessionData dto;
 
   const SessionDisplay({
-    Key? key,
-    required this.dto
+    Key? key
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    SessionData dto = context.read<SessionRouteModel>().sessionData;
+
     return Container(
       width: 340.w,
       height: 460.h,
@@ -88,7 +91,10 @@ class SessionDisplay extends StatelessWidget {
                 colorType: ZnoListColorType.button,
                 onTap: () => context.go(
                   Routes.testingRoute,
-                  extra: dto
+                  extra: TestingRouteData(
+                    sessionData: dto,
+                    prevSessionData: null
+                  )
                 ),
               )
             ],

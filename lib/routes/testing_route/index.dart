@@ -3,11 +3,11 @@ import 'package:client/dto/test_data.dart';
 import 'package:client/routes/testing_route/testing_route_provider.dart';
 import 'package:client/services/interfaces/storage_service.dart';
 import 'package:flutter/material.dart';
-import '../../dto/session_data.dart';
+import '../../dto/testing_route_data.dart';
 import '../../locator.dart';
 
 class TestingRoute extends StatefulWidget {
-  final SessionData dto;
+  final TestingRouteData dto;
 
   const TestingRoute({
     Key? key,
@@ -25,7 +25,7 @@ class _TestingRouteState extends State<TestingRoute> {
   void initState(){
     super.initState();
     futureTestData = locator.get<StorageService>()
-      .getSession(widget.dto.folderName, widget.dto.fileName)
+      .getSession(widget.dto.sessionData.folderName, widget.dto.sessionData.fileName)
       .then((String value) {
         return TestData.fromJson(jsonDecode(value));
       });
@@ -39,7 +39,7 @@ class _TestingRouteState extends State<TestingRoute> {
           builder: (BuildContext context, AsyncSnapshot<TestData> snapshot) {
             if (snapshot.hasData) {
               return TestingRouteProvider(
-                sessionData: widget.dto,
+                data: widget.dto,
                 testData: snapshot.data!,
               );
             }

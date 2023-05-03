@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:client/dto/previous_session_data.dart';
-import 'package:client/dto/question_data.dart';
 import 'package:path_provider/path_provider.dart' as path;
 import '../../../models/testing_route_model.dart';
 import '../../interfaces/storage_service.dart';
@@ -115,7 +114,7 @@ class LocalStorageService with StorageService {
         }
       }
       else if (q.complex != null) {
-        Map<String, String> answerMap = answerEntry.value as Map<String, String>;
+        Map<String, dynamic> answerMap = answerEntry.value as Map<String, dynamic>;
         for (var correctEntry in q.complex!.correctMap.entries) {
           if (correctEntry.value == answerMap[correctEntry.key]) {
             score += 1;
@@ -135,23 +134,39 @@ class LocalStorageService with StorageService {
     }
 
 
-    String fileName = DateTime.now().microsecondsSinceEpoch.toString();
+    String fileName;
+    String now = DateTime.now().microsecondsSinceEpoch.toString();
+    if (data.prevSessionData != null) {
+      fileName = data.prevSessionData!.sessionId;
+    }
+    else {
+      fileName = now;
+    }
 
     Map<String, dynamic> map = {
       'session_name': data.sessionData.fileName,
       'session_id': fileName,
-      'date': fileName,
+      'date': now,
       'completed': completed,
       'last_page': data.pageIndex,
       'answers': jsonEncode(data.allAnswers),
       'score': '$score/$total'
     };
 
-    await File(
-      _historyPath(data.sessionData.folderName, data.sessionData.fileName, fileName)
-    )
-    .create(recursive: true)
-    .then((file) => file.writeAsString(json.encode(map)));
+    String filePath =
+      _historyPath(data.sessionData.folderName, data.sessionData.fileNameNoExtension, fileName);
+    File file = File(filePath);
+
+    if(await file.exists()) {
+      await file
+        .writeAsString(json.encode(map), mode: FileMode.writeOnly);
+    }
+    else {
+      file
+        .create(recursive: true)
+        .then((file) => file.writeAsString(json.encode(map), mode: FileMode.writeOnly));
+    }
+
   }
 
   @override

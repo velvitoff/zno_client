@@ -1,7 +1,5 @@
 import 'package:client/dto/session_data.dart';
-import 'package:client/routes/session_route/session_display.dart';
-import 'package:client/widgets/zno_bottom_navigation_bar.dart';
-import 'package:client/widgets/zno_top_header_text.dart';
+import 'package:client/routes/session_route/session_route_provider.dart';
 import 'package:flutter/material.dart';
 
 class SessionRoute extends StatelessWidget {
@@ -15,18 +13,8 @@ class SessionRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          ZnoTopHeaderText(text: dto.subjectName),
-          Expanded(
-            child: Center(
-              child: SessionDisplay(
-                dto: dto,
-              ),
-            ),
-          ),
-          const ZnoBottomNavigationBar(activeIndex: 0),
-        ],
+      body: SessionRouteProvider(
+        sessionData: dto,
       )
     );
   }

@@ -1,7 +1,14 @@
 import 'package:client/dto/previous_session_data.dart';
+import 'package:client/dto/session_data.dart';
+import 'package:client/dto/testing_route_data.dart';
+import 'package:client/models/session_route_model.dart';
+import 'package:client/routes.dart';
+import 'package:client/widgets/confirm_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class PrevSessionItem extends StatelessWidget {
   final PreviousSessionData data;
@@ -11,7 +18,22 @@ class PrevSessionItem extends StatelessWidget {
     required this.data
   }) : super(key: key);
 
-  void onRestoreSession() {
+  void onRestoreSession(BuildContext context) {
+    showDialog<bool>(
+      context: context,
+      builder: (context) => const ConfirmDialog(text: 'Продовжити спробу?')
+    )
+    .then((bool? value) {
+      if (value != null && value == true) {
+        context.go(
+            Routes.testingRoute,
+            extra: TestingRouteData(
+                sessionData: context.read<SessionRouteModel>().sessionData,
+                prevSessionData: data
+            )
+        );
+      }
+    });
 
   }
 
@@ -22,7 +44,7 @@ class PrevSessionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: data.completed ? onViewSession : onRestoreSession,
+      onTap: data.completed ? onViewSession : () => onRestoreSession(context),
       child: Container(
           width: 290.w,
           height: 60.h,

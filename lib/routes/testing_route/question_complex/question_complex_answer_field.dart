@@ -29,7 +29,7 @@ class QuestionComplexAnswerField extends StatelessWidget {
         builder: (_, answer, __) {
 
           Map<String, String> answers;
-          if (answer is Map<String, String>){
+          if (answer is Map){
             answers = Map.from(answer);
           }
           else{

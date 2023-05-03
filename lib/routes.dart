@@ -9,6 +9,7 @@ import 'package:client/routes/subjects_route/index.dart';
 import 'package:client/routes/sessions_route/index.dart';
 
 import 'dto/session_data.dart';
+import 'dto/testing_route_data.dart';
 
 class Routes {
   Routes._();
@@ -109,7 +110,7 @@ class Routes {
         GoRoute(
             path: testingRoute,
             pageBuilder: (context, state) {
-              SessionData dto = state.extra as SessionData;
+              TestingRouteData dto = state.extra as TestingRouteData;
               return CustomTransitionPage(
                   key: state.pageKey,
                   transitionDuration: const Duration(milliseconds: 250),
