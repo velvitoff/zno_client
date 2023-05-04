@@ -21,7 +21,9 @@ class PrevSessionItem extends StatelessWidget {
   void onRestoreSession(BuildContext context) {
     showDialog<bool>(
       context: context,
-      builder: (context) => const ConfirmDialog(text: 'Продовжити спробу?')
+      builder: (context) => ConfirmDialog(
+        text: data.completed ? 'Переглянути спробу?' : 'Продовжити спробу?'
+      )
     )
     .then((bool? value) {
       if (value != null && value == true) {
@@ -34,17 +36,12 @@ class PrevSessionItem extends StatelessWidget {
         );
       }
     });
-
-  }
-
-  void onViewSession() {
-
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: data.completed ? onViewSession : () => onRestoreSession(context),
+      onTap: () => onRestoreSession(context),
       child: Container(
           width: 290.w,
           height: 60.h,

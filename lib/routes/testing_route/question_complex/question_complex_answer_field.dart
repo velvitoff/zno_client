@@ -1,3 +1,4 @@
+import 'package:client/dto/question_data.dart';
 import 'package:client/widgets/answer_cell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,19 +8,23 @@ import '../../../models/testing_route_model.dart';
 
 class QuestionComplexAnswerField extends StatelessWidget {
   final int index;
-  final List<List<String>> variants;
+  final QuestionComplex question;
 
   const QuestionComplexAnswerField({
     Key? key,
     required this.index,
-    required this.variants
+    required this.question
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if(variants.length != 2){
+    if(question.tableList.length != 2){
       return Container();
     }
+
+    final bool editable = context.read<TestingRouteModel>().prevSessionData?.isEditable ?? true;
+    final List<List<String>> variants = question.tableList
+        .map((innerMap) => innerMap.keys.toList()).toList();
 
     return Container(
       width: 320.w,
@@ -71,20 +76,33 @@ class QuestionComplexAnswerField extends StatelessWidget {
                       ...variants[1].map((variantHorizontal) =>
                           Container(
                             margin: EdgeInsets.all(3.r),
-                            child:
-                            answers[variantVertical] == variantHorizontal
-                                ?
-                            AnswerCell(
-                              marked: true,
-                              onTap: () {},
+                            child: Builder(
+                              builder: (BuildContext context) {
+                                if(editable) {
+                                  if(answers[variantVertical] == variantHorizontal) {
+                                    return AnswerCell(answerColor: AnswerCellColor.green, onTap: () {});
+                                  }
+                                  else {
+                                    return AnswerCell(onTap: () {
+                                      answers[variantVertical] = variantHorizontal;
+                                      context.read<TestingRouteModel>().addAnswer((index + 1).toString(), answers);
+                                    });
+                                  }
+                                }
+                                //if !editable
+                                else {
+                                  if(question.correctMap[variantVertical] == variantHorizontal) {
+                                    return AnswerCell(answerColor: AnswerCellColor.green, onTap: () {});
+                                  }
+                                  else {
+                                    if(answers[variantVertical] == variantHorizontal) {
+                                      return AnswerCell(answerColor: AnswerCellColor.red, onTap: () {});
+                                    }
+                                    return AnswerCell(onTap: () {});
+                                  }
+                                }
+                              }
                             )
-                                :
-                            AnswerCell(
-                              onTap: () {
-                                answers[variantVertical] = variantHorizontal;
-                                context.read<TestingRouteModel>().addAnswer((index + 1).toString(), answers);
-                              },
-                            ),
                           )
                       )
                     ],

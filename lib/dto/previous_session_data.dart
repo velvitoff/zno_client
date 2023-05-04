@@ -29,4 +29,7 @@ class PreviousSessionData {
         answers: jsonDecode(map['answers'] as String),
         score: map['score'] == null ? null : map['score'] as String
       );
+
+  bool get isEditable => !completed;
+
 }

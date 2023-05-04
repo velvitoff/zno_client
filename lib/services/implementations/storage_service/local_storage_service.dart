@@ -99,6 +99,9 @@ class LocalStorageService with StorageService {
 
   @override
   Future<void> saveSessionEnd(TestingRouteModel data, bool completed) async {
+    if(data.prevSessionData != null && data.prevSessionData!.completed) {
+      return;
+    }
     if (data.allAnswers.isEmpty) {
       return;
     }
