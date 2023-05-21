@@ -4,6 +4,7 @@ import 'package:client/routes.dart';
 import 'package:client/routes/testing_route/testing_page/answer_widget.dart';
 import 'package:client/routes/testing_route/testing_page/question_widget.dart';
 import 'package:client/routes/testing_route/testing_page/testing_buttons.dart';
+import 'package:client/widgets/zno_divider_for_review.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -45,10 +46,11 @@ class _TestingPageState extends State<TestingPage> {
   }
 
   void onEndSession(BuildContext context) {
+    bool isViewMode = context.read<TestingRouteModel>().isViewMode;
     showDialog<bool>(
         context: context,
-        builder: (BuildContext context) => const ConfirmDialog(
-          text: 'Завершити спробу?',
+        builder: (BuildContext context) => ConfirmDialog(
+          text: isViewMode ? 'Завершити перегляд?' : 'Завершити спробу?',
         )
     )
     .then((bool? value) {
@@ -81,7 +83,9 @@ class _TestingPageState extends State<TestingPage> {
           children: [
             Column(
               children: [
-                ZnoDivider(activeIndex: widget.index, itemCount: widget.questionsLength),
+                context.read<TestingRouteModel>().isViewMode
+                ? ZnoDividerForReview(activeIndex: widget.index, itemCount: widget.questionsLength)
+                : ZnoDivider(activeIndex: widget.index, itemCount: widget.questionsLength),
                 QuestionWidget(
                   index: widget.index,
                   question: widget.question,

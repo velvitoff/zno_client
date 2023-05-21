@@ -5,7 +5,6 @@ import 'package:client/services/interfaces/external_storage_service.dart';
 import 'package:client/services/interfaces/storage_service.dart';
 
 import '../../../dto/previous_session_data.dart';
-import '../../../dto/session_data.dart';
 import '../../../models/testing_route_model.dart';
 
 class MainStorageService with StorageService {

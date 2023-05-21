@@ -18,7 +18,7 @@ class QuestionSingleAnswerField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final realSize = MediaQuery.of(context).size;
-    final bool editable = context.read<TestingRouteModel>().prevSessionData?.isEditable ?? true;
+    final bool editable = !context.read<TestingRouteModel>().isViewMode;
     final List<String> variants = question.answers.keys.toList();
 
     return Container(
@@ -28,7 +28,8 @@ class QuestionSingleAnswerField extends StatelessWidget {
         child: Row(
             mainAxisAlignment: realSize.height > realSize.width ? MainAxisAlignment.center : MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: variants.map((variant) {
+            children:
+              variants.map((variant) {
               return Container(
                 margin: EdgeInsets.fromLTRB(0, 0, 10.w, 0),
                 child: Column(
@@ -70,8 +71,8 @@ class QuestionSingleAnswerField extends StatelessWidget {
                 ),
               );
             }
-            ).toList()
-        )
+          ).toList()
+      )
     );
   }
 }

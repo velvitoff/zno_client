@@ -1,5 +1,7 @@
+import 'package:client/models/testing_route_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../../widgets/zno_button.dart';
 
@@ -49,19 +51,36 @@ class TestingButtons extends StatelessWidget {
           )
       );
     }
+    //isLastPage
     else {
-      childList.add(
-          ZnoButton(
-            onTap: onForward,
-            width: 145.w,
-            height: 50.h,
-            margin: EdgeInsets.fromLTRB(7.5.w, 0, 7.5.w, 0),
-            padding: EdgeInsets.all(5.r),
-            text: 'Завершити спробу',
-              fontSize: 18.sp
-          )
-      );
+      if(context.read<TestingRouteModel>().isViewMode) {
+        childList.add(
+            ZnoButton(
+                onTap: onForward,
+                width: 145.w,
+                height: 50.h,
+                margin: EdgeInsets.fromLTRB(7.5.w, 0, 7.5.w, 0),
+                padding: EdgeInsets.all(5.r),
+                text: 'Завершити перегляд',
+                fontSize: 17.sp
+            )
+        );
+      }
+      else {
+        childList.add(
+            ZnoButton(
+                onTap: onForward,
+                width: 145.w,
+                height: 50.h,
+                margin: EdgeInsets.fromLTRB(7.5.w, 0, 7.5.w, 0),
+                padding: EdgeInsets.all(5.r),
+                text: 'Завершити спробу',
+                fontSize: 18.sp
+            )
+        );
+      }
     }
+    //add stop pereglyad
 
     return Container(
       width: 320.w,

@@ -145,7 +145,7 @@ class UiGenerator{
                         maxWidth: 114.w,
                         child: UiGenerator.imageToWidget(
                           model.sessionData.folderName,
-                          model.sessionData.fileName,
+                          model.sessionData.fileNameNoExtension,
                           data[1]
                         ),
                       ),

@@ -20,11 +20,12 @@ class ZnoMoreDropdown extends StatefulWidget {
 class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
 
   void onChoice(BuildContext context, String value) {
+    bool isViewMode = context.read<TestingRouteModel>().isViewMode;
     if (value == 'Вийти') {
       showDialog<bool>(
         context: context,
-        builder: (BuildContext context) => const ConfirmDialog(
-          text: 'Ви дійсно хочете покинути спробу?',
+        builder: (BuildContext context) => ConfirmDialog(
+          text: isViewMode ? 'Ви дійсно хочете припинити перегляд?' : 'Ви дійсно хочете покинути спробу?',
         )
       )
       .then((bool? value) {

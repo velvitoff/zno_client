@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:listview_utils/listview_utils.dart';
 
-import '../dto/question_data.dart';
 
 class ZnoDivider extends StatefulWidget {
   final int activeIndex;
@@ -25,9 +24,6 @@ class _ZnoDividerState extends State<ZnoDivider> {
   final double headerWidth = 130.w;
   late final ScrollController _scrollController;
   late final int selected;
-  late final bool _isViewMode;
-  late final List<Question>? _questions;
-  late final Map<String, dynamic>? _answers;
 
   @override
   void initState() {
@@ -35,48 +31,12 @@ class _ZnoDividerState extends State<ZnoDivider> {
     final TestingRouteModel model = context.read<TestingRouteModel>();
     selected = model.getPageIndex();
     _scrollController = ScrollController(initialScrollOffset: selected * 80.r);
-    _isViewMode = model.prevSessionData?.completed ?? false;
-    if(_isViewMode) {
-      _questions = model.questions;
-      _answers = model.allAnswers;
-    }
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
-  }
-
-  Color getCellColor(int ind) {
-    if(!_isViewMode) {
-      return const Color(0xFFFAFAFA);
-    }
-
-    if (_questions != null && _answers != null) {
-      if(_questions![ind+1].single != null) {
-        String index = (ind+1).toString();
-        if(_answers![index] == null) {
-          return const Color(0xFFFAFAFA);
-        }
-        if(_questions![ind+1].single!.correct == _answers![index]) {
-          return const Color(0xFF49BA49);
-        }
-        else {
-          return const Color(0xFFD04352);
-        }
-      }
-      
-      if (_questions![ind+1].complex != null) {
-        return const Color(0xFFFAFAFA);
-      }
-      else {
-        return const Color(0xFFFAFAFA);
-      }
-    }
-    else {
-      return const Color(0xFFFAFAFA);
-    }
   }
 
   @override
@@ -117,11 +77,11 @@ class _ZnoDividerState extends State<ZnoDivider> {
                         height: 40.r,
                         padding: index != selected ? EdgeInsets.all(6.r) : EdgeInsets.all(3.r),
                         decoration: index != selected
-                            ? BoxDecoration(
-                              color: getCellColor(index),
+                            ? const BoxDecoration(
+                              color: Color(0xFFFAFAFA),
                             )
                             : BoxDecoration(
-                            color: getCellColor(index),
+                            color: const Color(0xFFFAFAFA),
                             border: Border.all(
                               width: 3.r,
                               color: const Color(0xFF418C4A)

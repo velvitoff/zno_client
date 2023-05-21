@@ -25,6 +25,7 @@ class TestingRouteModel extends ChangeNotifier {
     }
   }
 
+  bool get isViewMode => prevSessionData?.completed ?? false;
 
   dynamic getAnswer(String key) => _answers[key];
 

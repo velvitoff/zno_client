@@ -1,10 +1,8 @@
 import 'package:client/dto/previous_session_data.dart';
-import 'package:client/dto/session_data.dart';
 import 'package:client/dto/testing_route_data.dart';
 import 'package:client/models/session_route_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/widgets/confirm_dialog.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
