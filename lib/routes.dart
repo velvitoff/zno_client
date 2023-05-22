@@ -1,7 +1,7 @@
 import 'package:client/dto/sessions_route_data.dart';
-import 'package:client/routes/history_route.dart';
+import 'package:client/routes/history_route/index.dart';
 import 'package:client/routes/session_route/index.dart';
-import 'package:client/routes/storage_route.dart';
+import 'package:client/routes/storage_route/index.dart';
 import 'package:client/routes/testing_route/index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

@@ -1,10 +1,13 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:client/dto/previous_session_data.dart';
+import 'package:client/dto/test_data.dart';
 import 'package:path_provider/path_provider.dart' as path;
+import '../../../dto/storage_route_item_data.dart';
 import '../../../models/testing_route_model.dart';
 import '../../interfaces/storage_service.dart';
 import 'dart:convert';
+import 'package:client/extensions/directory_extension.dart';
 
 class LocalStorageService with StorageService {
   final Directory _appDir;
@@ -196,6 +199,48 @@ class LocalStorageService with StorageService {
     return strings
         .map((string) => PreviousSessionData.fromJson(jsonDecode(string)))
         .toList();
+  }
+
+  @override
+  Future<List<StorageRouteItemData>> getStorageData() async {
+    Directory testsDir = Directory(_testsDir);
+
+    List<Directory> subjectFolders = await testsDir.list()
+        .where((folder) => folder is Directory)
+        .map((folder) => folder as Directory)
+        .toList();
+
+    Map<Directory, List<File>> mapOfSessions = Map.fromIterables(
+      subjectFolders,
+      await Future.wait(subjectFolders.map(
+              (folder) => folder.list()
+                  .where((file) => file is File)
+                  .map((file) => file as File)
+                  .toList()
+      ))
+    );
+
+    List<StorageRouteItemData> result = [];
+    for(var entry in mapOfSessions.entries) {
+      for(var file in entry.value) {
+        final data = TestDataNoQuestions.fromJson(jsonDecode(await file.readAsString()));
+        final String imageFolderPath =
+            '$_imageDir${Platform.pathSeparator}'
+            '${entry.key.path.split(Platform.pathSeparator).last}${Platform.pathSeparator}'
+            '${data.imageFolderName}';
+
+        result.add(
+            StorageRouteItemData(
+                subjectName: data.subject,
+                sessionName: data.name,
+                filePath: file.path,
+                imageFolderPath: imageFolderPath,
+                size: await file.length() + await Directory(imageFolderPath).length()
+            ));
+      }
+    }
+
+    return result;
   }
 
 

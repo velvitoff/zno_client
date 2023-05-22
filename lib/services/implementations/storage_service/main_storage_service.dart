@@ -5,6 +5,7 @@ import 'package:client/services/interfaces/external_storage_service.dart';
 import 'package:client/services/interfaces/storage_service.dart';
 
 import '../../../dto/previous_session_data.dart';
+import '../../../dto/storage_route_item_data.dart';
 import '../../../models/testing_route_model.dart';
 
 class MainStorageService with StorageService {
@@ -94,6 +95,11 @@ class MainStorageService with StorageService {
   @override
   Future<List<PreviousSessionData>> getPreviousSessionsList(String subjectName, String sessionName){
     return localStorage.getPreviousSessionsList(subjectName, sessionName);
+  }
+
+  @override
+  Future<List<StorageRouteItemData>> getStorageData() async {
+    return localStorage.getStorageData();
   }
 
 }

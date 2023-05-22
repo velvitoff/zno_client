@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:client/dto/test_data.dart';
+import 'package:client/routes/testing_route/testing_pages.dart';
 import 'package:client/routes/testing_route/testing_route_provider.dart';
+import 'package:client/routes/testing_route/zno_testing_header.dart';
 import 'package:client/services/interfaces/storage_service.dart';
 import 'package:flutter/material.dart';
 import '../../dto/testing_route_data.dart';
@@ -41,6 +43,19 @@ class _TestingRouteState extends State<TestingRoute> {
               return TestingRouteProvider(
                 data: widget.dto,
                 testData: snapshot.data!,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                    ZnoTestingHeader(text: widget.dto.sessionData.subjectName),
+                    Expanded(
+                        child: MediaQuery.removePadding(
+                          context: context,
+                          removeTop: true,
+                          child: TestingPages(questions: snapshot.data!.questions),
+                        )
+                    )
+                  ],
+                ),
               );
             }
             else if (snapshot.hasError) {

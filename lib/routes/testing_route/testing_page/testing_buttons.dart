@@ -23,7 +23,6 @@ class TestingButtons extends StatelessWidget {
   Widget build(BuildContext context) {
 
     List<Widget> childList = [];
-
     if (!isFirstPage) {
       childList.add(
           ZnoButton(

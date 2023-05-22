@@ -17,18 +17,23 @@ class SessionsList extends StatelessWidget {
     required this.data
   }) : super(key: key);
 
+  static Map<String, String> keywordMap = {
+    'zno': 'ЗНО',
+    'nmt': 'НМТ',
+    'dodatkova': 'Додаткова сесія',
+    'testova': 'Тестова сесія',
+    'osnovna': 'Основна сесія',
+    'probna': 'Пробна сесія',
+    'demo': 'Демоваріант',
+  };
+
   String fileNameToSessionName(String name) {
     name = name.replaceFirst('.json', '');
     List<String> split = name.split('_');
 
     for (int i = 0; i < split.length; ++i) {
-      if (split[i] == 'zno') {split[i] = 'ЗНО';}
-      else if (split[i] == 'nmt') {split[i] = 'НМТ';}
-      else if (split[i] == 'dodatkova') {split[i] = 'Додаткова сесія';}
-      else if (split[i] == 'testova') {split[i] = 'Тестова сесія';}
-      else if (split[i] == 'osnovna') {split[i] = 'Основна сесія';}
+      split[i] = keywordMap[split[i]] ?? split[i];
     }
-
     return split.join(' ');
   }
 

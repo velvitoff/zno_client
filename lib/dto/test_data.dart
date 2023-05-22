@@ -29,3 +29,23 @@ class TestData {
   };
 
 }
+
+class TestDataNoQuestions {
+  final String name;
+  final String subject;
+  final String imageFolderName;
+
+  TestDataNoQuestions._({
+    required this.name,
+    required this.subject,
+    required this.imageFolderName
+  });
+
+  factory TestDataNoQuestions.fromJson(Map<String, dynamic> map) =>
+      TestDataNoQuestions._(
+          name: map['name'] as String,
+          subject: map['subject'] as String,
+          imageFolderName: map['image_folder_name'] as String
+      );
+
+}
