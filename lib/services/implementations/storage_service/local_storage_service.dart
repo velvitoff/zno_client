@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:client/dto/previous_session_data.dart';
 import 'package:client/dto/test_data.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart' as path;
 import '../../../dto/storage_route_item_data.dart';
 import '../../../models/testing_route_model.dart';
@@ -235,7 +236,8 @@ class LocalStorageService with StorageService {
                 sessionName: data.name,
                 filePath: file.path,
                 imageFolderPath: imageFolderPath,
-                size: await file.length() + await Directory(imageFolderPath).length()
+                size: await file.length() + await Directory(imageFolderPath).length(),
+                key: UniqueKey()
             ));
       }
     }
