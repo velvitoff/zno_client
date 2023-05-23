@@ -11,7 +11,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../../locator.dart';
 import '../../../services/interfaces/storage_service.dart';
-import '../../../widgets/confirm_dialog.dart';
+import '../../../dialogs/confirm_dialog.dart';
 import '../../../widgets/zno_divider.dart';
 
 class TestingPage extends StatefulWidget {

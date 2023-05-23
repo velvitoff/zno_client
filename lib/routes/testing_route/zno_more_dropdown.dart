@@ -1,7 +1,7 @@
 import 'package:client/models/testing_route_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/services/interfaces/storage_service.dart';
-import 'package:client/widgets/confirm_dialog.dart';
+import 'package:client/dialogs/confirm_dialog.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
