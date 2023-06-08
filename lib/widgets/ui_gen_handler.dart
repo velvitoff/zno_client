@@ -8,11 +8,8 @@ class UiGenHandler extends StatelessWidget {
   final List<String> data;
   final TextStyle? textStyle;
 
-  const UiGenHandler({
-    Key? key,
-    required this.data,
-    this.textStyle
-  }) : super(key: key);
+  const UiGenHandler({Key? key, required this.data, this.textStyle})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +19,10 @@ class UiGenHandler extends StatelessWidget {
         return UiGenerator.textToWidget(data[1], style: textStyle);
       case 'img':
         var model = context.read<TestingRouteModel>();
-        return UiGenerator.imageToWidget(model.sessionData.folderName, model.sessionData.fileNameNoExtension, data[1]);
+        return UiGenerator.imageToWidget(model.sessionData.folderName,
+            model.sessionData.fileNameNoExtension, data[1]);
       case 'table':
-        return UiGenerator.textToTable(context, data[1]);
+        return UiGenerator.textToTable(context, data[1], style: textStyle);
       default:
         return Container();
     }

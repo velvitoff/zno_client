@@ -10,18 +10,15 @@ class ZnoDividerForReview extends StatefulWidget {
   final int activeIndex;
   final int itemCount;
 
-  const ZnoDividerForReview({
-    Key? key,
-    required this.activeIndex,
-    required this.itemCount
-  }) : super(key: key);
+  const ZnoDividerForReview(
+      {Key? key, required this.activeIndex, required this.itemCount})
+      : super(key: key);
 
   @override
   State<ZnoDividerForReview> createState() => _ZnoDividerState();
 }
 
 class _ZnoDividerState extends State<ZnoDividerForReview> {
-
   final double headerWidth = 130.w;
   late final ScrollController _scrollController;
   late final int selected;
@@ -37,7 +34,7 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
   void initState() {
     super.initState();
     final TestingRouteModel model = context.read<TestingRouteModel>();
-    selected = model.getPageIndex();
+    selected = model.pageIndex;
     _scrollController = ScrollController(initialScrollOffset: selected * 80.r);
     _questions = model.questions;
     _answers = model.allAnswers;
@@ -50,38 +47,37 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
   }
 
   Color getCellColor(int ind) {
-    if(_questions == null || _answers == null) {
+    if (_questions == null || _answers == null) {
       return whiteColor;
     }
-    String index = (ind+1).toString();
-    if(_answers![index] == null) {
+    String index = (ind + 1).toString();
+    if (_answers![index] == null) {
       return whiteColor;
     }
 
-    if(_questions![ind].single != null) {
-      if(_answers![index] == null) {
+    if (_questions![ind].single != null) {
+      if (_answers![index] == null) {
         return whiteColor;
       }
-      if(_questions![ind].single!.correct == _answers![index]) {
+      if (_questions![ind].single!.correct == _answers![index]) {
         return greenColor;
-      }
-      else {
+      } else {
         return redColor;
       }
     }
 
     if (_questions![ind].complex != null) {
       final answers = Map<String, String>.from(_answers![index]);
-      if(_answers!.isEmpty) {
+      if (_answers!.isEmpty) {
         return whiteColor;
       }
 
-      if( mapEquals(_questions![ind].complex!.correctMap, answers)) {
+      if (mapEquals(_questions![ind].complex!.correctMap, answers)) {
         return greenColor;
       }
 
       bool isPartiallyCorrect = false;
-      for( var entry in answers.entries) {
+      for (var entry in answers.entries) {
         if (_questions![ind].complex!.correctMap[entry.key] == entry.value) {
           isPartiallyCorrect = true;
           break;
@@ -90,13 +86,10 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
 
       if (isPartiallyCorrect) {
         return orangeColor;
-      }
-      else {
+      } else {
         return redColor;
       }
-    }
-
-    else {
+    } else {
       return whiteColor;
     }
   }
@@ -140,19 +133,18 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
                         padding: index == selected ? null : EdgeInsets.all(3.r),
                         decoration: index == selected
                             ? BoxDecoration(
-                              border: Border.all(
-                                width: 3.r,
-                                color: const Color(0xFF418C4A)
-                              ),
-                              borderRadius: const BorderRadius.all(Radius.circular(5))
-                            )
+                                border: Border.all(
+                                    width: 3.r, color: const Color(0xFF418C4A)),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(5)))
                             : null,
                         child: Container(
                           padding: EdgeInsets.all(4.r),
                           decoration: BoxDecoration(
-                            color: getCellColor(index),
-                            borderRadius: index == selected ? null : const BorderRadius.all(Radius.circular(5))
-                          ),
+                              color: getCellColor(index),
+                              borderRadius: index == selected
+                                  ? null
+                                  : const BorderRadius.all(Radius.circular(5))),
                           child: FittedBox(
                             fit: BoxFit.contain,
                             child: Center(
@@ -161,8 +153,7 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
                                 style: TextStyle(
                                     fontSize: 20.sp,
                                     color: const Color(0xFF242424),
-                                    fontWeight: FontWeight.w400
-                                ),
+                                    fontWeight: FontWeight.w400),
                               ),
                             ),
                           ),
@@ -174,8 +165,6 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
               },
             )
           ],
-        )
-    );
+        ));
   }
 }
-

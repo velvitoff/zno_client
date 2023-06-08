@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
 import '../dto/previous_session_data.dart';
 import '../dto/question_data.dart';
 import '../dto/session_data.dart';
-
 
 class TestingRouteModel extends ChangeNotifier {
   final SessionData sessionData;
@@ -15,11 +13,10 @@ class TestingRouteModel extends ChangeNotifier {
   PageController pageController = PageController();
   int _pageIndex = 0;
 
-  TestingRouteModel({
-    required this.sessionData,
-    required this.questions,
-    required this.prevSessionData
-  }) {
+  TestingRouteModel(
+      {required this.sessionData,
+      required this.questions,
+      required this.prevSessionData}) {
     if (prevSessionData != null) {
       _answers = prevSessionData!.answers;
     }
@@ -27,10 +24,10 @@ class TestingRouteModel extends ChangeNotifier {
 
   bool get isViewMode => prevSessionData?.completed ?? false;
 
-  dynamic getAnswer(String key) => _answers[key];
-
   int get pageAmount => questions.length;
   int get pageIndex => _pageIndex;
+
+  dynamic getAnswer(String key) => _answers[key];
   Map<String, dynamic> get allAnswers => _answers;
 
   void addAnswer(String key, dynamic value) {
@@ -49,29 +46,22 @@ class TestingRouteModel extends ChangeNotifier {
   }
 
   void incrementPage() {
-    if (_pageIndex < pageAmount-1) {
+    if (_pageIndex < pageAmount - 1) {
       _pageIndex++;
       pageController.nextPage(
           duration: const Duration(milliseconds: 350),
-          curve: Curves.easeInOutSine
-      );
+          curve: Curves.easeInOutSine);
       notifyListeners();
     }
   }
 
   void decrementPage() {
-    if(_pageIndex > 0) {
+    if (_pageIndex > 0) {
       _pageIndex--;
       pageController.previousPage(
           duration: const Duration(milliseconds: 350),
-          curve: Curves.easeInOutSine
-      );
+          curve: Curves.easeInOutSine);
       notifyListeners();
     }
   }
-
-  int getPageIndex() => _pageIndex;
-
-
-
 }
