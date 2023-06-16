@@ -10,7 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../../locator.dart';
-import '../../../services/interfaces/storage_service.dart';
+import '../../../services/interfaces/storage_service_interface.dart';
 import '../../../dialogs/confirm_dialog.dart';
 import '../../../widgets/zno_divider.dart';
 
@@ -19,12 +19,12 @@ class TestingPage extends StatefulWidget {
   final Question question;
   final int questionsLength;
 
-  const TestingPage({
-    Key? key,
-    required this.index,
-    required this.question,
-    required this. questionsLength
-  }) : super(key: key);
+  const TestingPage(
+      {Key? key,
+      required this.index,
+      required this.question,
+      required this.questionsLength})
+      : super(key: key);
 
   @override
   State<TestingPage> createState() => _TestingPageState();
@@ -34,13 +34,13 @@ class _TestingPageState extends State<TestingPage> {
   late ScrollController _scrollController;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _scrollController = ScrollController();
   }
 
   @override
-  void dispose(){
+  void dispose() {
     _scrollController.dispose();
     super.dispose();
   }
@@ -50,20 +50,15 @@ class _TestingPageState extends State<TestingPage> {
     showDialog<bool>(
         context: context,
         builder: (BuildContext context) => ConfirmDialog(
-          text: isViewMode ? 'Завершити перегляд?' : 'Завершити спробу?',
-        )
-    )
-    .then((bool? value) {
+              text: isViewMode ? 'Завершити перегляд?' : 'Завершити спробу?',
+            )).then((bool? value) {
       if (value != null) {
         if (value) {
-          locator.get<StorageService>().saveSessionEnd(
-              context.read<TestingRouteModel>(),
-              true
-          );
-          context.go(
-            Routes.sessionRoute,
-            extra: context.read<TestingRouteModel>().sessionData
-          );
+          locator
+              .get<StorageServiceInterface>()
+              .saveSessionEnd(context.read<TestingRouteModel>(), true);
+          context.go(Routes.sessionRoute,
+              extra: context.read<TestingRouteModel>().sessionData);
         }
       }
     });
@@ -75,8 +70,7 @@ class _TestingPageState extends State<TestingPage> {
       controller: _scrollController,
       child: ConstrainedBox(
         constraints: BoxConstraints(
-            minHeight: 700.h - MediaQuery.of(context).padding.top
-        ),
+            minHeight: 700.h - MediaQuery.of(context).padding.top),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -84,8 +78,12 @@ class _TestingPageState extends State<TestingPage> {
             Column(
               children: [
                 context.read<TestingRouteModel>().isViewMode
-                ? ZnoDividerForReview(activeIndex: widget.index, itemCount: widget.questionsLength)
-                : ZnoDivider(activeIndex: widget.index, itemCount: widget.questionsLength),
+                    ? ZnoDividerForReview(
+                        activeIndex: widget.index,
+                        itemCount: widget.questionsLength)
+                    : ZnoDivider(
+                        activeIndex: widget.index,
+                        itemCount: widget.questionsLength),
                 QuestionWidget(
                   index: widget.index,
                   question: widget.question,
@@ -103,13 +101,12 @@ class _TestingPageState extends State<TestingPage> {
                     question: widget.question,
                   ),
                   TestingButtons(
-                    onBack: () => context.read<TestingRouteModel>().decrementPage(),
-                    onForward: 
-                      widget.index == widget.questionsLength - 1
-                      ?
-                      () => onEndSession(context)    
-                      :
-                      () => context.read<TestingRouteModel>().incrementPage(),
+                    onBack: () =>
+                        context.read<TestingRouteModel>().decrementPage(),
+                    onForward: widget.index == widget.questionsLength - 1
+                        ? () => onEndSession(context)
+                        : () =>
+                            context.read<TestingRouteModel>().incrementPage(),
                     isFirstPage: widget.index == 0,
                     isLastPage: widget.index == widget.questionsLength - 1,
                   )

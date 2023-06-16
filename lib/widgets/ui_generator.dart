@@ -7,7 +7,7 @@ import 'package:html/dom.dart' as html;
 import 'package:html/parser.dart' as html_parser;
 import 'dart:convert';
 import '../models/testing_route_model.dart';
-import '../services/interfaces/storage_service.dart';
+import '../services/interfaces/storage_service_interface.dart';
 
 class UiGenerator {
   UiGenerator._();
@@ -96,7 +96,7 @@ class UiGenerator {
       String subjectFolderName, String sessionName, String fileName) {
     return FutureBuilder(
       future: locator
-          .get<StorageService>()
+          .get<StorageServiceInterface>()
           .getImage(subjectFolderName, sessionName, fileName),
       builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
         if (snapshot.hasData) {

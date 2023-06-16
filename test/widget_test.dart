@@ -22,6 +22,7 @@ void main() {
       fileNameNoExtension: '');
   final prevSessionData = PreviousSessionData(
       sessionName: '',
+      subjectName: '',
       sessionId: '',
       date: DateTime.now(),
       completed: false,

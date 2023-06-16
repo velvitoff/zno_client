@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import '../../dto/storage_route_item_data.dart';
 import '../../locator.dart';
 import '../../models/storage_route_model.dart';
-import '../../services/interfaces/storage_service.dart';
+import '../../services/interfaces/storage_service_interface.dart';
 
 class StorageRoute extends StatefulWidget {
   const StorageRoute({Key? key}) : super(key: key);
@@ -21,8 +21,8 @@ class _StorageRouteState extends State<StorageRoute> {
   late final Future<List<StorageRouteItemData>> storageList;
 
   @override
-  void initState(){
-    storageList = locator.get<StorageService>().getStorageData();
+  void initState() {
+    storageList = locator.get<StorageServiceInterface>().getStorageData();
     super.initState();
   }
 
@@ -31,29 +31,28 @@ class _StorageRouteState extends State<StorageRoute> {
     return StorageRouteProvider(
       child: Scaffold(
           body: Column(
-            children: [
-              const StorageRouteHeader(),
-              Expanded(
-                child: FutureBuilder(
-                  future: storageList,
-                  builder: (BuildContext context, AsyncSnapshot<List<StorageRouteItemData>> snapshot) {
-                    if (snapshot.hasData) {
-                      context.read<StorageRouteModel>().fileMap = Map.fromEntries(snapshot.data!.map((x) => MapEntry(x, false)));
-                      return const StorageList();
-                    }
-                    else if (snapshot.hasError) {
-                      return const Text('Помилка завантаження даних');
-                    }
-                    else {
-                      return const Text('Завантаження');
-                    }
-                  },
-                ),
-              ),
-              const ZnoBottomNavigationBar(activeIndex: 2)
-            ],
-          )
-      ),
+        children: [
+          const StorageRouteHeader(),
+          Expanded(
+            child: FutureBuilder(
+              future: storageList,
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<StorageRouteItemData>> snapshot) {
+                if (snapshot.hasData) {
+                  context.read<StorageRouteModel>().fileMap = Map.fromEntries(
+                      snapshot.data!.map((x) => MapEntry(x, false)));
+                  return const StorageList();
+                } else if (snapshot.hasError) {
+                  return const Text('Помилка завантаження даних');
+                } else {
+                  return const Text('Завантаження');
+                }
+              },
+            ),
+          ),
+          const ZnoBottomNavigationBar(activeIndex: 2)
+        ],
+      )),
     );
   }
 }

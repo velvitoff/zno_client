@@ -6,29 +6,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../locator.dart';
-import '../../services/interfaces/storage_service.dart';
+import '../../services/interfaces/storage_service_interface.dart';
 
 //TODO: optimize stateful widget re-renders
 class SessionsRoute extends StatefulWidget {
   final SessionsRouteData dto;
 
-  const SessionsRoute({
-    Key? key,
-    required this.dto
-  }) : super(key: key);
+  const SessionsRoute({Key? key, required this.dto}) : super(key: key);
 
   @override
   _SessionsRouteState createState() => _SessionsRouteState();
 }
 
 class _SessionsRouteState extends State<SessionsRoute> {
-
   late final Future<List<String>> futureList;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    futureList = locator.get<StorageService>()
+    futureList = locator
+        .get<StorageServiceInterface>()
         .listSessions(widget.dto.folderName);
   }
 
@@ -40,35 +37,34 @@ class _SessionsRouteState extends State<SessionsRoute> {
           Expanded(
             child: FutureBuilder(
               future: futureList,
-              builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+              builder:
+                  (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                 if (snapshot.hasData) {
                   return CustomScrollView(
                     slivers: [
                       SliverAppBar(
-                        flexibleSpace: ZnoTopHeaderText(text: widget.dto.subjectName),
+                        flexibleSpace:
+                            ZnoTopHeaderText(text: widget.dto.subjectName),
                         backgroundColor: const Color(0xFFF5F5F5),
                         expandedHeight: 250.h,
                         collapsedHeight: 70.h,
                         pinned: true,
-                        shadowColor: const Color(0x00000000),//no shadow
+                        shadowColor: const Color(0x00000000), //no shadow
                       ),
                       SessionsList(
                           subjectName: widget.dto.subjectName,
                           folderName: widget.dto.folderName,
-                          data: snapshot.data!
-                      )
+                          data: snapshot.data!)
                     ],
                   );
-                }
-                else if (snapshot.hasError) {
+                } else if (snapshot.hasError) {
                   return Column(
                     children: [
                       ZnoTopHeaderText(text: widget.dto.subjectName),
                       const Text('error')
                     ],
                   );
-                }
-                else {
+                } else {
                   return Column(
                     children: [
                       ZnoTopHeaderText(text: widget.dto.subjectName),
