@@ -1,6 +1,6 @@
 import 'package:client/dto/previous_session_data.dart';
 import 'package:client/locator.dart';
-import 'package:client/routes/session_route/prev_session_item.dart';
+import 'package:client/widgets/prev_session_item.dart';
 import 'package:client/services/interfaces/storage_service_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

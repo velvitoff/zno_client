@@ -8,9 +8,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../dto/session_data.dart';
-import '../../locator.dart';
-import '../../services/interfaces/utils_service_interface.dart';
+import '../dto/session_data.dart';
+import '../locator.dart';
+import '../services/interfaces/utils_service_interface.dart';
 
 class PrevSessionItem extends StatelessWidget {
   final PreviousSessionData data;
@@ -98,7 +98,7 @@ class PrevSessionItem extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 22.sp,
                                 color: const Color(0xFF444444)),
-                            overflow: TextOverflow.clip,
+                            overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                           ),
                           Text(
@@ -108,7 +108,7 @@ class PrevSessionItem extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 16.sp,
                                 color: const Color(0xFF444444)),
-                            overflow: TextOverflow.clip,
+                            overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
                           Text(data.date.toString().split(' ').first,
