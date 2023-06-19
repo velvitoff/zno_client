@@ -24,6 +24,8 @@ void main() {
       sessionName: '',
       subjectName: '',
       sessionId: '',
+      fileName: '',
+      folderName: '',
       date: DateTime.now(),
       completed: false,
       lastPage: 0,
@@ -45,6 +47,7 @@ void main() {
               'В': ['p', 'В'],
               'Г': ['p', 'Г']
             },
+            answerList: ['А', 'Б', 'В', 'Г'],
             correct: 'A'))
   ]);
 

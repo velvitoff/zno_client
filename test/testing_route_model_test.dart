@@ -16,6 +16,8 @@ void main() {
   final prevSessionData = PreviousSessionData(
       sessionName: '',
       subjectName: '',
+      fileName: '',
+      folderName: '',
       sessionId: '',
       date: DateTime.now(),
       completed: false,

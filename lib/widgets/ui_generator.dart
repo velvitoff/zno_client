@@ -112,16 +112,69 @@ class UiGenerator {
 
   static Widget textToTable(BuildContext context, String data,
       {TextStyle? style}) {
+    var tableMap = jsonDecode(data);
+    var tableString = tableMap['data'] as String;
+    String? tableType = tableMap['type'] as String?;
+
     final List<List<List<String>>> json = List<List<List<String>>>.from(
-        jsonDecode(data).map((x) =>
+        jsonDecode(tableString).map((x) =>
             List<List<String>>.from(x.map((x) => List<String>.from(x)))));
 
+    if (tableType == null) {
+      return _textToTableDefaultStyle(context, json, style: style);
+    } else {
+      if (tableType == 'thin_borders') {
+        return _textToTableThinBordersStyle(context, json, style: style);
+      }
+      return Container();
+    }
+  }
+
+  static Widget _textToTableThinBordersStyle(
+      BuildContext context, List<List<List<String>>> data,
+      {TextStyle? style}) {
+    return Table(
+      border: TableBorder.all(width: 1),
+      children: data
+          .map((row) => TableRow(
+                  children: row.map((cell) {
+                switch (cell[0]) {
+                  case 'p':
+                    return Container(
+                        alignment: Alignment.center,
+                        margin: EdgeInsets.all(3.r),
+                        child: textToWidget(cell[1], style: style));
+                  case 'img':
+                    var model = context.read<TestingRouteModel>();
+                    return Container(
+                      margin: EdgeInsets.fromLTRB(3.w, 0, 3.w, 0),
+                      child: LimitedBox(
+                        maxWidth: 114.w,
+                        child: UiGenerator.imageToWidget(
+                            model.sessionData.folderName,
+                            model.sessionData.fileNameNoExtension,
+                            cell[1]),
+                      ),
+                    );
+                  default:
+                    return Container();
+                }
+              }).toList()))
+          .toList(),
+    );
+  }
+
+  static Widget _textToTableDefaultStyle(
+      BuildContext context, List<List<List<String>>> data,
+      {TextStyle? style}) {
     return Column(
-      children: json
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: data
           .map((row) => Container(
                 width: 320.w,
                 margin: EdgeInsets.fromLTRB(0, 5.h, 0, 5.h),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: row.map((data) {
                     switch (data[0]) {
                       case 'p':

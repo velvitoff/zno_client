@@ -10,21 +10,19 @@ class QuestionComplexAnswerField extends StatelessWidget {
   final int index;
   final QuestionComplex question;
 
-  const QuestionComplexAnswerField({
-    Key? key,
-    required this.index,
-    required this.question
-  }) : super(key: key);
+  const QuestionComplexAnswerField(
+      {Key? key, required this.index, required this.question})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if(question.tableList.length != 2){
+    if (question.answerMappingList.length != 2) {
       return Container();
     }
 
-    final bool editable = context.read<TestingRouteModel>().prevSessionData?.isEditable ?? true;
-    final List<List<String>> variants = question.tableList
-        .map((innerMap) => innerMap.keys.toList()).toList();
+    final bool editable =
+        context.read<TestingRouteModel>().prevSessionData?.isEditable ?? true;
+    final List<List<String>> variants = question.answerMappingList;
 
     return Container(
       width: 320.w,
@@ -32,12 +30,10 @@ class QuestionComplexAnswerField extends StatelessWidget {
       child: Selector<TestingRouteModel, dynamic>(
         selector: (_, model) => model.getAnswer((index + 1).toString()),
         builder: (_, answer, __) {
-
           Map<String, String> answers;
-          if (answer is Map){
+          if (answer is Map) {
             answers = Map.from(answer);
-          }
-          else{
+          } else {
             answers = {};
           }
 
@@ -50,64 +46,69 @@ class QuestionComplexAnswerField extends StatelessWidget {
                     height: 46.5.r,
                     margin: EdgeInsets.all(3.r),
                   ),
-                  ...variants[1].map((variantHorizontal) =>
-                      Container(
+                  ...variants[1].map((variantHorizontal) => Container(
                         width: 46.5.r,
                         height: 46.5.r,
                         margin: EdgeInsets.all(3.r),
                         child: Center(
-                          child: Text(variantHorizontal, style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w500)),
+                          child: Text(variantHorizontal,
+                              style: TextStyle(
+                                  fontSize: 32.sp,
+                                  fontWeight: FontWeight.w500)),
                         ),
-                      )
-                  ),
+                      )),
                 ],
               ),
-              ...variants[0].map((variantVertical) =>
-                  Row(
+              ...variants[0].map((variantVertical) => Row(
                     children: [
                       Container(
                         width: 46.5.r,
                         height: 46.5.r,
                         margin: EdgeInsets.all(3.r),
                         child: Center(
-                          child: Text(variantVertical, style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w500)),
+                          child: Text(variantVertical,
+                              style: TextStyle(
+                                  fontSize: 32.sp,
+                                  fontWeight: FontWeight.w500)),
                         ),
                       ),
-                      ...variants[1].map((variantHorizontal) =>
-                          Container(
-                            margin: EdgeInsets.all(3.r),
-                            child: Builder(
-                              builder: (BuildContext context) {
-                                if(editable) {
-                                  if(answers[variantVertical] == variantHorizontal) {
-                                    return AnswerCell(answerColor: AnswerCellColor.green, onTap: () {});
-                                  }
-                                  else {
-                                    return AnswerCell(onTap: () {
-                                      answers[variantVertical] = variantHorizontal;
-                                      context.read<TestingRouteModel>().addAnswer((index + 1).toString(), answers);
-                                    });
-                                  }
-                                }
-                                //if !editable
-                                else {
-                                  if(question.correctMap[variantVertical] == variantHorizontal) {
-                                    return AnswerCell(answerColor: AnswerCellColor.green, onTap: () {});
-                                  }
-                                  else {
-                                    if(answers[variantVertical] == variantHorizontal) {
-                                      return AnswerCell(answerColor: AnswerCellColor.red, onTap: () {});
-                                    }
-                                    return AnswerCell(onTap: () {});
-                                  }
-                                }
+                      ...variants[1].map((variantHorizontal) => Container(
+                          margin: EdgeInsets.all(3.r),
+                          child: Builder(builder: (BuildContext context) {
+                            if (editable) {
+                              if (answers[variantVertical] ==
+                                  variantHorizontal) {
+                                return AnswerCell(
+                                    answerColor: AnswerCellColor.green,
+                                    onTap: () {});
+                              } else {
+                                return AnswerCell(onTap: () {
+                                  answers[variantVertical] = variantHorizontal;
+                                  context.read<TestingRouteModel>().addAnswer(
+                                      (index + 1).toString(), answers);
+                                });
                               }
-                            )
-                          )
-                      )
+                            }
+                            //if !editable
+                            else {
+                              if (question.correctMap[variantVertical] ==
+                                  variantHorizontal) {
+                                return AnswerCell(
+                                    answerColor: AnswerCellColor.green,
+                                    onTap: () {});
+                              } else {
+                                if (answers[variantVertical] ==
+                                    variantHorizontal) {
+                                  return AnswerCell(
+                                      answerColor: AnswerCellColor.red,
+                                      onTap: () {});
+                                }
+                                return AnswerCell(onTap: () {});
+                              }
+                            }
+                          })))
                     ],
-                  )
-              )
+                  ))
             ],
           );
         },

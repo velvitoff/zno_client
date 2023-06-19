@@ -14,44 +14,44 @@ class SubjectsRoute extends StatelessWidget {
 
   static const List<Tuple2<String, String>> subjects = [
     Tuple2('Українська мова і література', 'ukrainian_lang_and_lit'),
-    Tuple2('Українська мова', 'ukrainian_lang'),
-    Tuple2('Математика','math'),
-    Tuple2('Національний мультитест','nmt'),
-    Tuple2('Історія України','ukraine_history'),
-    Tuple2('Фізика','physics'),
-    Tuple2('Хімія','chemistry'),
-    Tuple2('Географія','geography'),
-    Tuple2('Біологія','biology'),
-    Tuple2('Англійська мова','english_lang'),
-    Tuple2('Німецька мова','german_lang'),
-    Tuple2('Французька мова','french_lang'),
-    Tuple2('ЗНО для вчителів','zno_teachers'),
-    Tuple2('ЗНО в магістратуру','zno_master'),
+    //Tuple2('Українська мова', 'ukrainian_lang'),
+    //Tuple2('Математика','math'),
+    //Tuple2('Національний мультитест','nmt'),
+    //Tuple2('Історія України', 'ukraine_history'),
+    //Tuple2('Фізика','physics'),
+    //Tuple2('Хімія','chemistry'),
+    Tuple2('Географія', 'geography'),
+    Tuple2('Біологія', 'biology'),
+    //Tuple2('Англійська мова', 'english_lang'),
+    //Tuple2('Німецька мова','german_lang'),
+    //Tuple2('Французька мова','french_lang'),
+    //Tuple2('ЗНО для вчителів','zno_teachers'),
+    //Tuple2('ЗНО в магістратуру','zno_master'),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children:  [
+        children: [
           Expanded(
             child: CustomScrollView(
               slivers: [
-                 SliverAppBar(
-                  flexibleSpace: const ZnoTopHeaderText(text: 'Оберіть предмет зі списку, щоб пройти тест'),
+                SliverAppBar(
+                  flexibleSpace: const ZnoTopHeaderText(
+                      text: 'Оберіть предмет зі списку, щоб пройти тест'),
                   expandedHeight: 250.h,
                   backgroundColor: const Color(0xFFF5F5F5),
                 ),
                 ZnoList(
                     list: subjects.map((subject) {
-                      return Tuple2(subject.item1, () => context.go(
-                          Routes.sessionsRoute,
+                  return Tuple2(
+                      subject.item1,
+                      () => context.go(Routes.sessionsRoute,
                           extra: SessionsRouteData(
                               subjectName: subject.item1,
-                              folderName: subject.item2)
-                      ));
-                    }).toList()
-                )
+                              folderName: subject.item2)));
+                }).toList())
               ],
             ),
           ),
