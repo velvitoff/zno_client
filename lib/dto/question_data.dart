@@ -1,22 +1,24 @@
-enum QuestionEnum { single, complex, noAnswer }
+enum QuestionEnum { single, complex, noAnswer, textFields }
 
 class Question {
   final QuestionEnum type;
   final QuestionSingle? single;
   final QuestionComplex? complex;
+  final QuestionTextFields? textFields;
   final QuestionNoAnswer? noAnswer;
 
-  const Question({
-    required this.type,
-    this.single,
-    this.complex,
-    this.noAnswer,
-  });
+  const Question(
+      {required this.type,
+      this.single,
+      this.complex,
+      this.noAnswer,
+      this.textFields});
 
   factory Question.fromJson(Map<String, dynamic> map) {
     final single = map['Single'];
     final complex = map['Complex'];
     final noAnswer = map['NoAnswer'];
+    final textFields = map['TextFields'];
 
     if (single != null) {
       return Question(
@@ -32,26 +34,20 @@ class Question {
           type: QuestionEnum.noAnswer,
           noAnswer: QuestionNoAnswer.fromJson(noAnswer));
     }
+    if (textFields != null) {
+      return Question(
+          type: QuestionEnum.textFields,
+          textFields: QuestionTextFields.fromJSON(textFields));
+    }
 
     throw const FormatException('No fitting task type found');
-  }
-
-  Map<String, dynamic> toJson() {
-    switch (type) {
-      case QuestionEnum.single:
-        return {"Single": single?.toJson()};
-      case QuestionEnum.complex:
-        return {"Complex": complex?.toJson()};
-      case QuestionEnum.noAnswer:
-        return {"NoAnswer": noAnswer?.toJson()};
-    }
   }
 }
 
 class QuestionSingle {
   final int order;
   final List<List<String>> render;
-  final Map<String, List<String>> answers; //Map<String,List<String>>
+  final List<Map<String, List<String>>> answers;
   final List<String> answerList;
   final String correct;
 
@@ -66,10 +62,13 @@ class QuestionSingle {
         order: map['order'] as int,
         render: List<List<String>>.from(
             map['render'].map((x) => List<String>.from(x.map((x) => x)))),
-        answers: Map<String, List<String>>.fromEntries(
-            Map<String, dynamic>.from(map['answers']).entries.map((entry) =>
-                MapEntry<String, List<String>>(
-                    entry.key, List<String>.from(entry.value.map((x) => x))))),
+        answers: List<Map<String, List<String>>>.from(
+            List<dynamic>.from(map['answers'])
+                .map((mapItem) => Map<String, List<String>>.fromEntries(
+                    Map<String, dynamic>.from(mapItem).entries.map((entry) =>
+                        MapEntry<String, List<String>>(entry.key,
+                            List<String>.from(entry.value.map((x) => x))))))
+                .toList()),
         answerList: List<String>.from(map['answer_list'].map((x) => x)),
         correct: map['correct'] as String,
       );
@@ -81,6 +80,23 @@ class QuestionSingle {
         "answers": answers,
         "correct": correct,
       };
+}
+
+class QuestionTextFields {
+  final int order;
+  final List<List<String>> render;
+  final List<String> correctList;
+
+  const QuestionTextFields(
+      {required this.order, required this.render, required this.correctList});
+
+  factory QuestionTextFields.fromJSON(Map<String, dynamic> map) =>
+      QuestionTextFields(
+          order: map['order'] as int,
+          render: List<List<String>>.from(
+              map['render'].map((x) => List<String>.from(x.map((x) => x)))),
+          correctList: List<String>.from(
+              map['correct_list'].map((x) => x as String).toList()));
 }
 
 class QuestionComplex {
@@ -116,15 +132,6 @@ class QuestionComplex {
         correctMap: Map<String, String>.from(
             Map<String, dynamic>.from(map['correct_map'])),
       );
-
-  Map<String, dynamic> toJson() => {
-        "order": order,
-        "render": List<dynamic>.from(
-            render.map((x) => List<dynamic>.from(x.map((x) => x)))),
-        "title_list": List<dynamic>.from(titleList.map((x) => x)),
-        //"table_list": List<dynamic>.from(tableList.map((x) => x)),
-        //"correct_map": Map.from(correctMap).map((k, v) => MapEntry<String, dynamic>(k, correctValues.reverse[v])),
-      };
 }
 
 class QuestionNoAnswer {
@@ -139,10 +146,4 @@ class QuestionNoAnswer {
         render: List<List<String>>.from(
             map['render'].map((x) => List<String>.from(x.map((x) => x)))),
       );
-
-  Map<String, dynamic> toJson() => {
-        'order': order,
-        'render': List<dynamic>.from(
-            render.map((x) => List<dynamic>.from(x.map((x) => x)))),
-      };
 }

@@ -18,13 +18,6 @@ class TestData {
       imageFolderName: map['image_folder_name'] as String,
       questions: List<Question>.from(
           map['questions'].map((x) => Question.fromJson(x))));
-
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "subject": subject,
-        "image_folder_name": imageFolderName,
-        "questions": List<dynamic>.from(questions.map((x) => x.toJson())),
-      };
 }
 
 class TestDataNoQuestions {

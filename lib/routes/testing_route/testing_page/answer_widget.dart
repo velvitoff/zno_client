@@ -4,16 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../dto/question_data.dart';
+import '../question_text_fields/question_text_fields_answer_field.dart';
 
 class AnswerWidget extends StatelessWidget {
   final Question question;
   final int index;
 
-  const AnswerWidget({
-    Key? key,
-    required this.question,
-    required this.index
-  }) : super(key: key);
+  const AnswerWidget({Key? key, required this.question, required this.index})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +23,7 @@ class AnswerWidget extends StatelessWidget {
         );
       case QuestionEnum.complex:
         return QuestionComplexAnswerField(
-          index: index,
-          question: question.complex!
-        );
+            index: index, question: question.complex!);
       case QuestionEnum.noAnswer:
         return Container(
           margin: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
@@ -36,6 +32,9 @@ class AnswerWidget extends StatelessWidget {
             style: TextStyle(fontSize: 20.sp),
           ),
         );
+      case QuestionEnum.textFields:
+        return QuestionTextFieldsAnswerField(
+            index: index, question: question.textFields!);
     }
   }
 }

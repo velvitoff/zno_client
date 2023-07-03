@@ -7,24 +7,29 @@ import '../models/testing_route_model.dart';
 class UiGenHandler extends StatelessWidget {
   final List<String> data;
   final TextStyle? textStyle;
+  final bool allowRenderTables;
 
-  const UiGenHandler({Key? key, required this.data, this.textStyle})
+  const UiGenHandler(
+      {Key? key,
+      required this.data,
+      this.textStyle,
+      this.allowRenderTables = true})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     assert(data.length == 2);
-    switch (data[0]) {
-      case 'p':
-        return UiGenerator.textToWidget(data[1], style: textStyle);
-      case 'img':
-        var model = context.read<TestingRouteModel>();
-        return UiGenerator.imageToWidget(model.sessionData.folderName,
-            model.sessionData.fileNameNoExtension, data[1]);
-      case 'table':
-        return UiGenerator.textToTable(context, data[1], style: textStyle);
-      default:
-        return Container();
+
+    if (data[0] == 'p') {
+      return UiGenerator.textToWidget(data[1], style: textStyle);
+    } else if (data[0] == 'img') {
+      var model = context.read<TestingRouteModel>();
+      return UiGenerator.imageToWidget(model.sessionData.folderName,
+          model.sessionData.fileNameNoExtension, data[1]);
+    } else if (allowRenderTables && data[0] == 'table') {
+      return UiGenerator.textToTable(context, data[1], style: textStyle);
+    } else {
+      return Container();
     }
   }
 }

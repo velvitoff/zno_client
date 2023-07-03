@@ -138,26 +138,25 @@ class UiGenerator {
       children: data
           .map((row) => TableRow(
                   children: row.map((cell) {
-                switch (cell[0]) {
-                  case 'p':
-                    return Container(
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.all(3.r),
-                        child: textToWidget(cell[1], style: style));
-                  case 'img':
-                    var model = context.read<TestingRouteModel>();
-                    return Container(
-                      margin: EdgeInsets.fromLTRB(3.w, 0, 3.w, 0),
-                      child: LimitedBox(
-                        maxWidth: 114.w,
-                        child: UiGenerator.imageToWidget(
-                            model.sessionData.folderName,
-                            model.sessionData.fileNameNoExtension,
-                            cell[1]),
-                      ),
-                    );
-                  default:
-                    return Container();
+                if (cell[0] == 'p') {
+                  return Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.all(2.r),
+                      child: textToWidget(cell[1], style: style));
+                } else if (cell[0] == 'img') {
+                  var model = context.read<TestingRouteModel>();
+                  return Container(
+                    margin: EdgeInsets.fromLTRB(3.w, 0, 3.w, 0),
+                    child: LimitedBox(
+                      maxWidth: 114.w,
+                      child: UiGenerator.imageToWidget(
+                          model.sessionData.folderName,
+                          model.sessionData.fileNameNoExtension,
+                          cell[1]),
+                    ),
+                  );
+                } else {
+                  return Container();
                 }
               }).toList()))
           .toList(),
@@ -176,27 +175,26 @@ class UiGenerator {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: row.map((data) {
-                    switch (data[0]) {
-                      case 'p':
-                        return Container(
-                          width: 194.w,
-                          margin: EdgeInsets.fromLTRB(3.w, 0, 3.w, 0),
-                          child: textToWidget(data[1], style: style),
-                        );
-                      case 'img':
-                        var model = context.read<TestingRouteModel>();
-                        return Container(
-                          margin: EdgeInsets.fromLTRB(3.w, 0, 3.w, 0),
-                          child: LimitedBox(
-                            maxWidth: 114.w,
-                            child: UiGenerator.imageToWidget(
-                                model.sessionData.folderName,
-                                model.sessionData.fileNameNoExtension,
-                                data[1]),
-                          ),
-                        );
-                      default:
-                        return Container();
+                    if (data[0] == 'p') {
+                      return Container(
+                        width: 194.w,
+                        margin: EdgeInsets.fromLTRB(3.w, 0, 3.w, 0),
+                        child: textToWidget(data[1], style: style),
+                      );
+                    } else if (data[0] == 'img') {
+                      var model = context.read<TestingRouteModel>();
+                      return Container(
+                        margin: EdgeInsets.fromLTRB(3.w, 0, 3.w, 0),
+                        child: LimitedBox(
+                          maxWidth: 114.w,
+                          child: UiGenerator.imageToWidget(
+                              model.sessionData.folderName,
+                              model.sessionData.fileNameNoExtension,
+                              data[1]),
+                        ),
+                      );
+                    } else {
+                      return Container();
                     }
                   }).toList(),
                 ),
