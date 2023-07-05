@@ -85,18 +85,27 @@ class QuestionSingle {
 class QuestionTextFields {
   final int order;
   final List<List<String>> render;
+  final List<Map<String, List<String>>> answers;
   final List<String> correctList;
 
   const QuestionTextFields(
-      {required this.order, required this.render, required this.correctList});
+      {required this.order,
+      required this.render,
+      required this.answers,
+      required this.correctList});
 
-  factory QuestionTextFields.fromJSON(Map<String, dynamic> map) =>
-      QuestionTextFields(
-          order: map['order'] as int,
-          render: List<List<String>>.from(
-              map['render'].map((x) => List<String>.from(x.map((x) => x)))),
-          correctList: List<String>.from(
-              map['correct_list'].map((x) => x as String).toList()));
+  factory QuestionTextFields.fromJSON(Map<String, dynamic> map) => QuestionTextFields(
+      order: map['order'] as int,
+      render: List<List<String>>.from(
+          map['render'].map((x) => List<String>.from(x.map((x) => x)))),
+      answers: List<Map<String, List<String>>>.from(
+          List<dynamic>.from(map['answers'])
+              .map((mapItem) => Map<String, List<String>>.fromEntries(
+                  Map<String, dynamic>.from(mapItem).entries.map((entry) =>
+                      MapEntry<String, List<String>>(entry.key,
+                          List<String>.from(entry.value.map((x) => x))))))
+              .toList()),
+      correctList: List<String>.from(map['correct_list'].map((x) => x as String).toList()));
 }
 
 class QuestionComplex {

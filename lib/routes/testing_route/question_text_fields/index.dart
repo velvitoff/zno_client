@@ -1,8 +1,8 @@
 import 'package:client/dto/question_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../widgets/ui_gen_handler.dart';
+import '../testing_page/answer_variants_complex.dart';
 
 class QuestionTextFieldsWidget extends StatelessWidget {
   final QuestionTextFields question;
@@ -22,7 +22,11 @@ class QuestionTextFieldsWidget extends StatelessWidget {
             children: question.render
                 .map((list) => UiGenHandler(data: list))
                 .toList(),
-          )
+          ),
+          AnswerVariantsComplex(
+            titleList: question.answers.map((x) => "").toList(),
+            tableList: question.answers,
+          ),
         ],
       ),
     );
