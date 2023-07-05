@@ -39,21 +39,27 @@ class QuestionTextFieldsAnswerField extends StatelessWidget {
     if (editable) {
       return Column(
         children: question.correctList.mapIndexed((i, item) {
-          return TextField(
-              controller: TextEditingController(text: values[i]),
-              enabled: true,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-              ),
-              onChanged: !editable
-                  ? null
-                  : (String value) {
-                      List<String> newList = values;
-                      newList[i] = value;
-                      context
-                          .read<TestingRouteModel>()
-                          .addAnswer((index + 1).toString(), newList);
-                    });
+          return Container(
+            width: 300.w,
+            margin: EdgeInsets.fromLTRB(0, 8.h, 0, 8.h),
+            child: TextField(
+                controller: TextEditingController(text: values[i]),
+                enabled: true,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF418C4A)))),
+                onChanged: !editable
+                    ? null
+                    : (String value) {
+                        List<String> newList = values;
+                        newList[i] = value;
+                        context
+                            .read<TestingRouteModel>()
+                            .addAnswer((index + 1).toString(), newList);
+                      },
+                style: TextStyle(fontSize: 21.sp)),
+          );
         }).toList(),
       );
     } else {
