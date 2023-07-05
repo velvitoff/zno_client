@@ -126,6 +126,13 @@ class LocalStorageService with StorageServiceInterface {
             score += 1;
           }
         }
+      } else if (q.textFields != null) {
+        List<String> answerList = List<String>.from(answerEntry.value);
+        for (int i = 0; i < q.textFields!.correctList.length; ++i) {
+          if (q.textFields!.correctList[i] == answerList[i]) {
+            score += 1;
+          }
+        }
       }
     }
 

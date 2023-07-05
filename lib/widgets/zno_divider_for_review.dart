@@ -50,7 +50,9 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
     if (_questions == null || _answers == null) {
       return whiteColor;
     }
+
     String index = (ind + 1).toString();
+
     if (_answers![index] == null) {
       return whiteColor;
     }
@@ -79,6 +81,32 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
       bool isPartiallyCorrect = false;
       for (var entry in answers.entries) {
         if (_questions![ind].complex!.correctMap[entry.key] == entry.value) {
+          isPartiallyCorrect = true;
+          break;
+        }
+      }
+
+      if (isPartiallyCorrect) {
+        return orangeColor;
+      } else {
+        return redColor;
+      }
+    }
+    if (_questions![ind].textFields != null) {
+      List<String> answers;
+      try {
+        answers = List<String>.from(_answers![index]);
+      } catch (_) {
+        return whiteColor;
+      }
+
+      if (listEquals(_questions![ind].textFields!.correctList, answers)) {
+        return greenColor;
+      }
+
+      bool isPartiallyCorrect = false;
+      for (int i = 0; i < answers.length; ++i) {
+        if (answers[i] == _questions![ind].textFields!.correctList[i]) {
           isPartiallyCorrect = true;
           break;
         }

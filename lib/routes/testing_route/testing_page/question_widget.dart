@@ -37,7 +37,7 @@ class QuestionWidget extends StatelessWidget {
       case QuestionEnum.textFields:
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             QuestionTextFieldsWidget(
               question: question.textFields!,

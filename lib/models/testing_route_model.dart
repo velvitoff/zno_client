@@ -8,7 +8,7 @@ class TestingRouteModel extends ChangeNotifier {
   final PreviousSessionData? prevSessionData;
   final List<Question> questions;
 
-  //page_number: answer(String, or Map<String, String>)
+  //page_number: answer(String, or Map<String, String> or List<String>)
   Map<String, dynamic> _answers = {};
   PageController pageController = PageController();
   int _pageIndex = 0;
@@ -31,7 +31,9 @@ class TestingRouteModel extends ChangeNotifier {
   Map<String, dynamic> get allAnswers => _answers;
 
   void addAnswer(String key, dynamic value) {
-    if (value is String || value is Map<String, String>) {
+    if (value is String ||
+        value is Map<String, String> ||
+        value is List<String>) {
       _answers[key] = value;
       notifyListeners();
     }
