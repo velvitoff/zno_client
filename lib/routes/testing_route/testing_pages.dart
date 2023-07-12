@@ -8,10 +8,7 @@ import '../../dto/question_data.dart';
 class TestingPages extends StatelessWidget {
   final List<Question> questions;
 
-  const TestingPages({
-    Key? key,
-    required this.questions
-  }) : super(key: key);
+  const TestingPages({super.key, required this.questions});
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +24,7 @@ class TestingPages extends StatelessWidget {
             return TestingPage(
                 index: position,
                 question: data.item2[position],
-                questionsLength: data.item2.length
-            );
+                questionsLength: data.item2.length);
           },
         );
       },

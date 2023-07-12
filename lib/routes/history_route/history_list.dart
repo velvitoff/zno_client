@@ -18,6 +18,5 @@ class HistoryList extends StatelessWidget {
             .toList(),
       ),
     );
-    ;
   }
 }

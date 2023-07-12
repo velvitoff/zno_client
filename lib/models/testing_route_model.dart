@@ -10,7 +10,7 @@ class TestingRouteModel extends ChangeNotifier {
 
   //page_number: answer(String, or Map<String, String> or List<String>)
   Map<String, dynamic> _answers = {};
-  PageController pageController = PageController();
+  PageController pageController = PageController(initialPage: 5);
   int _pageIndex = 0;
 
   TestingRouteModel(

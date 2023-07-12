@@ -1,5 +1,8 @@
 import 'dart:typed_data';
+import 'package:client/dto/image_view_route_data.dart';
 import 'package:client/locator.dart';
+import 'package:client/routes.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +11,7 @@ import 'package:html/parser.dart' as html_parser;
 import 'dart:convert';
 import '../models/testing_route_model.dart';
 import '../services/interfaces/storage_service_interface.dart';
+import 'package:photo_view/photo_view.dart';
 
 class UiGenerator {
   UiGenerator._();
@@ -100,7 +104,11 @@ class UiGenerator {
           .getImage(subjectFolderName, sessionName, fileName),
       builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
         if (snapshot.hasData) {
-          return Image.memory(snapshot.data!);
+          return GestureDetector(
+              onTap: () => context.push(Routes.imageViewRoute,
+                  extra: ImageViewRouteData(
+                      imageProvider: MemoryImage(snapshot.data!))),
+              child: Image.memory(snapshot.data!));
         } else if (snapshot.hasError) {
           return const Text('Error loading image');
         } else {
