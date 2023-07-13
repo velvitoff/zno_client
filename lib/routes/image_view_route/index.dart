@@ -15,7 +15,7 @@ class ImageViewRoute extends StatelessWidget {
     return Scaffold(
       body: Column(children: [
         ZnoTopHeaderSmall(
-          backgroundColor: Colors.black,
+          backgroundColor: const Color(0xFFF5F5F5),
           child: Container(
             margin: EdgeInsets.fromLTRB(7.w, 0, 0, 0),
             child: Align(
@@ -25,14 +25,17 @@ class ImageViewRoute extends StatelessWidget {
                 child: Icon(
                   Icons.west,
                   size: 45.sp,
-                  color: Colors.white,
+                  color: const Color(0xFFF5F5F5),
                 ),
               ),
             ),
           ),
         ),
         Expanded(
-          child: PhotoView(imageProvider: dto.imageProvider),
+          child: PhotoView(
+            imageProvider: dto.imageProvider,
+            backgroundDecoration: const BoxDecoration(color: Color(0xFFF5F5F5)),
+          ),
         )
       ]),
     );

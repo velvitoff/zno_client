@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:client/dto/image_view_route_data.dart';
 import 'package:client/locator.dart';
 import 'package:client/routes.dart';
+import 'package:client/widgets/ui_gen_handler.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,8 @@ import 'dart:convert';
 import '../models/testing_route_model.dart';
 import '../services/interfaces/storage_service_interface.dart';
 import 'package:photo_view/photo_view.dart';
+
+import 'horizontal_scroll_wrapper.dart';
 
 class UiGenerator {
   UiGenerator._();
@@ -134,40 +137,34 @@ class UiGenerator {
       if (tableType == 'thin_borders') {
         return _textToTableThinBordersStyle(context, json, style: style);
       }
-      return Container();
     }
+    return Container();
   }
 
   static Widget _textToTableThinBordersStyle(
       BuildContext context, List<List<List<String>>> data,
       {TextStyle? style}) {
-    return Table(
-      border: TableBorder.all(width: 1),
-      children: data
-          .map((row) => TableRow(
-                  children: row.map((cell) {
-                if (cell[0] == 'p') {
-                  return Container(
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.all(2.r),
-                      child: textToWidget(cell[1], style: style));
-                } else if (cell[0] == 'img') {
-                  var model = context.read<TestingRouteModel>();
-                  return Container(
-                    margin: EdgeInsets.fromLTRB(3.w, 0, 3.w, 0),
-                    child: LimitedBox(
-                      maxWidth: 114.w,
-                      child: UiGenerator.imageToWidget(
-                          model.sessionData.folderName,
-                          model.sessionData.fileNameNoExtension,
-                          cell[1]),
-                    ),
-                  );
-                } else {
-                  return Container();
-                }
-              }).toList()))
-          .toList(),
+    final List<DataColumn> columns = data[0]
+        .map((x) => DataColumn(
+                label: UiGenHandler(
+              data: x,
+              allowRenderTables: false,
+            )))
+        .toList();
+
+    final List<DataRow> rows = data
+        .sublist(1)
+        .map((row) => DataRow(
+            cells: row
+                .map((cell) => DataCell(UiGenHandler(
+                      data: cell,
+                      allowRenderTables: false,
+                    )))
+                .toList()))
+        .toList();
+
+    return HorizontalScrollWrapper(
+      child: DataTable(columns: columns, rows: rows),
     );
   }
 
