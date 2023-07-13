@@ -17,14 +17,14 @@ class ImageViewRoute extends StatelessWidget {
         ZnoTopHeaderSmall(
           backgroundColor: Colors.black,
           child: Container(
-            margin: EdgeInsets.fromLTRB(5.w, 0, 0, 12.h),
+            margin: EdgeInsets.fromLTRB(7.w, 0, 0, 0),
             child: Align(
-              alignment: Alignment.bottomLeft,
+              alignment: Alignment.centerLeft,
               child: GestureDetector(
                 onTap: () => context.pop(),
-                child: const Icon(
-                  Icons.arrow_back,
-                  size: 50,
+                child: Icon(
+                  Icons.west,
+                  size: 45.sp,
                   color: Colors.white,
                 ),
               ),

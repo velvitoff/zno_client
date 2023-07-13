@@ -10,11 +10,13 @@ class ZnoTopHeaderSmall extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double topPadding = MediaQuery.of(context).padding.top;
+
     return Container(
       color: backgroundColor,
       child: Container(
         margin: EdgeInsets.zero,
-        height: 70.h + MediaQuery.of(context).padding.top,
+        height: 70.h + topPadding,
         width: double.infinity,
         decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -24,7 +26,10 @@ class ZnoTopHeaderSmall extends StatelessWidget {
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(10),
                 bottomRight: Radius.circular(10))),
-        child: child,
+        child: Container(
+          padding: EdgeInsets.fromLTRB(0, topPadding, 0, 0),
+          child: child,
+        ),
       ),
     );
   }
