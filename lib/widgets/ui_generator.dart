@@ -134,16 +134,17 @@ class UiGenerator {
     if (tableType == null) {
       return _textToTableDefaultStyle(context, json, style: style);
     } else {
-      if (tableType == 'thin_borders') {
-        return _textToTableThinBordersStyle(context, json, style: style);
+      if (tableType == 'data_table') {
+        return _textToTableDataStyle(context, json, style: style);
       }
     }
     return Container();
   }
 
-  static Widget _textToTableThinBordersStyle(
+  static Widget _textToTableDataStyle(
       BuildContext context, List<List<List<String>>> data,
       {TextStyle? style}) {
+    print(data);
     final List<DataColumn> columns = data[0]
         .map((x) => DataColumn(
                 label: UiGenHandler(
