@@ -10,7 +10,7 @@ class TestingRouteModel extends ChangeNotifier {
 
   //page_number: answer(String, or Map<String, String> or List<String>)
   Map<String, dynamic> _answers = {};
-  PageController pageController = PageController(initialPage: 5);
+  late PageController pageController;
   int _pageIndex = 0;
 
   TestingRouteModel(
@@ -19,6 +19,11 @@ class TestingRouteModel extends ChangeNotifier {
       required this.prevSessionData}) {
     if (prevSessionData != null) {
       _answers = prevSessionData!.answers;
+      int lastPage = prevSessionData != null ? prevSessionData!.lastPage : 0;
+      pageController = PageController(initialPage: lastPage);
+      _pageIndex = lastPage;
+    } else {
+      pageController = PageController();
     }
   }
 

@@ -144,7 +144,6 @@ class UiGenerator {
   static Widget _textToTableDataStyle(
       BuildContext context, List<List<List<String>>> data,
       {TextStyle? style}) {
-    print(data);
     final List<DataColumn> columns = data[0]
         .map((x) => DataColumn(
                 label: UiGenHandler(
