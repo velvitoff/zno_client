@@ -8,10 +8,8 @@ import '../../../widgets/ui_gen_handler.dart';
 class QuestionComplexWidget extends StatelessWidget {
   final QuestionComplex question;
 
-  const QuestionComplexWidget({
-    Key? key,
-    required this.question
-  }) : super(key: key);
+  const QuestionComplexWidget({Key? key, required this.question})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +17,13 @@ class QuestionComplexWidget extends StatelessWidget {
       margin: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 10.h),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Column(
-            children: question.render.map((list) => UiGenHandler(data: list)).toList(),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: question.render
+                .map((list) => UiGenHandler(data: list))
+                .toList(),
           ),
           AnswerVariantsComplex(
             titleList: question.titleList,

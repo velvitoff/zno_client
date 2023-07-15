@@ -19,19 +19,19 @@ class QuestionWidget extends StatelessWidget {
       case QuestionEnum.single:
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [QuestionSingleWidget(question: question.single!)],
         );
       case QuestionEnum.complex:
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [QuestionComplexWidget(question: question.complex!)],
         );
       case QuestionEnum.noAnswer:
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [QuestionNoAnswerWidget(question: question.noAnswer!)],
         );
       case QuestionEnum.textFields:

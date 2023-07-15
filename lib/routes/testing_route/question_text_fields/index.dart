@@ -19,6 +19,7 @@ class QuestionTextFieldsWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: question.render
                 .map((list) => UiGenHandler(data: list))
                 .toList(),
