@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:client/dto/image_view_route_data.dart';
 import 'package:client/locator.dart';
 import 'package:client/routes.dart';
+import 'package:client/widgets/audio_player_widget.dart';
 import 'package:client/widgets/ui_gen_handler.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -104,7 +105,7 @@ class UiGenerator {
     return FutureBuilder(
       future: locator
           .get<StorageServiceInterface>()
-          .getImage(subjectFolderName, sessionName, fileName),
+          .getFileBytes(subjectFolderName, sessionName, fileName),
       builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
         if (snapshot.hasData) {
           return GestureDetector(
@@ -206,5 +207,13 @@ class UiGenerator {
               ))
           .toList(),
     );
+  }
+
+  static Widget audioPlayer(
+      String folderName, String folderInnerName, String fileName) {
+    return AudioPlayerWidget(
+        folderName: folderName,
+        folderInnerName: folderInnerName,
+        fileName: fileName);
   }
 }

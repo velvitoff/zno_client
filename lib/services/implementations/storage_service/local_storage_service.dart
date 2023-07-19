@@ -33,7 +33,8 @@ class LocalStorageService with StorageServiceInterface {
         '$sessionFileName';
   }
 
-  String _imagePath(
+  @override
+  String getImagePath(
       String subjectFolderName, String sessionFolderName, String fileName) {
     return '$_imageDir${Platform.pathSeparator}'
         '$subjectFolderName${Platform.pathSeparator}'
@@ -81,15 +82,15 @@ class LocalStorageService with StorageServiceInterface {
   }
 
   @override
-  Future<Uint8List> getImage(
+  Future<Uint8List> getFileBytes(
       String folderName, String sessionName, String fileName) async {
-    return File(_imagePath(folderName, sessionName, fileName)).readAsBytes();
+    return File(getImagePath(folderName, sessionName, fileName)).readAsBytes();
   }
 
   Future<void> saveImagesToFolder(String subjectName, String sessionName,
       Map<String, Uint8List> images) async {
     await Future.wait(images.entries.map((entry) {
-      return File(_imagePath(subjectName, sessionName, entry.key))
+      return File(getImagePath(subjectName, sessionName, entry.key))
           .create(recursive: true)
           .then((file) => file.writeAsBytes(entry.value));
     }));
@@ -97,7 +98,7 @@ class LocalStorageService with StorageServiceInterface {
 
   Future<bool> imageFolderExists(String subjectName, String sessionName) async {
     sessionName = sessionName.replaceFirst('.json', '');
-    return await Directory(_imagePath(subjectName, sessionName, '')).exists();
+    return await Directory(getImagePath(subjectName, sessionName, '')).exists();
   }
 
   @override

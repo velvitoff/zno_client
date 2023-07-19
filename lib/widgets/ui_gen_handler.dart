@@ -22,14 +22,20 @@ class UiGenHandler extends StatelessWidget {
 
     if (data[0] == 'p') {
       return UiGenerator.textToWidget(data[1], style: textStyle);
-    } else if (data[0] == 'img') {
+    }
+    if (data[0] == 'img') {
       var model = context.read<TestingRouteModel>();
       return UiGenerator.imageToWidget(model.sessionData.folderName,
           model.sessionData.fileNameNoExtension, data[1]);
-    } else if (allowRenderTables && data[0] == 'table') {
-      return UiGenerator.textToTable(context, data[1], style: textStyle);
-    } else {
-      return Container();
     }
+    if (allowRenderTables && data[0] == 'table') {
+      return UiGenerator.textToTable(context, data[1], style: textStyle);
+    }
+    if (data[0] == 'audio') {
+      var model = context.read<TestingRouteModel>();
+      return UiGenerator.audioPlayer(model.sessionData.folderName,
+          model.sessionData.fileNameNoExtension, data[1]);
+    }
+    return Container();
   }
 }

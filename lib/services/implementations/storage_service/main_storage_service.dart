@@ -68,12 +68,19 @@ class MainStorageService with StorageServiceInterface {
   }
 
   @override
-  Future<Uint8List> getImage(
+  String getImagePath(
+      String subjectFolderName, String sessionFolderName, String fileName) {
+    return localStorage.getImagePath(
+        subjectFolderName, sessionFolderName, fileName);
+  }
+
+  @override
+  Future<Uint8List> getFileBytes(
       String folderName, String sessionName, String fileName) async {
     try {
-      return localStorage.getImage(folderName, sessionName, fileName);
+      return localStorage.getFileBytes(folderName, sessionName, fileName);
     } catch (e) {
-      return externalStorage.getImage(folderName, sessionName, fileName);
+      return externalStorage.getFileBytes(folderName, sessionName, fileName);
     }
   }
 

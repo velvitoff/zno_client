@@ -42,7 +42,7 @@ class SupabaseStorageService implements ExternalStorageServiceInterface {
   }
 
   @override
-  Future<Uint8List> getImage(
+  Future<Uint8List> getFileBytes(
       String folderName, String sessionName, String fileName) async {
     return await client.storage
         .from(Constants.imagesBucket)
@@ -59,7 +59,7 @@ class SupabaseStorageService implements ExternalStorageServiceInterface {
         .list(path: '$subjectName/$sessionName');
 
     final imageList = await Future.wait(
-        list.map((file) => getImage(subjectName, sessionName, file.name)));
+        list.map((file) => getFileBytes(subjectName, sessionName, file.name)));
 
     for (int i = 0; i < imageList.length; ++i) {
       result[list[i].name] = imageList[i];
