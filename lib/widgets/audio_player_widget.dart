@@ -78,18 +78,27 @@ class _AudioPlayerState extends State<AudioPlayerWidget> {
               } else {
                 player.play(source);
               }
-              setState(() {
-                isPlaying = !isPlaying;
-              });
+              setState(() => isPlaying = !isPlaying);
             },
-            child: Icon(isPlaying ? Icons.pause_circle : Icons.play_circle,
-                size: 50.r),
+            child: Icon(
+              isPlaying ? Icons.pause_circle : Icons.play_circle,
+              size: 50.r,
+              color: const Color(0xFF418C4A),
+            ),
           ),
-          Slider(
-            min: 0,
-            max: duration.inSeconds.toDouble(),
-            value: position.inSeconds.toDouble(),
-            onChanged: (value) => player.seek(Duration(seconds: value.toInt())),
+          Container(
+            margin: EdgeInsets.only(left: 8.w, right: 8.w),
+            child: SliderTheme(
+              data:
+                  SliderThemeData(overlayShape: SliderComponentShape.noOverlay),
+              child: Slider(
+                min: 0,
+                max: duration.inSeconds.toDouble(),
+                value: position.inSeconds.toDouble(),
+                onChanged: (value) =>
+                    player.seek(Duration(seconds: value.toInt())),
+              ),
+            ),
           ),
           Text(
               '${position.inMinutes}:${(position.inSeconds % 60).toString().padLeft(2, '0')} / ${duration.inMinutes}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}')

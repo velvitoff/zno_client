@@ -14,20 +14,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(360, 800),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, _) {
-        return MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          routerConfig: Routes.router,
-          title: 'zno_project',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-            fontFamily: 'Ubuntu',
-          ),
-        );
-      }
-    );
+        designSize: const Size(360, 800),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, _) {
+          return MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            routerConfig: Routes.router,
+            title: 'zno_project',
+            theme: ThemeData(
+              primarySwatch: Colors.green,
+              fontFamily: 'Ubuntu',
+            ),
+          );
+        });
   }
 }
