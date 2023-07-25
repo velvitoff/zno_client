@@ -17,32 +17,14 @@ class QuestionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (question.type) {
       case QuestionEnum.single:
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [QuestionSingleWidget(question: question.single!)],
-        );
+        return QuestionSingleWidget(question: question.single!);
       case QuestionEnum.complex:
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [QuestionComplexWidget(question: question.complex!)],
-        );
+        return QuestionComplexWidget(question: question.complex!);
       case QuestionEnum.noAnswer:
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [QuestionNoAnswerWidget(question: question.noAnswer!)],
-        );
+        return QuestionNoAnswerWidget(question: question.noAnswer!);
       case QuestionEnum.textFields:
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            QuestionTextFieldsWidget(
-              question: question.textFields!,
-            )
-          ],
+        return QuestionTextFieldsWidget(
+          question: question.textFields!,
         );
     }
   }

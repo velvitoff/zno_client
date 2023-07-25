@@ -4,6 +4,7 @@ import 'package:client/locator.dart';
 import 'package:client/routes.dart';
 import 'package:client/widgets/audio_player_widget.dart';
 import 'package:client/widgets/ui_gen_handler.dart';
+import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -64,13 +65,13 @@ class UiGenerator {
         decoration: textDecoration);
   }
 
-  static List<TextSpan> _textToSpans(String text, {TextStyle? style}) {
+  static List<InlineSpan> _textToSpans(String text, {TextStyle? style}) {
     final doc = html_parser.parseFragment(text);
     if (doc.nodes.isEmpty) {
       return [];
     }
 
-    var textSpans = <TextSpan>[];
+    var textSpans = <InlineSpan>[];
     for (var node in doc.nodes) {
       //nodeType 3 - text, 1 - html
       if (node.nodeType != 1) {
@@ -80,6 +81,10 @@ class UiGenerator {
         if (node.nodes.isEmpty) {
           textSpans.add(
               TextSpan(text: node.text, style: _getStyleFromNode(node, style)));
+        } else if (node.toString().startsWith("<math") && node.text != null) {
+          textSpans.add(WidgetSpan(
+              child:
+                  Math.tex(node.text!, textStyle: TextStyle(fontSize: 22.sp))));
         } else {
           for (var innerNode in node.nodes) {
             textSpans.addAll(_textToSpans(innerNode.text ?? "",

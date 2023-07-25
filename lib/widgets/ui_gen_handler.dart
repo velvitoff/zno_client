@@ -1,5 +1,7 @@
 import 'package:client/widgets/ui_generator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_math_fork/flutter_math.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../models/testing_route_model.dart';
@@ -28,8 +30,11 @@ class UiGenHandler extends StatelessWidget {
       return UiGenerator.imageToWidget(model.sessionData.folderName,
           model.sessionData.fileNameNoExtension, data[1]);
     }
-    if (allowRenderTables && data[0] == 'table') {
+    if (data[0] == 'table' && allowRenderTables) {
       return UiGenerator.textToTable(context, data[1], style: textStyle);
+    }
+    if (data[0] == 'br') {
+      return SizedBox(height: 15.h);
     }
     if (data[0] == 'audio') {
       var model = context.read<TestingRouteModel>();
