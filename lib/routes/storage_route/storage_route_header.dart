@@ -12,22 +12,28 @@ class StorageRouteHeader extends StatelessWidget {
 
   void deleteSelectedItems(BuildContext context) {
     showDialog<bool>(
-      context: context,
-      builder: (context) => const ConfirmDialog(text: 'Видалити файли усіх обраних тестів?')
-    )
-    .then((bool? value) {
-      if(value != null && value) {
+        context: context,
+        builder: (context) => const ConfirmDialog(
+            text: 'Видалити файли усіх обраних тестів?')).then((bool? value) {
+      if (value != null && value) {
         try {
           context.read<StorageRouteModel>().deleteSelectedStorageItems();
-        }
-        catch (e) {
+        } catch (e) {
           showDialog(
-            context: context,
-            builder: (context) => const InfoDialog(text: 'Сталася помилка під час видалення файлів тестів')
-          );
+              context: context,
+              builder: (context) => const InfoDialog(
+                  text: 'Сталася помилка під час видалення файлів тестів'));
         }
       }
     });
+  }
+
+  void showStorageInfo(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => const InfoDialog(
+            text:
+                'Даний додаток зберігає файли тестування, зображення та аудіо файли на вашому пристрої, що дозволяє вам виконувати тести без зв\'язку з мережею.\n\nФайли автоматично завантажуються на початку спроби проходження теста.\n\nСторінка "Сховище" дозволяє вам керувати збереженими файлами та видаляти їх.'));
   }
 
   @override
@@ -50,20 +56,20 @@ class StorageRouteHeader extends StatelessWidget {
             child: Row(
               children: [
                 context.watch<StorageRouteModel>().isAtLeastOneItemMarked()
-                ? GestureDetector(
-                  onTap: () => deleteSelectedItems(context),
-                  child: Icon(
-                    Icons.delete_outline,
-                    size: 39.sp,
-                    color: const Color(0xFFF1F1F1),
-                  ),
-                )
-                : Container(),
+                    ? GestureDetector(
+                        onTap: () => deleteSelectedItems(context),
+                        child: Icon(
+                          Icons.delete_outline,
+                          size: 39.sp,
+                          color: const Color(0xFFF1F1F1),
+                        ),
+                      )
+                    : Container(),
                 SizedBox(
                   width: 16.w,
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () => showStorageInfo(context),
                   child: Icon(
                     Icons.help_outline,
                     size: 43.sp,
