@@ -74,7 +74,7 @@ class PrevSessionItem extends StatelessWidget {
     return GestureDetector(
       onTap: () => onRestoreSession(context),
       child: Container(
-          height: detailed ? 100.h : 60.h,
+          height: detailed ? 120.h : 60.h,
           margin: EdgeInsets.fromLTRB(15.w, 7.5.h, 15.w, 7.5.h),
           padding: EdgeInsets.fromLTRB(14.w, 3.h, 0, 3.h),
           decoration: BoxDecoration(
@@ -88,9 +88,10 @@ class PrevSessionItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                width: 145.w,
+                width: 175.w,
                 child: detailed
                     ? Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
@@ -109,7 +110,7 @@ class PrevSessionItem extends StatelessWidget {
                                 fontSize: 16.sp,
                                 color: const Color(0xFF444444)),
                             overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
+                            maxLines: 2,
                           ),
                           Text(data.date.toString().split(' ').first,
                               textAlign: TextAlign.center,
