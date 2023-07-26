@@ -35,24 +35,26 @@ class _InfoDialogState extends State<InfoDialog> {
         decoration: const BoxDecoration(
             color: Color(0xFFFAFAFA),
             borderRadius: BorderRadius.all(Radius.circular(2))),
-        child: SingleChildScrollView(
-          controller: scrollController,
-          child: Column(
-            children: [
-              Text(
-                widget.text,
-                style: TextStyle(fontSize: 24.sp),
-                textAlign: TextAlign.center,
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                controller: scrollController,
+                child: Text(
+                  widget.text,
+                  style: TextStyle(fontSize: 24.sp),
+                  textAlign: TextAlign.center,
+                ),
               ),
-              ZnoButton(
-                onTap: () => Navigator.pop(context),
-                width: 100.w,
-                height: 50.h,
-                text: 'Добре',
-                fontSize: 20.sp,
-              )
-            ],
-          ),
+            ),
+            ZnoButton(
+              onTap: () => Navigator.pop(context),
+              width: 100.w,
+              height: 50.h,
+              text: 'Добре',
+              fontSize: 20.sp,
+            )
+          ],
         ),
       ),
     );
