@@ -1,3 +1,4 @@
+import 'package:client/widgets/horizontal_scroll_wrapper.dart';
 import 'package:client/widgets/ui_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
@@ -20,7 +21,9 @@ class UiGenHandler extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    assert(data.length == 2);
+    if (data.isEmpty) {
+      return Container();
+    }
 
     if (data[0] == 'p') {
       return UiGenerator.textToWidget(data[1], style: textStyle);
@@ -35,6 +38,12 @@ class UiGenHandler extends StatelessWidget {
     }
     if (data[0] == 'br') {
       return SizedBox(height: 15.h);
+    }
+    if (data[0] == 'scroll') {
+      //provides horizontal scroll
+      return HorizontalScrollWrapper(
+        child: UiGenHandler(data: [data[1], data[2]]),
+      );
     }
     if (data[0] == 'audio') {
       var model = context.read<TestingRouteModel>();

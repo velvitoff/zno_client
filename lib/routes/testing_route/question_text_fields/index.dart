@@ -16,7 +16,7 @@ class QuestionTextFieldsWidget extends StatelessWidget {
       margin: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 10.h),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
