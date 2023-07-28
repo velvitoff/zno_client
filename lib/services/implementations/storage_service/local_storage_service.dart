@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:client/dto/personal_config_data.dart';
 import 'package:client/dto/previous_session_data.dart';
 import 'package:client/dto/test_data.dart';
 import 'package:flutter/cupertino.dart';
@@ -275,5 +276,24 @@ class LocalStorageService with StorageServiceInterface {
     }
 
     return result;
+  }
+
+  @override
+  Future<PersonalConfigData> getPersonalConfigData() async {
+    final file = File('$_appDir${Platform.pathSeparator}personal_config.json');
+    if (!await file.exists()) {
+      return PersonalConfigData.getDefault();
+    }
+
+    final data = await file.readAsString();
+    return PersonalConfigData.fromJSON(jsonDecode(data));
+  }
+
+  @override
+  Future<void> savePersonalConfigData(PersonalConfigData data) async {
+    final file =
+        await File('$_appDir${Platform.pathSeparator}personal_config.json')
+            .create();
+    await file.writeAsString(jsonEncode(data.toJSON()));
   }
 }
