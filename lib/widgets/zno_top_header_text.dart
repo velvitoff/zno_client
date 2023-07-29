@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+
+import '../routes.dart';
 
 class ZnoTopHeaderText extends StatelessWidget {
   final String text;
@@ -31,7 +34,7 @@ class ZnoTopHeaderText extends StatelessWidget {
                   child: Container(
                     margin: EdgeInsets.only(top: 10.h),
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () => context.go(Routes.subjectChoiceRoute),
                       child: Icon(
                         Icons.format_list_bulleted,
                         size: 45.sp,

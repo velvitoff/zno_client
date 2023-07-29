@@ -23,7 +23,7 @@ class ImageViewRoute extends StatelessWidget {
               child: GestureDetector(
                 onTap: () => context.pop(),
                 child: Icon(
-                  Icons.west,
+                  Icons.arrow_back,
                   size: 45.sp,
                   color: const Color(0xFFF5F5F5),
                 ),

@@ -76,7 +76,7 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
                       ZnoList(
                           list: snapshot.data!.map((String subject) {
                         return Tuple2(
-                            subject,
+                            PersonalConfigData.getSubjectFullName(subject),
                             () => context.go(Routes.sessionsRoute,
                                 extra: SessionsRouteData(
                                     subjectName:

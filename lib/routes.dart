@@ -4,6 +4,7 @@ import 'package:client/routes/history_route/index.dart';
 import 'package:client/routes/image_view_route/index.dart';
 import 'package:client/routes/session_route/index.dart';
 import 'package:client/routes/storage_route/index.dart';
+import 'package:client/routes/subject_choice_route/index.dart';
 import 'package:client/routes/testing_route/index.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class Routes {
   static const sessionRoute = '/session';
   static const testingRoute = '/testing';
   static const imageViewRoute = '/image_view';
+  static const subjectChoiceRoute = '/subject_choice';
 
   static GoRouter get router => _router;
 
@@ -135,6 +137,22 @@ class Routes {
             builder: (context, state) {
               ImageViewRouteData dto = state.extra as ImageViewRouteData;
               return ImageViewRoute(dto: dto);
+            }),
+        GoRoute(
+            path: subjectChoiceRoute,
+            pageBuilder: (context, state) {
+              return CustomTransitionPage(
+                  key: state.pageKey,
+                  transitionDuration: const Duration(milliseconds: 250),
+                  child: const SubjectChoiceRoute(),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    return FadeTransition(
+                      opacity: CurveTween(curve: Curves.easeInOutCirc)
+                          .animate(animation),
+                      child: child,
+                    );
+                  });
             })
       ]);
 }

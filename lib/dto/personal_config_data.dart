@@ -33,6 +33,20 @@ class PersonalConfigData {
     },
   };
 
+  static String getSubjectFullName(String subject) {
+    final res = allSubjects[subject];
+    if (res is String) {
+      return res;
+    }
+
+    final res2 = allSubjects['master'][subject];
+    if (res2 is String) {
+      return res2;
+    }
+
+    return "";
+  }
+
   static const List<String> defaultSubjectsList = [
     'ukrainian_lang_and_lit',
     'ukrainian_lang',
