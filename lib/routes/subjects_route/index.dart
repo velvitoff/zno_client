@@ -10,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tuple/tuple.dart';
 
+import '../../all_subjects.dart';
 import '../../dto/sessions_route_data.dart';
 
 class SubjectsRoute extends StatefulWidget {
@@ -79,8 +80,7 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
                             PersonalConfigData.getSubjectFullName(subject),
                             () => context.go(Routes.sessionsRoute,
                                 extra: SessionsRouteData(
-                                    subjectName:
-                                        PersonalConfigData.allSubjects[subject],
+                                    subjectName: allSubjects[subject],
                                     folderName: subject)));
                       }).toList())
                     ],
