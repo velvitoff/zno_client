@@ -4,7 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class InfoDialog extends StatefulWidget {
   final String text;
-  const InfoDialog({super.key, required this.text});
+  final double height;
+  const InfoDialog({super.key, required this.text, required this.height});
 
   @override
   State<InfoDialog> createState() => _InfoDialogState();
@@ -30,7 +31,7 @@ class _InfoDialogState extends State<InfoDialog> {
     return Dialog(
       child: Container(
         width: 280.w,
-        height: 460.h,
+        height: widget.height,
         padding: EdgeInsets.fromLTRB(6.w, 14.h, 6.w, 14.h),
         decoration: const BoxDecoration(
             color: Color(0xFFFAFAFA),

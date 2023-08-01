@@ -21,12 +21,11 @@ class LocalStorageService with StorageServiceInterface {
         await path.getApplicationDocumentsDirectory());
   }
 
-  String get _testsDir =>
-      '${_appDir.path}${Platform.pathSeparator}zno_client${Platform.pathSeparator}tests';
-  String get _imageDir =>
-      '${_appDir.path}${Platform.pathSeparator}zno_client${Platform.pathSeparator}images';
-  String get _historyDir =>
-      '${_appDir.path}${Platform.pathSeparator}zno_client${Platform.pathSeparator}history';
+  String get _znoDirPath =>
+      '${_appDir.path}${Platform.pathSeparator}zno_client';
+  String get _testsDir => '$_znoDirPath${Platform.pathSeparator}tests';
+  String get _imageDir => '$_znoDirPath${Platform.pathSeparator}images';
+  String get _historyDir => '$_znoDirPath${Platform.pathSeparator}history';
 
   String _sessionPath(String subjectFolderName, String sessionFileName) {
     return '$_testsDir${Platform.pathSeparator}'
@@ -280,7 +279,8 @@ class LocalStorageService with StorageServiceInterface {
 
   @override
   Future<PersonalConfigData> getPersonalConfigData() async {
-    final file = File('$_appDir${Platform.pathSeparator}personal_config.json');
+    final file =
+        File('$_znoDirPath${Platform.pathSeparator}personal_config.json');
     if (!await file.exists()) {
       return PersonalConfigData.getDefault();
     }
@@ -292,7 +292,7 @@ class LocalStorageService with StorageServiceInterface {
   @override
   Future<void> savePersonalConfigData(PersonalConfigData data) async {
     final file =
-        await File('$_appDir${Platform.pathSeparator}personal_config.json')
+        await File('$_znoDirPath${Platform.pathSeparator}personal_config.json')
             .create();
     await file.writeAsString(jsonEncode(data.toJSON()));
   }

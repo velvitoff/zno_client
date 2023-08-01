@@ -21,7 +21,8 @@ class StorageRouteHeader extends StatelessWidget {
         } catch (e) {
           showDialog(
               context: context,
-              builder: (context) => const InfoDialog(
+              builder: (context) => InfoDialog(
+                  height: 230.h,
                   text: 'Сталася помилка під час видалення файлів тестів'));
         }
       }
@@ -31,7 +32,8 @@ class StorageRouteHeader extends StatelessWidget {
   void showStorageInfo(BuildContext context) {
     showDialog(
         context: context,
-        builder: (context) => const InfoDialog(
+        builder: (context) => InfoDialog(
+            height: 460.h,
             text:
                 'Даний додаток зберігає файли тестування, зображення та аудіо файли на вашому пристрої, що дозволяє вам виконувати тести без зв\'язку з мережею.\n\nФайли автоматично завантажуються на початку спроби проходження теста.\n\nСторінка "Сховище" дозволяє вам керувати збереженими файлами та видаляти їх.'));
   }

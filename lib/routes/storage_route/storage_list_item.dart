@@ -28,7 +28,8 @@ class StorageListItem extends StatelessWidget {
         } catch (e) {
           showDialog(
               context: context,
-              builder: (context) => const InfoDialog(
+              builder: (context) => InfoDialog(
+                  height: 230.h,
                   text: 'Сталася помилка під час видалення файлів тестів'));
         }
       }

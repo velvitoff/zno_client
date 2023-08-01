@@ -14,9 +14,23 @@ class SubjectChoiceRouteModel extends ChangeNotifier {
     final List<String> selectedSubjects =
         (await locator.get<StorageServiceInterface>().getPersonalConfigData())
             .selectedSubjects;
-    return SubjectChoiceRouteModel(
-        subjects: Map.fromEntries(allSubjects.keys.map((subject) =>
-            MapEntry(subject, selectedSubjects.contains(subject)))));
+    Map<String, bool> result = {};
+
+    for (var entry in allSubjects.entries) {
+      if (entry.value is Map) {
+        final value = entry.value as Map<String, String>;
+        for (var key in value.keys) {
+          if (selectedSubjects.contains(key)) {
+            result[key] = true;
+          }
+        }
+      } else if (selectedSubjects.contains(entry.key)) {
+        result[entry.key] = true;
+      } else {
+        result[entry.key] = false;
+      }
+    }
+    return SubjectChoiceRouteModel(subjects: result);
   }
 
   void setIsMarked(String subject) {
@@ -27,6 +41,10 @@ class SubjectChoiceRouteModel extends ChangeNotifier {
         break;
       }
     }
+  }
+
+  bool getIsMarked(String subject) {
+    return subjects[subject] == true;
   }
 
   Future<void> savePersonalConfigChanges() async {
