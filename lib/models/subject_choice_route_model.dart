@@ -1,9 +1,10 @@
-import 'package:client/dto/personal_config_data.dart';
+import 'package:client/all_subjects/zno_subject.dart';
+import 'package:client/all_subjects/zno_subject_group.dart';
 import 'package:client/locator.dart';
 import 'package:client/services/interfaces/storage_service_interface.dart';
 import 'package:flutter/material.dart';
 
-import '../all_subjects.dart';
+import '../all_subjects/all_subjects.dart';
 
 class SubjectChoiceRouteModel extends ChangeNotifier {
   Map<String, bool> subjects;
@@ -16,18 +17,13 @@ class SubjectChoiceRouteModel extends ChangeNotifier {
             .selectedSubjects;
     Map<String, bool> result = {};
 
-    for (var entry in allSubjects.entries) {
-      if (entry.value is Map) {
-        final value = entry.value as Map<String, String>;
-        for (var key in value.keys) {
-          if (selectedSubjects.contains(key)) {
-            result[key] = true;
-          }
+    for (var sub in allSubjects) {
+      if (sub is ZnoSubject) {
+        result[sub.getId] = selectedSubjects.contains(sub.getId);
+      } else if (sub is ZnoSubjectGroup) {
+        for (var innerSub in sub.getChildren()) {
+          result[innerSub.getId] = selectedSubjects.contains(innerSub.getId);
         }
-      } else if (selectedSubjects.contains(entry.key)) {
-        result[entry.key] = true;
-      } else {
-        result[entry.key] = false;
       }
     }
     return SubjectChoiceRouteModel(subjects: result);

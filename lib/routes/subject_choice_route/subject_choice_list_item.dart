@@ -22,15 +22,14 @@ class SubjectChoiceListItem extends StatelessWidget {
         ], begin: Alignment.topLeft, end: Alignment.bottomRight));
 
     return Container(
-      margin: EdgeInsets.only(left: 20.w, right: 20.r),
+      margin: EdgeInsets.only(left: 10.w, right: 10.w, top: 10.h, bottom: 10.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: 70.r,
-            height: 70.r,
-            margin: EdgeInsets.fromLTRB(0, 15.h, 0, 15.h),
+            width: 80.r,
+            height: 80.r,
             decoration: decoration,
             child: Center(
               child: GestureDetector(
@@ -45,18 +44,18 @@ class SubjectChoiceListItem extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: 10.r,
+            width: 15.r,
           ),
           Container(
-            width: 240.w,
-            height: 70.r,
-            margin: EdgeInsets.fromLTRB(0, 15.h, 0, 15.h),
+            width: 245.w,
+            height: 80.r,
             padding: EdgeInsets.all(4.r),
             decoration: decoration,
             child: Center(
               child: Text(subjectName,
                   maxLines: 2,
                   textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontSize: subjectName.length < 19 ? 27.sp : 22.sp,
                       fontWeight: FontWeight.w400)),

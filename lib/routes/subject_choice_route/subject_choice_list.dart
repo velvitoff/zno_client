@@ -1,4 +1,6 @@
-import 'package:client/all_subjects.dart';
+import 'package:client/all_subjects/all_subjects.dart';
+import 'package:client/all_subjects/zno_subject.dart';
+import 'package:client/all_subjects/zno_subject_group.dart';
 import 'package:flutter/material.dart';
 import 'subject_choice_list_item.dart';
 
@@ -9,15 +11,15 @@ class SubjectChoiceList extends StatelessWidget {
   Widget build(BuildContext context) {
     List<SubjectChoiceListItem> children = [];
 
-    for (var entry in allSubjects.entries) {
-      if (entry.value is String) {
+    for (final subject in allSubjects) {
+      if (subject is ZnoSubject) {
         children.add(SubjectChoiceListItem(
-            subjectKey: entry.key, subjectName: entry.value));
-      } else if (entry.value is Map) {
-        final inner = entry.value as Map<String, String>;
-        for (var entryInner in inner.entries) {
+            subjectKey: subject.getId, subjectName: subject.getName));
+      } else if (subject is ZnoSubjectGroup) {
+        for (final innerSubject in subject.children) {
           children.add(SubjectChoiceListItem(
-              subjectKey: entryInner.key, subjectName: entryInner.value));
+              subjectKey: innerSubject.getId,
+              subjectName: innerSubject.getName));
         }
       }
     }

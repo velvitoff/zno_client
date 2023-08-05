@@ -1,21 +1,16 @@
-import '../all_subjects.dart';
+import '../all_subjects/all_subjects.dart';
 
 class PersonalConfigData {
   final bool isFirstTimeUser;
   final List<String> selectedSubjects;
 
   static String getSubjectFullName(String subject) {
-    final res = allSubjects[subject];
-    if (res is String) {
-      return res;
+    final res = searchAllSubjects(subject);
+    if (res == null) {
+      return '';
     }
 
-    final res2 = allSubjects['master'][subject];
-    if (res2 is String) {
-      return res2;
-    }
-
-    return "";
+    return res.getName;
   }
 
   static const List<String> defaultSubjectsList = [
