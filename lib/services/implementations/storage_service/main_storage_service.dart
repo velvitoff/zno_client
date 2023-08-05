@@ -9,7 +9,7 @@ import '../../../dto/previous_session_data.dart';
 import '../../../dto/storage_route_item_data.dart';
 import '../../../models/testing_route_model.dart';
 
-class MainStorageService with StorageServiceInterface {
+class MainStorageService extends StorageServiceInterface {
   final ExternalStorageServiceInterface
       externalStorage; //Supabase / Firebase storage service
   final LocalStorageService localStorage;

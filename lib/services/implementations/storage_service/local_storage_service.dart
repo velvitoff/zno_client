@@ -11,7 +11,7 @@ import '../../interfaces/storage_service_interface.dart';
 import 'dart:convert';
 import 'package:client/extensions/directory_extension.dart';
 
-class LocalStorageService with StorageServiceInterface {
+class LocalStorageService extends StorageServiceInterface {
   final Directory _appDir;
 
   LocalStorageService._create(Directory appDirectory) : _appDir = appDirectory;

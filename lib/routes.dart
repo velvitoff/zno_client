@@ -13,6 +13,7 @@ import 'package:client/routes/subjects_route/index.dart';
 import 'package:client/routes/sessions_route/index.dart';
 
 import 'dto/session_data.dart';
+import 'dto/subjects_route_data.dart';
 import 'dto/testing_route_data.dart';
 
 class Routes {
@@ -36,9 +37,12 @@ class Routes {
         GoRoute(
             path: subjectsRoute,
             pageBuilder: (context, state) {
+              SubjectsRouteData? dto = state.extra as SubjectsRouteData?;
               return CustomTransitionPage(
                   key: state.pageKey,
-                  child: const SubjectsRoute(),
+                  child: SubjectsRoute(
+                    dto: dto,
+                  ),
                   transitionDuration: const Duration(milliseconds: 250),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {

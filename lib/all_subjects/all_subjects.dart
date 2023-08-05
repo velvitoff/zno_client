@@ -42,8 +42,7 @@ ZnoSubjectInterface? searchAllSubjects(String id) {
 
   final groups = allSubjects.whereType<ZnoSubjectGroup>();
   for (var group in groups) {
-    final res =
-        group.children.where((e) => e is ZnoSubject && e.subjectId == id);
+    final res = group.children.where((e) => e.subjectId == id);
     if (res.isNotEmpty) {
       return res.first;
     }
