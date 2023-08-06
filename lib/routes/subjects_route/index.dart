@@ -8,7 +8,6 @@ import 'package:client/services/interfaces/storage_service_interface.dart';
 import 'package:client/widgets/zno_bottom_navigation_bar.dart';
 import 'package:client/widgets/zno_list.dart';
 import 'package:client/widgets/zno_top_header_text.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -77,6 +76,16 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
               }
             }
           }
+        }
+
+        //edit result
+        if (result.length == 1 && result[0] is ZnoSubjectGroup) {
+          final group = result[0];
+          result = [];
+          result.addAll(group
+              .getChildren()
+              .where((e) => config.selectedSubjects.contains(e.getId))
+              .toList());
         }
         return Future.value((config, result));
       }
