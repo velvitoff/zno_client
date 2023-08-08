@@ -32,9 +32,11 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
           if (value) {
             locator
                 .get<StorageServiceInterface>()
-                .saveSessionEnd(context.read<TestingRouteModel>(), false);
-            context.go(Routes.sessionRoute,
-                extra: context.read<TestingRouteModel>().sessionData);
+                .saveSessionEnd(context.read<TestingRouteModel>(), false)
+                .then((_) {
+              context.go(Routes.sessionRoute,
+                  extra: context.read<TestingRouteModel>().sessionData);
+            });
           }
         }
       });

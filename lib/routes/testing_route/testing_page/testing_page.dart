@@ -56,9 +56,11 @@ class _TestingPageState extends State<TestingPage> {
         if (value) {
           locator
               .get<StorageServiceInterface>()
-              .saveSessionEnd(context.read<TestingRouteModel>(), true);
-          context.go(Routes.sessionRoute,
-              extra: context.read<TestingRouteModel>().sessionData);
+              .saveSessionEnd(context.read<TestingRouteModel>(), true)
+              .then((_) {
+            context.go(Routes.sessionRoute,
+                extra: context.read<TestingRouteModel>().sessionData);
+          });
         }
       }
     });

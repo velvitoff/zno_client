@@ -88,7 +88,7 @@ class PrevSessionItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                width: 175.w,
+                width: 165.w,
                 child: detailed
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -120,13 +120,12 @@ class PrevSessionItem extends StatelessWidget {
                         ],
                       )
                     : Text(data.date.toString().split(' ').first,
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.left,
                         style: TextStyle(
                             fontSize: 18.sp, color: const Color(0xFF444444))),
               ),
-              const Spacer(),
               SizedBox(
-                width: 120.w,
+                width: 100.w,
                 child: Text(
                   data.completed ? data.score! : 'Спробу не завершено',
                   textAlign: TextAlign.center,
