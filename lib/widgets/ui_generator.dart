@@ -14,7 +14,6 @@ import 'package:html/parser.dart' as html_parser;
 import 'dart:convert';
 import '../models/testing_route_model.dart';
 import '../services/interfaces/storage_service_interface.dart';
-import 'package:photo_view/photo_view.dart';
 
 import 'horizontal_scroll_wrapper.dart';
 
@@ -24,16 +23,16 @@ class UiGenerator {
   static Set<String> _getStylesFromNodeTree(html.Node node) {
     Set<String> result = {};
 
-    final activeNodeString = node.toString();
-    //print('$activeNodeString : ${node.text}');
+    var activeNodeString = node.toString();
     if (activeNodeString.contains('em>') || activeNodeString.contains('i>')) {
       result.add('i');
     } else if (activeNodeString.contains('b>') ||
         activeNodeString.contains('strong>')) {
       result.add('b');
-    } else if (activeNodeString.contains(' u>')) {
+    } else if (activeNodeString.contains('u>')) {
       result.add('u');
     }
+    //print('$node - ${node.nodes}');
 
     return result;
   }
@@ -65,6 +64,33 @@ class UiGenerator {
         decoration: textDecoration);
   }
 
+  static List<InlineSpan> _nodeToSpans(html.Node node, {TextStyle? style}) {
+    var textSpans = <InlineSpan>[];
+    //nodeType 3 - text, 1 - html
+    if (node.nodeType != 1) {
+      textSpans.add(TextSpan(
+          text: node.text, style: style ?? TextStyle(fontSize: 22.sp)));
+    } else {
+      if (node.nodes.isEmpty) {
+        textSpans.add(
+            TextSpan(text: node.text, style: _getStyleFromNode(node, style)));
+      } else if (node.toString().startsWith("<math") && node.text != null) {
+        textSpans.add(WidgetSpan(
+            child: Container(
+                margin: EdgeInsets.only(top: 3.h, bottom: 1.h),
+                child: Math.tex(node.text!,
+                    textStyle: TextStyle(fontSize: 24.sp)))));
+      } else {
+        for (var innerNode in node.nodes) {
+          textSpans.addAll(_nodeToSpans(innerNode,
+              style: _getStyleFromNode(
+                  innerNode, _getStyleFromNode(node, style))));
+        }
+      }
+    }
+    return textSpans;
+  }
+
   static List<InlineSpan> _textToSpans(String text, {TextStyle? style}) {
     final doc = html_parser.parseFragment(text);
     if (doc.nodes.isEmpty) {
@@ -73,28 +99,7 @@ class UiGenerator {
 
     var textSpans = <InlineSpan>[];
     for (var node in doc.nodes) {
-      //nodeType 3 - text, 1 - html
-      if (node.nodeType != 1) {
-        textSpans.add(TextSpan(
-            text: node.text, style: style ?? TextStyle(fontSize: 22.sp)));
-      } else {
-        if (node.nodes.isEmpty) {
-          textSpans.add(
-              TextSpan(text: node.text, style: _getStyleFromNode(node, style)));
-        } else if (node.toString().startsWith("<math") && node.text != null) {
-          textSpans.add(WidgetSpan(
-              child: Container(
-                  margin: EdgeInsets.only(top: 3.h, bottom: 1.h),
-                  child: Math.tex(node.text!,
-                      textStyle: TextStyle(fontSize: 24.sp)))));
-        } else {
-          for (var innerNode in node.nodes) {
-            textSpans.addAll(_textToSpans(innerNode.text ?? "",
-                style: _getStyleFromNode(
-                    innerNode, _getStyleFromNode(node, style))));
-          }
-        }
-      }
+      textSpans.addAll(_nodeToSpans(node));
     }
 
     return textSpans;
