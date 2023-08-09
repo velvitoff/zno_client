@@ -14,10 +14,10 @@ class TestingRoute extends StatefulWidget {
   const TestingRoute({Key? key, required this.dto}) : super(key: key);
 
   @override
-  _TestingRouteState createState() => _TestingRouteState();
+  TestingRouteState createState() => TestingRouteState();
 }
 
-class _TestingRouteState extends State<TestingRoute> {
+class TestingRouteState extends State<TestingRoute> {
   late final Future<TestData> futureTestData;
 
   @override

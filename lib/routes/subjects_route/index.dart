@@ -149,7 +149,7 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
           } else if (snapshot.hasError) {
             return const Text('Error');
           } else {
-            return Text('Loading');
+            return const Text('Loading');
           }
         },
       ),

@@ -21,10 +21,10 @@ class SessionsRoute extends StatefulWidget {
   const SessionsRoute({Key? key, required this.dto}) : super(key: key);
 
   @override
-  _SessionsRouteState createState() => _SessionsRouteState();
+  SessionsRouteState createState() => SessionsRouteState();
 }
 
-class _SessionsRouteState extends State<SessionsRoute> {
+class SessionsRouteState extends State<SessionsRoute> {
   late final Future<List<Widget>> futureList;
 
   @override

@@ -29,8 +29,8 @@ class _SubjectChoiceRouteState extends State<SubjectChoiceRoute> {
           if (snapshot.hasData) {
             return SubjectChoiceRouteProvider(
               data: snapshot.data!,
-              child: Column(
-                children: const [
+              child: const Column(
+                children: [
                   SubjectChoiceHeader(),
                   Expanded(child: SubjectChoiceList())
                 ],
