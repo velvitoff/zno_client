@@ -33,11 +33,11 @@ class ZnoButton extends StatelessWidget {
         child: Center(
           child: Text(
             text,
+            textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: fontSize,
                 fontWeight: FontWeight.w400,
-                color: const Color(0xFFFFFFFF)
-            ),
+                color: const Color(0xFFFFFFFF)),
           ),
         ),
       ),

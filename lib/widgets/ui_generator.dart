@@ -106,9 +106,11 @@ class UiGenerator {
   }
 
   static Widget textToWidget(String text, {TextStyle? style}) {
-    return Text.rich(
-      TextSpan(children: _textToSpans(text, style: style)),
-    );
+    return Container(
+        margin: EdgeInsets.only(top: 3.h, bottom: 3.h),
+        child: Text.rich(
+          TextSpan(children: _textToSpans(text, style: style)),
+        ));
   }
 
   //TODO: add error/loading render
