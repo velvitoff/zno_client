@@ -77,9 +77,13 @@ class UiGenerator {
       } else if (node.toString().startsWith("<math") && node.text != null) {
         textSpans.add(WidgetSpan(
             child: Container(
-                margin: EdgeInsets.only(top: 3.h, bottom: 1.h),
-                child: Math.tex(node.text!,
-                    textStyle: TextStyle(fontSize: 24.sp)))));
+                constraints: BoxConstraints(maxWidth: 340.w),
+                margin: EdgeInsets.only(top: 2.h, bottom: 1.h),
+                child: FittedBox(
+                  fit: BoxFit.contain,
+                  child: Math.tex(node.text!,
+                      textStyle: TextStyle(fontSize: 24.sp)),
+                ))));
       } else {
         for (var innerNode in node.nodes) {
           textSpans.addAll(_nodeToSpans(innerNode,
