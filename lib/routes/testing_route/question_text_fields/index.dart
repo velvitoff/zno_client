@@ -25,7 +25,7 @@ class QuestionTextFieldsWidget extends StatelessWidget {
                 .toList(),
           ),
           AnswerVariantsComplex(
-            titleList: question.answers.map((x) => "").toList(),
+            titleList: question.answerTitles,
             tableList: question.answers,
           ),
         ],
