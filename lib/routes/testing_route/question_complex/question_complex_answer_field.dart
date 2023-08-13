@@ -25,7 +25,6 @@ class QuestionComplexAnswerField extends StatelessWidget {
     final List<List<String>> variants = question.answerMappingList;
 
     return Container(
-      width: 320.w,
       margin: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
       child: Selector<TestingRouteModel, dynamic>(
         selector: (_, model) => model.getAnswer((index + 1).toString()),

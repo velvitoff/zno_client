@@ -21,58 +21,51 @@ class QuestionSingleAnswerField extends StatelessWidget {
     final List<String> variants = question.answerList;
 
     return Container(
-        width: 320.w,
         margin: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
         child: Wrap(
             alignment: WrapAlignment.center,
+            spacing: 10.w,
             children: variants.map((variant) {
-              return Container(
-                margin: EdgeInsets.fromLTRB(0, 0, 10.w, 0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      variant,
-                      style: TextStyle(
-                          fontSize: 32.sp, fontWeight: FontWeight.w500),
-                    ),
-                    Selector<TestingRouteModel, dynamic>(
-                      selector: (_, model) =>
-                          model.getAnswer((index + 1).toString()),
-                      builder: (_, answer, __) {
-                        if (editable) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    variant,
+                    style:
+                        TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w500),
+                  ),
+                  Selector<TestingRouteModel, dynamic>(
+                    selector: (_, model) =>
+                        model.getAnswer((index + 1).toString()),
+                    builder: (_, answer, __) {
+                      if (editable) {
+                        if (answer is String && answer == variant) {
+                          return AnswerCell(
+                              answerColor: AnswerCellColor.green, onTap: () {});
+                        } else {
+                          return AnswerCell(
+                              onTap: () => context
+                                  .read<TestingRouteModel>()
+                                  .addAnswer((index + 1).toString(), variant));
+                        }
+                      }
+                      //!editable
+                      else {
+                        if (question.correct == variant) {
+                          return AnswerCell(
+                              answerColor: AnswerCellColor.green, onTap: () {});
+                        } else {
                           if (answer is String && answer == variant) {
                             return AnswerCell(
-                                answerColor: AnswerCellColor.green,
-                                onTap: () {});
-                          } else {
-                            return AnswerCell(
-                                onTap: () => context
-                                    .read<TestingRouteModel>()
-                                    .addAnswer(
-                                        (index + 1).toString(), variant));
+                                answerColor: AnswerCellColor.red, onTap: () {});
                           }
+                          return AnswerCell(onTap: () {});
                         }
-                        //!editable
-                        else {
-                          if (question.correct == variant) {
-                            return AnswerCell(
-                                answerColor: AnswerCellColor.green,
-                                onTap: () {});
-                          } else {
-                            if (answer is String && answer == variant) {
-                              return AnswerCell(
-                                  answerColor: AnswerCellColor.red,
-                                  onTap: () {});
-                            }
-                            return AnswerCell(onTap: () {});
-                          }
-                        }
-                      },
-                    )
-                  ],
-                ),
+                      }
+                    },
+                  )
+                ],
               );
             }).toList()));
   }
