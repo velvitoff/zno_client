@@ -86,17 +86,19 @@ class _AudioPlayerState extends State<AudioPlayerWidget> {
               color: const Color(0xFF418C4A),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(left: 8.w, right: 8.w),
-            child: SliderTheme(
-              data:
-                  SliderThemeData(overlayShape: SliderComponentShape.noOverlay),
-              child: Slider(
-                min: 0,
-                max: duration.inSeconds.toDouble(),
-                value: position.inSeconds.toDouble(),
-                onChanged: (value) =>
-                    player.seek(Duration(seconds: value.toInt())),
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.only(left: 8.w, right: 8.w),
+              child: SliderTheme(
+                data: SliderThemeData(
+                    overlayShape: SliderComponentShape.noOverlay),
+                child: Slider(
+                  min: 0,
+                  max: duration.inSeconds.toDouble(),
+                  value: position.inSeconds.toDouble(),
+                  onChanged: (value) =>
+                      player.seek(Duration(seconds: value.toInt())),
+                ),
               ),
             ),
           ),
