@@ -1,19 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-
-import '../routes.dart';
 
 class ZnoTopHeaderText extends StatelessWidget {
   final String text;
-  final bool isSettingsVisible;
+  final Widget? topRightWidget;
+  final Widget? topLeftWidget;
 
   const ZnoTopHeaderText(
-      {Key? key, required this.text, this.isSettingsVisible = false})
+      {Key? key, required this.text, this.topRightWidget, this.topLeftWidget})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> stackChildren = [];
+    if (topLeftWidget != null) {
+      stackChildren
+          .add(Align(alignment: Alignment.topLeft, child: topLeftWidget));
+    }
+    if (topRightWidget != null) {
+      stackChildren
+          .add(Align(alignment: Alignment.topRight, child: topRightWidget));
+    }
+
+    stackChildren.add(Align(
+      alignment: Alignment.center,
+      child: Text(text,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: const Color(0xFFEFEFEF),
+              fontSize: 27.sp,
+              fontWeight: FontWeight.w500)),
+    ));
+
     return Container(
       height: 250.h,
       width: 360.w,
@@ -27,33 +45,7 @@ class ZnoTopHeaderText extends StatelessWidget {
               bottomLeft: Radius.circular(10),
               bottomRight: Radius.circular(10))),
       child: Stack(
-        children: [
-          isSettingsVisible
-              ? Align(
-                  alignment: Alignment.topRight,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 10.h),
-                    child: GestureDetector(
-                      onTap: () => context.go(Routes.subjectChoiceRoute),
-                      child: Icon(
-                        Icons.format_list_bulleted,
-                        size: 45.sp,
-                        color: const Color.fromARGB(150, 250, 250, 250),
-                      ),
-                    ),
-                  ),
-                )
-              : Container(),
-          Align(
-            alignment: Alignment.center,
-            child: Text(text,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: const Color(0xFFEFEFEF),
-                    fontSize: 27.sp,
-                    fontWeight: FontWeight.w500)),
-          )
-        ],
+        children: stackChildren,
       ),
     );
   }

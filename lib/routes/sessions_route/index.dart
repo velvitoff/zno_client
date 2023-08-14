@@ -1,5 +1,6 @@
 import 'package:client/dto/sessions_route_data.dart';
 import 'package:client/routes/sessions_route/sessions_list.dart';
+import 'package:client/widgets/zno_icon_button.dart';
 import 'package:client/widgets/zno_bottom_navigation_bar.dart';
 import 'package:client/widgets/zno_list_item.dart';
 import 'package:client/widgets/zno_top_header_text.dart';
@@ -82,7 +83,12 @@ class SessionsRouteState extends State<SessionsRoute> {
                       SliverAppBar(
                         flexibleSpace: Container(
                           margin: EdgeInsets.only(bottom: 5.h),
-                          child: ZnoTopHeaderText(text: widget.dto.subjectName),
+                          child: ZnoTopHeaderText(
+                            text: widget.dto.subjectName,
+                            topLeftWidget: ZnoIconButton(
+                                icon: Icons.arrow_back,
+                                onTap: () => context.go(Routes.subjectsRoute)),
+                          ),
                         ),
                         backgroundColor: const Color(0xFFF5F5F5),
                         expandedHeight: 250.h,

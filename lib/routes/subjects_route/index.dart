@@ -6,6 +6,7 @@ import 'package:client/locator.dart';
 import 'package:client/routes.dart';
 import 'package:client/services/interfaces/storage_service_interface.dart';
 import 'package:client/widgets/zno_bottom_navigation_bar.dart';
+import 'package:client/widgets/zno_icon_button.dart';
 import 'package:client/widgets/zno_list.dart';
 import 'package:client/widgets/zno_top_header_text.dart';
 import 'package:flutter/material.dart';
@@ -117,7 +118,13 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
                       SliverAppBar(
                         flexibleSpace: ZnoTopHeaderText(
                           text: 'Оберіть предмет зі списку, щоб пройти тест',
-                          isSettingsVisible: isScrollAtTop,
+                          topRightWidget: isScrollAtTop
+                              ? ZnoIconButton(
+                                  icon: Icons.format_list_bulleted,
+                                  onTap: () =>
+                                      context.go(Routes.subjectChoiceRoute),
+                                )
+                              : Container(),
                         ),
                         expandedHeight: 250.h,
                         backgroundColor: const Color(0xFFF5F5F5),
