@@ -2,7 +2,6 @@ import 'package:client/models/testing_route_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:listview_utils/listview_utils.dart';
 
 class ZnoDivider extends StatefulWidget {
   final int activeIndex;
@@ -17,7 +16,6 @@ class ZnoDivider extends StatefulWidget {
 }
 
 class _ZnoDividerState extends State<ZnoDivider> {
-  final double headerWidth = 130.w;
   late final ScrollController _scrollController;
   late final int selected;
 
@@ -25,7 +23,7 @@ class _ZnoDividerState extends State<ZnoDivider> {
   void initState() {
     super.initState();
     final TestingRouteModel model = context.read<TestingRouteModel>();
-    selected = model.pageIndex;
+    selected = model.pageIndex + 1;
     _scrollController = ScrollController(initialScrollOffset: selected * 80.r);
   }
 
@@ -47,20 +45,19 @@ class _ZnoDividerState extends State<ZnoDivider> {
               height: 2.h,
               color: const Color(0xFFCECECE),
             ),
-            CustomListView(
-              header: SizedBox(
-                width: headerWidth,
-              ),
-              footer: SizedBox(
-                width: headerWidth,
-              ),
+            ListView.builder(
               controller: _scrollController,
               scrollDirection: Axis.horizontal,
-              itemCount: widget.itemCount,
-              itemBuilder: (BuildContext context, int index, _) {
+              itemCount: widget.itemCount + 2,
+              itemBuilder: (BuildContext context, int index) {
+                if (index == 0 || index == widget.itemCount + 1) {
+                  return SizedBox(
+                    width: 200.w,
+                  );
+                }
                 return GestureDetector(
                   onTap: () {
-                    context.read<TestingRouteModel>().jumpPage(index);
+                    context.read<TestingRouteModel>().jumpPage(index - 1);
                   },
                   child: Container(
                     width: 50.r,
@@ -88,7 +85,7 @@ class _ZnoDividerState extends State<ZnoDivider> {
                           fit: BoxFit.contain,
                           child: Center(
                             child: Text(
-                              '${index + 1}',
+                              '$index',
                               style: TextStyle(
                                   fontSize: 20.sp,
                                   color: const Color(0xFF787878),

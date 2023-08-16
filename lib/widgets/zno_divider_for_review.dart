@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:listview_utils/listview_utils.dart';
 import '../dto/question_data.dart';
 
 class ZnoDividerForReview extends StatefulWidget {
@@ -19,7 +18,6 @@ class ZnoDividerForReview extends StatefulWidget {
 }
 
 class _ZnoDividerState extends State<ZnoDividerForReview> {
-  final double headerWidth = 130.w;
   late final ScrollController _scrollController;
   late final int selected;
   late final List<Question>? _questions;
@@ -34,7 +32,7 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
   void initState() {
     super.initState();
     final TestingRouteModel model = context.read<TestingRouteModel>();
-    selected = model.pageIndex;
+    selected = model.pageIndex + 1;
     _scrollController = ScrollController(initialScrollOffset: selected * 80.r);
     _questions = model.questions;
     _answers = model.allAnswers;
@@ -134,20 +132,19 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
               height: 2.h,
               color: const Color(0xFFCECECE),
             ),
-            CustomListView(
-              header: SizedBox(
-                width: headerWidth,
-              ),
-              footer: SizedBox(
-                width: headerWidth,
-              ),
+            ListView.builder(
               controller: _scrollController,
               scrollDirection: Axis.horizontal,
-              itemCount: widget.itemCount,
-              itemBuilder: (BuildContext context, int index, _) {
+              itemCount: widget.itemCount + 2,
+              itemBuilder: (BuildContext context, int index) {
+                if (index == 0 || index == widget.itemCount + 1) {
+                  return SizedBox(
+                    width: 200.w,
+                  );
+                }
                 return GestureDetector(
                   onTap: () {
-                    context.read<TestingRouteModel>().jumpPage(index);
+                    context.read<TestingRouteModel>().jumpPage(index - 1);
                   },
                   child: Container(
                     width: 50.r,
@@ -169,7 +166,7 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
                         child: Container(
                           padding: EdgeInsets.all(4.r),
                           decoration: BoxDecoration(
-                              color: getCellColor(index),
+                              color: getCellColor(index - 1),
                               borderRadius: index == selected
                                   ? null
                                   : const BorderRadius.all(Radius.circular(5))),
@@ -177,7 +174,7 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
                             fit: BoxFit.contain,
                             child: Center(
                               child: Text(
-                                '${index + 1}',
+                                '$index',
                                 style: TextStyle(
                                     fontSize: 20.sp,
                                     color: const Color(0xFF242424),
