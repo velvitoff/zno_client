@@ -34,18 +34,19 @@ dependencies:
 
   go_router: ^10.0.0
   flutter_screenutil: ^5.8.4
-  supabase_flutter: ^1.10.11
-  get_it: ^7.2.0
-  http: ^0.13.5
+  supabase_flutter: ^1.10.13
+  get_it: ^7.6.0
+  http: ^0.13.3
   tuple: ^2.0.1
-  html: ^0.15.1
+  html: ^0.15.4
   provider: ^6.0.5
   dropdown_button2: ^1.9.4
-  path_provider: ^2.0.13
+  path_provider: ^2.1.0
   collection: ^1.17.0
   photo_view: ^0.14.0
-  audioplayers: ^4.1.0
+  audioplayers: ^5.1.0
   flutter_math_fork: ^0.7.1
+  rive: ^0.9.1
 
 dev_dependencies:
   flutter_test:
