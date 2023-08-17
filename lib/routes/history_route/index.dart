@@ -1,5 +1,6 @@
 import 'package:client/routes/history_route/history_list.dart';
 import 'package:client/routes/history_route/history_route_provider.dart';
+import 'package:client/widgets/zno_error.dart';
 import 'package:client/widgets/zno_top_header_small.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +9,7 @@ import 'package:client/widgets/zno_bottom_navigation_bar.dart';
 import '../../dto/previous_session_data.dart';
 import '../../locator.dart';
 import '../../services/interfaces/storage_service_interface.dart';
+import '../../widgets/zno_loading.dart';
 
 class HistoryRoute extends StatefulWidget {
   const HistoryRoute({super.key});
@@ -48,17 +50,15 @@ class _HistoryRouteState extends State<HistoryRoute> {
                     return HistoryList(prevSessionsList: snapshot.data!);
                   }
                 } else if (snapshot.hasError) {
-                  return Text('Помилка завантаження даних',
-                      style: TextStyle(
-                          color: const Color(0xFF5F5F5F),
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w400));
+                  return const ZnoError(text: 'Помилка зчитування даних');
                 } else {
-                  return Text('Завантаження...',
-                      style: TextStyle(
-                          color: const Color(0xFF5F5F5F),
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w400));
+                  return const Center(
+                    child: FractionallySizedBox(
+                      widthFactor: 0.6,
+                      heightFactor: 0.6,
+                      child: ZnoLoading(),
+                    ),
+                  );
                 }
               },
             ),

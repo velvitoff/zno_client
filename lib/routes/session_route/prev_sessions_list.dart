@@ -5,6 +5,9 @@ import 'package:client/services/interfaces/storage_service_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../widgets/zno_error.dart';
+import '../../widgets/zno_loading.dart';
+
 class PrevSessionsList extends StatefulWidget {
   final String subjectName;
   final String sessionName;
@@ -82,17 +85,18 @@ class _PastSessionsListState extends State<PrevSessionsList> {
                 ],
               );
             } else if (snapshot.hasError) {
-              return Text('Помилка завантаження попередніх спроб',
-                  style: TextStyle(
-                      color: const Color(0xFF5F5F5F),
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w400));
+              return const ZnoError(
+                text: 'Помилка завантаження попередніх спроб',
+                textColor: Color.fromARGB(255, 58, 58, 58),
+              );
             } else {
-              return Text('Завантаження попередніх спроб...',
-                  style: TextStyle(
-                      color: const Color(0xFF5F5F5F),
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w400));
+              return const Center(
+                child: FractionallySizedBox(
+                  widthFactor: 0.6,
+                  heightFactor: 0.6,
+                  child: ZnoLoading(),
+                ),
+              );
             }
           },
         ),

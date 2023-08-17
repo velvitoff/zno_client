@@ -1,12 +1,16 @@
 import 'dart:convert';
 import 'package:client/dto/test_data.dart';
+import 'package:client/routes.dart';
 import 'package:client/routes/testing_route/testing_pages.dart';
 import 'package:client/routes/testing_route/testing_route_provider.dart';
 import 'package:client/routes/testing_route/zno_testing_header.dart';
 import 'package:client/services/interfaces/storage_service_interface.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../dto/testing_route_data.dart';
 import '../../locator.dart';
+import '../../widgets/zno_error.dart';
+import '../../widgets/zno_loading.dart';
 
 class TestingRoute extends StatefulWidget {
   final TestingRouteData dto;
@@ -56,10 +60,19 @@ class TestingRouteState extends State<TestingRoute> {
             ),
           );
         } else if (snapshot.hasError) {
-          return Text(
-              'Помилка завантаження сесії ${snapshot.error!.toString()}');
+          return ZnoError(
+            text: 'Помилка завантаження даних',
+            buttonText: 'Повернутися',
+            onTap: () => context.go(Routes.subjectsRoute),
+          );
         } else {
-          return const Text('Завантаження...');
+          return const Center(
+            child: FractionallySizedBox(
+              widthFactor: 0.6,
+              heightFactor: 0.6,
+              child: ZnoLoading(),
+            ),
+          );
         }
       },
     ));

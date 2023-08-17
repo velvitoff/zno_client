@@ -1,8 +1,10 @@
 import 'package:client/routes/subject_choice_route/subject_choice_header.dart';
 import 'package:client/routes/subject_choice_route/subject_choice_list.dart';
 import 'package:client/routes/subject_choice_route/subject_choice_route_provider.dart';
+import 'package:client/widgets/zno_error.dart';
 import 'package:flutter/material.dart';
 import '../../models/subject_choice_route_model.dart';
+import '../../widgets/zno_loading.dart';
 
 class SubjectChoiceRoute extends StatefulWidget {
   const SubjectChoiceRoute({super.key});
@@ -37,9 +39,15 @@ class _SubjectChoiceRouteState extends State<SubjectChoiceRoute> {
               ),
             );
           } else if (snapshot.hasError) {
-            return const Text("error");
+            return const ZnoError(text: 'Помилка зчитування даних');
           } else {
-            return const Text("Loading");
+            return const Center(
+              child: FractionallySizedBox(
+                widthFactor: 0.6,
+                heightFactor: 0.6,
+                child: ZnoLoading(),
+              ),
+            );
           }
         },
       ),

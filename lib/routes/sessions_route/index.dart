@@ -1,7 +1,8 @@
 import 'package:client/dto/sessions_route_data.dart';
 import 'package:client/routes/sessions_route/sessions_list.dart';
-import 'package:client/widgets/zno_icon_button.dart';
+import 'package:client/routes/sessions_route/sessions_scroll_wrapper.dart';
 import 'package:client/widgets/zno_bottom_navigation_bar.dart';
+import 'package:client/widgets/zno_error.dart';
 import 'package:client/widgets/zno_list_item.dart';
 import 'package:client/widgets/zno_top_header_text.dart';
 import 'package:collection/collection.dart';
@@ -14,6 +15,7 @@ import '../../locator.dart';
 import '../../routes.dart';
 import '../../services/interfaces/storage_service_interface.dart';
 import '../../services/interfaces/utils_service_interface.dart';
+import '../../widgets/zno_loading.dart';
 import '../../widgets/zno_year_line.dart';
 
 class SessionsRoute extends StatefulWidget {
@@ -78,41 +80,42 @@ class SessionsRouteState extends State<SessionsRoute> {
               builder:
                   (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
                 if (snapshot.hasData) {
-                  return CustomScrollView(
-                    slivers: [
-                      SliverAppBar(
-                        flexibleSpace: Container(
-                          margin: EdgeInsets.only(bottom: 5.h),
-                          child: ZnoTopHeaderText(
-                            text: widget.dto.subjectName,
-                            topLeftWidget: ZnoIconButton(
-                                icon: Icons.arrow_back,
-                                onTap: () => context.go(Routes.subjectsRoute)),
-                          ),
-                        ),
-                        backgroundColor: const Color(0xFFF5F5F5),
-                        expandedHeight: 250.h,
-                        collapsedHeight: 70.h,
-                        pinned: true,
-                        shadowColor: const Color(0x00000000), //no shadow
+                  if (snapshot.data!.isEmpty) {
+                    return SessionsScrollWrapper(
+                      subjectName: widget.dto.subjectName,
+                      child: SliverToBoxAdapter(
+                        child: ZnoError(
+                            text: 'Немає доступних тестів',
+                            textFontSize: 25.sp),
                       ),
-                      SessionsList(list: snapshot.data!)
-                    ],
-                  );
+                    );
+                  } else {
+                    return SessionsScrollWrapper(
+                      subjectName: widget.dto.subjectName,
+                      child: SessionsList(list: snapshot.data!),
+                    );
+                  }
                 } else if (snapshot.hasError) {
                   return Column(
                     children: [
                       ZnoTopHeaderText(text: widget.dto.subjectName),
-                      const Text('error')
+                      const ZnoError(text: 'Помилка завантаження даних')
                     ],
                   );
                 } else {
-                  return Column(
-                    children: [
-                      ZnoTopHeaderText(text: widget.dto.subjectName),
-                      const Text('loading')
-                    ],
-                  );
+                  return SessionsScrollWrapper(
+                      subjectName: widget.dto.subjectName,
+                      child: SliverToBoxAdapter(
+                        child: Column(
+                          children: [
+                            SizedBox(height: 100.h),
+                            SizedBox(
+                              height: 200.h,
+                              child: const ZnoLoading(),
+                            )
+                          ],
+                        ),
+                      ));
                 }
               },
             ),

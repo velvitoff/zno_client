@@ -8,6 +8,7 @@ import 'package:client/services/interfaces/storage_service_interface.dart';
 import 'package:client/widgets/zno_bottom_navigation_bar.dart';
 import 'package:client/widgets/zno_icon_button.dart';
 import 'package:client/widgets/zno_list.dart';
+import 'package:client/widgets/zno_loading.dart';
 import 'package:client/widgets/zno_top_header_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,6 +18,7 @@ import 'package:tuple/tuple.dart';
 import '../../all_subjects/all_subjects.dart';
 import '../../dto/sessions_route_data.dart';
 import '../../dto/subjects_route_data.dart';
+import '../../widgets/zno_error.dart';
 
 class SubjectsRoute extends StatefulWidget {
   final SubjectsRouteData? dto;
@@ -154,9 +156,15 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
               ],
             );
           } else if (snapshot.hasError) {
-            return const Text('Error');
+            return const ZnoError(text: 'Помилка завантаження даних');
           } else {
-            return const Text('Loading');
+            return const Center(
+              child: FractionallySizedBox(
+                widthFactor: 0.6,
+                heightFactor: 0.6,
+                child: ZnoLoading(),
+              ),
+            );
           }
         },
       ),

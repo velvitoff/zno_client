@@ -4,6 +4,7 @@ import 'package:client/locator.dart';
 import 'package:client/routes.dart';
 import 'package:client/widgets/audio_player_widget.dart';
 import 'package:client/widgets/ui_gen_handler.dart';
+import 'package:client/widgets/zno_loading.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -117,7 +118,6 @@ class UiGenerator {
         ));
   }
 
-  //TODO: add error/loading render
   static Widget imageToWidget(
       String subjectFolderName, String sessionName, String fileName) {
     return FutureBuilder(
@@ -132,9 +132,15 @@ class UiGenerator {
                       imageProvider: MemoryImage(snapshot.data!))),
               child: Image.memory(snapshot.data!));
         } else if (snapshot.hasError) {
-          return const Text('Error loading image');
+          return const Text('Помилка завантаження зображення');
         } else {
-          return const Text('Loading image');
+          return Center(
+            child: SizedBox(
+              height: 100.r,
+              width: 100.r,
+              child: const ZnoLoading(),
+            ),
+          );
         }
       },
     );
