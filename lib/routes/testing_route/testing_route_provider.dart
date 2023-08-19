@@ -1,4 +1,5 @@
 import 'package:client/dto/testing_route_data.dart';
+import 'package:client/models/testing_time_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../dto/test_data.dart';
@@ -9,21 +10,37 @@ class TestingRouteProvider extends StatelessWidget {
   final TestingRouteData data;
   final Widget child;
 
-  const TestingRouteProvider({
-    Key? key,
-    required this.testData,
-    required this.data,
-    required this.child
-  }) : super(key: key);
+  const TestingRouteProvider(
+      {Key? key,
+      required this.testData,
+      required this.data,
+      required this.child})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => TestingRouteModel(
-          questions: testData.questions,
-          sessionData: data.sessionData,
-          prevSessionData: data.prevSessionData
-      ),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+            create: (context) => TestingRouteModel(
+                questions: testData.questions,
+                sessionData: data.sessionData,
+                prevSessionData: data.prevSessionData)),
+        ChangeNotifierProvider(
+          create: (context) {
+            if (data.prevSessionData != null) {
+              return TestingTimeModel(
+                  isTimerActivated: data.prevSessionData!.isTimerActivated,
+                  secondsSinceStart: data.prevSessionData!.timerSeconds,
+                  secondsInTotal: data.prevSessionData!.timerSecondsInTotal);
+            }
+            return TestingTimeModel(
+                isTimerActivated: data.isTimerActivated,
+                secondsSinceStart: 0,
+                secondsInTotal: data.timerSecondsInTotal);
+          },
+        )
+      ],
       child: child,
     );
   }

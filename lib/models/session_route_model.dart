@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 
 class SessionRouteModel extends ChangeNotifier {
   final SessionData sessionData;
+  bool isTimerSelected;
 
-  SessionRouteModel({
-    required this.sessionData
-  });
+  SessionRouteModel({required this.sessionData, this.isTimerSelected = false});
+
+  void invertTimerSelected() {
+    isTimerSelected = !isTimerSelected;
+    notifyListeners();
+  }
 }

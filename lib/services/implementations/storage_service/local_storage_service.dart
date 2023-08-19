@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:client/dto/personal_config_data.dart';
 import 'package:client/dto/previous_session_data.dart';
 import 'package:client/dto/test_data.dart';
+import 'package:client/models/testing_time_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart' as path;
 import '../../../dto/storage_route_item_data.dart';
@@ -102,7 +103,8 @@ class LocalStorageService extends StorageServiceInterface {
   }
 
   @override
-  Future<void> saveSessionEnd(TestingRouteModel data, bool completed) async {
+  Future<void> saveSessionEnd(TestingRouteModel data,
+      TestingTimeModel timerData, bool completed) async {
     if (data.prevSessionData != null && data.prevSessionData!.completed) {
       return;
     }
@@ -110,64 +112,12 @@ class LocalStorageService extends StorageServiceInterface {
       return;
     }
 
-    //calculating a mark
-    int score = 0;
-
-    for (var answerEntry in data.allAnswers.entries) {
-      var q = data.questions[int.parse(answerEntry.key) - 1];
-      if (q.single != null) {
-        if (q.single!.correct == answerEntry.value) {
-          score += 1;
-        }
-      } else if (q.complex != null) {
-        Map<String, dynamic> answerMap =
-            answerEntry.value as Map<String, dynamic>;
-        for (var correctEntry in q.complex!.correctMap.entries) {
-          if (correctEntry.value == answerMap[correctEntry.key]) {
-            score += 1;
-          }
-        }
-      } else if (q.textFields != null) {
-        List<String> answerList = List<String>.from(answerEntry.value);
-        for (int i = 0; i < q.textFields!.correctList.length; ++i) {
-          if (q.textFields!.correctList[i] == answerList[i]) {
-            score += 1;
-          }
-        }
-      }
-    }
-
-    int total = 0;
-    for (var q in data.questions) {
-      if (q.single != null) {
-        total += 1;
-      } else if (q.complex != null) {
-        total += q.complex!.correctMap.entries.length;
-      }
-    }
-
-    String fileName;
-    String now = DateTime.now().microsecondsSinceEpoch.toString();
-    if (data.prevSessionData != null) {
-      fileName = data.prevSessionData!.sessionId;
-    } else {
-      fileName = now;
-    }
-
-    Map<String, dynamic> map = {
-      'session_name': data.sessionData.fileName,
-      'subject_name': data.sessionData.subjectName,
-      'session_id': fileName,
-      'folder_name': data.sessionData.folderName,
-      'date': now,
-      'completed': completed,
-      'last_page': data.pageIndex,
-      'answers': jsonEncode(data.allAnswers),
-      'score': '$score/$total'
-    };
+    final newData =
+        PreviousSessionData.fromTestingRouteModel(data, timerData, completed);
+    final map = newData.toJson();
 
     String filePath = _historyPath(data.sessionData.folderName,
-        data.sessionData.fileNameNoExtension, fileName);
+        data.sessionData.fileNameNoExtension, newData.sessionId);
     File file = File(filePath);
 
     if (await file.exists()) {

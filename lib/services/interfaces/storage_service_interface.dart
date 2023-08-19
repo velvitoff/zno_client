@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:client/dto/personal_config_data.dart';
+import 'package:client/models/testing_time_model.dart';
 
 import '../../dto/previous_session_data.dart';
 import '../../dto/storage_route_item_data.dart';
@@ -12,7 +13,8 @@ abstract class StorageServiceInterface {
       String subjectFolderName, String sessionFolderName, String fileName);
   Future<Uint8List> getFileBytes(
       String folderName, String sessionName, String fileName);
-  Future<void> saveSessionEnd(TestingRouteModel data, bool completed);
+  Future<void> saveSessionEnd(
+      TestingRouteModel data, TestingTimeModel timerData, bool completed);
   Future<List<PreviousSessionData>> getPreviousSessionsList(
       String subjectName, String sessionName);
   Future<List<PreviousSessionData>> getPreviousSessionsListGlobal();

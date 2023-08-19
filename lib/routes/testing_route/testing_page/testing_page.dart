@@ -1,9 +1,11 @@
 import 'package:client/dto/question_data.dart';
 import 'package:client/models/testing_route_model.dart';
+import 'package:client/models/testing_time_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/testing_route/testing_page/answer_widget.dart';
 import 'package:client/routes/testing_route/testing_page/question_widget.dart';
 import 'package:client/routes/testing_route/testing_page/testing_buttons.dart';
+import 'package:client/routes/testing_route/testing_page/testing_page_timer.dart';
 import 'package:client/widgets/zno_divider_for_review.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -56,7 +58,8 @@ class _TestingPageState extends State<TestingPage> {
         if (value) {
           locator
               .get<StorageServiceInterface>()
-              .saveSessionEnd(context.read<TestingRouteModel>(), true)
+              .saveSessionEnd(context.read<TestingRouteModel>(),
+                  context.read<TestingTimeModel>(), true)
               .then((_) {
             context.go(Routes.sessionRoute,
                 extra: context.read<TestingRouteModel>().sessionData);
@@ -79,6 +82,10 @@ class _TestingPageState extends State<TestingPage> {
           children: [
             Column(
               children: [
+                context.select<TestingTimeModel, bool>(
+                        (value) => value.isTimerActivated)
+                    ? const TestingPageTimer()
+                    : Container(),
                 context.read<TestingRouteModel>().isViewMode
                     ? ZnoDividerForReview(
                         activeIndex: widget.index,

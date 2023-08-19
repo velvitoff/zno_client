@@ -27,14 +27,16 @@ class PrevSessionItem extends StatelessWidget {
       if (value != null && value == true) {
         context.go(Routes.testingRoute,
             extra: TestingRouteData(
-                sessionData: SessionData(
-                    subjectName: data.subjectName,
-                    sessionName: data.sessionName,
-                    folderName: data.folderName,
-                    fileName: data.fileName,
-                    fileNameNoExtension:
-                        data.fileName.replaceFirst('.json', '')),
-                prevSessionData: data));
+              sessionData: SessionData(
+                  subjectName: data.subjectName,
+                  sessionName: data.sessionName,
+                  folderName: data.folderName,
+                  fileName: data.fileName,
+                  fileNameNoExtension: data.fileName.replaceFirst('.json', '')),
+              prevSessionData: data,
+              isTimerActivated: data.isTimerActivated,
+              timerSecondsInTotal: data.timerSecondsInTotal,
+            ));
       }
     });
   }

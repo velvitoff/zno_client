@@ -1,4 +1,5 @@
 import 'package:client/models/testing_route_model.dart';
+import 'package:client/models/testing_time_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/services/interfaces/storage_service_interface.dart';
 import 'package:client/dialogs/confirm_dialog.dart';
@@ -32,11 +33,10 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
           if (value) {
             locator
                 .get<StorageServiceInterface>()
-                .saveSessionEnd(context.read<TestingRouteModel>(), false)
-                .then((_) {
-              context.go(Routes.sessionRoute,
-                  extra: context.read<TestingRouteModel>().sessionData);
-            });
+                .saveSessionEnd(context.read<TestingRouteModel>(),
+                    context.read<TestingTimeModel>(), false)
+                .then((void val) => context.go(Routes.sessionRoute,
+                    extra: context.read<TestingRouteModel>().sessionData));
           }
         }
       });

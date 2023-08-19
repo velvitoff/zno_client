@@ -1,4 +1,4 @@
-import 'package:client/dto/session_data.dart';
+import 'package:client/dialogs/time_choice_dialog.dart';
 import 'package:client/dto/testing_route_data.dart';
 import 'package:client/models/session_route_model.dart';
 import 'package:client/routes.dart';
@@ -13,9 +13,36 @@ import '../../widgets/zno_radio_box.dart';
 class SessionDisplay extends StatelessWidget {
   const SessionDisplay({Key? key}) : super(key: key);
 
+  void onSessionStart(BuildContext context, SessionRouteModel model) {
+    if (!model.isTimerSelected) {
+      context.go(Routes.testingRoute,
+          extra: TestingRouteData(
+              sessionData: model.sessionData,
+              prevSessionData: null,
+              isTimerActivated: false,
+              timerSecondsInTotal: 7200));
+    } else {
+      showDialog<int?>(
+          context: context,
+          builder: (context) => const TimeChoiceDialog()).then((int? value) {
+        if (value != null) {
+          context.go(Routes.testingRoute,
+              extra: TestingRouteData(
+                  sessionData: model.sessionData,
+                  prevSessionData: null,
+                  isTimerActivated: true,
+                  timerSecondsInTotal: value));
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    SessionData dto = context.read<SessionRouteModel>().sessionData;
+    SessionRouteModel model = context.read<SessionRouteModel>();
+    //print(model.sessionData.folderName);
+    //print(model.sessionData.fileName);
+    //print(model.sessionData.sessionName);
 
     return Container(
       width: 340.w,
@@ -40,7 +67,7 @@ class SessionDisplay extends StatelessWidget {
           Container(
             margin: EdgeInsets.fromLTRB(0, 8.h, 0, 0),
             child: Text(
-              dto.sessionName,
+              model.sessionData.sessionName,
               style: TextStyle(
                   color: const Color(0xFF444444),
                   fontSize: 26.sp,
@@ -48,41 +75,45 @@ class SessionDisplay extends StatelessWidget {
             ),
           ),
           PrevSessionsList(
-              subjectName: dto.folderName,
-              sessionName: dto.fileNameNoExtension),
+              subjectName: model.sessionData.folderName,
+              sessionName: model.sessionData.fileNameNoExtension),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Flexible(
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(4.w, 0, 4.w, 0),
-                      child: const ZnoRadioBox(isActive: false),
+              GestureDetector(
+                onTap: () => model.invertTimerSelected(),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      child: Container(
+                        margin: EdgeInsets.fromLTRB(4.w, 0, 4.w, 0),
+                        child: ZnoRadioBox(
+                            isActive: context
+                                .watch<SessionRouteModel>()
+                                .isTimerSelected),
+                      ),
                     ),
-                  ),
-                  Flexible(
-                    flex: 4,
-                    child: Text(
-                      'Показувати таймер під час проходження',
-                      overflow: TextOverflow.visible,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: const Color(0xFF444444),
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w400),
-                    ),
-                  )
-                ],
+                    Flexible(
+                      flex: 4,
+                      child: Text(
+                        'Показувати таймер під час проходження',
+                        overflow: TextOverflow.visible,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: const Color(0xFF444444),
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    )
+                  ],
+                ),
               ),
               ZnoListItem(
                 text: 'Почати спробу',
                 colorType: ZnoListColorType.button,
-                onTap: () => context.go(Routes.testingRoute,
-                    extra: TestingRouteData(
-                        sessionData: dto, prevSessionData: null)),
+                onTap: () => onSessionStart(context, model),
               )
             ],
           ),
