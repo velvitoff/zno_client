@@ -24,6 +24,7 @@ class _ZnoDividerState extends State<ZnoDivider> {
     super.initState();
     final TestingRouteModel model = context.read<TestingRouteModel>();
     selected = model.pageIndex + 1;
+    //_scrollController = ScrollController(initialScrollOffset: selected * 80.r);
     _scrollController = ScrollController(initialScrollOffset: selected * 80.r);
   }
 
@@ -35,6 +36,9 @@ class _ZnoDividerState extends State<ZnoDivider> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final listHeaderWidth = screenWidth / 2 + 80.r / 2;
+
     return Container(
         height: 40.h,
         margin: EdgeInsets.fromLTRB(0, 10.h, 0, 5.h),
@@ -52,7 +56,7 @@ class _ZnoDividerState extends State<ZnoDivider> {
               itemBuilder: (BuildContext context, int index) {
                 if (index == 0 || index == widget.itemCount + 1) {
                   return SizedBox(
-                    width: 210.w,
+                    width: listHeaderWidth,
                   );
                 }
                 return GestureDetector(

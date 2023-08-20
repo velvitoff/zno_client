@@ -122,6 +122,9 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final listHeaderWidth = screenWidth / 2 + 80.r / 2;
+
     return Container(
         height: 43.h,
         margin: EdgeInsets.fromLTRB(0, 10.h, 0, 5.h),
@@ -139,7 +142,7 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
               itemBuilder: (BuildContext context, int index) {
                 if (index == 0 || index == widget.itemCount + 1) {
                   return SizedBox(
-                    width: 210.w,
+                    width: listHeaderWidth,
                   );
                 }
                 return GestureDetector(
