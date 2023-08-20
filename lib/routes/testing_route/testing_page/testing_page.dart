@@ -82,10 +82,6 @@ class _TestingPageState extends State<TestingPage> {
           children: [
             Column(
               children: [
-                context.select<TestingTimeModel, bool>(
-                        (value) => value.isTimerActivated)
-                    ? const TestingPageTimer()
-                    : Container(),
                 context.read<TestingRouteModel>().isViewMode
                     ? ZnoDividerForReview(
                         activeIndex: widget.index,
@@ -93,6 +89,10 @@ class _TestingPageState extends State<TestingPage> {
                     : ZnoDivider(
                         activeIndex: widget.index,
                         itemCount: widget.questionsLength),
+                context.select<TestingTimeModel, bool>(
+                        (value) => value.isTimerActivated)
+                    ? const TestingPageTimer()
+                    : Container(),
                 QuestionWidget(
                   index: widget.index,
                   question: widget.question,

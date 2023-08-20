@@ -1,3 +1,4 @@
+import 'package:client/dialogs/time_choice_dialog.dart';
 import 'package:client/models/testing_route_model.dart';
 import 'package:client/models/testing_time_model.dart';
 import 'package:client/routes.dart';
@@ -40,11 +41,29 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
           }
         }
       });
-    } else if (value == 'Налаштування') {}
+    } else if (value == 'Сховати таймер' || value == 'Показати таймер') {
+      context.read<TestingTimeModel>().switchIsActivated();
+    } else if (value == 'Змінити час таймера') {
+      showDialog<int?>(
+          context: context,
+          builder: (context) => const TimeChoiceDialog()).then((int? value) {
+        if (value != null) {
+          context.read<TestingTimeModel>().secondsInTotal = value;
+        }
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    List<String> items = ['Вийти'];
+    if (context.watch<TestingTimeModel>().isTimerActivated) {
+      items.add('Сховати таймер');
+    } else {
+      items.add('Показати таймер');
+    }
+    items.add('Змінити час таймера');
+
     return DropdownButtonHideUnderline(
       child: DropdownButton2(
         dropdownWidth: 160.w,
@@ -55,7 +74,7 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
           size: 36.sp,
           color: Colors.white,
         ),
-        items: ['Налаштування', 'Вийти']
+        items: items
             .map((item) => DropdownMenuItem(
                   value: item,
                   child: Text(

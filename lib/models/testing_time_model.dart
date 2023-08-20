@@ -7,6 +7,11 @@ class TestingTimeModel extends ChangeNotifier {
   int secondsSinceStart;
   int secondsInTotal;
 
+  void switchIsActivated() {
+    isTimerActivated = !isTimerActivated;
+    notifyListeners();
+  }
+
   TestingTimeModel(
       {required this.isTimerActivated,
       required this.secondsSinceStart,

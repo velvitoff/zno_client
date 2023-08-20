@@ -139,7 +139,7 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
               itemBuilder: (BuildContext context, int index) {
                 if (index == 0 || index == widget.itemCount + 1) {
                   return SizedBox(
-                    width: 200.w,
+                    width: 210.w,
                   );
                 }
                 return GestureDetector(
