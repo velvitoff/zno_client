@@ -57,7 +57,8 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
   @override
   Widget build(BuildContext context) {
     List<String> items = ['Вийти'];
-    if (context.watch<TestingTimeModel>().isTimerActivated) {
+    if (context
+        .select<TestingTimeModel, bool>((value) => value.isTimerActivated)) {
       items.add('Сховати таймер');
     } else {
       items.add('Показати таймер');
