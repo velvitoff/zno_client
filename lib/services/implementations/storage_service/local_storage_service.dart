@@ -103,13 +103,13 @@ class LocalStorageService extends StorageServiceInterface {
   }
 
   @override
-  Future<void> saveSessionEnd(TestingRouteModel data,
+  Future<PreviousSessionData?> saveSessionEnd(TestingRouteModel data,
       TestingTimeModel timerData, bool completed) async {
     if (data.prevSessionData != null && data.prevSessionData!.completed) {
-      return;
+      return null;
     }
     if (data.allAnswers.isEmpty) {
-      return;
+      return null;
     }
 
     final newData =
@@ -123,9 +123,11 @@ class LocalStorageService extends StorageServiceInterface {
     if (await file.exists()) {
       await file.writeAsString(json.encode(map), mode: FileMode.writeOnly);
     } else {
-      file.create(recursive: true).then((file) =>
+      await file.create(recursive: true).then((file) =>
           file.writeAsString(json.encode(map), mode: FileMode.writeOnly));
     }
+
+    return newData;
   }
 
   @override

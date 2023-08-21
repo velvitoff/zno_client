@@ -13,7 +13,7 @@ abstract class StorageServiceInterface {
       String subjectFolderName, String sessionFolderName, String fileName);
   Future<Uint8List> getFileBytes(
       String folderName, String sessionName, String fileName);
-  Future<void> saveSessionEnd(
+  Future<PreviousSessionData?> saveSessionEnd(
       TestingRouteModel data, TestingTimeModel timerData, bool completed);
   Future<List<PreviousSessionData>> getPreviousSessionsList(
       String subjectName, String sessionName);

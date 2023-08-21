@@ -94,9 +94,9 @@ class MainStorageService extends StorageServiceInterface {
   }
 
   @override
-  Future<void> saveSessionEnd(TestingRouteModel data,
+  Future<PreviousSessionData?> saveSessionEnd(TestingRouteModel data,
       TestingTimeModel timerData, bool completed) async {
-    localStorage.saveSessionEnd(data, timerData, completed);
+    return localStorage.saveSessionEnd(data, timerData, completed);
   }
 
   @override

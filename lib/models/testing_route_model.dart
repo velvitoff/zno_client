@@ -5,8 +5,8 @@ import '../dto/session_data.dart';
 
 class TestingRouteModel extends ChangeNotifier {
   final SessionData sessionData;
-  final PreviousSessionData? prevSessionData;
   final List<Question> questions;
+  PreviousSessionData? prevSessionData;
 
   //page_number: answer(String, or Map<String, String> or List<String>)
   Map<String, dynamic> _answers = {};
