@@ -56,20 +56,18 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> items = ['Вийти'];
+    List<String> items = ['Вийти', 'Показати таймер', 'Змінити час таймера'];
     if (context
         .select<TestingTimeModel, bool>((value) => value.isTimerActivated)) {
-      items.add('Сховати таймер');
-    } else {
-      items.add('Показати таймер');
+      items[1] = 'Сховати таймер';
     }
-    items.add('Змінити час таймера');
 
     return DropdownButtonHideUnderline(
-      child: DropdownButton2(
-        dropdownWidth: 160.w,
-        itemHeight: 50.h,
-        dropdownDecoration: const BoxDecoration(color: Colors.white),
+      child: DropdownButton2<String>(
+        dropdownStyleData: DropdownStyleData(
+          width: 180.w,
+          decoration: const BoxDecoration(color: Colors.white),
+        ),
         customButton: Icon(
           Icons.more_vert,
           size: 36.sp,
@@ -85,7 +83,11 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
                   ),
                 ))
             .toList(),
-        onChanged: (String? newValue) => onChoice(context, newValue!),
+        onChanged: (String? newValue) {
+          if (newValue != null) {
+            onChoice(context, newValue);
+          }
+        },
       ),
     );
   }
