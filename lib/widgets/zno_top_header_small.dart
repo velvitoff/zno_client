@@ -15,6 +15,7 @@ class ZnoTopHeaderSmall extends StatelessWidget {
     return Container(
       color: backgroundColor,
       child: Container(
+        padding: EdgeInsets.only(top: topPadding),
         margin: EdgeInsets.zero,
         height: 70.h + topPadding,
         width: double.infinity,
@@ -26,10 +27,7 @@ class ZnoTopHeaderSmall extends StatelessWidget {
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(10),
                 bottomRight: Radius.circular(10))),
-        child: Container(
-          padding: EdgeInsets.fromLTRB(0, topPadding, 0, 0),
-          child: child,
-        ),
+        child: child,
       ),
     );
   }

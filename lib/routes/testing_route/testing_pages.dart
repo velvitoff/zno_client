@@ -1,7 +1,6 @@
 import 'package:client/locator.dart';
 import 'package:client/models/testing_route_model.dart';
 import 'package:client/models/testing_time_model.dart';
-import 'package:client/routes/testing_route/index.dart';
 import 'package:client/routes/testing_route/testing_page/testing_page.dart';
 import 'package:client/services/interfaces/storage_service_interface.dart';
 import 'package:flutter/material.dart';

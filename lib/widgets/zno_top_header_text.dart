@@ -32,6 +32,7 @@ class ZnoTopHeaderText extends StatelessWidget {
               fontWeight: FontWeight.w500)),
     ));
 
+    final double topPadding = MediaQuery.of(context).padding.top;
     return Container(
       height: 250.h,
       width: 360.w,
@@ -44,8 +45,11 @@ class ZnoTopHeaderText extends StatelessWidget {
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(10),
               bottomRight: Radius.circular(10))),
-      child: Stack(
-        children: stackChildren,
+      child: Padding(
+        padding: EdgeInsets.only(top: topPadding),
+        child: Stack(
+          children: stackChildren,
+        ),
       ),
     );
   }
