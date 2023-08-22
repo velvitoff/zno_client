@@ -5,10 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ConfirmDialog extends StatelessWidget {
   final String text;
 
-  const ConfirmDialog({
-    Key? key,
-    required this.text
-  }) : super(key: key);
+  const ConfirmDialog({Key? key, required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +15,8 @@ class ConfirmDialog extends StatelessWidget {
         height: 220.h,
         padding: EdgeInsets.fromLTRB(6.w, 14.h, 6.w, 14.h),
         decoration: const BoxDecoration(
-          color: Color(0xFFF5F5F5),
-          borderRadius: BorderRadius.all(Radius.circular(2))
-        ),
+            color: Color(0xFFF5F5F5),
+            borderRadius: BorderRadius.all(Radius.circular(5))),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

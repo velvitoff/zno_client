@@ -35,7 +35,7 @@ class _InfoDialogState extends State<InfoDialog> {
         padding: EdgeInsets.fromLTRB(6.w, 14.h, 6.w, 14.h),
         decoration: const BoxDecoration(
             color: Color(0xFFFAFAFA),
-            borderRadius: BorderRadius.all(Radius.circular(2))),
+            borderRadius: BorderRadius.all(Radius.circular(5))),
         child: Column(
           children: [
             Expanded(
