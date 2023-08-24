@@ -1,16 +1,17 @@
 # zno_client
 
-A new Flutter project.
+A mobile application meant to help ukrainian high schoolers and students prepare for "ЗНО" exams.
+"ЗНО" exams are state certifications held in Ukraine every year, 
+the results of these exams define a student's rating when entering a higher education institution.
 
-## Getting Started
+This application provides students with tests that were used during exams in previous years.
+By passing those tests from previous years, students can effectively prepare for the upcoming exams. 
 
-This project is a starting point for a Flutter application.
+<div style="text-align:center" markdown="1">
+    <img width="308px" height="569px" src="repo_assets/main_screen.png" />
+    <img width="308px" height="569px" src="repo_assets/session_screen.png" />
+    <img width="308px" height="569px" src="repo_assets/testing_screen1.png" />
+    <img width="308px" height="569px" src="repo_assets/testing_screen2.png" />
+</div>
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Find it on Play market : [link]()
