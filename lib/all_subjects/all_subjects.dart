@@ -2,6 +2,7 @@ import 'package:client/all_subjects/zno_subject.dart';
 import 'package:client/all_subjects/zno_subject_group.dart';
 import 'package:client/all_subjects/zno_subject_interface.dart';
 
+//List of all subjects
 const List<ZnoSubjectInterface> allSubjects = [
   ZnoSubject('ukrainian_lang_and_lit', 'Українська мова і література'),
   ZnoSubject('ukrainian_lang', 'Українська мова'),

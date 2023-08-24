@@ -9,6 +9,8 @@ class UtilsService implements UtilsServiceInterface {
     'osnovna': 'Основна сесія',
     'probna': 'Пробна сесія',
     'demo': 'Демоваріант',
+    'spec': 'Спец сесія',
+    'zrazok': 'Зразок завдань'
   };
 
   @override

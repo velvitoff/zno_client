@@ -6,6 +6,7 @@ import 'package:client/locator.dart';
 import 'package:client/routes.dart';
 import 'package:client/services/interfaces/storage_service_interface.dart';
 import 'package:client/widgets/zno_bottom_navigation_bar.dart';
+import 'package:client/widgets/zno_button.dart';
 import 'package:client/widgets/zno_icon_button.dart';
 import 'package:client/widgets/zno_list.dart';
 import 'package:client/widgets/zno_loading.dart';
@@ -131,24 +132,50 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
                         expandedHeight: 250.h,
                         backgroundColor: const Color(0xFFF5F5F5),
                       ),
-                      ZnoList(
-                          list: listToShow.map((ZnoSubjectInterface subject) {
-                        return Tuple2(
-                            subject.getName,
-                            subject.getChildren().isEmpty
-                                ? () => context.go(Routes.sessionsRoute,
-                                    extra: SessionsRouteData(
-                                        subjectName: subject.getName,
-                                        folderName: subject.getId))
-                                : () => context.go(Routes.subjectsRoute,
-                                    extra: SubjectsRouteData(
-                                        subjectsList: subject
-                                            .getChildren()
-                                            .where((e) => (snapshot.data!.$1)
-                                                .selectedSubjects
-                                                .contains(e.getId))
-                                            .toList())));
-                      }).toList())
+                      listToShow.isEmpty
+                          ? SliverToBoxAdapter(
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 50.h,
+                                  ),
+                                  Text(
+                                    'Наразі у списку немає предметів',
+                                    style: TextStyle(fontSize: 22.sp),
+                                  ),
+                                  SizedBox(
+                                    height: 30.h,
+                                  ),
+                                  ZnoButton(
+                                      width: 260.w,
+                                      height: 60.h,
+                                      text: 'Обрати предмети',
+                                      onTap: () =>
+                                          context.go(Routes.subjectChoiceRoute),
+                                      fontSize: 23.sp)
+                                ],
+                              ),
+                            )
+                          : ZnoList(
+                              list:
+                                  listToShow.map((ZnoSubjectInterface subject) {
+                              return Tuple2(
+                                  subject.getName,
+                                  subject.getChildren().isEmpty
+                                      ? () => context.go(Routes.sessionsRoute,
+                                          extra: SessionsRouteData(
+                                              subjectName: subject.getName,
+                                              folderName: subject.getId))
+                                      : () => context.go(Routes.subjectsRoute,
+                                          extra: SubjectsRouteData(
+                                              subjectsList: subject
+                                                  .getChildren()
+                                                  .where((e) =>
+                                                      (snapshot.data!.$1)
+                                                          .selectedSubjects
+                                                          .contains(e.getId))
+                                                  .toList())));
+                            }).toList())
                     ],
                   ),
                 ),

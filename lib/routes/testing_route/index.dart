@@ -49,7 +49,7 @@ class TestingRouteState extends State<TestingRoute> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                ZnoTestingHeader(text: widget.dto.sessionData.subjectName),
+                ZnoTestingHeader(text: widget.dto.sessionData.sessionName),
                 Expanded(
                     child: MediaQuery.removePadding(
                   context: context,
