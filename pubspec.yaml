@@ -47,6 +47,7 @@ dependencies:
   audioplayers: ^5.1.0
   flutter_math_fork: ^0.7.1
   rive: ^0.9.1
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:

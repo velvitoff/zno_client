@@ -28,7 +28,7 @@ class ZnoTopHeaderText extends StatelessWidget {
           textAlign: TextAlign.center,
           style: TextStyle(
               color: const Color(0xFFEFEFEF),
-              fontSize: 27.sp,
+              fontSize: 25.sp,
               fontWeight: FontWeight.w500)),
     ));
 
