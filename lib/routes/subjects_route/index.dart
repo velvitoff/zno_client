@@ -22,7 +22,7 @@ import '../../dto/sessions_route_data.dart';
 import '../../dto/subjects_route_data.dart';
 import '../../widgets/zno_error.dart';
 
-bool HAS_ASKED_FOR_PERMISSIONS = false;
+bool globalHasAskedForPermissions = false;
 
 class SubjectsRoute extends StatefulWidget {
   final SubjectsRouteData? dto;
@@ -39,11 +39,11 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
   bool isScrollAtTop = true;
 
   Future<void> permissionServiceCall() async {
-    if (HAS_ASKED_FOR_PERMISSIONS == true) {
+    if (globalHasAskedForPermissions == true) {
       return;
     }
     await Permission.storage.request().then((value) {
-      HAS_ASKED_FOR_PERMISSIONS = true;
+      globalHasAskedForPermissions = true;
       showDialog(
           context: context,
           builder: (context) => InfoDialog(

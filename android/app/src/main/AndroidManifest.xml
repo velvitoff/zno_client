@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
    <application
-        android:label="zno_client"
+        android:label="Тести до ЗНО і НМТ"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

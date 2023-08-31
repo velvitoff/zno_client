@@ -11,22 +11,20 @@ class ZnoTestingHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ZnoTopHeaderSmall(
-      child: Container(
-        child: Stack(fit: StackFit.expand, children: [
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              text,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: text.length > 20 ? 20.sp : 24.sp,
-                  fontWeight: FontWeight.w400,
-                  color: const Color(0xFFF3F3F3)),
-            ),
+      child: Stack(fit: StackFit.expand, children: [
+        Align(
+          alignment: Alignment.center,
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: text.length > 20 ? 20.sp : 24.sp,
+                fontWeight: FontWeight.w400,
+                color: const Color(0xFFF3F3F3)),
           ),
-          const Align(alignment: Alignment(0.98, 0.0), child: ZnoMoreDropdown())
-        ]),
-      ),
+        ),
+        const Align(alignment: Alignment(0.98, 0.0), child: ZnoMoreDropdown())
+      ]),
     );
   }
 }

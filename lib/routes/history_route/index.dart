@@ -3,7 +3,6 @@ import 'package:client/routes/history_route/history_route_provider.dart';
 import 'package:client/widgets/zno_error.dart';
 import 'package:client/widgets/zno_top_header_small.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:client/widgets/zno_bottom_navigation_bar.dart';
 
 import '../../dto/previous_session_data.dart';
