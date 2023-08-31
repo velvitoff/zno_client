@@ -14,12 +14,15 @@ import 'package:client/widgets/zno_top_header_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:tuple/tuple.dart';
-
 import '../../all_subjects/all_subjects.dart';
+import '../../dialogs/info_dialog.dart';
 import '../../dto/sessions_route_data.dart';
 import '../../dto/subjects_route_data.dart';
 import '../../widgets/zno_error.dart';
+
+bool HAS_ASKED_FOR_PERMISSIONS = false;
 
 class SubjectsRoute extends StatefulWidget {
   final SubjectsRouteData? dto;
@@ -35,9 +38,24 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
   late final ScrollController scrollController;
   bool isScrollAtTop = true;
 
+  Future<void> permissionServiceCall() async {
+    if (HAS_ASKED_FOR_PERMISSIONS == true) {
+      return;
+    }
+    await Permission.storage.request().then((value) {
+      HAS_ASKED_FOR_PERMISSIONS = true;
+      showDialog(
+          context: context,
+          builder: (context) => InfoDialog(
+              text: 'Додаток може некоректно працювати без доступу до файлів',
+              height: 220.h));
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    permissionServiceCall();
 
     //init scrollController
     scrollController = ScrollController();
