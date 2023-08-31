@@ -75,7 +75,7 @@ class PrevSessionItem extends StatelessWidget {
       onTap: () => onRestoreSession(context),
       child: Container(
           height: detailed ? 120.h : 60.h,
-          margin: EdgeInsets.fromLTRB(15.w, 7.5.h, 15.w, 7.5.h),
+          margin: EdgeInsets.only(left: 15.w, right: 15.w, bottom: 16.h),
           padding: EdgeInsets.fromLTRB(14.w, 3.h, 0, 3.h),
           decoration: BoxDecoration(
               gradient: getGradient(),

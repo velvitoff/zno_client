@@ -10,13 +10,11 @@ class HistoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(0, 5.h, 0, 0),
-      child: ListView(
-        children: prevSessionsList
-            .map((item) => PrevSessionItem(data: item, detailed: true))
-            .toList(),
-      ),
+    return ListView(
+      padding: EdgeInsets.only(top: 12.h),
+      children: prevSessionsList
+          .map((item) => PrevSessionItem(data: item, detailed: true))
+          .toList(),
     );
   }
 }

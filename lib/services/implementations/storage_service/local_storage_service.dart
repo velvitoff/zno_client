@@ -248,7 +248,7 @@ class LocalStorageService extends StorageServiceInterface {
   Future<void> savePersonalConfigData(PersonalConfigData data) async {
     final file =
         await File('$_znoDirPath${Platform.pathSeparator}personal_config.json')
-            .create();
+            .create(recursive: true);
     await file.writeAsString(jsonEncode(data.toJSON()));
   }
 }

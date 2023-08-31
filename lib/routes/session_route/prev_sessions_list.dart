@@ -67,7 +67,6 @@ class _PastSessionsListState extends State<PrevSessionsList> {
                   Container(
                     width: 320.w,
                     height: 165.h,
-                    padding: EdgeInsets.fromLTRB(0, 7.5.h, 0, 7.5.h),
                     decoration: BoxDecoration(
                         color: const Color(0xFFFAFAFA),
                         borderRadius:
@@ -75,6 +74,7 @@ class _PastSessionsListState extends State<PrevSessionsList> {
                         border: Border.all(
                             color: const Color(0xFF787878).withOpacity(0.3))),
                     child: ListView(
+                      padding: EdgeInsets.only(top: 12.h),
                       children: sessionsList.map((item) {
                         return PrevSessionItem(
                           data: item,

@@ -60,7 +60,7 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
     //init scrollController
     scrollController = ScrollController();
     scrollController.addListener(() {
-      if (scrollController.offset >= 20.h) {
+      if (scrollController.offset >= 40.h) {
         if (isScrollAtTop) {
           setState(() => isScrollAtTop = false);
         }
@@ -147,7 +147,7 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
                                 )
                               : Container(),
                         ),
-                        expandedHeight: 250.h,
+                        expandedHeight: 200.h,
                         backgroundColor: const Color(0xFFF5F5F5),
                       ),
                       listToShow.isEmpty
@@ -170,7 +170,7 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
                                       text: 'Обрати предмети',
                                       onTap: () =>
                                           context.go(Routes.subjectChoiceRoute),
-                                      fontSize: 23.sp)
+                                      fontSize: 22.sp)
                                 ],
                               ),
                             )

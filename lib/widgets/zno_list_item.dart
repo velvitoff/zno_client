@@ -58,7 +58,7 @@ class ZnoListItem extends StatelessWidget {
             maxLines: 2,
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: text.length < 19 ? 27.sp : 24.sp,
+                fontSize: text.length < 19 ? 25.sp : 23.sp,
                 fontWeight: FontWeight.w400),
           ),
         ),
