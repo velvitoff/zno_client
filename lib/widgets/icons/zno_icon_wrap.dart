@@ -16,11 +16,11 @@ class ZnoIconWrap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 72.w,
+        width: 85.w,
         height: 62.h,
         decoration: BoxDecoration(
             color: isActive ? const Color(0xFF408A48) : const Color(0x00FFFFFF),
-            borderRadius: const BorderRadius.all(Radius.circular(10))),
+            borderRadius: const BorderRadius.all(Radius.circular(7))),
         child: Column(
           children: [
             childIcon,
