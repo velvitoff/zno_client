@@ -20,10 +20,14 @@ class ConfirmDialog extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              text,
-              style: TextStyle(fontSize: 24.sp),
-              textAlign: TextAlign.center,
+            Expanded(
+              child: Center(
+                child: Text(
+                  text,
+                  style: TextStyle(fontSize: 24.sp),
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

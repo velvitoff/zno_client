@@ -71,10 +71,12 @@ class TestingButtons extends StatelessWidget {
     return Container(
       height: 50.h,
       margin: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: childList,
-      ),
+      child: childList.length == 1
+          ? childList[0]
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: childList,
+            ),
     );
   }
 }

@@ -59,7 +59,7 @@ class _HistoryRouteState extends State<HistoryRoute> {
               },
             ),
           ),
-          const ZnoBottomNavigationBar(activeIndex: 1)
+          const ZnoBottomNavigationBar(activeIndex: 2)
         ],
       )),
     );

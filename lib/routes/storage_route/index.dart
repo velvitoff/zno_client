@@ -65,7 +65,7 @@ class _StorageRouteState extends State<StorageRoute> {
               },
             ),
           ),
-          const ZnoBottomNavigationBar(activeIndex: 2)
+          const ZnoBottomNavigationBar(activeIndex: 3)
         ],
       )),
     );

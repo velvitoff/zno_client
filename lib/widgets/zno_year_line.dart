@@ -8,7 +8,8 @@ class ZnoYearLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
       height: 25.h,
       child: Stack(
         alignment: Alignment.center,

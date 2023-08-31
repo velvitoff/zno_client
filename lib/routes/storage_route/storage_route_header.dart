@@ -35,7 +35,7 @@ class StorageRouteHeader extends StatelessWidget {
         builder: (context) => InfoDialog(
             height: 460.h,
             text:
-                'Даний додаток зберігає файли тестування, зображення та аудіо файли на вашому пристрої, що дозволяє вам виконувати тести без зв\'язку з мережею.\n\nФайли автоматично завантажуються на початку спроби проходження теста.\n\nСторінка "Сховище" дозволяє вам керувати збереженими файлами та видаляти їх.'));
+                'Цей додаток зберігає файли тестування, зображення та аудіо-файли на вашому пристрої, що дозволяє вам виконувати тести без зв\'язку з мережею.\n\nФайли автоматично завантажуються на початку спроби проходження тесту.\n\nСторінка "Сховище" дозволяє вам керувати збереженими файлами та видаляти їх.'));
   }
 
   @override
@@ -54,7 +54,7 @@ class StorageRouteHeader extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(0, 0, 17.w, 0),
+            margin: EdgeInsets.fromLTRB(0, 0, 12.w, 0),
             child: Row(
               children: [
                 context.watch<StorageRouteModel>().isAtLeastOneItemMarked()

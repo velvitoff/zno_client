@@ -19,7 +19,7 @@ class ZnoListItem extends StatelessWidget {
     switch (type) {
       case ZnoListColorType.normal:
         return const LinearGradient(colors: [
-          Color.fromRGBO(153, 215, 132, 0.03),
+          Color.fromRGBO(153, 215, 132, 0.1),
           Color.fromRGBO(118, 174, 98, 0.16)
         ], begin: Alignment.topLeft, end: Alignment.bottomRight);
       case ZnoListColorType.green:
@@ -45,7 +45,7 @@ class ZnoListItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.fromLTRB(0, 15.h, 0, 15.h),
+        margin: EdgeInsets.only(bottom: 13.h),
         decoration: BoxDecoration(
             border: Border.all(width: 2, color: const Color(0x0A363636)),
             borderRadius: BorderRadius.circular(10),

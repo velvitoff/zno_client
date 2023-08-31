@@ -23,7 +23,7 @@ class ZnoTestingHeader extends StatelessWidget {
                 color: const Color(0xFFF3F3F3)),
           ),
         ),
-        const Align(alignment: Alignment(0.98, 0.0), child: ZnoMoreDropdown())
+        const Align(alignment: Alignment(0.95, 0.0), child: ZnoMoreDropdown())
       ]),
     );
   }

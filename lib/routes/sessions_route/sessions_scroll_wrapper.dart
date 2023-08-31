@@ -17,17 +17,14 @@ class SessionsScrollWrapper extends StatelessWidget {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-          flexibleSpace: Container(
-            margin: EdgeInsets.only(bottom: 5.h),
-            child: ZnoTopHeaderText(
-              text: subjectName,
-              topLeftWidget: ZnoIconButton(
-                  icon: Icons.arrow_back,
-                  onTap: () => context.go(Routes.subjectsRoute)),
-            ),
+          flexibleSpace: ZnoTopHeaderText(
+            text: subjectName,
+            topLeftWidget: ZnoIconButton(
+                icon: Icons.arrow_back,
+                onTap: () => context.go(Routes.subjectsRoute)),
           ),
           backgroundColor: const Color(0xFFF5F5F5),
-          expandedHeight: 250.h,
+          expandedHeight: 200.h,
           collapsedHeight: 70.h,
           pinned: true,
           shadowColor: const Color(0x00000000), //no shadow

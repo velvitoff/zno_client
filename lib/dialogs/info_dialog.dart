@@ -48,12 +48,15 @@ class _InfoDialogState extends State<InfoDialog> {
                 ),
               ),
             ),
-            ZnoButton(
-              onTap: () => Navigator.pop(context),
-              width: 100.w,
-              height: 50.h,
-              text: 'Добре',
-              fontSize: 20.sp,
+            Padding(
+              padding: EdgeInsets.only(top: 10.h, bottom: 5.h),
+              child: ZnoButton(
+                onTap: () => Navigator.pop(context),
+                width: 100.w,
+                height: 50.h,
+                text: 'Добре',
+                fontSize: 20.sp,
+              ),
             )
           ],
         ),

@@ -61,7 +61,7 @@ class SessionDisplay extends StatelessWidget {
         border: Border.all(width: 1.5, color: const Color(0x4C787878)),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
@@ -80,6 +80,11 @@ class SessionDisplay extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              ZnoListItem(
+                text: 'Почати спробу',
+                colorType: ZnoListColorType.button,
+                onTap: () => onSessionStart(context, model),
+              ),
               GestureDetector(
                 onTap: () => model.invertTimerSelected(),
                 child: Row(
@@ -110,11 +115,7 @@ class SessionDisplay extends StatelessWidget {
                   ],
                 ),
               ),
-              ZnoListItem(
-                text: 'Почати спробу',
-                colorType: ZnoListColorType.button,
-                onTap: () => onSessionStart(context, model),
-              )
+              SizedBox(height: 10.h),
             ],
           ),
         ],

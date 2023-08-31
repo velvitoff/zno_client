@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:client/all_subjects/zno_subject.dart';
 import 'package:client/all_subjects/zno_subject_group.dart';
 import 'package:client/all_subjects/zno_subject_interface.dart';
@@ -7,7 +8,6 @@ import 'package:client/routes.dart';
 import 'package:client/services/interfaces/storage_service_interface.dart';
 import 'package:client/widgets/zno_bottom_navigation_bar.dart';
 import 'package:client/widgets/zno_button.dart';
-import 'package:client/widgets/zno_icon_button.dart';
 import 'package:client/widgets/zno_list.dart';
 import 'package:client/widgets/zno_loading.dart';
 import 'package:client/widgets/zno_top_header_text.dart';
@@ -35,11 +35,12 @@ class SubjectsRoute extends StatefulWidget {
 
 class _SubjectsRouteState extends State<SubjectsRoute> {
   late final Future<(PersonalConfigData, List<ZnoSubjectInterface>)> futureData;
-  late final ScrollController scrollController;
-  bool isScrollAtTop = true;
 
   Future<void> permissionServiceCall() async {
     if (globalHasAskedForPermissions == true) {
+      return;
+    }
+    if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
       return;
     }
     await Permission.storage.request().then((value) {
@@ -56,20 +57,6 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
   void initState() {
     super.initState();
     permissionServiceCall();
-
-    //init scrollController
-    scrollController = ScrollController();
-    scrollController.addListener(() {
-      if (scrollController.offset >= 40.h) {
-        if (isScrollAtTop) {
-          setState(() => isScrollAtTop = false);
-        }
-      } else {
-        if (!isScrollAtTop) {
-          setState(() => isScrollAtTop = true);
-        }
-      }
-    });
 
     //init Future data
     futureData = locator
@@ -115,12 +102,6 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
   }
 
   @override
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
@@ -134,21 +115,16 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
               children: [
                 Expanded(
                   child: CustomScrollView(
-                    controller: scrollController,
                     slivers: [
                       SliverAppBar(
-                        flexibleSpace: ZnoTopHeaderText(
+                        flexibleSpace: const ZnoTopHeaderText(
                           text: 'Оберіть предмет зі списку, щоб пройти тест',
-                          topRightWidget: isScrollAtTop
-                              ? ZnoIconButton(
-                                  icon: Icons.format_list_bulleted,
-                                  onTap: () =>
-                                      context.go(Routes.subjectChoiceRoute),
-                                )
-                              : Container(),
                         ),
                         expandedHeight: 200.h,
                         backgroundColor: const Color(0xFFF5F5F5),
+                      ),
+                      SliverToBoxAdapter(
+                        child: SizedBox(height: 20.h),
                       ),
                       listToShow.isEmpty
                           ? SliverToBoxAdapter(

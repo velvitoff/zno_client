@@ -22,29 +22,31 @@ class ZnoTopHeaderText extends StatelessWidget {
           .add(Align(alignment: Alignment.topRight, child: topRightWidget));
     }
 
-    stackChildren.add(Align(
-      alignment: Alignment.center,
-      child: Text(text,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: const Color(0xFFEFEFEF),
-              fontSize: 25.sp,
-              fontWeight: FontWeight.w500)),
+    stackChildren.add(Center(
+      child: Container(
+        margin: EdgeInsets.only(left: 5.w),
+        width: 330.w,
+        child: Text(text,
+            maxLines: 2,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: const Color(0xFFEFEFEF),
+                fontSize: 25.sp,
+                fontWeight: FontWeight.w500)),
+      ),
     ));
 
     final double topPadding = MediaQuery.of(context).padding.top;
     return Container(
-      height: 250.h,
+      height: 200.h,
       width: 360.w,
       padding: EdgeInsets.fromLTRB(6.w, 0, 6.w, 0),
       decoration: const BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.bottomRight,
-              end: Alignment.topLeft,
-              colors: [Color(0xFF38543B), Color(0xFF418C4A)]),
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(10),
-              bottomRight: Radius.circular(10))),
+        gradient: LinearGradient(
+            begin: Alignment.bottomRight,
+            end: Alignment.topLeft,
+            colors: [Color(0xFF38543B), Color(0xFF418C4A)]),
+      ),
       child: Padding(
         padding: EdgeInsets.only(top: topPadding),
         child: Stack(

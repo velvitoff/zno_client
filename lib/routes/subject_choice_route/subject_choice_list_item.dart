@@ -27,15 +27,14 @@ class SubjectChoiceListItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            width: 80.r,
-            height: 80.r,
-            decoration: decoration,
-            child: Center(
-              child: GestureDetector(
-                onTap: () => context
-                    .read<SubjectChoiceRouteModel>()
-                    .setIsMarked(subjectKey),
+          GestureDetector(
+            onTap: () =>
+                context.read<SubjectChoiceRouteModel>().setIsMarked(subjectKey),
+            child: Container(
+              width: 80.r,
+              height: 80.r,
+              decoration: decoration,
+              child: Center(
                 child: ZnoRadioBox(
                     isActive: context
                         .watch<SubjectChoiceRouteModel>()

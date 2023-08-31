@@ -20,13 +20,11 @@ class ZnoTopHeaderSmall extends StatelessWidget {
         height: 70.h + topPadding,
         width: double.infinity,
         decoration: const BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Color(0xFF418C4A), Color(0xFF38543B)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight),
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10))),
+          gradient: LinearGradient(
+              colors: [Color(0xFF418C4A), Color(0xFF38543B)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight),
+        ),
         child: child,
       ),
     );
