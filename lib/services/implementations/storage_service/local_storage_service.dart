@@ -191,6 +191,9 @@ class LocalStorageService extends StorageServiceInterface {
   @override
   Future<List<StorageRouteItemData>> getStorageData() async {
     Directory testsDir = Directory(_testsDir);
+    if (!await testsDir.exists()) {
+      return [];
+    }
 
     List<Directory> subjectFolders = await testsDir
         .list()

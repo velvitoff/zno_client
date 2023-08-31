@@ -41,11 +41,8 @@ class _HistoryRouteState extends State<HistoryRoute> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   if (snapshot.data!.isEmpty) {
-                    return Text('Немає історії попередніх спроб',
-                        style: TextStyle(
-                            color: const Color(0xFF5F5F5F),
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w400));
+                    return const ZnoError(
+                        text: 'Немає історії попередніх спроб');
                   } else {
                     return HistoryList(prevSessionsList: snapshot.data!);
                   }
