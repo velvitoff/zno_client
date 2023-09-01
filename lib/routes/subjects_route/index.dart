@@ -44,8 +44,8 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
       return;
     }
     await Permission.storage.request().then((value) {
+      globalHasAskedForPermissions = true;
       if (!value.isGranted) {
-        globalHasAskedForPermissions = true;
         showDialog(
             context: context,
             builder: (context) => InfoDialog(
