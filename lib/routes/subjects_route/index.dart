@@ -44,12 +44,14 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
       return;
     }
     await Permission.storage.request().then((value) {
-      globalHasAskedForPermissions = true;
-      showDialog(
-          context: context,
-          builder: (context) => InfoDialog(
-              text: 'Додаток може некоректно працювати без доступу до файлів',
-              height: 220.h));
+      if (!value.isGranted) {
+        globalHasAskedForPermissions = true;
+        showDialog(
+            context: context,
+            builder: (context) => InfoDialog(
+                text: 'Додаток може некоректно працювати без доступу до файлів',
+                height: 220.h));
+      }
     });
   }
 
