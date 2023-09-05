@@ -14,4 +14,4 @@ By passing those tests from previous years, students can effectively prepare for
     <img width="308px" height="569px" src="repo_assets/testing_screen2.png" />
 </div>
 
-Find it on Play market : [link]()
+Find it on [Play market](https://play.google.com/store/apps/details?id=com.velvit.zno_client)

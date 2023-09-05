@@ -5,9 +5,14 @@ class ZnoTopHeaderText extends StatelessWidget {
   final String text;
   final Widget? topRightWidget;
   final Widget? topLeftWidget;
+  final double? fontSize;
 
   const ZnoTopHeaderText(
-      {Key? key, required this.text, this.topRightWidget, this.topLeftWidget})
+      {Key? key,
+      required this.text,
+      this.topRightWidget,
+      this.topLeftWidget,
+      this.fontSize})
       : super(key: key);
 
   @override
@@ -31,14 +36,14 @@ class ZnoTopHeaderText extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: const Color(0xFFEFEFEF),
-                fontSize: 25.sp,
+                fontSize: fontSize ?? 25.sp,
                 fontWeight: FontWeight.w500)),
       ),
     ));
 
     final double topPadding = MediaQuery.of(context).padding.top;
     return Container(
-      height: 200.h,
+      height: 150.h,
       width: 360.w,
       padding: EdgeInsets.fromLTRB(6.w, 0, 6.w, 0),
       decoration: const BoxDecoration(

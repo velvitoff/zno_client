@@ -31,8 +31,8 @@ class SubjectChoiceListItem extends StatelessWidget {
             onTap: () =>
                 context.read<SubjectChoiceRouteModel>().setIsMarked(subjectKey),
             child: Container(
-              width: 80.r,
-              height: 80.r,
+              width: 65.r,
+              height: 65.r,
               decoration: decoration,
               child: Center(
                 child: ZnoRadioBox(
@@ -47,7 +47,7 @@ class SubjectChoiceListItem extends StatelessWidget {
           ),
           Container(
             width: 245.w,
-            height: 80.r,
+            height: 65.r,
             padding: EdgeInsets.all(4.r),
             decoration: decoration,
             child: Center(
@@ -56,7 +56,7 @@ class SubjectChoiceListItem extends StatelessWidget {
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      fontSize: subjectName.length < 19 ? 27.sp : 22.sp,
+                      fontSize: subjectName.length < 19 ? 25.sp : 22.sp,
                       fontWeight: FontWeight.w400)),
             ),
           )

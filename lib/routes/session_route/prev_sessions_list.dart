@@ -35,12 +35,18 @@ class _PastSessionsListState extends State<PrevSessionsList> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 320.w,
-      height: 200.h,
+      height: 300.h,
       child: Center(
         child: FutureBuilder(
           future: dataList,
           builder: (BuildContext context,
               AsyncSnapshot<List<PreviousSessionData>> snapshot) {
+            if (snapshot.hasError) {
+              return const ZnoError(
+                text: 'Помилка завантаження попередніх спроб',
+                textColor: Color.fromARGB(255, 58, 58, 58),
+              );
+            }
             if (snapshot.hasData) {
               if (snapshot.data!.isEmpty) {
                 return Text('Немає попередніх спроб',
@@ -54,48 +60,43 @@ class _PastSessionsListState extends State<PrevSessionsList> {
                   List.from(snapshot.data!);
               sessionsList.sort((a, b) => b.date.compareTo(a.date));
               return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('Попередні спроби',
-                      style: TextStyle(
-                          color: const Color(0xFF5F5F5F),
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w400)),
-                  SizedBox(
-                    height: 10.h,
+                  Flexible(
+                    flex: 4,
+                    child: Text('Попередні спроби',
+                        style: TextStyle(
+                            color: const Color(0xFF5F5F5F),
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w400)),
                   ),
-                  Container(
-                    width: 320.w,
-                    height: 165.h,
-                    decoration: BoxDecoration(
-                        color: const Color(0xFFFAFAFA),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(5)),
-                        border: Border.all(
-                            color: const Color(0xFF787878).withOpacity(0.3))),
-                    child: ListView(
-                      padding: EdgeInsets.only(top: 12.h),
-                      children: sessionsList.map((item) {
-                        return PrevSessionItem(
-                          data: item,
-                        );
-                      }).toList(),
+                  const Spacer(flex: 1),
+                  Flexible(
+                    flex: 20,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                          color: const Color(0xFFFAFAFA),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(5)),
+                          border: Border.all(
+                              color: const Color(0xFF787878).withOpacity(0.3))),
+                      child: ListView(
+                        padding: EdgeInsets.only(top: 12.h),
+                        children: sessionsList.map((item) {
+                          return PrevSessionItem(
+                            data: item,
+                          );
+                        }).toList(),
+                      ),
                     ),
                   )
                 ],
               );
-            } else if (snapshot.hasError) {
-              return const ZnoError(
-                text: 'Помилка завантаження попередніх спроб',
-                textColor: Color.fromARGB(255, 58, 58, 58),
-              );
             } else {
-              return const Center(
-                child: FractionallySizedBox(
-                  widthFactor: 0.6,
-                  heightFactor: 0.6,
-                  child: ZnoLoading(),
-                ),
+              return const FractionallySizedBox(
+                widthFactor: 0.6,
+                heightFactor: 0.6,
+                child: ZnoLoading(),
               );
             }
           },

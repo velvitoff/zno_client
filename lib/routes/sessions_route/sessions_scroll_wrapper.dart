@@ -14,17 +14,19 @@ class SessionsScrollWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double topPadding = MediaQuery.of(context).padding.top;
     return CustomScrollView(
       slivers: [
         SliverAppBar(
           flexibleSpace: ZnoTopHeaderText(
             text: subjectName,
+            fontSize: subjectName.length > 24 ? 21.5.sp : 25.sp,
             topLeftWidget: ZnoIconButton(
                 icon: Icons.arrow_back,
                 onTap: () => context.go(Routes.subjectsRoute)),
           ),
           backgroundColor: const Color(0xFFF5F5F5),
-          expandedHeight: 200.h,
+          expandedHeight: 150.h - topPadding,
           collapsedHeight: 70.h,
           pinned: true,
           shadowColor: const Color(0x00000000), //no shadow

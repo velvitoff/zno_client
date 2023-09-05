@@ -105,6 +105,7 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
 
   @override
   Widget build(BuildContext context) {
+    final double topPadding = MediaQuery.of(context).padding.top;
     return Scaffold(
       body: FutureBuilder(
         future: futureData,
@@ -122,7 +123,7 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
                         flexibleSpace: const ZnoTopHeaderText(
                           text: 'Оберіть предмет зі списку, щоб пройти тест',
                         ),
-                        expandedHeight: 200.h,
+                        expandedHeight: 150.h - topPadding,
                         backgroundColor: const Color(0xFFF5F5F5),
                       ),
                       SliverToBoxAdapter(

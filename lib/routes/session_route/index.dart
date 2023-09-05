@@ -5,6 +5,7 @@ import 'package:client/routes/session_route/session_display.dart';
 import 'package:client/routes/session_route/session_route_provider.dart';
 import 'package:client/widgets/zno_icon_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../widgets/zno_bottom_navigation_bar.dart';
@@ -24,6 +25,7 @@ class SessionRoute extends StatelessWidget {
         children: [
           ZnoTopHeaderText(
               text: dto.subjectName,
+              fontSize: dto.subjectName.length > 24 ? 21.5.sp : 25.sp,
               topLeftWidget: ZnoIconButton(
                 icon: Icons.arrow_back,
                 onTap: () => context.go(Routes.sessionsRoute,

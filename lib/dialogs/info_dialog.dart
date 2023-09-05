@@ -5,7 +5,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class InfoDialog extends StatefulWidget {
   final String text;
   final double height;
-  const InfoDialog({super.key, required this.text, required this.height});
+  final bool isScrollBarAlwaysVisible;
+  const InfoDialog(
+      {super.key,
+      required this.text,
+      required this.height,
+      this.isScrollBarAlwaysVisible = false});
 
   @override
   State<InfoDialog> createState() => _InfoDialogState();
@@ -39,12 +44,17 @@ class _InfoDialogState extends State<InfoDialog> {
         child: Column(
           children: [
             Expanded(
-              child: SingleChildScrollView(
+              child: Scrollbar(
                 controller: scrollController,
-                child: Text(
-                  widget.text,
-                  style: TextStyle(fontSize: 24.sp),
-                  textAlign: TextAlign.center,
+                thumbVisibility: widget.isScrollBarAlwaysVisible,
+                thickness: 7.0,
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  child: Text(
+                    widget.text,
+                    style: TextStyle(fontSize: 24.sp),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ),

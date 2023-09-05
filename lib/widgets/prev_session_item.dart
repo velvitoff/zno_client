@@ -64,8 +64,8 @@ class PrevSessionItem extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-                Color.fromRGBO(238, 134, 59, 0.5),
-                Color.fromRGBO(205, 133, 47, 0.62)
+                Color.fromRGBO(178, 177, 176, 0.147),
+                Color.fromRGBO(178, 177, 176, 0.247)
               ]);
   }
 

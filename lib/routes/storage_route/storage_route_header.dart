@@ -33,7 +33,8 @@ class StorageRouteHeader extends StatelessWidget {
     showDialog(
         context: context,
         builder: (context) => InfoDialog(
-            height: 460.h,
+            height: 300.h,
+            isScrollBarAlwaysVisible: true,
             text:
                 'Цей додаток зберігає файли тестування, зображення та аудіо-файли на вашому пристрої, що дозволяє вам виконувати тести без зв\'язку з мережею.\n\nФайли автоматично завантажуються на початку спроби проходження тесту.\n\nСторінка "Сховище" дозволяє вам керувати збереженими файлами та видаляти їх.'));
   }
