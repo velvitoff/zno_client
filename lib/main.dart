@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,
             routerConfig: Routes.router,
-            title: 'zno_project',
+            title: 'Тести ЗНО і НМТ',
             theme: ThemeData(
               primarySwatch: Colors.green,
               fontFamily: 'Ubuntu',
