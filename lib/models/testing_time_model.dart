@@ -6,6 +6,7 @@ class TestingTimeModel extends ChangeNotifier {
   bool isTimerActivated;
   int secondsSinceStart;
   int secondsInTotal;
+  bool isViewMode;
 
   void switchIsActivated() {
     isTimerActivated = !isTimerActivated;
@@ -15,11 +16,16 @@ class TestingTimeModel extends ChangeNotifier {
   TestingTimeModel(
       {required this.isTimerActivated,
       required this.secondsSinceStart,
-      required this.secondsInTotal}) {
-    timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      secondsSinceStart += 1;
-      notifyListeners();
-    });
+      required this.secondsInTotal,
+      required this.isViewMode}) {
+    if (!isViewMode) {
+      timer = Timer.periodic(const Duration(seconds: 1), (_) {
+        secondsSinceStart += 1;
+        notifyListeners();
+      });
+    } else {
+      timer = Timer(const Duration(seconds: 0), () {});
+    }
   }
 
   @override
