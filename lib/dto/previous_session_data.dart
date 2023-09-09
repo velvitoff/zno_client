@@ -104,7 +104,9 @@ class PreviousSessionData {
       } else if (q.textFields != null) {
         List<String> answerList = List<String>.from(answerEntry.value);
         for (int i = 0; i < q.textFields!.correctList.length; ++i) {
-          if (q.textFields!.correctList[i] == answerList[i]) {
+          if (q.textFields!.correctList[i] == answerList[i] ||
+              q.textFields!.correctList[i].replaceAll('.', ',') ==
+                  answerList[i]) {
             score += 1;
           }
         }

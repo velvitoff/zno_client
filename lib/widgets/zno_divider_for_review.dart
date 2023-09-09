@@ -98,7 +98,14 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
         return whiteColor;
       }
 
-      if (listEquals(_questions![ind].textFields!.correctList, answers)) {
+      if (listEquals(_questions![ind].textFields!.correctList, answers) ||
+          listEquals(
+              _questions![ind]
+                  .textFields!
+                  .correctList
+                  .map((x) => x.replaceAll('.', ','))
+                  .toList(),
+              answers)) {
         return greenColor;
       }
 
