@@ -49,6 +49,7 @@ dependencies:
   rive: ^0.9.1
   flutter_launcher_icons: ^0.13.1
   permission_handler: ^10.4.3
+  archive: ^3.3.9
 
 dev_dependencies:
   flutter_test:
