@@ -79,7 +79,7 @@ class _SettingsRouteState extends State<SettingsRoute> {
                 ),
                 SettingsItem(
                   text: 'Преміум',
-                  onTap: () => context.go(Routes.historyRoute),
+                  onTap: () => context.go(Routes.premiumRoute),
                   goldenBorder: true,
                   icon: CustomPaint(
                     painter: const ZnoStarIcon(),

@@ -2,6 +2,7 @@ import 'package:client/dto/image_view_route_data.dart';
 import 'package:client/dto/sessions_route_data.dart';
 import 'package:client/routes/history_route/index.dart';
 import 'package:client/routes/image_view_route/index.dart';
+import 'package:client/routes/premium_route/index.dart';
 import 'package:client/routes/session_route/index.dart';
 import 'package:client/routes/settings_route/index.dart';
 import 'package:client/routes/storage_route/index.dart';
@@ -29,6 +30,7 @@ class Routes {
   static const imageViewRoute = '/image_view';
   static const subjectChoiceRoute = '/subject_choice';
   static const settingsRoute = '/settings';
+  static const premiumRoute = '/premium';
 
   static GoRouter get router => _router;
 
@@ -167,6 +169,22 @@ class Routes {
                   key: state.pageKey,
                   transitionDuration: const Duration(milliseconds: 250),
                   child: const SettingsRoute(),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    return FadeTransition(
+                      opacity: CurveTween(curve: Curves.easeInOutCirc)
+                          .animate(animation),
+                      child: child,
+                    );
+                  });
+            }),
+        GoRoute(
+            path: premiumRoute,
+            pageBuilder: (context, state) {
+              return CustomTransitionPage(
+                  key: state.pageKey,
+                  transitionDuration: const Duration(milliseconds: 250),
+                  child: const PremiumRoute(),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {
                     return FadeTransition(

@@ -46,7 +46,7 @@ class SettingsItem extends StatelessWidget {
           Row(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 8.w, right: 8.w),
+                padding: EdgeInsets.only(left: 10.w, right: 12.w),
                 child: icon,
               ),
               Text(
