@@ -21,9 +21,12 @@ class SessionsScrollWrapper extends StatelessWidget {
           flexibleSpace: ZnoTopHeaderText(
             text: subjectName,
             fontSize: subjectName.length > 24 ? 21.5.sp : 25.sp,
-            topLeftWidget: ZnoIconButton(
-                icon: Icons.arrow_back,
-                onTap: () => context.go(Routes.subjectsRoute)),
+            topLeftWidget: Padding(
+              padding: EdgeInsets.only(top: 10.h),
+              child: ZnoIconButton(
+                  icon: Icons.arrow_back,
+                  onTap: () => context.go(Routes.subjectsRoute)),
+            ),
           ),
           backgroundColor: const Color(0xFFF5F5F5),
           expandedHeight: 150.h - topPadding,

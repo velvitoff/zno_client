@@ -176,7 +176,8 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
                     ],
                   ),
                 ),
-                const ZnoBottomNavigationBar(activeIndex: 0)
+                const ZnoBottomNavigationBar(
+                    activeRoute: ZnoBottomNavigationEnum.subjects)
               ],
             );
           } else if (snapshot.hasError) {

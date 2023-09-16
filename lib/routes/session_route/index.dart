@@ -26,19 +26,23 @@ class SessionRoute extends StatelessWidget {
           ZnoTopHeaderText(
               text: dto.subjectName,
               fontSize: dto.subjectName.length > 24 ? 21.5.sp : 25.sp,
-              topLeftWidget: ZnoIconButton(
-                icon: Icons.arrow_back,
-                onTap: () => context.go(Routes.sessionsRoute,
-                    extra: SessionsRouteData(
-                        subjectName: dto.subjectName,
-                        folderName: dto.folderName)),
+              topLeftWidget: Padding(
+                padding: EdgeInsets.only(top: 10.h),
+                child: ZnoIconButton(
+                  icon: Icons.arrow_back,
+                  onTap: () => context.go(Routes.sessionsRoute,
+                      extra: SessionsRouteData(
+                          subjectName: dto.subjectName,
+                          folderName: dto.folderName)),
+                ),
               )),
           const Expanded(
             child: Center(
               child: SessionDisplay(),
             ),
           ),
-          const ZnoBottomNavigationBar(activeIndex: 0),
+          const ZnoBottomNavigationBar(
+              activeRoute: ZnoBottomNavigationEnum.subjects),
         ],
       ),
     ));

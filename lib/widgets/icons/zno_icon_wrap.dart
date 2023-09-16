@@ -16,7 +16,7 @@ class ZnoIconWrap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 85.w,
+        width: 155.w,
         height: 62.h,
         decoration: BoxDecoration(
             color: isActive ? const Color(0xFF408A48) : const Color(0x00FFFFFF),
@@ -24,6 +24,9 @@ class ZnoIconWrap extends StatelessWidget {
         child: Column(
           children: [
             childIcon,
+            SizedBox(
+              height: 4.h,
+            ),
             Text(
               text,
               textAlign: TextAlign.center,

@@ -1,10 +1,13 @@
 import 'package:client/dialogs/info_dialog.dart';
 import 'package:client/models/storage_route_model.dart';
+import 'package:client/routes.dart';
 import 'package:client/routes/storage_route/storage_header_radio_button.dart';
 import 'package:client/dialogs/confirm_dialog.dart';
+import 'package:client/widgets/zno_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:client/widgets/zno_top_header_small.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class StorageRouteHeader extends StatelessWidget {
@@ -45,15 +48,9 @@ class StorageRouteHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            margin: EdgeInsets.fromLTRB(28.w + 2, 0, 0, 0),
-            child: GestureDetector(
-              onTap: () => context.read<StorageRouteModel>().setIsMarkedAll(),
-              child: StorageHeaderRadioButton(
-                isMarked: context.watch<StorageRouteModel>().getIsMarkedAll(),
-              ),
-            ),
-          ),
+          ZnoIconButton(
+              icon: Icons.arrow_back,
+              onTap: () => context.go(Routes.settingsRoute)),
           Container(
             margin: EdgeInsets.fromLTRB(0, 0, 12.w, 0),
             child: Row(
@@ -67,9 +64,22 @@ class StorageRouteHeader extends StatelessWidget {
                           color: const Color(0xFFF1F1F1),
                         ),
                       )
-                    : Container(),
+                    : Container(
+                        width: 39.sp,
+                      ),
                 SizedBox(
-                  width: 16.w,
+                  width: 25.w,
+                ),
+                GestureDetector(
+                  onTap: () =>
+                      context.read<StorageRouteModel>().setIsMarkedAll(),
+                  child: StorageHeaderRadioButton(
+                    isMarked:
+                        context.watch<StorageRouteModel>().getIsMarkedAll(),
+                  ),
+                ),
+                SizedBox(
+                  width: 25.w,
                 ),
                 GestureDetector(
                   onTap: () => showStorageInfo(context),

@@ -120,7 +120,8 @@ class SessionsRouteState extends State<SessionsRoute> {
               },
             ),
           ),
-          const ZnoBottomNavigationBar(activeIndex: 0)
+          const ZnoBottomNavigationBar(
+              activeRoute: ZnoBottomNavigationEnum.subjects)
         ],
       ),
     );

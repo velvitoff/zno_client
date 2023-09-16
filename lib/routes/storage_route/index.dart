@@ -3,10 +3,8 @@ import 'package:client/routes/storage_route/storage_route_header.dart';
 import 'package:client/routes/storage_route/storage_route_provider.dart';
 import 'package:client/widgets/zno_error.dart';
 import 'package:flutter/material.dart';
-import 'package:client/widgets/zno_bottom_navigation_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
 import '../../dto/storage_route_item_data.dart';
 import '../../locator.dart';
 import '../../models/storage_route_model.dart';
@@ -64,8 +62,7 @@ class _StorageRouteState extends State<StorageRoute> {
                 }
               },
             ),
-          ),
-          const ZnoBottomNavigationBar(activeIndex: 3)
+          )
         ],
       )),
     );
