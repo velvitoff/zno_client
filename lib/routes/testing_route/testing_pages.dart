@@ -5,7 +5,6 @@ import 'package:client/routes/testing_route/testing_page/testing_page.dart';
 import 'package:client/services/interfaces/storage_service_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tuple/tuple.dart';
 import '../../dto/previous_session_data.dart';
 import '../../dto/question_data.dart';
 
@@ -60,19 +59,19 @@ class _TestingPagesState extends State<TestingPages>
 
   @override
   Widget build(BuildContext context) {
-    return Selector<TestingRouteModel, Tuple2<PageController, List<Question>>>(
-      selector: (_, model) => Tuple2(model.pageController, model.questions),
+    return Selector<TestingRouteModel, (PageController, List<Question>)>(
+      selector: (_, model) => (model.pageController, model.questions),
       builder: (_, data, __) {
         return PageView.builder(
           physics: const NeverScrollableScrollPhysics(),
-          controller: data.item1,
+          controller: data.$1,
           scrollDirection: Axis.vertical,
-          itemCount: data.item2.length,
+          itemCount: data.$2.length,
           itemBuilder: (context, position) {
             return TestingPage(
                 index: position,
-                question: data.item2[position],
-                questionsLength: data.item2.length);
+                question: data.$2[position],
+                questionsLength: data.$2.length);
           },
         );
       },

@@ -13,7 +13,6 @@ import 'package:client/widgets/zno_top_header_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tuple/tuple.dart';
 import '../../all_subjects/all_subjects.dart';
 import '../../dto/sessions_route_data.dart';
 import '../../dto/subjects_route_data.dart';
@@ -133,22 +132,23 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
                           : ZnoList(
                               list:
                                   listToShow.map((ZnoSubjectInterface subject) {
-                              return Tuple2(
-                                  subject.getName,
-                                  subject.getChildren().isEmpty
-                                      ? () => context.go(Routes.sessionsRoute,
-                                          extra: SessionsRouteData(
-                                              subjectName: subject.getName,
-                                              folderName: subject.getId))
-                                      : () => context.go(Routes.subjectsRoute,
-                                          extra: SubjectsRouteData(
-                                              subjectsList: subject
-                                                  .getChildren()
-                                                  .where((e) =>
-                                                      (snapshot.data!.$1)
-                                                          .selectedSubjects
-                                                          .contains(e.getId))
-                                                  .toList())));
+                              return (
+                                subject.getName,
+                                subject.getChildren().isEmpty
+                                    ? () => context.go(Routes.sessionsRoute,
+                                        extra: SessionsRouteData(
+                                            subjectName: subject.getName,
+                                            folderName: subject.getId))
+                                    : () => context.go(Routes.subjectsRoute,
+                                        extra: SubjectsRouteData(
+                                            subjectsList: subject
+                                                .getChildren()
+                                                .where((e) =>
+                                                    (snapshot.data!.$1)
+                                                        .selectedSubjects
+                                                        .contains(e.getId))
+                                                .toList()))
+                              );
                             }).toList())
                     ],
                   ),

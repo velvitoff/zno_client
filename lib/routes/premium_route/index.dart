@@ -35,7 +35,7 @@ class _PremiumRouteState extends State<PremiumRoute> {
         Expanded(
           child: Padding(
             padding: EdgeInsets.only(right: 20.w, left: 20.w),
-            child: Column(
+            child: const Column(
               children: [Text(''), ButtonGooglePay()],
             ),
           ),
