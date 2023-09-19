@@ -37,7 +37,6 @@ dependencies:
   supabase_flutter: ^1.10.13
   get_it: ^7.6.0
   http: ^0.13.3
-  tuple: ^2.0.1
   html: ^0.15.4
   provider: ^6.0.5
   dropdown_button2: ^2.3.8
@@ -49,6 +48,7 @@ dependencies:
   rive: ^0.9.1
   flutter_launcher_icons: ^0.13.1
   archive: ^3.3.9
+  pay: ^1.1.2
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,5 @@
 import 'package:client/routes.dart';
+import 'package:client/routes/premium_route/button_google_pay.dart';
 import 'package:client/widgets/zno_icon_button.dart';
 import 'package:client/widgets/zno_top_header_small.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,9 @@ class _PremiumRouteState extends State<PremiumRoute> {
         Expanded(
           child: Padding(
             padding: EdgeInsets.only(right: 20.w, left: 20.w),
-            child: Container(),
+            child: Column(
+              children: [Text(''), ButtonGooglePay()],
+            ),
           ),
         )
       ],
