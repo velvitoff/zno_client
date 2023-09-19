@@ -6,19 +6,7 @@ import '../../../constants.dart';
 import '../../interfaces/external_storage_service_interface.dart';
 
 class SupabaseStorageService implements ExternalStorageServiceInterface {
-  final SupabaseClient client;
-
-  SupabaseStorageService._create(SupabaseClient supabaseClient)
-      : client = supabaseClient;
-
-  static Future<SupabaseStorageService> create() async {
-    await Supabase.initialize(
-      url: Constants.supabaseUrl,
-      anonKey: Constants.supabaseAnonKey,
-    );
-
-    return SupabaseStorageService._create(Supabase.instance.client);
-  }
+  SupabaseClient get client => Supabase.instance.client;
 
   @override
   Future<List<String>> listSessions(String folderName) async {

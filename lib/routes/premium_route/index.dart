@@ -1,5 +1,7 @@
+import 'package:client/locator.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/premium_route/button_google_pay.dart';
+import 'package:client/services/implementations/auth_service.dart';
 import 'package:client/widgets/zno_icon_button.dart';
 import 'package:client/widgets/zno_top_header_small.dart';
 import 'package:flutter/material.dart';
@@ -35,8 +37,19 @@ class _PremiumRouteState extends State<PremiumRoute> {
         Expanded(
           child: Padding(
             padding: EdgeInsets.only(right: 20.w, left: 20.w),
-            child: const Column(
-              children: [Text(''), ButtonGooglePay()],
+            child: Column(
+              children: [
+                Text(''),
+                //ButtonGooglePay(),
+                GestureDetector(
+                  onTap: () async => locator.get<AuthService>().signInGoogle(),
+                  child: Container(
+                    height: 50.h,
+                    width: 200.w,
+                    color: Colors.red,
+                  ),
+                )
+              ],
             ),
           ),
         )
