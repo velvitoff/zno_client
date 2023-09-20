@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:client/all_subjects/zno_subject.dart';
 import 'package:client/all_subjects/zno_subject_group.dart';
 import 'package:client/all_subjects/zno_subject_interface.dart';
@@ -14,10 +13,8 @@ import 'package:client/widgets/zno_top_header_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:tuple/tuple.dart';
 import '../../all_subjects/all_subjects.dart';
-import '../../dialogs/info_dialog.dart';
 import '../../dto/sessions_route_data.dart';
 import '../../dto/subjects_route_data.dart';
 import '../../widgets/zno_error.dart';
@@ -36,29 +33,9 @@ class SubjectsRoute extends StatefulWidget {
 class _SubjectsRouteState extends State<SubjectsRoute> {
   late final Future<(PersonalConfigData, List<ZnoSubjectInterface>)> futureData;
 
-  Future<void> permissionServiceCall() async {
-    if (globalHasAskedForPermissions == true) {
-      return;
-    }
-    if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-      return;
-    }
-    await Permission.storage.request().then((value) {
-      globalHasAskedForPermissions = true;
-      if (!value.isGranted) {
-        showDialog(
-            context: context,
-            builder: (context) => InfoDialog(
-                text: 'Додаток може некоректно працювати без доступу до файлів',
-                height: 220.h));
-      }
-    });
-  }
-
   @override
   void initState() {
     super.initState();
-    permissionServiceCall();
 
     //init Future data
     futureData = locator
