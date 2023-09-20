@@ -1,45 +1,95 @@
-import 'package:google_sign_in/google_sign_in.dart';
+import 'dart:convert';
+import 'dart:math';
+import 'package:crypto/crypto.dart';
+import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+const clientId =
+    '98934243915-hc1bf63svn2kn40ldqf6ss5gkg5omchj.apps.googleusercontent.com';
+const clientIdDebug =
+    '98934243915-28499imh8iu3n0nt8ebadsnh2ptu47p5.apps.googleusercontent.com ';
 
 class AuthService {
-  AuthService();
+  const AuthService();
 
   SupabaseClient get client => Supabase.instance.client;
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    clientId:
-        '98934243915-hc1bf63svn2kn40ldqf6ss5gkg5omchj.apps.googleusercontent.com',
-  );
+  String _generateRandomString() {
+    final random = Random.secure();
+    return base64Url.encode(List<int>.generate(16, (_) => random.nextInt(256)));
+  }
+
+  Future<bool> signInGooglePack() async {
+    GoogleSignIn googleSignIn =
+        GoogleSignIn(serverClientId: clientId, scopes: ['openid', 'email']);
+
+    try {
+      await googleSignIn.signIn();
+    } catch (error) {
+      print(error);
+    }
+    return true;
+  }
 
   Future<bool> signInGoogle() async {
-    //begin interactive sign-in process
-    GoogleSignInAccount? gUser;
-    try {
-      gUser = await _googleSignIn.signIn();
-    } catch (e) {
-      print(e);
-    }
+    final rawNonce = _generateRandomString();
+    final hashedNonce = sha256.convert(utf8.encode(rawNonce)).toString();
 
-    if (gUser == null) {
+    final redirectUrl = '${clientId.split('.').reversed.join('.')}:/';
+    const discoveryUrl =
+        'https://accounts.google.com/.well-known/openid-configuration';
+    final appAuth = const FlutterAppAuth();
+
+    print('BEGIN');
+    // authorize the user by opening the consent page
+    final result = await appAuth.authorize(
+      AuthorizationRequest(
+        clientId,
+        redirectUrl,
+        discoveryUrl: discoveryUrl,
+        nonce: hashedNonce,
+        scopes: [
+          'openid',
+          'email',
+        ],
+      ),
+    );
+    if (result == null) {
+      print('Could not find AuthorizationResponse after authorizing');
       return false;
     }
 
-    //obtain auth details from request
-    final GoogleSignInAuthentication gAuth = await gUser.authentication;
-    final String? idToken = gAuth.idToken;
-    final String? accessToken = gAuth.accessToken;
-    if (idToken == null || accessToken == null) {
+    // Request the access and id token to google
+    final tokenResult = await appAuth.token(
+      TokenRequest(
+        clientId,
+        redirectUrl,
+        authorizationCode: result.authorizationCode,
+        discoveryUrl: discoveryUrl,
+        codeVerifier: result.codeVerifier,
+        nonce: result.nonce,
+        scopes: [
+          'openid',
+          'email',
+        ],
+      ),
+    );
+
+    final idToken = tokenResult?.idToken;
+
+    if (idToken == null) {
+      print('Could not find idToken from the token response');
       return false;
     }
 
-    //create a new credential for user
-    final AuthResponse response = await client.auth.signInWithIdToken(
+    final AuthResponse authResponse = await client.auth.signInWithIdToken(
       provider: Provider.google,
       idToken: idToken,
-      accessToken: accessToken,
+      accessToken: tokenResult?.accessToken,
+      nonce: rawNonce,
     );
-    print(response.session);
-    print(response.user);
+    print('authResponse: ${authResponse.user}');
     return true;
   }
 }

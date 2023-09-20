@@ -48,7 +48,9 @@ dependencies:
   rive: ^0.9.1
   flutter_launcher_icons: ^0.13.1
   archive: ^3.3.9
+  flutter_appauth: ^6.0.2
   google_sign_in: ^6.1.5
+  crypto: ^3.0.3
   pay: ^1.1.2
 
 dev_dependencies:

@@ -42,7 +42,8 @@ class _PremiumRouteState extends State<PremiumRoute> {
                 Text(''),
                 //ButtonGooglePay(),
                 GestureDetector(
-                  onTap: () async => locator.get<AuthService>().signInGoogle(),
+                  onTap: () async =>
+                      locator.get<AuthService>().signInGooglePack(),
                   child: Container(
                     height: 50.h,
                     width: 200.w,

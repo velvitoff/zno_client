@@ -58,6 +58,8 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+
+        manifestPlaceholders += [appAuthRedirectScheme: "com.velvit.zno_client"]
     }
 
    signingConfigs {
