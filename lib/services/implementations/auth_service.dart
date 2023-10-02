@@ -27,7 +27,7 @@ class AuthService {
     try {
       await googleSignIn.signIn();
     } catch (error) {
-      print(error);
+      print('PRINT: $error');
     }
     return true;
   }
