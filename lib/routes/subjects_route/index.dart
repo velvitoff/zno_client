@@ -83,6 +83,8 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
   Widget build(BuildContext context) {
     final double topPadding = MediaQuery.of(context).padding.top;
     return Scaffold(
+      bottomNavigationBar: const ZnoBottomNavigationBar(
+          activeRoute: ZnoBottomNavigationEnum.subjects),
       body: FutureBuilder(
         future: futureData,
         builder: (context, snapshot) {
@@ -153,8 +155,6 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
                     ],
                   ),
                 ),
-                const ZnoBottomNavigationBar(
-                    activeRoute: ZnoBottomNavigationEnum.subjects)
               ],
             );
           } else if (snapshot.hasError) {

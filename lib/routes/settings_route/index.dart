@@ -33,69 +33,69 @@ class _SettingsRouteState extends State<SettingsRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        bottomNavigationBar: const ZnoBottomNavigationBar(
+            activeRoute: ZnoBottomNavigationEnum.settings),
         body: Column(
-      children: [
-        const ZnoTopHeaderSmall(),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(right: 20.w, left: 20.w),
-            child: ListView(
-              children: [
-                SizedBox(
-                  height: 5.h,
-                ),
-                SettingsItem(
-                  text: 'Вибір предметів',
-                  onTap: () => context.go(Routes.subjectChoiceRoute),
-                  icon: CustomPaint(
-                    painter: const ZnoListIcon(color: Color(0xFF3E8F48)),
-                    child: SizedBox(
-                      width: 40.r,
-                      height: 40.r,
+          children: [
+            const ZnoTopHeaderSmall(),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(right: 20.w, left: 20.w),
+                child: ListView(
+                  children: [
+                    SizedBox(
+                      height: 5.h,
                     ),
-                  ),
-                ),
-                SettingsItem(
-                  text: 'Сховище',
-                  onTap: () => context.go(Routes.storageRoute),
-                  icon: CustomPaint(
-                    painter: const ZnoStorageIcon(color: Color(0xFF3E8F48)),
-                    child: SizedBox(
-                      width: 40.r,
-                      height: 40.r,
+                    SettingsItem(
+                      text: 'Вибір предметів',
+                      onTap: () => context.go(Routes.subjectChoiceRoute),
+                      icon: CustomPaint(
+                        painter: const ZnoListIcon(color: Color(0xFF3E8F48)),
+                        child: SizedBox(
+                          width: 40.r,
+                          height: 40.r,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                SettingsItem(
-                  text: 'Історія',
-                  onTap: () => context.go(Routes.historyRoute),
-                  icon: CustomPaint(
-                    painter: const ZnoMapIcon(color: Color(0xFF3E8F48)),
-                    child: SizedBox(
-                      width: 40.r,
-                      height: 40.r,
+                    SettingsItem(
+                      text: 'Сховище',
+                      onTap: () => context.go(Routes.storageRoute),
+                      icon: CustomPaint(
+                        painter: const ZnoStorageIcon(color: Color(0xFF3E8F48)),
+                        child: SizedBox(
+                          width: 40.r,
+                          height: 40.r,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                SettingsItem(
-                  text: 'Преміум',
-                  onTap: () => context.go(Routes.premiumRoute),
-                  goldenBorder: true,
-                  icon: CustomPaint(
-                    painter: const ZnoStarIcon(),
-                    child: SizedBox(
-                      width: 40.r,
-                      height: 40.r,
+                    SettingsItem(
+                      text: 'Історія',
+                      onTap: () => context.go(Routes.historyRoute),
+                      icon: CustomPaint(
+                        painter: const ZnoMapIcon(color: Color(0xFF3E8F48)),
+                        child: SizedBox(
+                          width: 40.r,
+                          height: 40.r,
+                        ),
+                      ),
                     ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-        const ZnoBottomNavigationBar(
-            activeRoute: ZnoBottomNavigationEnum.settings)
-      ],
-    ));
+                    SettingsItem(
+                      text: 'Преміум',
+                      onTap: () => context.go(Routes.premiumRoute),
+                      goldenBorder: true,
+                      icon: CustomPaint(
+                        painter: const ZnoStarIcon(),
+                        child: SizedBox(
+                          width: 40.r,
+                          height: 40.r,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
+        ));
   }
 }
