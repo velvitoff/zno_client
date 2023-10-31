@@ -50,7 +50,7 @@ class _SubjectChoiceHeaderState extends State<SubjectChoiceHeader> {
     return ZnoTopHeaderSmall(
       backgroundColor: const Color(0xFFF5F5F5),
       child: Container(
-        margin: EdgeInsets.only(right: 12.w),
+        margin: EdgeInsets.only(right: 12.w, left: 6.w),
         child: Stack(
           children: [
             Align(
@@ -62,6 +62,12 @@ class _SubjectChoiceHeaderState extends State<SubjectChoiceHeader> {
                       .then((_) => context.go(Routes.settingsRoute));
                 },
               ),
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: Text('Вибір предметів',
+                  style: TextStyle(
+                      color: const Color(0xFFEFEFEF), fontSize: 24.sp)),
             ),
             Align(
               alignment: Alignment.centerRight,

@@ -27,11 +27,18 @@ class _PremiumRouteState extends State<PremiumRoute> {
         body: Column(
       children: [
         ZnoTopHeaderSmall(
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: ZnoIconButton(
-                icon: Icons.arrow_back,
-                onTap: () => context.go(Routes.settingsRoute)),
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 6.w),
+                  child: ZnoIconButton(
+                      icon: Icons.arrow_back,
+                      onTap: () => context.go(Routes.settingsRoute)),
+                ),
+              ),
+            ],
           ),
         ),
         Expanded(

@@ -45,15 +45,24 @@ class StorageRouteHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ZnoTopHeaderSmall(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          ZnoIconButton(
-              icon: Icons.arrow_back,
-              onTap: () => context.go(Routes.settingsRoute)),
-          Container(
-            margin: EdgeInsets.fromLTRB(0, 0, 12.w, 0),
-            child: Row(
+      child: Padding(
+        padding: EdgeInsets.only(left: 6.w, right: 12.w),
+        child: Stack(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: ZnoIconButton(
+                  icon: Icons.arrow_back,
+                  onTap: () => context.go(Routes.settingsRoute)),
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: Text('Сховище',
+                  style: TextStyle(
+                      color: const Color(0xFFEFEFEF), fontSize: 24.sp)),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 context.watch<StorageRouteModel>().isAtLeastOneItemMarked()
                     ? GestureDetector(
@@ -90,9 +99,9 @@ class StorageRouteHeader extends StatelessWidget {
                   ),
                 )
               ],
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

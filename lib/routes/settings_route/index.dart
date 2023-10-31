@@ -37,7 +37,14 @@ class _SettingsRouteState extends State<SettingsRoute> {
             activeRoute: ZnoBottomNavigationEnum.settings),
         body: Column(
           children: [
-            const ZnoTopHeaderSmall(),
+            ZnoTopHeaderSmall(
+              child: Center(
+                  child: Text(
+                'Налаштування',
+                style:
+                    TextStyle(color: const Color(0xFFEFEFEF), fontSize: 24.sp),
+              )),
+            ),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(right: 20.w, left: 20.w),
