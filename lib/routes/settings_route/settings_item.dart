@@ -26,7 +26,6 @@ class SettingsItem extends StatelessWidget {
           Container(
             width: 320.w,
             height: 60.h,
-            margin: EdgeInsets.only(bottom: 5.h, top: 5.h),
             decoration: BoxDecoration(
                 border: goldenBorder
                     ? null
