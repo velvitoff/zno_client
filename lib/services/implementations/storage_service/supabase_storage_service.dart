@@ -20,13 +20,13 @@ class SupabaseStorageService implements ExternalStorageServiceInterface {
   }
 
   @override
-  Future<String> getSession(String folderName, String fileName) async {
+  Future<Uint8List> getSession(String folderName, String fileName) async {
     //throws StorageException, FormatException
     final Uint8List file = await client.storage
         .from(Constants.testsBucket)
         .download('$folderName/$fileName');
-
-    return const Utf8Decoder().convert(file);
+    //const Utf8Decoder().convert(file)
+    return file;
   }
 
   @override

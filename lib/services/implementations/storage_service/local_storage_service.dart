@@ -65,9 +65,10 @@ class LocalStorageService extends StorageServiceInterface {
   }
 
   @override
-  Future<String> getSession(String folderName, String fileName) async {
+  Future<Uint8List> getSession(String folderName, String fileName) async {
     //throws FileSystemException
-    return await File(_sessionPath(folderName, fileName)).readAsString();
+    print("Requesting ${folderName}, $fileName");
+    return await File(_sessionPath(folderName, fileName)).readAsBytes();
   }
 
   Future<DateTime> getSessionDate(String folderName, String fileName) async {
@@ -76,10 +77,10 @@ class LocalStorageService extends StorageServiceInterface {
   }
 
   Future<void> saveSession(
-      String folderName, String fileName, String contents) async {
+      String folderName, String fileName, Uint8List contents) async {
     var file =
         await File(_sessionPath(folderName, fileName)).create(recursive: true);
-    await file.writeAsString(contents);
+    await file.writeAsBytes(contents);
   }
 
   @override
@@ -98,7 +99,8 @@ class LocalStorageService extends StorageServiceInterface {
   }
 
   Future<bool> imageFolderExists(String subjectName, String sessionName) async {
-    sessionName = sessionName.replaceFirst('.json', '');
+    sessionName =
+        sessionName.replaceFirst('.json', '').replaceFirst('.bin', '');
     return await Directory(getImagePath(subjectName, sessionName, '')).exists();
   }
 

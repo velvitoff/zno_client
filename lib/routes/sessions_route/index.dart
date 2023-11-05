@@ -37,8 +37,12 @@ class SessionsRouteState extends State<SessionsRoute> {
         .get<StorageServiceInterface>()
         .listSessions(widget.dto.folderName)
         .then((List<String> data) {
-      final Map<String, List<String>> map = data.groupListsBy(
-          (element) => element.replaceAll('.json', '').split('_').last);
+      final Map<String, List<String>> map = data.groupListsBy((element) =>
+          element
+              .replaceAll('.json', '')
+              .replaceAll('.bin', '')
+              .split('_')
+              .last);
 
       //group items by years and sort years in descending order
       List<Widget> result = [];
@@ -58,7 +62,8 @@ class SessionsRouteState extends State<SessionsRoute> {
               onTap: () => context.go(Routes.sessionRoute,
                   extra: SessionData(
                       fileName: el,
-                      fileNameNoExtension: el.replaceAll('.json', ''),
+                      fileNameNoExtension:
+                          el.replaceAll('.json', '').replaceAll('.bin', ''),
                       sessionName: sessionName,
                       subjectName: widget.dto.subjectName,
                       folderName: widget.dto.folderName)),

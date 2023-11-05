@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:client/dto/test_data.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/testing_route/testing_pages.dart';
@@ -11,6 +12,7 @@ import '../../dto/testing_route_data.dart';
 import '../../locator.dart';
 import '../../widgets/zno_error.dart';
 import '../../widgets/zno_loading.dart';
+import 'package:encrypt/encrypt.dart' as encrypt;
 
 class TestingRoute extends StatefulWidget {
   final TestingRouteData dto;
@@ -31,8 +33,37 @@ class TestingRouteState extends State<TestingRoute> {
         .get<StorageServiceInterface>()
         .getSession(
             widget.dto.sessionData.folderName, widget.dto.sessionData.fileName)
-        .then((String value) {
-      return TestData.fromJson(jsonDecode(value));
+        .then((Uint8List data) {
+      //TODO: Only read bin if premium
+      if (widget.dto.sessionData.fileName.endsWith('.bin')) {
+        final key = encrypt.Key.fromUtf8(String.fromCharCodes([
+          126,
+          208,
+          7,
+          74,
+          135,
+          173,
+          64,
+          215,
+          90,
+          178,
+          152,
+          161,
+          165,
+          55,
+          29,
+          127
+        ]));
+        final encrypter = encrypt.Encrypter(
+          encrypt.AES(key, mode: encrypt.AESMode.cbc),
+        );
+        final encryptedData = encrypt.Encrypted(data.sublist(16));
+        final iv = encrypt.IV(data.sublist(0, 16));
+        final String res = encrypter.decrypt(encryptedData, iv: iv);
+        return TestData.fromJson(jsonDecode(res));
+      }
+      final String res = const Utf8Decoder().convert(data);
+      return TestData.fromJson(jsonDecode(res));
     });
   }
 

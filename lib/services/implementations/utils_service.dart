@@ -16,6 +16,7 @@ class UtilsService implements UtilsServiceInterface {
   @override
   String fileNameToSessionName(String fileName) {
     fileName = fileName.replaceFirst('.json', '');
+    fileName = fileName.replaceFirst('.bin', '');
     List<String> split = fileName.split('_');
 
     for (int i = 0; i < split.length; ++i) {

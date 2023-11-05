@@ -38,7 +38,7 @@ class MainStorageService extends StorageServiceInterface {
   }
 
   @override
-  Future<String> getSession(String folderName, String fileName) async {
+  Future<Uint8List> getSession(String folderName, String fileName) async {
     //throws
     try {
       //return local file if it's recent enough
@@ -57,7 +57,7 @@ class MainStorageService extends StorageServiceInterface {
       }
     } catch (e) {
       try {
-        final String session =
+        final Uint8List session =
             await externalStorage.getSession(folderName, fileName);
         localStorage.saveSession(folderName, fileName, session); //not awaited
         await downloadImages(folderName, fileName);
@@ -87,7 +87,8 @@ class MainStorageService extends StorageServiceInterface {
   }
 
   Future<void> downloadImages(String subjectName, String sessionName) async {
-    sessionName = sessionName.replaceFirst('.json', '');
+    sessionName =
+        sessionName.replaceFirst('.json', '').replaceFirst('.bin', '');
     var imageMap =
         await externalStorage.downloadAllImages(subjectName, sessionName);
     await localStorage.saveImagesToFolder(subjectName, sessionName, imageMap);
