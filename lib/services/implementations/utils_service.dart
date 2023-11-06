@@ -52,6 +52,7 @@ class UtilsService implements UtilsServiceInterface {
     );
     final encryptedData = encrypt.Encrypted(data.sublist(16));
     final iv = encrypt.IV(data.sublist(0, 16));
-    return encrypter.decrypt(encryptedData, iv: iv);
+    final res = encrypter.decrypt(encryptedData, iv: iv);
+    return res;
   }
 }

@@ -3,6 +3,7 @@ import "package:client/services/implementations/storage_service/main_storage_ser
 import 'package:client/services/implementations/storage_service/pure_local_storage_service.dart';
 import 'package:client/services/implementations/utils_service.dart';
 import 'package:client/services/init_service.dart';
+import 'package:client/services/interfaces/pure_local_storage_service_interface.dart';
 import 'package:client/services/interfaces/utils_service_interface.dart';
 import "package:get_it/get_it.dart";
 
@@ -12,7 +13,7 @@ import 'package:client/services/implementations/storage_service/supabase_storage
 final locator = GetIt.instance;
 
 void getItSetup() {
-  locator.registerSingletonAsync<PureLocalStorageService>(
+  locator.registerSingletonAsync<PureLocalStorageServiceInterface>(
       () => PureLocalStorageService.create());
 
   locator.registerSingletonAsync<InitService>(

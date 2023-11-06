@@ -37,6 +37,7 @@ class _TestingPagesState extends State<TestingPages>
 
     if (state == AppLifecycleState.inactive ||
         state == AppLifecycleState.detached) {
+      print(state);
       return;
     }
     if (state == AppLifecycleState.paused) {

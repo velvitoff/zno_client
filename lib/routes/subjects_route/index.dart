@@ -4,7 +4,7 @@ import 'package:client/all_subjects/zno_subject_interface.dart';
 import 'package:client/dto/personal_config_data.dart';
 import 'package:client/locator.dart';
 import 'package:client/routes.dart';
-import 'package:client/services/implementations/storage_service/pure_local_storage_service.dart';
+import 'package:client/services/interfaces/pure_local_storage_service_interface.dart';
 import 'package:client/widgets/zno_bottom_navigation_bar.dart';
 import 'package:client/widgets/zno_button.dart';
 import 'package:client/widgets/zno_list.dart';
@@ -38,9 +38,10 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
 
     //init Future data
     futureData = locator
-        .isReady<PureLocalStorageService>()
-        .then((_) =>
-            locator.get<PureLocalStorageService>().getPersonalConfigData())
+        .isReady<PureLocalStorageServiceInterface>()
+        .then((_) => locator
+            .get<PureLocalStorageServiceInterface>()
+            .getPersonalConfigData())
         .then((config) {
       if (widget.dto != null) {
         return Future.value((config, List<ZnoSubjectInterface>.empty()));

@@ -5,8 +5,8 @@ import 'package:client/routes.dart';
 import 'package:client/routes/testing_route/testing_pages.dart';
 import 'package:client/routes/testing_route/testing_route_provider.dart';
 import 'package:client/routes/testing_route/zno_testing_header.dart';
-import 'package:client/services/implementations/utils_service.dart';
 import 'package:client/services/interfaces/storage_service_interface.dart';
+import 'package:client/services/interfaces/utils_service_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../dto/testing_route_data.dart';
@@ -36,8 +36,8 @@ class TestingRouteState extends State<TestingRoute> {
         .then((Uint8List data) {
       //TODO: Only read bin if premium
       if (widget.dto.sessionData.fileName.endsWith('.bin')) {
-        return TestData.fromJson(
-            jsonDecode(locator.get<UtilsService>().decryptBin(data)));
+        final res = locator.get<UtilsServiceInterface>().decryptBin(data);
+        return TestData.fromJson(jsonDecode(res));
       }
       final String res = const Utf8Decoder().convert(data);
       return TestData.fromJson(jsonDecode(res));
