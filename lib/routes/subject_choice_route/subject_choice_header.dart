@@ -1,3 +1,4 @@
+import 'package:client/services/implementations/storage_service/pure_local_storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -6,7 +7,6 @@ import '../../dialogs/info_dialog.dart';
 import '../../locator.dart';
 import '../../models/subject_choice_route_model.dart';
 import '../../routes.dart';
-import '../../services/interfaces/storage_service_interface.dart';
 import '../../widgets/zno_icon_button.dart';
 import '../../widgets/zno_top_header_small.dart';
 
@@ -37,7 +37,7 @@ class _SubjectChoiceHeaderState extends State<SubjectChoiceHeader> {
         .map((entry) => entry.key)
         .toList();
 
-    final storageService = locator.get<StorageServiceInterface>();
+    final storageService = locator.get<PureLocalStorageService>();
 
     await storageService.getPersonalConfigData().then((config) {
       storageService.savePersonalConfigData(

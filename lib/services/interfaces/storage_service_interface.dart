@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'package:client/dto/personal_config_data.dart';
 import 'package:client/models/testing_time_model.dart';
 
 import '../../dto/previous_session_data.dart';
@@ -19,6 +18,4 @@ abstract class StorageServiceInterface {
       String subjectName, String sessionName);
   Future<List<PreviousSessionData>> getPreviousSessionsListGlobal();
   Future<List<StorageRouteItemData>> getStorageData();
-  Future<PersonalConfigData> getPersonalConfigData();
-  Future<void> savePersonalConfigData(PersonalConfigData data);
 }

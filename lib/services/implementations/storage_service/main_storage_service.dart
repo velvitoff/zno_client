@@ -1,6 +1,4 @@
 import 'dart:typed_data';
-
-import 'package:client/dto/personal_config_data.dart';
 import 'package:client/models/testing_time_model.dart';
 import 'package:client/services/implementations/storage_service/local_storage_service.dart';
 import 'package:client/services/interfaces/external_storage_service_interface.dart';
@@ -114,15 +112,5 @@ class MainStorageService extends StorageServiceInterface {
   @override
   Future<List<StorageRouteItemData>> getStorageData() async {
     return localStorage.getStorageData();
-  }
-
-  @override
-  Future<PersonalConfigData> getPersonalConfigData() async {
-    return localStorage.getPersonalConfigData();
-  }
-
-  @override
-  Future<void> savePersonalConfigData(PersonalConfigData data) async {
-    return localStorage.savePersonalConfigData(data);
   }
 }

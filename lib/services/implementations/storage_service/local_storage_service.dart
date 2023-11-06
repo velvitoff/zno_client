@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:client/dto/personal_config_data.dart';
 import 'package:client/dto/previous_session_data.dart';
 import 'package:client/dto/test_data.dart';
 import 'package:client/models/testing_time_model.dart';
@@ -67,7 +66,6 @@ class LocalStorageService extends StorageServiceInterface {
   @override
   Future<Uint8List> getSession(String folderName, String fileName) async {
     //throws FileSystemException
-    print("Requesting ${folderName}, $fileName");
     return await File(_sessionPath(folderName, fileName)).readAsBytes();
   }
 
@@ -232,25 +230,5 @@ class LocalStorageService extends StorageServiceInterface {
     }
 
     return result;
-  }
-
-  @override
-  Future<PersonalConfigData> getPersonalConfigData() async {
-    final file =
-        File('$_znoDirPath${Platform.pathSeparator}personal_config.json');
-    if (!await file.exists()) {
-      return PersonalConfigData.getDefault();
-    }
-
-    final data = await file.readAsString();
-    return PersonalConfigData.fromJSON(jsonDecode(data));
-  }
-
-  @override
-  Future<void> savePersonalConfigData(PersonalConfigData data) async {
-    final file =
-        await File('$_znoDirPath${Platform.pathSeparator}personal_config.json')
-            .create(recursive: true);
-    await file.writeAsString(jsonEncode(data.toJSON()));
   }
 }
