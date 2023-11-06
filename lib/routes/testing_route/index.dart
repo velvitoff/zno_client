@@ -5,6 +5,7 @@ import 'package:client/routes.dart';
 import 'package:client/routes/testing_route/testing_pages.dart';
 import 'package:client/routes/testing_route/testing_route_provider.dart';
 import 'package:client/routes/testing_route/zno_testing_header.dart';
+import 'package:client/services/implementations/utils_service.dart';
 import 'package:client/services/interfaces/storage_service_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -12,7 +13,6 @@ import '../../dto/testing_route_data.dart';
 import '../../locator.dart';
 import '../../widgets/zno_error.dart';
 import '../../widgets/zno_loading.dart';
-import 'package:encrypt/encrypt.dart' as encrypt;
 
 class TestingRoute extends StatefulWidget {
   final TestingRouteData dto;
@@ -36,31 +36,8 @@ class TestingRouteState extends State<TestingRoute> {
         .then((Uint8List data) {
       //TODO: Only read bin if premium
       if (widget.dto.sessionData.fileName.endsWith('.bin')) {
-        final key = encrypt.Key.fromUtf8(String.fromCharCodes([
-          126,
-          208,
-          7,
-          74,
-          135,
-          173,
-          64,
-          215,
-          90,
-          178,
-          152,
-          161,
-          165,
-          55,
-          29,
-          127
-        ]));
-        final encrypter = encrypt.Encrypter(
-          encrypt.AES(key, mode: encrypt.AESMode.cbc),
-        );
-        final encryptedData = encrypt.Encrypted(data.sublist(16));
-        final iv = encrypt.IV(data.sublist(0, 16));
-        final String res = encrypter.decrypt(encryptedData, iv: iv);
-        return TestData.fromJson(jsonDecode(res));
+        return TestData.fromJson(
+            jsonDecode(locator.get<UtilsService>().decryptBin(data)));
       }
       final String res = const Utf8Decoder().convert(data);
       return TestData.fromJson(jsonDecode(res));
