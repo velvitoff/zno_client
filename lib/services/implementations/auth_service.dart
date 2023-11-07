@@ -1,5 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+//import 'package:google_sign_in/google_sign_in.dart';
 
 const clientId =
     '98934243915-hc1bf63svn2kn40ldqf6ss5gkg5omchj.apps.googleusercontent.com';
@@ -12,8 +12,8 @@ class AuthService {
   SupabaseClient get client => Supabase.instance.client;
 
   Future<bool> signInGooglePack() async {
-    GoogleSignIn googleSignIn =
-        GoogleSignIn(serverClientId: clientId, scopes: ['openid', 'email']);
+    //GoogleSignIn googleSignIn =
+    //    GoogleSignIn(serverClientId: clientId, scopes: ['openid', 'email']);
     return true;
   }
 }

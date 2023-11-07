@@ -1,9 +1,13 @@
+import 'package:client/dialogs/complaint_dialog.dart';
+import 'package:client/dialogs/info_dialog.dart';
 import 'package:client/dialogs/time_choice_dialog.dart';
 import 'package:client/models/testing_route_model.dart';
 import 'package:client/models/testing_time_model.dart';
 import 'package:client/routes.dart';
+import 'package:client/services/implementations/supabase_service.dart';
 import 'package:client/services/interfaces/storage_service_interface.dart';
 import 'package:client/dialogs/confirm_dialog.dart';
+import 'package:collection/collection.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,15 +54,51 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
           context.read<TestingTimeModel>().secondsInTotal = value;
         }
       });
+    } else if (value == 'Повідомити про помилку') {
+      showDialog<String?>(
+          context: context,
+          builder: (context) => const ComplaintDialog()).then((String? value) {
+        if (value != null) {
+          final sData = context.read<TestingRouteModel>().sessionData;
+          locator.get<SupabaseService>().sendComplaint(sData, value).then((_) {
+            showDialog(
+                context: context,
+                builder: (context) =>
+                    InfoDialog(text: 'Дякуємо за відгук!', height: 210.h));
+          });
+        }
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    List<String> items = ['Вийти', 'Показати таймер', 'Змінити час таймера'];
+    List<String> items = [
+      'Вийти',
+      'Показати таймер',
+      'Змінити час таймера',
+      'Повідомити про помилку'
+    ];
     if (context
         .select<TestingTimeModel, bool>((value) => value.isTimerActivated)) {
       items[1] = 'Сховати таймер';
+    }
+
+    final List<DropdownMenuItem<String>> children = [];
+    for (String item in items) {
+      children.add(DropdownMenuItem<String>(
+        value: item,
+        child: Text(
+          item,
+          style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w400),
+        ),
+      ));
+      if (item != items.last) {
+        children.add(const DropdownMenuItem<String>(
+          enabled: false,
+          child: Divider(),
+        ));
+      }
     }
 
     return DropdownButtonHideUnderline(
@@ -67,21 +107,16 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
           width: 180.w,
           decoration: const BoxDecoration(color: Colors.white),
         ),
+        menuItemStyleData: MenuItemStyleData(
+            customHeights: children
+                .mapIndexed((index, _) => index.isEven ? 50.h : 5.h)
+                .toList()),
         customButton: Icon(
           Icons.more_vert,
           size: 36.sp,
           color: Colors.white,
         ),
-        items: items
-            .map((item) => DropdownMenuItem(
-                  value: item,
-                  child: Text(
-                    item,
-                    style:
-                        TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w400),
-                  ),
-                ))
-            .toList(),
+        items: children,
         onChanged: (String? newValue) {
           if (newValue != null) {
             onChoice(context, newValue);
