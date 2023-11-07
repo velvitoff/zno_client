@@ -84,39 +84,28 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
       items[1] = 'Сховати таймер';
     }
 
-    final List<DropdownMenuItem<String>> children = [];
-    for (String item in items) {
-      children.add(DropdownMenuItem<String>(
-        value: item,
-        child: Text(
-          item,
-          style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w400),
-        ),
-      ));
-      if (item != items.last) {
-        children.add(const DropdownMenuItem<String>(
-          enabled: false,
-          child: Divider(),
-        ));
-      }
-    }
-
     return DropdownButtonHideUnderline(
       child: DropdownButton2<String>(
         dropdownStyleData: DropdownStyleData(
           width: 180.w,
           decoration: const BoxDecoration(color: Colors.white),
         ),
-        menuItemStyleData: MenuItemStyleData(
-            customHeights: children
-                .mapIndexed((index, _) => index.isEven ? 50.h : 5.h)
-                .toList()),
+        menuItemStyleData: MenuItemStyleData(height: 60.h),
         customButton: Icon(
           Icons.more_vert,
           size: 36.sp,
           color: Colors.white,
         ),
-        items: children,
+        items: items
+            .map((item) => DropdownMenuItem<String>(
+                  value: item,
+                  child: Text(
+                    item,
+                    style:
+                        TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w400),
+                  ),
+                ))
+            .toList(),
         onChanged: (String? newValue) {
           if (newValue != null) {
             onChoice(context, newValue);
