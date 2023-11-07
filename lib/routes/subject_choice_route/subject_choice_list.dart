@@ -25,6 +25,7 @@ class SubjectChoiceList extends StatelessWidget {
     }
 
     return ListView(
+      padding: EdgeInsets.zero,
       children: children,
     );
   }

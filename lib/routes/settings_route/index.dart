@@ -30,6 +30,7 @@ class SettingsRoute extends StatelessWidget {
         bottomNavigationBar: const ZnoBottomNavigationBar(
             activeRoute: ZnoBottomNavigationEnum.settings),
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ZnoTopHeaderSmall(
               child: Center(
@@ -43,6 +44,7 @@ class SettingsRoute extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.only(right: 20.w, left: 20.w, top: 5.h),
                 child: ListView.builder(
+                    padding: EdgeInsets.zero,
                     itemCount: listValues.length,
                     itemBuilder: (context, index) => Padding(
                           padding: EdgeInsets.only(bottom: 5.h, top: 5.h),

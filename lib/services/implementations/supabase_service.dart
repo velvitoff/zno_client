@@ -6,15 +6,20 @@ class SupabaseService {
 
   const SupabaseService();
 
-  Future<void> sendComplaint(SessionData sessionData, String text,
+  Future<bool> sendComplaint(SessionData sessionData, String text,
       {String? email}) async {
-    await client.from('user_complaints').insert({
-      'email': email,
-      'data': {
-        "subjectName": sessionData.subjectName,
-        "sessionName": sessionData.sessionName,
-        "text": text
-      }.toString()
-    });
+    try {
+      await client.from('user_complaints').insert({
+        'email': email,
+        'data': {
+          "subjectName": sessionData.subjectName,
+          "sessionName": sessionData.sessionName,
+          "text": text
+        }.toString()
+      });
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 }

@@ -77,58 +77,50 @@ class SessionsRouteState extends State<SessionsRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: FutureBuilder(
-              future: futureList,
-              builder:
-                  (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
-                if (snapshot.hasData) {
-                  if (snapshot.data!.isEmpty) {
-                    return SessionsScrollWrapper(
-                      subjectName: widget.dto.subjectName,
-                      child: SliverToBoxAdapter(
-                        child: ZnoError(
-                            text: 'Немає доступних тестів',
-                            textFontSize: 25.sp),
-                      ),
-                    );
-                  } else {
-                    return SessionsScrollWrapper(
-                      subjectName: widget.dto.subjectName,
-                      child: SessionsList(list: snapshot.data!),
-                    );
-                  }
-                } else if (snapshot.hasError) {
-                  return Column(
+      body: FutureBuilder(
+        future: futureList,
+        builder: (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data!.isEmpty) {
+              return SessionsScrollWrapper(
+                subjectName: widget.dto.subjectName,
+                child: SliverToBoxAdapter(
+                  child: ZnoError(
+                      text: 'Немає доступних тестів', textFontSize: 25.sp),
+                ),
+              );
+            } else {
+              return SessionsScrollWrapper(
+                subjectName: widget.dto.subjectName,
+                child: SessionsList(list: snapshot.data!),
+              );
+            }
+          } else if (snapshot.hasError) {
+            return Column(
+              children: [
+                ZnoTopHeaderText(text: widget.dto.subjectName),
+                const ZnoError(text: 'Помилка завантаження даних')
+              ],
+            );
+          } else {
+            return SessionsScrollWrapper(
+                subjectName: widget.dto.subjectName,
+                child: SliverToBoxAdapter(
+                  child: Column(
                     children: [
-                      ZnoTopHeaderText(text: widget.dto.subjectName),
-                      const ZnoError(text: 'Помилка завантаження даних')
+                      SizedBox(height: 100.h),
+                      SizedBox(
+                        height: 200.h,
+                        child: const ZnoLoading(),
+                      )
                     ],
-                  );
-                } else {
-                  return SessionsScrollWrapper(
-                      subjectName: widget.dto.subjectName,
-                      child: SliverToBoxAdapter(
-                        child: Column(
-                          children: [
-                            SizedBox(height: 100.h),
-                            SizedBox(
-                              height: 200.h,
-                              child: const ZnoLoading(),
-                            )
-                          ],
-                        ),
-                      ));
-                }
-              },
-            ),
-          ),
-          const ZnoBottomNavigationBar(
-              activeRoute: ZnoBottomNavigationEnum.subjects)
-        ],
+                  ),
+                ));
+          }
+        },
       ),
+      bottomNavigationBar: const ZnoBottomNavigationBar(
+          activeRoute: ZnoBottomNavigationEnum.subjects),
     );
   }
 }

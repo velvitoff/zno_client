@@ -59,11 +59,15 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
           builder: (context) => const ComplaintDialog()).then((String? value) {
         if (value != null) {
           final sData = context.read<TestingRouteModel>().sessionData;
-          locator.get<SupabaseService>().sendComplaint(sData, value).then((_) {
+          locator
+              .get<SupabaseService>()
+              .sendComplaint(sData, value)
+              .then((bool response) {
             showDialog(
                 context: context,
-                builder: (context) =>
-                    InfoDialog(text: 'Дякуємо за відгук!', height: 210.h));
+                builder: (context) => InfoDialog(
+                    text: response ? 'Дякуємо за відгук!' : 'Сталася помилка ',
+                    height: 210.h));
           });
         }
       });
