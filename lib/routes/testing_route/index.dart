@@ -35,10 +35,10 @@ class TestingRouteState extends State<TestingRoute> {
             widget.dto.sessionData.folderName, widget.dto.sessionData.fileName)
         .then((Uint8List data) {
       //TODO: Only read bin if premium
-      if (widget.dto.sessionData.fileName.endsWith('.bin')) {
+      /*if (widget.dto.sessionData.fileName.endsWith('.bin')) {
         final res = locator.get<UtilsServiceInterface>().decryptBin(data);
         return TestData.fromJson(jsonDecode(res));
-      }
+      }*/
       final String res = const Utf8Decoder().convert(data);
       return TestData.fromJson(jsonDecode(res));
     });

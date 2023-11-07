@@ -7,7 +7,6 @@ import 'package:client/routes.dart';
 import 'package:client/services/implementations/supabase_service.dart';
 import 'package:client/services/interfaces/storage_service_interface.dart';
 import 'package:client/dialogs/confirm_dialog.dart';
-import 'package:collection/collection.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
