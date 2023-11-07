@@ -8,7 +8,7 @@ import 'package:client/widgets/icons/zno_storage_icon.dart';
 import 'package:client/widgets/icons/zno_list_icon.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import '../../widgets/icons/zno_star_icon.dart';
+//import '../../widgets/icons/zno_star_icon.dart';
 
 class SettingsRoute extends StatelessWidget {
   const SettingsRoute({super.key});
@@ -21,7 +21,7 @@ class SettingsRoute extends StatelessWidget {
     ),
     ('Сховище', Routes.storageRoute, ZnoStorageIcon(color: Color(0xFF3E8F48))),
     ('Історія', Routes.historyRoute, ZnoMapIcon(color: Color(0xFF3E8F48))),
-    ('Преміум', Routes.premiumRoute, ZnoStarIcon())
+    //('Преміум', Routes.premiumRoute, ZnoStarIcon())
   ];
 
   @override
