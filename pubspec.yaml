@@ -48,9 +48,9 @@ dependencies:
   rive: ^0.9.1
   flutter_launcher_icons: ^0.13.1
   archive: ^3.3.9
-  google_sign_in: ^6.1.5
+  #google_sign_in: ^6.1.5
   encrypt: ^5.0.3
-  pay: ^1.1.2
+  #pay: ^1.1.2
 
 dev_dependencies:
   flutter_test:

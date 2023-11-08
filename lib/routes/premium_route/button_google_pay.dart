@@ -1,7 +1,16 @@
-import 'package:client/payment_config.dart';
+//import 'package:client/payment_config.dart';
 import 'package:flutter/material.dart';
-import 'package:pay/pay.dart';
+//import 'package:pay/pay.dart';
 
+class ButtonGooglePay extends StatelessWidget {
+  const ButtonGooglePay({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+/*
 class ButtonGooglePay extends StatelessWidget {
   const ButtonGooglePay({super.key});
 
@@ -26,3 +35,4 @@ class ButtonGooglePay extends StatelessWidget {
         paymentItems: _paymentItems);
   }
 }
+*/
