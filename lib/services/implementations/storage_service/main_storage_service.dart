@@ -99,6 +99,12 @@ class MainStorageService extends StorageServiceInterface {
   }
 
   @override
+  PreviousSessionData? saveSessionEndSync(
+      TestingRouteModel data, TestingTimeModel timerData, bool completed) {
+    return localStorage.saveSessionEndSync(data, timerData, completed);
+  }
+
+  @override
   Future<List<PreviousSessionData>> getPreviousSessionsList(
       String subjectName, String sessionName) {
     return localStorage.getPreviousSessionsList(subjectName, sessionName);

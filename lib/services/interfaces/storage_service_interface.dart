@@ -14,6 +14,8 @@ abstract class StorageServiceInterface {
       String folderName, String sessionName, String fileName);
   Future<PreviousSessionData?> saveSessionEnd(
       TestingRouteModel data, TestingTimeModel timerData, bool completed);
+  PreviousSessionData? saveSessionEndSync(
+      TestingRouteModel data, TestingTimeModel timerData, bool completed);
   Future<List<PreviousSessionData>> getPreviousSessionsList(
       String subjectName, String sessionName);
   Future<List<PreviousSessionData>> getPreviousSessionsListGlobal();

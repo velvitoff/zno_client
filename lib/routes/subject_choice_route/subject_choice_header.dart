@@ -22,7 +22,7 @@ class _SubjectChoiceHeaderState extends State<SubjectChoiceHeader> {
     showDialog(
         context: context,
         builder: (context) => InfoDialog(
-            height: 200.h,
+            height: 210.h,
             text:
                 'Ця сторінка дозволяє обрати предмети, які відображатимуться на головній сторінці'));
   }

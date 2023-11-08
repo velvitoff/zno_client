@@ -5,7 +5,6 @@ import 'package:client/routes/testing_route/testing_page/testing_page.dart';
 import 'package:client/services/interfaces/storage_service_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../dto/previous_session_data.dart';
 import '../../dto/question_data.dart';
 
 class TestingPages extends StatefulWidget {
@@ -32,30 +31,27 @@ class _TestingPagesState extends State<TestingPages>
 
   //Saving test attempt if user pauses/closes the app
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
-
     if (state == AppLifecycleState.inactive ||
         state == AppLifecycleState.detached) {
-      print(state);
       return;
     }
     if (state == AppLifecycleState.paused) {
-      final testingRouteModel = context.read<TestingRouteModel>();
-      locator
-          .get<StorageServiceInterface>()
-          .saveSessionEnd(
-              testingRouteModel,
-              context.read<TestingTimeModel>(),
-              testingRouteModel.prevSessionData == null
-                  ? false
-                  : testingRouteModel.prevSessionData!.completed)
-          .then((PreviousSessionData? data) {
-        if (data != null) {
-          context.read<TestingRouteModel>().prevSessionData = data;
-        }
-      });
+      handleOnPause();
     }
+  }
+
+  void handleOnPause() {
+    //should be saveSessionEndSync for correct behaviour in case of detached event
+    final testingRouteModel = context.read<TestingRouteModel>();
+    final data = locator.get<StorageServiceInterface>().saveSessionEndSync(
+        testingRouteModel,
+        context.read<TestingTimeModel>(),
+        testingRouteModel.prevSessionData == null
+            ? false
+            : testingRouteModel.prevSessionData!.completed);
+    context.read<TestingRouteModel>().prevSessionData = data;
   }
 
   @override

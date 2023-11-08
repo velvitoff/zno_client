@@ -123,8 +123,36 @@ class LocalStorageService extends StorageServiceInterface {
     if (await file.exists()) {
       await file.writeAsString(json.encode(map), mode: FileMode.writeOnly);
     } else {
-      await file.create(recursive: true).then((file) =>
-          file.writeAsString(json.encode(map), mode: FileMode.writeOnly));
+      await file.create(recursive: true);
+      await file.writeAsString(json.encode(map), mode: FileMode.writeOnly);
+    }
+
+    return newData;
+  }
+
+  @override
+  PreviousSessionData? saveSessionEndSync(
+      TestingRouteModel data, TestingTimeModel timerData, bool completed) {
+    if (data.prevSessionData != null && data.prevSessionData!.completed) {
+      return null;
+    }
+    if (data.allAnswers.isEmpty) {
+      return null;
+    }
+
+    final newData =
+        PreviousSessionData.fromTestingRouteModel(data, timerData, completed);
+    final map = newData.toJson();
+
+    String filePath = _historyPath(data.sessionData.folderName,
+        data.sessionData.fileNameNoExtension, newData.sessionId);
+    File file = File(filePath);
+
+    if (file.existsSync()) {
+      file.writeAsStringSync(json.encode(map), mode: FileMode.writeOnly);
+    } else {
+      file.createSync(recursive: true);
+      file.writeAsStringSync(json.encode(map), mode: FileMode.writeOnly);
     }
 
     return newData;
