@@ -1,10 +1,12 @@
+import 'package:client/routes.dart';
 import 'package:client/routes/history_route/history_list.dart';
 import 'package:client/routes/history_route/history_route_provider.dart';
 import 'package:client/widgets/zno_error.dart';
+import 'package:client/widgets/zno_icon_button.dart';
 import 'package:client/widgets/zno_top_header_small.dart';
 import 'package:flutter/material.dart';
-import 'package:client/widgets/zno_bottom_navigation_bar.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import '../../dto/previous_session_data.dart';
 import '../../locator.dart';
 import '../../services/interfaces/storage_service_interface.dart';
@@ -33,7 +35,26 @@ class _HistoryRouteState extends State<HistoryRoute> {
       child: Scaffold(
           body: Column(
         children: [
-          const ZnoTopHeaderSmall(),
+          ZnoTopHeaderSmall(
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 6.w),
+                    child: ZnoIconButton(
+                        icon: Icons.arrow_back,
+                        onTap: () => context.go(Routes.settingsRoute)),
+                  ),
+                ),
+                Align(
+                    alignment: Alignment.center,
+                    child: Text('Історія',
+                        style: TextStyle(
+                            color: const Color(0xFFEFEFEF), fontSize: 24.sp)))
+              ],
+            ),
+          ),
           Expanded(
             child: FutureBuilder(
               future: dataList,
@@ -59,7 +80,6 @@ class _HistoryRouteState extends State<HistoryRoute> {
               },
             ),
           ),
-          const ZnoBottomNavigationBar(activeIndex: 2)
         ],
       )),
     );

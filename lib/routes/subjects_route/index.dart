@@ -4,7 +4,7 @@ import 'package:client/all_subjects/zno_subject_interface.dart';
 import 'package:client/dto/personal_config_data.dart';
 import 'package:client/locator.dart';
 import 'package:client/routes.dart';
-import 'package:client/services/interfaces/storage_service_interface.dart';
+import 'package:client/services/interfaces/pure_local_storage_service_interface.dart';
 import 'package:client/widgets/zno_bottom_navigation_bar.dart';
 import 'package:client/widgets/zno_button.dart';
 import 'package:client/widgets/zno_list.dart';
@@ -13,7 +13,6 @@ import 'package:client/widgets/zno_top_header_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tuple/tuple.dart';
 import '../../all_subjects/all_subjects.dart';
 import '../../dto/sessions_route_data.dart';
 import '../../dto/subjects_route_data.dart';
@@ -39,9 +38,10 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
 
     //init Future data
     futureData = locator
-        .allReady()
-        .then((_) =>
-            locator.get<StorageServiceInterface>().getPersonalConfigData())
+        .isReady<PureLocalStorageServiceInterface>()
+        .then((_) => locator
+            .get<PureLocalStorageServiceInterface>()
+            .getPersonalConfigData())
         .then((config) {
       if (widget.dto != null) {
         return Future.value((config, List<ZnoSubjectInterface>.empty()));
@@ -84,6 +84,8 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
   Widget build(BuildContext context) {
     final double topPadding = MediaQuery.of(context).padding.top;
     return Scaffold(
+      bottomNavigationBar: const ZnoBottomNavigationBar(
+          activeRoute: ZnoBottomNavigationEnum.subjects),
       body: FutureBuilder(
         future: futureData,
         builder: (context, snapshot) {
@@ -133,27 +135,27 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
                           : ZnoList(
                               list:
                                   listToShow.map((ZnoSubjectInterface subject) {
-                              return Tuple2(
-                                  subject.getName,
-                                  subject.getChildren().isEmpty
-                                      ? () => context.go(Routes.sessionsRoute,
-                                          extra: SessionsRouteData(
-                                              subjectName: subject.getName,
-                                              folderName: subject.getId))
-                                      : () => context.go(Routes.subjectsRoute,
-                                          extra: SubjectsRouteData(
-                                              subjectsList: subject
-                                                  .getChildren()
-                                                  .where((e) =>
-                                                      (snapshot.data!.$1)
-                                                          .selectedSubjects
-                                                          .contains(e.getId))
-                                                  .toList())));
+                              return (
+                                subject.getName,
+                                subject.getChildren().isEmpty
+                                    ? () => context.go(Routes.sessionsRoute,
+                                        extra: SessionsRouteData(
+                                            subjectName: subject.getName,
+                                            folderName: subject.getId))
+                                    : () => context.go(Routes.subjectsRoute,
+                                        extra: SubjectsRouteData(
+                                            subjectsList: subject
+                                                .getChildren()
+                                                .where((e) =>
+                                                    (snapshot.data!.$1)
+                                                        .selectedSubjects
+                                                        .contains(e.getId))
+                                                .toList()))
+                              );
                             }).toList())
                     ],
                   ),
                 ),
-                const ZnoBottomNavigationBar(activeIndex: 0)
               ],
             );
           } else if (snapshot.hasError) {

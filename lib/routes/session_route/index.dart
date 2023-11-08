@@ -19,28 +19,33 @@ class SessionRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SessionRouteProvider(
-      sessionData: dto,
-      child: Column(
-        children: [
-          ZnoTopHeaderText(
-              text: dto.subjectName,
-              fontSize: dto.subjectName.length > 24 ? 21.5.sp : 25.sp,
-              topLeftWidget: ZnoIconButton(
-                icon: Icons.arrow_back,
-                onTap: () => context.go(Routes.sessionsRoute,
-                    extra: SessionsRouteData(
-                        subjectName: dto.subjectName,
-                        folderName: dto.folderName)),
-              )),
-          const Expanded(
-            child: Center(
-              child: SessionDisplay(),
+      body: SessionRouteProvider(
+        sessionData: dto,
+        child: Column(
+          children: [
+            ZnoTopHeaderText(
+                text: dto.subjectName,
+                fontSize: dto.subjectName.length > 24 ? 21.5.sp : 25.sp,
+                topLeftWidget: Padding(
+                  padding: EdgeInsets.only(top: 10.h),
+                  child: ZnoIconButton(
+                    icon: Icons.arrow_back,
+                    onTap: () => context.go(Routes.sessionsRoute,
+                        extra: SessionsRouteData(
+                            subjectName: dto.subjectName,
+                            folderName: dto.folderName)),
+                  ),
+                )),
+            const Expanded(
+              child: Center(
+                child: SessionDisplay(),
+              ),
             ),
-          ),
-          const ZnoBottomNavigationBar(activeIndex: 0),
-        ],
+          ],
+        ),
       ),
-    ));
+      bottomNavigationBar: const ZnoBottomNavigationBar(
+          activeRoute: ZnoBottomNavigationEnum.subjects),
+    );
   }
 }

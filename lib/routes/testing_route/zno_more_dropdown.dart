@@ -1,7 +1,10 @@
+import 'package:client/dialogs/complaint_dialog.dart';
+import 'package:client/dialogs/info_dialog.dart';
 import 'package:client/dialogs/time_choice_dialog.dart';
 import 'package:client/models/testing_route_model.dart';
 import 'package:client/models/testing_time_model.dart';
 import 'package:client/routes.dart';
+import 'package:client/services/implementations/supabase_service.dart';
 import 'package:client/services/interfaces/storage_service_interface.dart';
 import 'package:client/dialogs/confirm_dialog.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -50,12 +53,35 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
           context.read<TestingTimeModel>().secondsInTotal = value;
         }
       });
+    } else if (value == 'Повідомити про помилку') {
+      showDialog<String?>(
+          context: context,
+          builder: (context) => const ComplaintDialog()).then((String? value) {
+        if (value != null) {
+          final sData = context.read<TestingRouteModel>().sessionData;
+          locator
+              .get<SupabaseService>()
+              .sendComplaint(sData, value)
+              .then((bool response) {
+            showDialog(
+                context: context,
+                builder: (context) => InfoDialog(
+                    text: response ? 'Дякуємо за відгук!' : 'Сталася помилка ',
+                    height: 210.h));
+          });
+        }
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    List<String> items = ['Вийти', 'Показати таймер', 'Змінити час таймера'];
+    List<String> items = [
+      'Вийти',
+      'Показати таймер',
+      'Змінити час таймера',
+      'Повідомити про помилку'
+    ];
     if (context
         .select<TestingTimeModel, bool>((value) => value.isTimerActivated)) {
       items[1] = 'Сховати таймер';
@@ -67,13 +93,14 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
           width: 180.w,
           decoration: const BoxDecoration(color: Colors.white),
         ),
+        menuItemStyleData: MenuItemStyleData(height: 60.h),
         customButton: Icon(
           Icons.more_vert,
           size: 36.sp,
           color: Colors.white,
         ),
         items: items
-            .map((item) => DropdownMenuItem(
+            .map((item) => DropdownMenuItem<String>(
                   value: item,
                   child: Text(
                     item,

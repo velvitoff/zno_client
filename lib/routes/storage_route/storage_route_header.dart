@@ -1,10 +1,13 @@
 import 'package:client/dialogs/info_dialog.dart';
 import 'package:client/models/storage_route_model.dart';
+import 'package:client/routes.dart';
 import 'package:client/routes/storage_route/storage_header_radio_button.dart';
 import 'package:client/dialogs/confirm_dialog.dart';
+import 'package:client/widgets/zno_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:client/widgets/zno_top_header_small.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class StorageRouteHeader extends StatelessWidget {
@@ -42,21 +45,24 @@ class StorageRouteHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ZnoTopHeaderSmall(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            margin: EdgeInsets.fromLTRB(28.w + 2, 0, 0, 0),
-            child: GestureDetector(
-              onTap: () => context.read<StorageRouteModel>().setIsMarkedAll(),
-              child: StorageHeaderRadioButton(
-                isMarked: context.watch<StorageRouteModel>().getIsMarkedAll(),
-              ),
+      child: Padding(
+        padding: EdgeInsets.only(left: 6.w, right: 12.w),
+        child: Stack(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: ZnoIconButton(
+                  icon: Icons.arrow_back,
+                  onTap: () => context.go(Routes.settingsRoute)),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.fromLTRB(0, 0, 12.w, 0),
-            child: Row(
+            Align(
+              alignment: Alignment.center,
+              child: Text('Сховище',
+                  style: TextStyle(
+                      color: const Color(0xFFEFEFEF), fontSize: 24.sp)),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 context.watch<StorageRouteModel>().isAtLeastOneItemMarked()
                     ? GestureDetector(
@@ -67,9 +73,22 @@ class StorageRouteHeader extends StatelessWidget {
                           color: const Color(0xFFF1F1F1),
                         ),
                       )
-                    : Container(),
+                    : Container(
+                        width: 39.sp,
+                      ),
                 SizedBox(
-                  width: 16.w,
+                  width: 25.w,
+                ),
+                GestureDetector(
+                  onTap: () =>
+                      context.read<StorageRouteModel>().setIsMarkedAll(),
+                  child: StorageHeaderRadioButton(
+                    isMarked:
+                        context.watch<StorageRouteModel>().getIsMarkedAll(),
+                  ),
+                ),
+                SizedBox(
+                  width: 25.w,
                 ),
                 GestureDetector(
                   onTap: () => showStorageInfo(context),
@@ -80,9 +99,9 @@ class StorageRouteHeader extends StatelessWidget {
                   ),
                 )
               ],
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

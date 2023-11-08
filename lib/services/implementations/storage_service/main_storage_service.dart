@@ -1,6 +1,4 @@
 import 'dart:typed_data';
-
-import 'package:client/dto/personal_config_data.dart';
 import 'package:client/models/testing_time_model.dart';
 import 'package:client/services/implementations/storage_service/local_storage_service.dart';
 import 'package:client/services/interfaces/external_storage_service_interface.dart';
@@ -38,7 +36,7 @@ class MainStorageService extends StorageServiceInterface {
   }
 
   @override
-  Future<String> getSession(String folderName, String fileName) async {
+  Future<Uint8List> getSession(String folderName, String fileName) async {
     //throws
     try {
       //return local file if it's recent enough
@@ -57,7 +55,7 @@ class MainStorageService extends StorageServiceInterface {
       }
     } catch (e) {
       try {
-        final String session =
+        final Uint8List session =
             await externalStorage.getSession(folderName, fileName);
         localStorage.saveSession(folderName, fileName, session); //not awaited
         await downloadImages(folderName, fileName);
@@ -87,7 +85,8 @@ class MainStorageService extends StorageServiceInterface {
   }
 
   Future<void> downloadImages(String subjectName, String sessionName) async {
-    sessionName = sessionName.replaceFirst('.json', '');
+    sessionName =
+        sessionName.replaceFirst('.json', '').replaceFirst('.bin', '');
     var imageMap =
         await externalStorage.downloadAllImages(subjectName, sessionName);
     await localStorage.saveImagesToFolder(subjectName, sessionName, imageMap);
@@ -97,6 +96,12 @@ class MainStorageService extends StorageServiceInterface {
   Future<PreviousSessionData?> saveSessionEnd(TestingRouteModel data,
       TestingTimeModel timerData, bool completed) async {
     return localStorage.saveSessionEnd(data, timerData, completed);
+  }
+
+  @override
+  PreviousSessionData? saveSessionEndSync(
+      TestingRouteModel data, TestingTimeModel timerData, bool completed) {
+    return localStorage.saveSessionEndSync(data, timerData, completed);
   }
 
   @override
@@ -113,15 +118,5 @@ class MainStorageService extends StorageServiceInterface {
   @override
   Future<List<StorageRouteItemData>> getStorageData() async {
     return localStorage.getStorageData();
-  }
-
-  @override
-  Future<PersonalConfigData> getPersonalConfigData() async {
-    return localStorage.getPersonalConfigData();
-  }
-
-  @override
-  Future<void> savePersonalConfigData(PersonalConfigData data) async {
-    return localStorage.savePersonalConfigData(data);
   }
 }

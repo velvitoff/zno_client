@@ -32,7 +32,9 @@ class PrevSessionItem extends StatelessWidget {
                   sessionName: data.sessionName,
                   folderName: data.folderName,
                   fileName: data.fileName,
-                  fileNameNoExtension: data.fileName.replaceFirst('.json', '')),
+                  fileNameNoExtension: data.fileName
+                      .replaceFirst('.json', '')
+                      .replaceFirst('.bin', '')),
               prevSessionData: data,
               isTimerActivated: data.isTimerActivated,
               timerSecondsInTotal: data.timerSecondsInTotal,

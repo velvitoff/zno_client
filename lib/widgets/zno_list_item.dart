@@ -19,8 +19,8 @@ class ZnoListItem extends StatelessWidget {
     switch (type) {
       case ZnoListColorType.normal:
         return const LinearGradient(colors: [
-          Color.fromRGBO(153, 215, 132, 0.1),
-          Color.fromRGBO(118, 174, 98, 0.16)
+          Color.fromRGBO(118, 174, 98, 0.02),
+          Color.fromRGBO(118, 174, 98, 0.04)
         ], begin: Alignment.topLeft, end: Alignment.bottomRight);
       case ZnoListColorType.green:
         return const LinearGradient(colors: [

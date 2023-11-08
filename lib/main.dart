@@ -23,9 +23,9 @@ class MyApp extends StatelessWidget {
             routerConfig: Routes.router,
             title: 'Тести ЗНО і НМТ',
             theme: ThemeData(
-              primarySwatch: Colors.green,
-              fontFamily: 'Ubuntu',
-            ),
+                primarySwatch: Colors.green,
+                fontFamily: 'Ubuntu',
+                scaffoldBackgroundColor: const Color(0xFFF9F9F9)),
           );
         });
   }

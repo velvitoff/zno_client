@@ -1,9 +1,8 @@
 import 'package:client/widgets/zno_list_item.dart';
 import 'package:flutter/material.dart';
-import 'package:tuple/tuple.dart';
 
 class ZnoList extends StatelessWidget {
-  final List<Tuple2<String, void Function()>> list;
+  final List<(String, void Function())> list;
 
   const ZnoList({Key? key, required this.list}) : super(key: key);
 
@@ -15,8 +14,8 @@ class ZnoList extends StatelessWidget {
         return Align(
           alignment: Alignment.center,
           child: ZnoListItem(
-            text: list[position].item1,
-            onTap: list[position].item2,
+            text: list[position].$1,
+            onTap: list[position].$2,
             colorType: ZnoListColorType.normal,
           ),
         );

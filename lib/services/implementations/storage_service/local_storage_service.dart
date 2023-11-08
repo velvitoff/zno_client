@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:client/dto/personal_config_data.dart';
 import 'package:client/dto/previous_session_data.dart';
 import 'package:client/dto/test_data.dart';
 import 'package:client/models/testing_time_model.dart';
@@ -65,9 +64,9 @@ class LocalStorageService extends StorageServiceInterface {
   }
 
   @override
-  Future<String> getSession(String folderName, String fileName) async {
+  Future<Uint8List> getSession(String folderName, String fileName) async {
     //throws FileSystemException
-    return await File(_sessionPath(folderName, fileName)).readAsString();
+    return await File(_sessionPath(folderName, fileName)).readAsBytes();
   }
 
   Future<DateTime> getSessionDate(String folderName, String fileName) async {
@@ -76,10 +75,10 @@ class LocalStorageService extends StorageServiceInterface {
   }
 
   Future<void> saveSession(
-      String folderName, String fileName, String contents) async {
+      String folderName, String fileName, Uint8List contents) async {
     var file =
         await File(_sessionPath(folderName, fileName)).create(recursive: true);
-    await file.writeAsString(contents);
+    await file.writeAsBytes(contents);
   }
 
   @override
@@ -98,7 +97,8 @@ class LocalStorageService extends StorageServiceInterface {
   }
 
   Future<bool> imageFolderExists(String subjectName, String sessionName) async {
-    sessionName = sessionName.replaceFirst('.json', '');
+    sessionName =
+        sessionName.replaceFirst('.json', '').replaceFirst('.bin', '');
     return await Directory(getImagePath(subjectName, sessionName, '')).exists();
   }
 
@@ -123,8 +123,36 @@ class LocalStorageService extends StorageServiceInterface {
     if (await file.exists()) {
       await file.writeAsString(json.encode(map), mode: FileMode.writeOnly);
     } else {
-      await file.create(recursive: true).then((file) =>
-          file.writeAsString(json.encode(map), mode: FileMode.writeOnly));
+      await file.create(recursive: true);
+      await file.writeAsString(json.encode(map), mode: FileMode.writeOnly);
+    }
+
+    return newData;
+  }
+
+  @override
+  PreviousSessionData? saveSessionEndSync(
+      TestingRouteModel data, TestingTimeModel timerData, bool completed) {
+    if (data.prevSessionData != null && data.prevSessionData!.completed) {
+      return null;
+    }
+    if (data.allAnswers.isEmpty) {
+      return null;
+    }
+
+    final newData =
+        PreviousSessionData.fromTestingRouteModel(data, timerData, completed);
+    final map = newData.toJson();
+
+    String filePath = _historyPath(data.sessionData.folderName,
+        data.sessionData.fileNameNoExtension, newData.sessionId);
+    File file = File(filePath);
+
+    if (file.existsSync()) {
+      file.writeAsStringSync(json.encode(map), mode: FileMode.writeOnly);
+    } else {
+      file.createSync(recursive: true);
+      file.writeAsStringSync(json.encode(map), mode: FileMode.writeOnly);
     }
 
     return newData;
@@ -230,25 +258,5 @@ class LocalStorageService extends StorageServiceInterface {
     }
 
     return result;
-  }
-
-  @override
-  Future<PersonalConfigData> getPersonalConfigData() async {
-    final file =
-        File('$_znoDirPath${Platform.pathSeparator}personal_config.json');
-    if (!await file.exists()) {
-      return PersonalConfigData.getDefault();
-    }
-
-    final data = await file.readAsString();
-    return PersonalConfigData.fromJSON(jsonDecode(data));
-  }
-
-  @override
-  Future<void> savePersonalConfigData(PersonalConfigData data) async {
-    final file =
-        await File('$_znoDirPath${Platform.pathSeparator}personal_config.json')
-            .create(recursive: true);
-    await file.writeAsString(jsonEncode(data.toJSON()));
   }
 }

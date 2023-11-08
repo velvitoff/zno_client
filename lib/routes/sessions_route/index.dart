@@ -37,8 +37,12 @@ class SessionsRouteState extends State<SessionsRoute> {
         .get<StorageServiceInterface>()
         .listSessions(widget.dto.folderName)
         .then((List<String> data) {
-      final Map<String, List<String>> map = data.groupListsBy(
-          (element) => element.replaceAll('.json', '').split('_').last);
+      final Map<String, List<String>> map = data.groupListsBy((element) =>
+          element
+              .replaceAll('.json', '')
+              .replaceAll('.bin', '')
+              .split('_')
+              .last);
 
       //group items by years and sort years in descending order
       List<Widget> result = [];
@@ -58,7 +62,8 @@ class SessionsRouteState extends State<SessionsRoute> {
               onTap: () => context.go(Routes.sessionRoute,
                   extra: SessionData(
                       fileName: el,
-                      fileNameNoExtension: el.replaceAll('.json', ''),
+                      fileNameNoExtension:
+                          el.replaceAll('.json', '').replaceAll('.bin', ''),
                       sessionName: sessionName,
                       subjectName: widget.dto.subjectName,
                       folderName: widget.dto.folderName)),
@@ -72,57 +77,50 @@ class SessionsRouteState extends State<SessionsRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: FutureBuilder(
-              future: futureList,
-              builder:
-                  (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
-                if (snapshot.hasData) {
-                  if (snapshot.data!.isEmpty) {
-                    return SessionsScrollWrapper(
-                      subjectName: widget.dto.subjectName,
-                      child: SliverToBoxAdapter(
-                        child: ZnoError(
-                            text: 'Немає доступних тестів',
-                            textFontSize: 25.sp),
-                      ),
-                    );
-                  } else {
-                    return SessionsScrollWrapper(
-                      subjectName: widget.dto.subjectName,
-                      child: SessionsList(list: snapshot.data!),
-                    );
-                  }
-                } else if (snapshot.hasError) {
-                  return Column(
+      body: FutureBuilder(
+        future: futureList,
+        builder: (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data!.isEmpty) {
+              return SessionsScrollWrapper(
+                subjectName: widget.dto.subjectName,
+                child: SliverToBoxAdapter(
+                  child: ZnoError(
+                      text: 'Немає доступних тестів', textFontSize: 25.sp),
+                ),
+              );
+            } else {
+              return SessionsScrollWrapper(
+                subjectName: widget.dto.subjectName,
+                child: SessionsList(list: snapshot.data!),
+              );
+            }
+          } else if (snapshot.hasError) {
+            return Column(
+              children: [
+                ZnoTopHeaderText(text: widget.dto.subjectName),
+                const ZnoError(text: 'Помилка завантаження даних')
+              ],
+            );
+          } else {
+            return SessionsScrollWrapper(
+                subjectName: widget.dto.subjectName,
+                child: SliverToBoxAdapter(
+                  child: Column(
                     children: [
-                      ZnoTopHeaderText(text: widget.dto.subjectName),
-                      const ZnoError(text: 'Помилка завантаження даних')
+                      SizedBox(height: 100.h),
+                      SizedBox(
+                        height: 200.h,
+                        child: const ZnoLoading(),
+                      )
                     ],
-                  );
-                } else {
-                  return SessionsScrollWrapper(
-                      subjectName: widget.dto.subjectName,
-                      child: SliverToBoxAdapter(
-                        child: Column(
-                          children: [
-                            SizedBox(height: 100.h),
-                            SizedBox(
-                              height: 200.h,
-                              child: const ZnoLoading(),
-                            )
-                          ],
-                        ),
-                      ));
-                }
-              },
-            ),
-          ),
-          const ZnoBottomNavigationBar(activeIndex: 0)
-        ],
+                  ),
+                ));
+          }
+        },
       ),
+      bottomNavigationBar: const ZnoBottomNavigationBar(
+          activeRoute: ZnoBottomNavigationEnum.subjects),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:client/dto/test_data.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/testing_route/testing_pages.dart';
@@ -31,8 +32,14 @@ class TestingRouteState extends State<TestingRoute> {
         .get<StorageServiceInterface>()
         .getSession(
             widget.dto.sessionData.folderName, widget.dto.sessionData.fileName)
-        .then((String value) {
-      return TestData.fromJson(jsonDecode(value));
+        .then((Uint8List data) {
+      //TODO: Only read bin if premium
+      /*if (widget.dto.sessionData.fileName.endsWith('.bin')) {
+        final res = locator.get<UtilsServiceInterface>().decryptBin(data);
+        return TestData.fromJson(jsonDecode(res));
+      }*/
+      final String res = const Utf8Decoder().convert(data);
+      return TestData.fromJson(jsonDecode(res));
     });
   }
 

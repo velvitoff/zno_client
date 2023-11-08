@@ -1,4 +1,4 @@
-package com.example.zno_client
+package com.velvit.zno_client
 
 import io.flutter.embedding.android.FlutterActivity
 
