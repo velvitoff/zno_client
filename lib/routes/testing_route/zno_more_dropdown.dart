@@ -58,10 +58,10 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
           context: context,
           builder: (context) => const ComplaintDialog()).then((String? value) {
         if (value != null) {
-          final sData = context.read<TestingRouteModel>().sessionData;
+          final model = context.read<TestingRouteModel>();
           locator
               .get<SupabaseService>()
-              .sendComplaint(sData, value)
+              .sendComplaint(model, value)
               .then((bool response) {
             showDialog(
                 context: context,

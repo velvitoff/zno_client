@@ -1,4 +1,4 @@
-import 'package:client/dto/session_data.dart';
+import 'package:client/models/testing_route_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseService {
@@ -6,14 +6,15 @@ class SupabaseService {
 
   const SupabaseService();
 
-  Future<bool> sendComplaint(SessionData sessionData, String text,
+  Future<bool> sendComplaint(TestingRouteModel model, String text,
       {String? email}) async {
     try {
       await client.from('user_complaints').insert({
         'email': email,
         'data': {
-          "subjectName": sessionData.subjectName,
-          "sessionName": sessionData.sessionName,
+          "subjectName": model.sessionData.subjectName,
+          "sessionName": model.sessionData.sessionName,
+          "pageIndex": model.pageIndex,
           "text": text
         }.toString()
       });
