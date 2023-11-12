@@ -1,6 +1,8 @@
+import 'package:client/locator.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/premium_route/button_google_login.dart';
-//import 'package:client/routes/premium_route/button_google_pay.dart';
+import 'package:client/routes/premium_route/button_google_pay.dart';
+import 'package:client/services/implementations/auth_service.dart';
 import 'package:client/widgets/icons/zno_star_large_icon.dart';
 import 'package:client/widgets/zno_icon_button.dart';
 import 'package:client/widgets/zno_top_header_small.dart';
@@ -82,8 +84,9 @@ class _PremiumRouteState extends State<PremiumRoute> {
                 const Spacer(),
                 Padding(
                   padding: EdgeInsets.only(bottom: 40.h),
-                  //ButtonGooglePay(),
-                  child: const ButtonGoogleLogin(),
+                  child: locator.get<AuthService>().isLoggedIn
+                      ? const ButtonGoogleLogin()
+                      : const ButtonGooglePay(),
                 ),
               ],
             ),

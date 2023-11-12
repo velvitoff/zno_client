@@ -8,7 +8,7 @@ class ButtonGoogleLogin extends StatelessWidget {
   const ButtonGoogleLogin({super.key});
 
   void onGoogleLoginButtonClick() async {
-    locator.get<AuthService>().signInGooglePack();
+    locator.get<AuthService>().signInGoogle();
   }
 
   @override

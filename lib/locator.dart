@@ -27,6 +27,6 @@ void getItSetup() {
   locator.registerSingletonAsync<UtilsServiceInterface>(
       () async => UtilsService());
 
-  locator.registerSingleton<AuthService>(const AuthService());
+  locator.registerSingleton<AuthService>(AuthService());
   locator.registerSingleton<SupabaseService>(const SupabaseService());
 }
