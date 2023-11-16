@@ -10,19 +10,19 @@ const clientIdDebug =
 class AuthService {
   AuthService();
 
-  GoogleSignInAccount? _account;
+  GoogleSignInAccount? _googleAccount; //_account.authentication
   SupabaseClient get client => Supabase.instance.client;
 
   GoogleSignIn googleSignIn = GoogleSignIn(
       serverClientId: clientId, scopes: ['openid', 'email']); //'profile'
 
   bool get isLoggedIn => googleSignIn.currentUser != null;
-  GoogleSignInAccount? get getAccount => isLoggedIn ? _account : null;
+  GoogleSignInAccount? get getAccount => isLoggedIn ? _googleAccount : null;
 
   Future<bool> signInGoogle() async {
     try {
-      _account = await googleSignIn.signIn();
-      if (_account == null) {
+      _googleAccount = await googleSignIn.signIn();
+      if (_googleAccount == null) {
         return false;
       }
     } catch (e) {

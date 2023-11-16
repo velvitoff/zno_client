@@ -62,7 +62,11 @@ class _ComplaintDialogState extends State<ComplaintDialog> {
                   width: 30.w,
                 ),
                 ZnoButton(
-                  onTap: () => Navigator.pop(context, userText),
+                  onTap: () {
+                    if (userText.isNotEmpty) {
+                      Navigator.pop(context, userText);
+                    }
+                  },
                   width: 100.w,
                   height: 50.h,
                   text: 'Надіслати',

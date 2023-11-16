@@ -46,49 +46,51 @@ class _PremiumRouteState extends State<PremiumRoute> {
         Expanded(
           child: Padding(
             padding: EdgeInsets.only(right: 20.w, left: 20.w, top: 20.h),
-            child: Column(
-              children: [
-                SizedBox(
-                  width: 137.r,
-                  height: 137.r,
-                  child: CustomPaint(
-                    painter: ZnoStarLargeIcon(),
+            child: DefaultTextStyle(
+              style: TextStyle(fontSize: 24.sp),
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: 137.r,
+                    height: 137.r,
+                    child: CustomPaint(
+                      painter: ZnoStarLargeIcon(),
+                    ),
                   ),
-                ),
-                Text(
-                  'Преміум',
-                  style:
-                      TextStyle(fontSize: 36.sp, fontWeight: FontWeight.w500),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 10.h),
-                Text(
-                    'Придбання преміуму надає доступ до тестів ЗНО усіх попередніх років.',
+                  Text(
+                    'Преміум',
+                    style:
+                        TextStyle(fontSize: 36.sp, fontWeight: FontWeight.w500),
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 24.sp)),
-                SizedBox(height: 50.h),
-                Text(
-                  'З таких предметів як Математика, Хімія і Фізика  доступні лише тести до 2019 року включно.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 24.sp),
-                ),
-                Text('(станом на 20.09.2023)',
+                  ),
+                  SizedBox(height: 10.h),
+                  Text(
+                      'Придбання преміуму надає доступ до тестів ЗНО усіх попередніх років.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 24.sp)),
+                  SizedBox(height: 50.h),
+                  const Text(
+                    'З таких предметів як Математика, Хімія і Фізика  доступні лише тести до 2019 року включно.',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 24.sp)),
-                SizedBox(height: 10.h),
-                Text(
-                  'Наступні тести з цих предметів поступово додаватимуться з часом.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 24.sp),
-                ),
-                const Spacer(),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 40.h),
-                  child: locator.get<AuthService>().isLoggedIn
-                      ? const ButtonGoogleLogin()
-                      : const ButtonGooglePay(),
-                ),
-              ],
+                  ),
+                  const Text(
+                    '(станом на 20.09.2023)',
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 10.h),
+                  const Text(
+                    'Наступні тести з цих предметів поступово додаватимуться з часом.',
+                    textAlign: TextAlign.center,
+                  ),
+                  const Spacer(),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 40.h),
+                    child: locator.get<AuthService>().isLoggedIn
+                        ? const ButtonGooglePay()
+                        : const ButtonGoogleLogin(),
+                  ),
+                ],
+              ),
             ),
           ),
         )
