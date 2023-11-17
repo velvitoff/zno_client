@@ -34,7 +34,7 @@ dependencies:
 
   go_router: ^10.0.0
   flutter_screenutil: ^5.8.4
-  supabase_flutter: ^1.10.13
+  supabase_flutter: ^1.10.25
   get_it: ^7.6.0
   http: ^0.13.3
   html: ^0.15.4
@@ -48,7 +48,7 @@ dependencies:
   rive: ^0.9.1
   flutter_launcher_icons: ^0.13.1
   archive: ^3.3.9
-  google_sign_in: ^6.1.5
+  google_sign_in: ^6.1.6
   encrypt: ^5.0.3
   #pay: ^1.1.2
 

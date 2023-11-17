@@ -47,7 +47,7 @@ class _PremiumRouteState extends State<PremiumRoute> {
           child: Padding(
             padding: EdgeInsets.only(right: 20.w, left: 20.w, top: 20.h),
             child: DefaultTextStyle(
-              style: TextStyle(fontSize: 24.sp),
+              style: TextStyle(fontSize: 24.sp, color: const Color(0xFF222222)),
               child: Column(
                 children: [
                   SizedBox(
