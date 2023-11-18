@@ -2,6 +2,7 @@ import 'package:client/models/auth_state_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/premium_route/button_google_login.dart';
 import 'package:client/routes/premium_route/button_google_pay.dart';
+import 'package:client/routes/premium_route/user_avatar.dart';
 import 'package:client/widgets/icons/zno_star_large_icon.dart';
 import 'package:client/widgets/zno_icon_button.dart';
 import 'package:client/widgets/zno_top_header_small.dart';
@@ -40,6 +41,16 @@ class _PremiumRouteState extends State<PremiumRoute> {
                       onTap: () => context.go(Routes.settingsRoute)),
                 ),
               ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 6.w, top: 8.h, bottom: 8.h),
+                  child: SizedBox(
+                    width: 70.h,
+                    child: const UserAvatar(),
+                  ),
+                ),
+              )
             ],
           ),
         ),

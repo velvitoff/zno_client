@@ -1,3 +1,4 @@
+import 'package:client/auth/auth_event_handler_widget.dart';
 import 'package:client/locator.dart';
 import 'package:client/providers/auth_state_provider.dart';
 import 'package:flutter/material.dart';
@@ -20,14 +21,16 @@ class MyApp extends StatelessWidget {
         splitScreenMode: true,
         builder: (context, _) {
           return AuthStateProvider(
-              child: MaterialApp.router(
-            debugShowCheckedModeBanner: false,
-            routerConfig: Routes.router,
-            title: 'Тести ЗНО і НМТ',
-            theme: ThemeData(
-                primarySwatch: Colors.green,
-                fontFamily: 'Ubuntu',
-                scaffoldBackgroundColor: const Color(0xFFF9F9F9)),
+              child: AuthEventHandlerWidget(
+            child: MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              routerConfig: Routes.router,
+              title: 'Тести ЗНО і НМТ',
+              theme: ThemeData(
+                  primarySwatch: Colors.green,
+                  fontFamily: 'Ubuntu',
+                  scaffoldBackgroundColor: const Color(0xFFF9F9F9)),
+            ),
           ));
         });
   }

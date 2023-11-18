@@ -47,12 +47,8 @@ extension AuthManagement on AuthStateModel {
   }
 
   Future<bool> signOut() async {
-    if (_authProvider == null) {
-      return false;
-    }
-
     try {
-      await _authProvider!.signOut();
+      await Supabase.instance.client.auth.signOut();
     } catch (_) {
       return false;
     }
