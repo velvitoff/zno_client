@@ -67,7 +67,7 @@ class _UserAvatarState extends State<UserAvatar> {
             items: items.mapIndexed((index, item) {
               final bool isEmail = firstChildIsDisabled && index == 0;
               return DropdownMenuItem<String>(
-                enabled: isEmail,
+                enabled: !isEmail,
                 value: item,
                 child: Text(
                   item,
