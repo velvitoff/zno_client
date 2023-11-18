@@ -1,14 +1,14 @@
-import 'package:client/locator.dart';
+import 'package:client/models/auth_state_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/premium_route/button_google_login.dart';
 import 'package:client/routes/premium_route/button_google_pay.dart';
-import 'package:client/services/implementations/auth_service.dart';
 import 'package:client/widgets/icons/zno_star_large_icon.dart';
 import 'package:client/widgets/zno_icon_button.dart';
 import 'package:client/widgets/zno_top_header_small.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class PremiumRoute extends StatefulWidget {
   const PremiumRoute({super.key});
@@ -85,13 +85,8 @@ class _PremiumRouteState extends State<PremiumRoute> {
                   const Spacer(),
                   Padding(
                     padding: EdgeInsets.only(bottom: 40.h),
-                    child: locator.get<AuthService>().isLoggedIn
-                        ? GestureDetector(
-                            onTap: () => locator.get<AuthService>().signOut(),
-                            child: Container(
-                              height: 40.h,
-                              color: Colors.red,
-                            )) //const ButtonGooglePay()
+                    child: context.watch<AuthStateModel>().currentUser != null
+                        ? const ButtonGooglePay()
                         : const ButtonGoogleLogin(),
                   ),
                 ],

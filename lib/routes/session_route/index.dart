@@ -2,7 +2,7 @@ import 'package:client/dto/session_data.dart';
 import 'package:client/dto/sessions_route_data.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/session_route/session_display.dart';
-import 'package:client/routes/session_route/session_route_provider.dart';
+import 'package:client/providers/session_route_provider.dart';
 import 'package:client/widgets/zno_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

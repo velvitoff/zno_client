@@ -1,6 +1,6 @@
 import 'package:client/routes/storage_route/storage_list.dart';
 import 'package:client/routes/storage_route/storage_route_header.dart';
-import 'package:client/routes/storage_route/storage_route_provider.dart';
+import 'package:client/providers/storage_route_provider.dart';
 import 'package:client/widgets/zno_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

@@ -1,4 +1,5 @@
 import 'package:client/locator.dart';
+import 'package:client/providers/auth_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:client/routes.dart';
@@ -18,7 +19,8 @@ class MyApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, _) {
-          return MaterialApp.router(
+          return AuthStateProvider(
+              child: MaterialApp.router(
             debugShowCheckedModeBanner: false,
             routerConfig: Routes.router,
             title: 'Тести ЗНО і НМТ',
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
                 primarySwatch: Colors.green,
                 fontFamily: 'Ubuntu',
                 scaffoldBackgroundColor: const Color(0xFFF9F9F9)),
-          );
+          ));
         });
   }
 }

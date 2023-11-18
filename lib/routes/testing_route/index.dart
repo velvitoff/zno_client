@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:client/dto/test_data.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/testing_route/testing_pages.dart';
-import 'package:client/routes/testing_route/testing_route_provider.dart';
+import 'package:client/providers/testing_route_provider.dart';
 import 'package:client/routes/testing_route/zno_testing_header.dart';
 import 'package:client/services/interfaces/storage_service_interface.dart';
 import 'package:flutter/material.dart';

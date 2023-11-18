@@ -1,4 +1,3 @@
-import 'package:client/services/implementations/auth_service.dart';
 import "package:client/services/implementations/storage_service/main_storage_service.dart";
 import 'package:client/services/implementations/storage_service/pure_local_storage_service.dart';
 import 'package:client/services/implementations/supabase_service.dart';
@@ -27,6 +26,5 @@ void getItSetup() {
   locator.registerSingletonAsync<UtilsServiceInterface>(
       () async => UtilsService());
 
-  locator.registerSingleton<AuthService>(AuthService());
   locator.registerSingleton<SupabaseService>(const SupabaseService());
 }

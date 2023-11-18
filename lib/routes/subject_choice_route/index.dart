@@ -1,5 +1,5 @@
 import 'package:client/routes/subject_choice_route/subject_choice_layout.dart';
-import 'package:client/routes/subject_choice_route/subject_choice_route_provider.dart';
+import 'package:client/providers/subject_choice_route_provider.dart';
 import 'package:client/widgets/zno_error.dart';
 import 'package:flutter/material.dart';
 import '../../models/subject_choice_route_model.dart';

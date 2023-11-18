@@ -1,6 +1,6 @@
 import 'package:client/routes.dart';
 import 'package:client/routes/history_route/history_list.dart';
-import 'package:client/routes/history_route/history_route_provider.dart';
+import 'package:client/providers/history_route_provider.dart';
 import 'package:client/widgets/zno_error.dart';
 import 'package:client/widgets/zno_icon_button.dart';
 import 'package:client/widgets/zno_top_header_small.dart';
