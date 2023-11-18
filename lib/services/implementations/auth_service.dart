@@ -7,8 +7,10 @@ class AuthService {
 
   SupabaseClient get client => Supabase.instance.client;
   AuthProviderInterface? _authProvider;
+  User? _currentUser;
+  Session? _currentSession;
 
-  bool get isLoggedIn => client.auth.currentUser != null;
+  bool get isLoggedIn => _currentUser != null;
 
   void setAuthProviderGoogle() {
     _authProvider = AuthProviderGoogle();
@@ -18,12 +20,14 @@ class AuthService {
     if (_authProvider == null) {
       return false;
     }
-
+    AuthResponse response;
     try {
-      await _authProvider!.signIn();
+      response = await _authProvider!.signIn();
     } catch (_) {
       return false;
     }
+    _currentUser = response.user;
+    _currentSession = response.session;
     return true;
   }
 
@@ -31,10 +35,12 @@ class AuthService {
     if (_authProvider == null) {
       return false;
     }
+    _currentUser = null;
+    _currentSession = null;
+    _authProvider = null;
 
     try {
-      await Supabase.instance.client.auth.signOut();
-      _authProvider!.signOut();
+      await client.auth.signOut();
     } catch (_) {
       return false;
     }

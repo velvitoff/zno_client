@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ButtonGoogleLogin extends StatelessWidget {
   const ButtonGoogleLogin({super.key});
 
+  //TO DO: Error handling
   void onClick() {
     final authService = locator.get<AuthService>();
     authService.setAuthProviderGoogle();

@@ -9,7 +9,6 @@ import 'package:client/widgets/zno_top_header_small.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PremiumRoute extends StatefulWidget {
   const PremiumRoute({super.key});
@@ -84,13 +83,15 @@ class _PremiumRouteState extends State<PremiumRoute> {
                     textAlign: TextAlign.center,
                   ),
                   const Spacer(),
-                  Supabase.instance.client.auth.currentUser == null
-                      ? Container()
-                      : const Text('logged in'),
                   Padding(
                     padding: EdgeInsets.only(bottom: 40.h),
                     child: locator.get<AuthService>().isLoggedIn
-                        ? const ButtonGooglePay()
+                        ? GestureDetector(
+                            onTap: () => locator.get<AuthService>().signOut(),
+                            child: Container(
+                              height: 40.h,
+                              color: Colors.red,
+                            )) //const ButtonGooglePay()
                         : const ButtonGoogleLogin(),
                   ),
                 ],

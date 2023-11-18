@@ -6,7 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class AuthProviderGoogle implements AuthProviderInterface {
   static const webClientId =
       '98934243915-6n2mmddkjjn9krggjj8uigd8h7i18ikr.apps.googleusercontent.com';
-  static const scopes = ['email', 'profile' 'openid'];
+  static const scopes = ['email']; //'profile' 'openid'
 
   GoogleSignIn googleSignIn =
       GoogleSignIn(serverClientId: webClientId, scopes: scopes);
