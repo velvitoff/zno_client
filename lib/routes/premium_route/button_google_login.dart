@@ -7,14 +7,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ButtonGoogleLogin extends StatelessWidget {
   const ButtonGoogleLogin({super.key});
 
-  void onGoogleLoginButtonClick() async {
-    locator.get<AuthService>().signInGoogle();
+  void onClick() {
+    final authService = locator.get<AuthService>();
+    authService.setAuthProviderGoogle();
+    authService.signIn();
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () async => onGoogleLoginButtonClick(),
+      onTap: onClick,
       child: Container(
         height: 65.h,
         decoration: BoxDecoration(
