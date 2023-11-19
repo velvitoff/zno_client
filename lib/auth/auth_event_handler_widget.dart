@@ -19,17 +19,19 @@ class _AuthEventHandlerWidgetState extends State<AuthEventHandlerWidget> {
   void initState() {
     super.initState();
     authListener = Supabase.instance.client.auth.onAuthStateChange
-        .listen((AuthState data) {
+        .listen((AuthState data) async {
       if (data.event == AuthChangeEvent.signedIn ||
           data.event == AuthChangeEvent.tokenRefreshed) {
         if (data.session == null) {
           return;
         }
-        context
-            .read<AuthStateModel>()
-            .setUserAndSession(data.session!.user, data.session!);
+        final model = context.read<AuthStateModel>();
+
+        final bool isPremium =
+            await model.userHasPremium(userId: data.session!.user.id);
+        model.setData(data.session!.user, data.session!, isPremium);
       } else if (data.event == AuthChangeEvent.signedOut) {
-        context.read<AuthStateModel>().clearUserAndSession();
+        context.read<AuthStateModel>().clearData();
       }
     });
   }

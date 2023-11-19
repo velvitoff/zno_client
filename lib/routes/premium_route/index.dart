@@ -26,6 +26,8 @@ class _PremiumRouteState extends State<PremiumRoute> {
 
   @override
   Widget build(BuildContext context) {
+    final AuthStateModel model = context.watch<AuthStateModel>();
+
     return Scaffold(
         body: Column(
       children: [
@@ -96,8 +98,10 @@ class _PremiumRouteState extends State<PremiumRoute> {
                   const Spacer(),
                   Padding(
                     padding: EdgeInsets.only(bottom: 40.h),
-                    child: context.watch<AuthStateModel>().currentUser != null
-                        ? const ButtonGooglePay()
+                    child: model.currentUser != null
+                        ? model.isPremium
+                            ? const Text('Ви вже придбали преміум')
+                            : const ButtonGooglePay()
                         : const ButtonGoogleLogin(),
                   ),
                 ],
