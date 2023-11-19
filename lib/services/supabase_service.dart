@@ -6,15 +6,16 @@ class SupabaseService {
 
   const SupabaseService();
 
-  Future<bool> sendComplaint(TestingRouteModel model, String text,
-      {String? email}) async {
+  Future<bool> sendComplaint(
+      TestingRouteModel model, String text, bool isPremium,
+      {String? id}) async {
     try {
       await client.from('user_complaints').insert({
-        'email': email,
+        'id': id,
         'data': {
           "subjectName": model.sessionData.subjectName,
           "sessionName": model.sessionData.sessionName,
-          "pageIndex": model.pageIndex,
+          "page": model.pageIndex + 1,
           "text": text
         }.toString()
       });

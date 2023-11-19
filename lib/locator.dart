@@ -13,11 +13,11 @@ void getItSetup() {
       () async => await InitService.init());
 
   locator.registerSingletonAsync<LocalStorageService>(
-      () => LocalStorageService.create());
+      () async => LocalStorageService.create());
   locator.registerSingleton<SupabaseStorageService>(SupabaseStorageService());
   locator.registerSingletonAsync<MainStorageService>(
       () async => MainStorageService(),
-      dependsOn: [LocalStorageService, SupabaseStorageService]);
+      dependsOn: [LocalStorageService]);
 
   locator.registerSingletonAsync<UtilsService>(() async => UtilsService());
 

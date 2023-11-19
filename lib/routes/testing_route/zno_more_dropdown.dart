@@ -1,6 +1,7 @@
 import 'package:client/dialogs/complaint_dialog.dart';
 import 'package:client/dialogs/info_dialog.dart';
 import 'package:client/dialogs/time_choice_dialog.dart';
+import 'package:client/models/auth_state_model.dart';
 import 'package:client/models/testing_route_model.dart';
 import 'package:client/models/testing_time_model.dart';
 import 'package:client/routes.dart';
@@ -59,9 +60,17 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
           builder: (context) => const ComplaintDialog()).then((String? value) {
         if (value != null) {
           final model = context.read<TestingRouteModel>();
+          final authModel = context.read<AuthStateModel>();
           locator
               .get<SupabaseService>()
-              .sendComplaint(model, value)
+              .sendComplaint(
+                model,
+                value,
+                authModel.isPremium,
+                id: authModel.currentUser == null
+                    ? null
+                    : authModel.currentUser!.id,
+              )
               .then((bool response) {
             showDialog(
                 context: context,

@@ -1,13 +1,16 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:client/dto/test_data.dart';
+import 'package:client/models/auth_state_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/testing_route/testing_pages.dart';
 import 'package:client/providers/testing_route_provider.dart';
 import 'package:client/routes/testing_route/zno_testing_header.dart';
 import 'package:client/services/storage_service/main_storage_service.dart';
+import 'package:client/services/utils_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import '../../dto/testing_route_data.dart';
 import '../../locator.dart';
 import '../../widgets/zno_error.dart';
@@ -33,11 +36,11 @@ class TestingRouteState extends State<TestingRoute> {
         .getSession(
             widget.dto.sessionData.folderName, widget.dto.sessionData.fileName)
         .then((Uint8List data) {
-      //TODO: Only read bin if premium
-      /*if (widget.dto.sessionData.fileName.endsWith('.bin')) {
-        final res = locator.get<UtilsServiceInterface>().decryptBin(data);
+      if (widget.dto.sessionData.fileName.endsWith('.bin') &&
+          context.read<AuthStateModel>().isPremium) {
+        final res = locator.get<UtilsService>().decryptBin(data);
         return TestData.fromJson(jsonDecode(res));
-      }*/
+      }
       final String res = const Utf8Decoder().convert(data);
       return TestData.fromJson(jsonDecode(res));
     });

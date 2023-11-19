@@ -17,8 +17,8 @@ class SubjectChoiceListItem extends StatelessWidget {
         border: Border.all(width: 2, color: const Color(0x0A363636)),
         borderRadius: BorderRadius.circular(10),
         gradient: const LinearGradient(colors: [
-          Color.fromRGBO(153, 215, 132, 0.03),
-          Color.fromRGBO(118, 174, 98, 0.16)
+          Color.fromRGBO(118, 174, 98, 0.02),
+          Color.fromRGBO(118, 174, 98, 0.04)
         ], begin: Alignment.topLeft, end: Alignment.bottomRight));
 
     return Container(
