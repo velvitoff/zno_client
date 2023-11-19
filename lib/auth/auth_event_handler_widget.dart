@@ -20,7 +20,8 @@ class _AuthEventHandlerWidgetState extends State<AuthEventHandlerWidget> {
     super.initState();
     authListener = Supabase.instance.client.auth.onAuthStateChange
         .listen((AuthState data) {
-      if (data.event == AuthChangeEvent.signedIn) {
+      if (data.event == AuthChangeEvent.signedIn ||
+          data.event == AuthChangeEvent.tokenRefreshed) {
         if (data.session == null) {
           return;
         }
@@ -28,7 +29,6 @@ class _AuthEventHandlerWidgetState extends State<AuthEventHandlerWidget> {
             .read<AuthStateModel>()
             .setUserAndSession(data.session!.user, data.session!);
       } else if (data.event == AuthChangeEvent.signedOut) {
-        print('SIGN OUT');
         context.read<AuthStateModel>().clearUserAndSession();
       }
     });

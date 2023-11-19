@@ -38,7 +38,7 @@ class _UserAvatarState extends State<UserAvatar> {
     } else {
       items.add(currentUser.email == null ? 'No email' : currentUser.email!);
       items.add('Вийти');
-      customHeights = [20.h, 60.h];
+      customHeights = [25.h, 60.h];
       firstChildIsDisabled = true;
     }
 
@@ -73,7 +73,7 @@ class _UserAvatarState extends State<UserAvatar> {
                   item,
                   style: isEmail
                       ? TextStyle(
-                          fontSize: 16.sp,
+                          fontSize: 18.sp,
                           fontWeight: FontWeight.w400,
                           color: Colors.black87.withOpacity(0.85))
                       : TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w400),

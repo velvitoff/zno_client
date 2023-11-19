@@ -4,9 +4,11 @@ import 'package:client/providers/auth_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:client/routes.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() {
   getItSetup();
+  dotenv.load();
   runApp(const MyApp());
 }
 
