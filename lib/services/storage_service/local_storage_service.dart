@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:client/dto/personal_config_data.dart';
 import 'package:client/dto/previous_session_data.dart';
 import 'package:client/dto/test_data.dart';
 import 'package:client/models/testing_time_model.dart';
@@ -12,6 +13,7 @@ import 'package:client/extensions/directory_extension.dart';
 
 class LocalStorageService {
   final Directory _appDir;
+  bool isPremium = false;
 
   LocalStorageService._create(Directory appDirectory) : _appDir = appDirectory;
 
@@ -22,8 +24,10 @@ class LocalStorageService {
 
   String get _znoDirPath =>
       '${_appDir.path}${Platform.pathSeparator}zno_client';
-  String get _testsDir => '$_znoDirPath${Platform.pathSeparator}tests';
-  String get _imageDir => '$_znoDirPath${Platform.pathSeparator}images';
+  String get _testsDir =>
+      '$_znoDirPath${Platform.pathSeparator}${isPremium ? 'tests-premium' : 'tests'}';
+  String get _imageDir =>
+      '$_znoDirPath${Platform.pathSeparator}${isPremium ? 'images-premium' : 'images'}';
   String get _historyDir => '$_znoDirPath${Platform.pathSeparator}history';
 
   String _sessionPath(String subjectFolderName, String sessionFileName) {
@@ -248,5 +252,23 @@ class LocalStorageService {
     }
 
     return result;
+  }
+
+  Future<PersonalConfigData> getPersonalConfigData() async {
+    final file =
+        File('$_znoDirPath${Platform.pathSeparator}personal_config.json');
+    if (!await file.exists()) {
+      return PersonalConfigData.getDefault();
+    }
+
+    final data = await file.readAsString();
+    return PersonalConfigData.fromJSON(jsonDecode(data));
+  }
+
+  Future<void> savePersonalConfigData(PersonalConfigData data) async {
+    final file =
+        await File('$_znoDirPath${Platform.pathSeparator}personal_config.json')
+            .create(recursive: true);
+    await file.writeAsString(jsonEncode(data.toJSON()));
   }
 }

@@ -1,5 +1,8 @@
 import 'package:client/auth/auth_provider_google.dart';
 import 'package:client/auth/auth_provider_interface.dart';
+import 'package:client/locator.dart';
+import 'package:client/services/storage_service/local_storage_service.dart';
+import 'package:client/services/storage_service/supabase_storage_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -12,6 +15,11 @@ class AuthStateModel extends ChangeNotifier {
   Session? currentSession;
   bool isPremium = false;
 
+  void updatePremiumStatusForServices() {
+    locator.get<LocalStorageService>().isPremium = isPremium;
+    locator.get<SupabaseStorageService>().isPremium = isPremium;
+  }
+
   void setAuthProviderGoogle() {
     _authProvider = AuthProviderGoogle();
     notifyListeners();
@@ -21,6 +29,7 @@ class AuthStateModel extends ChangeNotifier {
     currentUser = user;
     currentSession = session;
     isPremium = premium;
+    updatePremiumStatusForServices();
     notifyListeners();
   }
 
@@ -28,6 +37,7 @@ class AuthStateModel extends ChangeNotifier {
     currentUser = null;
     currentSession = null;
     isPremium = false;
+    updatePremiumStatusForServices();
     notifyListeners();
   }
 }
@@ -48,7 +58,7 @@ extension AuthManagement on AuthStateModel {
       return false;
     }
     //set data
-    setData(response.user!, response.session!, await userHasPremium());
+    setData(response.user!, response.session!, await isUserPremium());
     return true;
   }
 
@@ -67,7 +77,7 @@ extension AuthManagement on AuthStateModel {
 }
 
 extension PremiumManagement on AuthStateModel {
-  Future<bool> userHasPremium({String? userId}) async {
+  Future<bool> isUserPremium({String? userId}) async {
     if (currentUser == null && userId == null) {
       return false;
     }

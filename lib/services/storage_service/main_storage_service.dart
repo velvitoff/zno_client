@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:client/locator.dart';
 import 'package:client/models/testing_time_model.dart';
 import 'package:client/services/storage_service/local_storage_service.dart';
 import 'package:client/services/storage_service/supabase_storage_service.dart';
@@ -8,20 +9,11 @@ import '../../dto/storage_route_item_data.dart';
 import '../../models/testing_route_model.dart';
 
 class MainStorageService {
-  final SupabaseStorageService externalStorage;
-  final LocalStorageService localStorage;
+  MainStorageService();
 
-  MainStorageService._create(
-      SupabaseStorageService external, LocalStorageService local)
-      : externalStorage = external,
-        localStorage = local;
-
-  static Future<MainStorageService> create({
-    required SupabaseStorageService externalStorageService,
-  }) async {
-    return MainStorageService._create(
-        externalStorageService, await LocalStorageService.create());
-  }
+  SupabaseStorageService get externalStorage =>
+      locator.get<SupabaseStorageService>();
+  LocalStorageService get localStorage => locator.get<LocalStorageService>();
 
   Future<List<String>> listSessions(String folderName) async {
     try {

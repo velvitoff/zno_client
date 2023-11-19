@@ -6,11 +6,9 @@ class AnswerVariantsComplex extends StatelessWidget {
   final List<String> titleList;
   final List<Map<String, List<String>>> tableList;
 
-  const AnswerVariantsComplex({
-    Key? key,
-    required this.titleList,
-    required this.tableList
-  }) : super(key: key);
+  const AnswerVariantsComplex(
+      {Key? key, required this.titleList, required this.tableList})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

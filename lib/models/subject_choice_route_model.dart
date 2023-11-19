@@ -1,7 +1,7 @@
 import 'package:client/all_subjects/zno_subject.dart';
 import 'package:client/all_subjects/zno_subject_group.dart';
 import 'package:client/locator.dart';
-import 'package:client/services/storage_service/personal_config_service.dart';
+import 'package:client/services/storage_service/local_storage_service.dart';
 import 'package:flutter/material.dart';
 
 import '../all_subjects/all_subjects.dart';
@@ -13,7 +13,7 @@ class SubjectChoiceRouteModel extends ChangeNotifier {
 
   static Future<SubjectChoiceRouteModel> pullSubjectsFromConfig() async {
     final List<String> selectedSubjects =
-        (await locator.get<PersonalConfigService>().getPersonalConfigData())
+        (await locator.get<LocalStorageService>().getPersonalConfigData())
             .selectedSubjects;
     Map<String, bool> result = {};
 
@@ -45,12 +45,12 @@ class SubjectChoiceRouteModel extends ChangeNotifier {
 
   Future<void> savePersonalConfigChanges() async {
     final data =
-        await locator.get<PersonalConfigService>().getPersonalConfigData();
+        await locator.get<LocalStorageService>().getPersonalConfigData();
     final newData = data.copyWith(
         selectedSubjects: subjects.entries
             .where((element) => element.value == true)
             .map((element) => element.key)
             .toList());
-    await locator.get<PersonalConfigService>().savePersonalConfigData(newData);
+    await locator.get<LocalStorageService>().savePersonalConfigData(newData);
   }
 }
