@@ -1,31 +1,28 @@
 import 'dart:typed_data';
 import 'package:client/models/testing_time_model.dart';
-import 'package:client/services/implementations/storage_service/local_storage_service.dart';
-import 'package:client/services/interfaces/external_storage_service_interface.dart';
-import 'package:client/services/interfaces/storage_service_interface.dart';
+import 'package:client/services/storage_service/local_storage_service.dart';
+import 'package:client/services/storage_service/supabase_storage_service.dart';
 
-import '../../../dto/previous_session_data.dart';
-import '../../../dto/storage_route_item_data.dart';
-import '../../../models/testing_route_model.dart';
+import '../../dto/previous_session_data.dart';
+import '../../dto/storage_route_item_data.dart';
+import '../../models/testing_route_model.dart';
 
-class MainStorageService extends StorageServiceInterface {
-  final ExternalStorageServiceInterface
-      externalStorage; //Supabase / Firebase storage service
+class MainStorageService {
+  final SupabaseStorageService externalStorage;
   final LocalStorageService localStorage;
 
   MainStorageService._create(
-      ExternalStorageServiceInterface external, LocalStorageService local)
+      SupabaseStorageService external, LocalStorageService local)
       : externalStorage = external,
         localStorage = local;
 
   static Future<MainStorageService> create({
-    required ExternalStorageServiceInterface externalStorageService,
+    required SupabaseStorageService externalStorageService,
   }) async {
     return MainStorageService._create(
         externalStorageService, await LocalStorageService.create());
   }
 
-  @override
   Future<List<String>> listSessions(String folderName) async {
     try {
       return await externalStorage.listSessions(folderName);
@@ -35,7 +32,6 @@ class MainStorageService extends StorageServiceInterface {
     }
   }
 
-  @override
   Future<Uint8List> getSession(String folderName, String fileName) async {
     //throws
     try {
@@ -67,14 +63,12 @@ class MainStorageService extends StorageServiceInterface {
     }
   }
 
-  @override
   String getImagePath(
       String subjectFolderName, String sessionFolderName, String fileName) {
     return localStorage.getImagePath(
         subjectFolderName, sessionFolderName, fileName);
   }
 
-  @override
   Future<Uint8List> getFileBytes(
       String folderName, String sessionName, String fileName) async {
     try {
@@ -92,30 +86,25 @@ class MainStorageService extends StorageServiceInterface {
     await localStorage.saveImagesToFolder(subjectName, sessionName, imageMap);
   }
 
-  @override
   Future<PreviousSessionData?> saveSessionEnd(TestingRouteModel data,
       TestingTimeModel timerData, bool completed) async {
     return localStorage.saveSessionEnd(data, timerData, completed);
   }
 
-  @override
   PreviousSessionData? saveSessionEndSync(
       TestingRouteModel data, TestingTimeModel timerData, bool completed) {
     return localStorage.saveSessionEndSync(data, timerData, completed);
   }
 
-  @override
   Future<List<PreviousSessionData>> getPreviousSessionsList(
       String subjectName, String sessionName) {
     return localStorage.getPreviousSessionsList(subjectName, sessionName);
   }
 
-  @override
   Future<List<PreviousSessionData>> getPreviousSessionsListGlobal() async {
     return localStorage.getPreviousSessionsListGlobal();
   }
 
-  @override
   Future<List<StorageRouteItemData>> getStorageData() async {
     return localStorage.getStorageData();
   }

@@ -2,13 +2,13 @@ import 'package:client/dto/previous_session_data.dart';
 import 'package:client/dto/testing_route_data.dart';
 import 'package:client/routes.dart';
 import 'package:client/dialogs/confirm_dialog.dart';
+import 'package:client/services/utils_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../dto/session_data.dart';
 import '../locator.dart';
-import '../services/interfaces/utils_service_interface.dart';
 
 class PrevSessionItem extends StatelessWidget {
   final PreviousSessionData data;
@@ -106,7 +106,7 @@ class PrevSessionItem extends StatelessWidget {
                           ),
                           Text(
                             locator
-                                .get<UtilsServiceInterface>()
+                                .get<UtilsService>()
                                 .fileNameToSessionName(data.sessionName),
                             style: TextStyle(
                                 fontSize: 16.sp,

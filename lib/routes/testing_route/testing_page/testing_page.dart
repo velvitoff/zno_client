@@ -6,13 +6,13 @@ import 'package:client/routes/testing_route/testing_page/answer_widget.dart';
 import 'package:client/routes/testing_route/testing_page/question_widget.dart';
 import 'package:client/routes/testing_route/testing_page/testing_buttons.dart';
 import 'package:client/routes/testing_route/testing_page/testing_page_timer.dart';
+import 'package:client/services/storage_service/main_storage_service.dart';
 import 'package:client/widgets/zno_divider_for_review.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../../locator.dart';
-import '../../../services/interfaces/storage_service_interface.dart';
 import '../../../dialogs/confirm_dialog.dart';
 import '../../../widgets/zno_divider.dart';
 
@@ -57,7 +57,7 @@ class _TestingPageState extends State<TestingPage> {
       if (value != null) {
         if (value) {
           locator
-              .get<StorageServiceInterface>()
+              .get<MainStorageService>()
               .saveSessionEnd(context.read<TestingRouteModel>(),
                   context.read<TestingTimeModel>(), true)
               .then((_) {

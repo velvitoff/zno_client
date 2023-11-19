@@ -1,13 +1,11 @@
 import 'dart:typed_data';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../constants.dart';
-import '../../interfaces/external_storage_service_interface.dart';
+import '../../constants.dart';
 
-class SupabaseStorageService implements ExternalStorageServiceInterface {
+class SupabaseStorageService {
   SupabaseClient get client => Supabase.instance.client;
 
-  @override
   Future<List<String>> listSessions(String folderName) async {
     List<FileObject> list =
         await client.storage.from(Constants.testsBucket).list(path: folderName);
@@ -18,7 +16,6 @@ class SupabaseStorageService implements ExternalStorageServiceInterface {
     return list.map((x) => x.name).toList();
   }
 
-  @override
   Future<Uint8List> getSession(String folderName, String fileName) async {
     //throws StorageException, FormatException
     final Uint8List file = await client.storage
@@ -28,7 +25,6 @@ class SupabaseStorageService implements ExternalStorageServiceInterface {
     return file;
   }
 
-  @override
   Future<Uint8List> getFileBytes(
       String folderName, String sessionName, String fileName) async {
     return await client.storage
@@ -36,7 +32,6 @@ class SupabaseStorageService implements ExternalStorageServiceInterface {
         .download('$folderName/$sessionName/$fileName');
   }
 
-  @override
   Future<Map<String, Uint8List>> downloadAllImages(
       String subjectName, String sessionName) async {
     Map<String, Uint8List> result = {};

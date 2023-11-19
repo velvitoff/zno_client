@@ -5,13 +5,12 @@ import 'package:client/dto/test_data.dart';
 import 'package:client/models/testing_time_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart' as path;
-import '../../../dto/storage_route_item_data.dart';
-import '../../../models/testing_route_model.dart';
-import '../../interfaces/storage_service_interface.dart';
+import '../../dto/storage_route_item_data.dart';
+import '../../models/testing_route_model.dart';
 import 'dart:convert';
 import 'package:client/extensions/directory_extension.dart';
 
-class LocalStorageService extends StorageServiceInterface {
+class LocalStorageService {
   final Directory _appDir;
 
   LocalStorageService._create(Directory appDirectory) : _appDir = appDirectory;
@@ -33,7 +32,6 @@ class LocalStorageService extends StorageServiceInterface {
         '$sessionFileName';
   }
 
-  @override
   String getImagePath(
       String subjectFolderName, String sessionFolderName, String fileName) {
     return '$_imageDir${Platform.pathSeparator}'
@@ -50,7 +48,6 @@ class LocalStorageService extends StorageServiceInterface {
         '$fileName';
   }
 
-  @override
   Future<List<String>> listSessions(String folderName) async {
     var dir = Directory('$_testsDir${Platform.pathSeparator}$folderName');
     if (!await dir.exists()) {
@@ -63,7 +60,6 @@ class LocalStorageService extends StorageServiceInterface {
         .toList();
   }
 
-  @override
   Future<Uint8List> getSession(String folderName, String fileName) async {
     //throws FileSystemException
     return await File(_sessionPath(folderName, fileName)).readAsBytes();
@@ -81,7 +77,6 @@ class LocalStorageService extends StorageServiceInterface {
     await file.writeAsBytes(contents);
   }
 
-  @override
   Future<Uint8List> getFileBytes(
       String folderName, String sessionName, String fileName) async {
     return File(getImagePath(folderName, sessionName, fileName)).readAsBytes();
@@ -102,7 +97,6 @@ class LocalStorageService extends StorageServiceInterface {
     return await Directory(getImagePath(subjectName, sessionName, '')).exists();
   }
 
-  @override
   Future<PreviousSessionData?> saveSessionEnd(TestingRouteModel data,
       TestingTimeModel timerData, bool completed) async {
     if (data.prevSessionData != null && data.prevSessionData!.completed) {
@@ -130,7 +124,6 @@ class LocalStorageService extends StorageServiceInterface {
     return newData;
   }
 
-  @override
   PreviousSessionData? saveSessionEndSync(
       TestingRouteModel data, TestingTimeModel timerData, bool completed) {
     if (data.prevSessionData != null && data.prevSessionData!.completed) {
@@ -158,7 +151,6 @@ class LocalStorageService extends StorageServiceInterface {
     return newData;
   }
 
-  @override
   Future<List<PreviousSessionData>> getPreviousSessionsList(
       String subjectName, String sessionName) async {
     var dir = Directory('$_historyDir${Platform.pathSeparator}'
@@ -183,7 +175,6 @@ class LocalStorageService extends StorageServiceInterface {
         .toList();
   }
 
-  @override
   Future<List<PreviousSessionData>> getPreviousSessionsListGlobal() async {
     Directory historyDir = Directory(_historyDir);
     if (!await historyDir.exists()) {
@@ -216,7 +207,6 @@ class LocalStorageService extends StorageServiceInterface {
     return result;
   }
 
-  @override
   Future<List<StorageRouteItemData>> getStorageData() async {
     Directory testsDir = Directory(_testsDir);
     if (!await testsDir.exists()) {

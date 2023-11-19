@@ -1,7 +1,6 @@
 import 'dart:async';
-
 import 'package:audioplayers/audioplayers.dart';
-import 'package:client/services/interfaces/storage_service_interface.dart';
+import 'package:client/services/storage_service/main_storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -34,10 +33,8 @@ class _AudioPlayerState extends State<AudioPlayerWidget> {
   @override
   void initState() {
     super.initState();
-    source = DeviceFileSource(locator
-        .get<StorageServiceInterface>()
-        .getImagePath(
-            widget.folderName, widget.folderInnerName, widget.fileName));
+    source = DeviceFileSource(locator.get<MainStorageService>().getImagePath(
+        widget.folderName, widget.folderInnerName, widget.fileName));
 
     player.setSource(source);
 

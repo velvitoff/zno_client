@@ -1,6 +1,7 @@
 import 'package:client/routes/storage_route/storage_list.dart';
 import 'package:client/routes/storage_route/storage_route_header.dart';
 import 'package:client/providers/storage_route_provider.dart';
+import 'package:client/services/storage_service/main_storage_service.dart';
 import 'package:client/widgets/zno_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,7 +9,6 @@ import 'package:provider/provider.dart';
 import '../../dto/storage_route_item_data.dart';
 import '../../locator.dart';
 import '../../models/storage_route_model.dart';
-import '../../services/interfaces/storage_service_interface.dart';
 import '../../widgets/zno_loading.dart';
 
 class StorageRoute extends StatefulWidget {
@@ -23,7 +23,7 @@ class _StorageRouteState extends State<StorageRoute> {
 
   @override
   void initState() {
-    storageList = locator.get<StorageServiceInterface>().getStorageData();
+    storageList = locator.get<MainStorageService>().getStorageData();
     super.initState();
   }
 

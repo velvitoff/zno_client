@@ -7,7 +7,7 @@ class ButtonGooglePay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('Pay button');
+    return const Text('Pay button');
   }
 }
 /*

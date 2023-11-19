@@ -4,8 +4,8 @@ import 'package:client/dialogs/time_choice_dialog.dart';
 import 'package:client/models/testing_route_model.dart';
 import 'package:client/models/testing_time_model.dart';
 import 'package:client/routes.dart';
-import 'package:client/services/implementations/supabase_service.dart';
-import 'package:client/services/interfaces/storage_service_interface.dart';
+import 'package:client/services/storage_service/main_storage_service.dart';
+import 'package:client/services/supabase_service.dart';
 import 'package:client/dialogs/confirm_dialog.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +35,7 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
         if (value != null) {
           if (value) {
             locator
-                .get<StorageServiceInterface>()
+                .get<MainStorageService>()
                 .saveSessionEnd(context.read<TestingRouteModel>(),
                     context.read<TestingTimeModel>(), false)
                 .then((void val) => context.go(Routes.sessionRoute,

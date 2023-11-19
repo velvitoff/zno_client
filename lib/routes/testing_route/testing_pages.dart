@@ -2,7 +2,7 @@ import 'package:client/locator.dart';
 import 'package:client/models/testing_route_model.dart';
 import 'package:client/models/testing_time_model.dart';
 import 'package:client/routes/testing_route/testing_page/testing_page.dart';
-import 'package:client/services/interfaces/storage_service_interface.dart';
+import 'package:client/services/storage_service/main_storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../dto/question_data.dart';
@@ -45,7 +45,7 @@ class _TestingPagesState extends State<TestingPages>
   void handleOnPause() {
     //should be saveSessionEndSync for correct behaviour in case of detached event
     final testingRouteModel = context.read<TestingRouteModel>();
-    final data = locator.get<StorageServiceInterface>().saveSessionEndSync(
+    final data = locator.get<MainStorageService>().saveSessionEndSync(
         testingRouteModel,
         context.read<TestingTimeModel>(),
         testingRouteModel.prevSessionData == null

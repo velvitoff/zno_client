@@ -1,6 +1,7 @@
 import 'package:client/routes.dart';
 import 'package:client/routes/history_route/history_list.dart';
 import 'package:client/providers/history_route_provider.dart';
+import 'package:client/services/storage_service/main_storage_service.dart';
 import 'package:client/widgets/zno_error.dart';
 import 'package:client/widgets/zno_icon_button.dart';
 import 'package:client/widgets/zno_top_header_small.dart';
@@ -9,7 +10,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../dto/previous_session_data.dart';
 import '../../locator.dart';
-import '../../services/interfaces/storage_service_interface.dart';
 import '../../widgets/zno_loading.dart';
 
 class HistoryRoute extends StatefulWidget {
@@ -26,7 +26,7 @@ class _HistoryRouteState extends State<HistoryRoute> {
   void initState() {
     super.initState();
     dataList =
-        locator.get<StorageServiceInterface>().getPreviousSessionsListGlobal();
+        locator.get<MainStorageService>().getPreviousSessionsListGlobal();
   }
 
   @override

@@ -5,7 +5,7 @@ import 'package:client/routes.dart';
 import 'package:client/routes/testing_route/testing_pages.dart';
 import 'package:client/providers/testing_route_provider.dart';
 import 'package:client/routes/testing_route/zno_testing_header.dart';
-import 'package:client/services/interfaces/storage_service_interface.dart';
+import 'package:client/services/storage_service/main_storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../dto/testing_route_data.dart';
@@ -29,7 +29,7 @@ class TestingRouteState extends State<TestingRoute> {
   void initState() {
     super.initState();
     futureTestData = locator
-        .get<StorageServiceInterface>()
+        .get<MainStorageService>()
         .getSession(
             widget.dto.sessionData.folderName, widget.dto.sessionData.fileName)
         .then((Uint8List data) {
