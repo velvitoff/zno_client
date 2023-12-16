@@ -84,7 +84,7 @@ extension PremiumManagement on AuthStateModel {
     String id = userId ?? currentUser!.id;
     try {
       final List<dynamic> response = await client
-          .from('user_premium_public_view')
+          .from('users_public_view')
           .select('is_premium')
           .eq('user_id', id);
       if (response.length != 1) {

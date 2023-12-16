@@ -11,18 +11,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-class PremiumRoute extends StatefulWidget {
+class PremiumRoute extends StatelessWidget {
   const PremiumRoute({super.key});
-
-  @override
-  State<PremiumRoute> createState() => _PremiumRouteState();
-}
-
-class _PremiumRouteState extends State<PremiumRoute> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,54 +47,58 @@ class _PremiumRouteState extends State<PremiumRoute> {
           ),
         ),
         Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(right: 20.w, left: 20.w, top: 20.h),
-            child: DefaultTextStyle(
-              style: TextStyle(fontSize: 24.sp, color: const Color(0xFF222222)),
-              child: Column(
-                children: [
-                  SizedBox(
-                    width: 137.r,
-                    height: 137.r,
-                    child: CustomPaint(
-                      painter: ZnoStarLargeIcon(),
-                    ),
+          child: SingleChildScrollView(
+            child: IntrinsicHeight(
+              child: Padding(
+                padding: EdgeInsets.only(right: 20.w, left: 20.w, top: 20.h),
+                child: DefaultTextStyle(
+                  style: TextStyle(
+                      fontSize: 24.sp, color: const Color(0xFF222222)),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: 137.r,
+                        height: 137.r,
+                        child: CustomPaint(
+                          painter: ZnoStarLargeIcon(),
+                        ),
+                      ),
+                      Text(
+                        'Преміум',
+                        style: TextStyle(
+                            fontSize: 36.sp, fontWeight: FontWeight.w500),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 10.h),
+                      Text(
+                          'Придбання преміуму надає доступ до тестів ЗНО усіх попередніх років.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 24.sp)),
+                      SizedBox(height: 50.h),
+                      const Text(
+                        'З таких предметів як Математика, Хімія і Фізика  доступні лише тести до 2019 року включно.',
+                        textAlign: TextAlign.center,
+                      ),
+                      const Text(
+                        '(станом на 20.09.2023)',
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 10.h),
+                      const Text(
+                        'Наступні тести з цих предметів поступово додаватимуться з часом.',
+                        textAlign: TextAlign.center,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 35.h, top: 35.h),
+                        child: model.currentUser != null
+                            ? model.isPremium
+                                ? const Text('Ви вже придбали преміум')
+                                : const ButtonGooglePay()
+                            : const ButtonGoogleLogin(),
+                      ),
+                    ],
                   ),
-                  Text(
-                    'Преміум',
-                    style:
-                        TextStyle(fontSize: 36.sp, fontWeight: FontWeight.w500),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 10.h),
-                  Text(
-                      'Придбання преміуму надає доступ до тестів ЗНО усіх попередніх років.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 24.sp)),
-                  SizedBox(height: 50.h),
-                  const Text(
-                    'З таких предметів як Математика, Хімія і Фізика  доступні лише тести до 2019 року включно.',
-                    textAlign: TextAlign.center,
-                  ),
-                  const Text(
-                    '(станом на 20.09.2023)',
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 10.h),
-                  const Text(
-                    'Наступні тести з цих предметів поступово додаватимуться з часом.',
-                    textAlign: TextAlign.center,
-                  ),
-                  const Spacer(),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 40.h),
-                    child: model.currentUser != null
-                        ? model.isPremium
-                            ? const Text('Ви вже придбали преміум')
-                            : const ButtonGooglePay()
-                        : const ButtonGoogleLogin(),
-                  ),
-                ],
+                ),
               ),
             ),
           ),

@@ -67,9 +67,7 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
                 model,
                 value,
                 authModel.isPremium,
-                id: authModel.currentUser == null
-                    ? null
-                    : authModel.currentUser!.id,
+                id: authModel.currentUser?.id,
               )
               .then((bool response) {
             showDialog(
