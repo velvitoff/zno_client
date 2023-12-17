@@ -1,49 +1,3 @@
-import { create } from "https://deno.land/x/djwt@3.0.1/mod.ts";
-
-function str2ab(str: string): ArrayBuffer {
-  const buf = new ArrayBuffer(str.length);
-  const bufView = new Uint8Array(buf);
-  for (let i = 0, strLen = str.length; i < strLen; i++) {
-    bufView[i] = str.charCodeAt(i);
-  }
-  return buf;
-}
-
-export async function generateJwtToken(keyId: string, email: string, privateKey: string) {
-  const header = { alg: "RS256", typ: "JWT", kid: keyId };
-  const payload = { iss: email, scope: ['https://www.googleapis.com/auth/androidpublisher'], exp: Date.now()+120, iat: Date.now()};
-  
-  const binaryDerString = atob(privateKey);
-  const binaryDer = str2ab(binaryDerString);
-  const key = crypto.subtle.importKey(
-    "pkcs8",
-    binaryDer,
-    {
-      name: "RSASSA-PKCS1-v1_5",
-      hash: "SHA-256",
-    },
-    true,
-    ["sign", "verify"]
-  )
-
-  const jwt = await create(header, payload, key);
-
-}
-
-export async function getOauth2AccessToken() {
-
-}
-
-
-
-
-
-
-
-
-
-
-
 export interface ProductPurchase {
   kind: string,
   purchaseTimeMillis: string,
@@ -75,32 +29,46 @@ enum PurchasesProductsRequestType {
 
 export class GooglePurchasesProducts {
   data: ProductData;
+  accessToken: string;
 
-  constructor(data: ProductData) {
+  constructor(data: ProductData, accessToken: string) {
     this.data = data;
+    this.accessToken = accessToken;
   }
 
   public async get() : Promise<ProductPurchase> {
-    return this.request(this.data, PurchasesProductsRequestType.get);
+    return this.request(PurchasesProductsRequestType.get);
   }
 
   public async consume() : Promise<ProductPurchase> {
-    return this.request(this.data, PurchasesProductsRequestType.consume);
+    return this.request(PurchasesProductsRequestType.consume);
   }
 
   public async acknowledge() : Promise<ProductPurchase> {
-    return this.request(this.data, PurchasesProductsRequestType.acknowledge);
+    return this.request(PurchasesProductsRequestType.acknowledge);
   }
 
-  private async request(data: ProductData, requestType: PurchasesProductsRequestType): Promise<ProductPurchase> {
-    let url: string = "https://androidpublisher.googleapis.com/androidpublisher/v3/applications/${data.packageName}/purchases/products/${data.productId}/tokens/${data.token}";
+  private async request(requestType: PurchasesProductsRequestType): Promise<ProductPurchase> {
+    let url: string = "https://androidpublisher.googleapis.com/androidpublisher/v3/applications/${this.data.packageName}/purchases/products/${this.data.productId}/tokens/${this.data.token}";
     if(requestType == PurchasesProductsRequestType.acknowledge) {
       url = url + ":acknowledge";
     }
     else if (requestType == PurchasesProductsRequestType.consume) {
       url = url + ":consume";
     }
-    const response = await fetch(url);
+
+    let method = "GET";
+    if(requestType == PurchasesProductsRequestType.acknowledge || requestType == PurchasesProductsRequestType.consume) {
+      method = "POST";
+    }
+
+    const response = await fetch(url, {
+      method: method,
+      headers: {
+        Authorization: "Bearer ${this.accessToken}"
+      }
+      //developer payload?
+    });
 
     if(!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
