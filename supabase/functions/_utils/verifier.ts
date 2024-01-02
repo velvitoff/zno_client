@@ -27,7 +27,7 @@ enum PurchasesProductsRequestType {
   acknowledge,
 }
 
-export class GooglePurchasesProducts {
+export class GoogleApiPurchasesProducts {
   data: ProductData;
   accessToken: string;
 

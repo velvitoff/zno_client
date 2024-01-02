@@ -77,16 +77,16 @@ extension AuthManagement on AuthStateModel {
 }
 
 extension PremiumManagement on AuthStateModel {
-  Future<bool> isUserPremium({String? userId}) async {
-    if (currentUser == null && userId == null) {
+  Future<bool> isUserPremium({String? id}) async {
+    if (currentUser == null && id == null) {
       return false;
     }
-    String id = userId ?? currentUser!.id;
+    String resId = id ?? currentUser!.id;
     try {
       final List<dynamic> response = await client
           .from('users_public_view')
           .select('is_premium')
-          .eq('user_id', id);
+          .eq('provided_id', resId);
       if (response.length != 1) {
         return false;
       }

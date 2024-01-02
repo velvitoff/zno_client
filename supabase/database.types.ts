@@ -12,17 +12,34 @@ export interface Database {
       premium_purchases: {
         Row: {
           created_at: string
+          productid: string
           purchaseid: string
+          status: string
+          user: number
         }
         Insert: {
           created_at?: string
+          productid: string
           purchaseid?: string
+          status: string
+          user: number
         }
         Update: {
           created_at?: string
+          productid?: string
           purchaseid?: string
+          status?: string
+          user?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "premium_purchases_user_fkey"
+            columns: ["user"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       user_complaints: {
         Row: {
@@ -50,50 +67,28 @@ export interface Database {
           created_at: string
           email: string
           id: number
-          is_premium: boolean
-          purchase_id: string | null
-          user_id: string
+          provided_id: string
         }
         Insert: {
           created_at?: string
           email: string
           id?: number
-          is_premium: boolean
-          purchase_id?: string | null
-          user_id: string
+          provided_id: string
         }
         Update: {
           created_at?: string
           email?: string
           id?: number
-          is_premium?: boolean
-          purchase_id?: string | null
-          user_id?: string
+          provided_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "users_purchase_id_fkey"
-            columns: ["purchase_id"]
-            isOneToOne: true
-            referencedRelation: "premium_purchases"
-            referencedColumns: ["purchaseid"]
-          }
-        ]
+        Relationships: []
       }
     }
     Views: {
       users_public_view: {
         Row: {
-          id: number | null
           is_premium: boolean | null
-        }
-        Insert: {
-          id?: number | null
-          is_premium?: boolean | null
-        }
-        Update: {
-          id?: number | null
-          is_premium?: boolean | null
+          provided_id: string | null
         }
         Relationships: []
       }

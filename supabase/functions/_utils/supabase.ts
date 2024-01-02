@@ -1,59 +1,57 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-import { Database } from '../../database.types';
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { Database } from '../../database.types.ts';
+import { PurchaseDetails } from "./common_types.ts";
 
-// WARNING: The service role key has admin priviliges and should only be used in secure server environments!
-const supabaseAdmin = createClient<Database>(
-  Deno.env.get("SUPABASE_URL") ?? "",
-  Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
-);
+export class SupabaseService {
+    //singleton
+    private static instance: SupabaseService | null = null;
 
-export const doesPurchaseExist = async (purchaseId: string): Promise<boolean> => {
-    const { data, error } = await supabaseAdmin
+    private constructor() {}
+
+    static getInstance(): SupabaseService{
+        if (SupabaseService.instance === null) {
+          SupabaseService.instance = new SupabaseService();
+        }
+    
+        return SupabaseService.instance;
+    }
+
+    // WARNING: The service role key has admin priviliges and should only be used in secure server environments!
+    static supabaseAdmin = createClient<Database>(
+        Deno.env.get("SUPABASE_URL") ?? "",
+        Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+    );
+
+    static async doesPurchaseExist(purchaseId: string): Promise<boolean> {
+        const { data, error } = await supabaseAdmin
         .from("premium_purchases")
         .select("purchaseid")
         .eq("purchaseid", purchaseId);
     
-    if(error) throw error;
+        if(error) throw error;
 
-    if(data?.lenth === 0) {
+        if(data?.lenth === 1) {
+            return true;
+        }
         return false;
     }
-    return true;
-}
 
-export const getCustomer = async (supabaseJwt: string) => {
-    const {data: { user } } = await supabaseAdmin.auth.getUser(supabaseJwt);
-    if (!user) throw new Error("No user found for JWT!");
-
-    const { data, error } = await supabaseAdmin
-    .from("users")
-    .select("id, user_id, is_premium, purchase_id")
-    .eq("id", user?.id);
-
-    if (error) throw error;
-
-
-    if (data?.length === 1) {
-        // Exactly one customer found, return it.
-        const customer = data[0];
-        return customer;
+    static async getUserId(supabaseJwt: string): Promise<string> {
+        const {data: { user } } = await supabaseAdmin.auth.getUser(supabaseJwt);
+        if (!user) throw new Error("No user found for JWT!");
+        return user.id;
     }
-    else {
-        throw new Error(`Unexpected count of customer rows: ${data?.length}`);
-    }
-}
 
-export const grantEntitlement = async (customer: any, purchaseId: string): Promise<void> => {
-    const { _data, error } = await supabaseAdmin
+    static async grantPremium(userId: string, purchaseDetails: PurchaseDetails): Promise<void> {
+        const { _data, error } = await supabaseAdmin
         .from("premium_purchases")
-        .insert({purchaseid: purchaseId})
-    
-    if(error) throw error;
-
-    const { _data2, error2 } = await supabaseAdmin
-        .from("users")
-        .update({purchaseid: purchaseId})
-        .eq("id", customer.id)
-
-    if(error2) throw error;
+        .insert({
+            purchaseid: purchaseDetails.purchaseId,
+            productid: purchaseDetails.productId,
+            status: purchaseDetails.status,
+            user: userId
+        })
+        
+        if(error) throw error;
+    }
 }

@@ -60,6 +60,7 @@ class _ButtonGooglePayState extends State<ButtonGooglePay> {
           purchaseDetails.status == PurchaseStatus.restored) {
         bool valid = await _verifyPurchase(purchaseDetails);
         if (valid) {
+          print("VERIFIED");
           //_deliverProduct(purchaseDetails);
         } else {
           //_handleInvalidPurchase(purchaseDetails);
@@ -80,11 +81,8 @@ class _ButtonGooglePayState extends State<ButtonGooglePay> {
 
   //error handle
   void onClick(ProductDetails productDetails) async {
-    /*InAppPurchase.instance.buyNonConsumable(
-        purchaseParam: PurchaseParam(productDetails: productDetails));*/
-    final response = await Supabase.instance.client.functions
-        .invoke("verify-premium-purchase");
-    print(response.data);
+    await InAppPurchase.instance.buyNonConsumable(
+        purchaseParam: PurchaseParam(productDetails: productDetails));
   }
 
   @override

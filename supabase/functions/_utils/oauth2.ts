@@ -1,4 +1,4 @@
-import { create } from "https://deno.land/x/djwt@3.0.1/mod.ts";
+import { create } from "https://deno.land/x/djwt@v3.0.1/mod.ts";
 
 export interface Oauth2Response {
     access_token: string,
