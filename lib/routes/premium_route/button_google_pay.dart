@@ -1,11 +1,11 @@
 import 'dart:async';
-
 import 'package:client/locator.dart';
+import 'package:client/models/auth_state_model.dart';
 import 'package:client/services/supabase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:provider/provider.dart';
 
 const Set<String> _kIds = <String>{'zno_client_premium'};
 
@@ -30,7 +30,7 @@ class _ButtonGooglePayState extends State<ButtonGooglePay> {
   void initState() {
     _subscription =
         InAppPurchase.instance.purchaseStream.listen((purchaseDetailsList) {
-      _handlePurchaseStreamUpdate(purchaseDetailsList);
+      _handlePurchaseStreamUpdate(context, purchaseDetailsList);
     }, onDone: () {
       _subscription.cancel();
     }, onError: (error) {
@@ -46,12 +46,9 @@ class _ButtonGooglePayState extends State<ButtonGooglePay> {
   }
 
   Future<void> _handlePurchaseStreamUpdate(
-      List<PurchaseDetails> purchaseDetailsList) async {
+      BuildContext context, List<PurchaseDetails> purchaseDetailsList) async {
+    final authStateModel = context.read<AuthStateModel>();
     for (var purchaseDetails in purchaseDetailsList) {
-      if (purchaseDetails.status == PurchaseStatus.pending) {
-        //_showPendingUI();
-        return;
-      }
       if (purchaseDetails.status == PurchaseStatus.error) {
         //_handleError(purchaseDetails.error!);
         return;
@@ -60,7 +57,7 @@ class _ButtonGooglePayState extends State<ButtonGooglePay> {
           purchaseDetails.status == PurchaseStatus.restored) {
         bool valid = await _verifyPurchase(purchaseDetails);
         if (valid) {
-          print("VERIFIED");
+          authStateModel.updatePremiumStatusFromServer();
           //_deliverProduct(purchaseDetails);
         } else {
           //_handleInvalidPurchase(purchaseDetails);

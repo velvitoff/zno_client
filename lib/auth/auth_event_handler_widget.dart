@@ -29,7 +29,10 @@ class _AuthEventHandlerWidgetState extends State<AuthEventHandlerWidget> {
 
         final bool isPremium =
             await model.isUserPremium(id: data.session!.user.id);
-        model.setData(data.session!.user, data.session!, isPremium);
+        model.setData(
+            user: data.session!.user,
+            session: data.session!,
+            premium: isPremium);
       } else if (data.event == AuthChangeEvent.signedOut) {
         context.read<AuthStateModel>().clearData();
       }

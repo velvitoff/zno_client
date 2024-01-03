@@ -25,10 +25,10 @@ class AuthStateModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setData(User user, Session session, bool premium) {
-    currentUser = user;
-    currentSession = session;
-    isPremium = premium;
+  void setData({User? user, Session? session, bool? premium}) {
+    currentUser = user ?? currentUser;
+    currentSession = session ?? currentSession;
+    isPremium = premium ?? isPremium;
     updatePremiumStatusForServices();
     notifyListeners();
   }
@@ -58,7 +58,10 @@ extension AuthManagement on AuthStateModel {
       return false;
     }
     //set data
-    setData(response.user!, response.session!, await isUserPremium());
+    setData(
+        user: response.user!,
+        session: response.session!,
+        premium: await isUserPremium());
     return true;
   }
 
@@ -98,5 +101,9 @@ extension PremiumManagement on AuthStateModel {
       }
       return false;
     }
+  }
+
+  Future<void> updatePremiumStatusFromServer() async {
+    setData(premium: await isUserPremium());
   }
 }
