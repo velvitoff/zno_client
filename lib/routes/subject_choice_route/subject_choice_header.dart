@@ -1,9 +1,9 @@
+import 'package:client/services/dialog_service.dart';
 import 'package:client/services/storage_service/local_storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '../../dialogs/info_dialog.dart';
 import '../../locator.dart';
 import '../../models/subject_choice_route_model.dart';
 import '../../routes.dart';
@@ -19,12 +19,10 @@ class SubjectChoiceHeader extends StatefulWidget {
 
 class _SubjectChoiceHeaderState extends State<SubjectChoiceHeader> {
   void showInfo(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) => InfoDialog(
-            height: 210.h,
-            text:
-                'Ця сторінка дозволяє обрати предмети, які відображатимуться на головній сторінці'));
+    locator.get<DialogService>().showInfoDialog(
+        context,
+        'Ця сторінка дозволяє обрати предмети, які відображатимуться на головній сторінці',
+        230.h);
   }
 
   Future<void> onClose(BuildContext context) async {

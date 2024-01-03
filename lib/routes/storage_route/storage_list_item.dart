@@ -1,12 +1,11 @@
-import 'package:client/dialogs/confirm_dialog.dart';
 import 'package:client/dto/storage_route_item_data.dart';
+import 'package:client/locator.dart';
 import 'package:client/models/storage_route_model.dart';
 import 'package:client/routes/storage_route/storage_list_radio_button.dart';
+import 'package:client/services/dialog_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
-import '../../dialogs/info_dialog.dart';
 
 class StorageListItem extends StatelessWidget {
   final StorageRouteItemData data;
@@ -16,21 +15,17 @@ class StorageListItem extends StatelessWidget {
       : super(key: key);
 
   void deleteItem(BuildContext context) {
-    showDialog<bool>(
-            context: context,
-            builder: (context) => ConfirmDialog(
-                text:
-                    'Видалити файли для "${data.subjectName} ${data.sessionName}"?'))
+    locator
+        .get<DialogService>()
+        .showConfirmDialog(context,
+            'Видалити файли для "${data.subjectName} ${data.sessionName}"?')
         .then((bool? value) {
       if (value != null && value) {
         try {
           context.read<StorageRouteModel>().deleteStorageItem(data.key);
         } catch (e) {
-          showDialog(
-              context: context,
-              builder: (context) => InfoDialog(
-                  height: 230.h,
-                  text: 'Сталася помилка під час видалення файлів тестів'));
+          locator.get<DialogService>().showInfoDialog(context,
+              'Сталася помилка під час видалення файлів тестів', 230.h);
         }
       }
     });

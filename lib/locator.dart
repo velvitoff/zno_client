@@ -1,3 +1,4 @@
+import 'package:client/services/dialog_service.dart';
 import 'package:client/services/storage_service/local_storage_service.dart';
 import 'package:client/services/storage_service/main_storage_service.dart';
 import 'package:client/services/supabase_service.dart';
@@ -22,4 +23,5 @@ void getItSetup() {
   locator.registerSingletonAsync<UtilsService>(() async => UtilsService());
 
   locator.registerSingleton<SupabaseService>(const SupabaseService());
+  locator.registerSingleton<DialogService>(const DialogService());
 }

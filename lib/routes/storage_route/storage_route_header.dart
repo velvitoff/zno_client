@@ -1,8 +1,8 @@
-import 'package:client/dialogs/info_dialog.dart';
+import 'package:client/locator.dart';
 import 'package:client/models/storage_route_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/storage_route/storage_header_radio_button.dart';
-import 'package:client/dialogs/confirm_dialog.dart';
+import 'package:client/services/dialog_service.dart';
 import 'package:client/widgets/zno_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:client/widgets/zno_top_header_small.dart';
@@ -14,32 +14,27 @@ class StorageRouteHeader extends StatelessWidget {
   const StorageRouteHeader({Key? key}) : super(key: key);
 
   void deleteSelectedItems(BuildContext context) {
-    showDialog<bool>(
-        context: context,
-        builder: (context) => const ConfirmDialog(
-            text: 'Видалити файли усіх обраних тестів?')).then((bool? value) {
+    locator
+        .get<DialogService>()
+        .showConfirmDialog(context, 'Видалити файли усіх обраних тестів?')
+        .then((bool? value) {
       if (value != null && value) {
         try {
           context.read<StorageRouteModel>().deleteSelectedStorageItems();
         } catch (e) {
-          showDialog(
-              context: context,
-              builder: (context) => InfoDialog(
-                  height: 230.h,
-                  text: 'Сталася помилка під час видалення файлів тестів'));
+          locator.get<DialogService>().showInfoDialog(context,
+              'Сталася помилка під час видалення файлів тестів', 230.h);
         }
       }
     });
   }
 
   void showStorageInfo(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) => InfoDialog(
-            height: 300.h,
-            isScrollBarAlwaysVisible: true,
-            text:
-                'Цей додаток зберігає файли тестування, зображення та аудіо-файли на вашому пристрої, що дозволяє вам виконувати тести без зв\'язку з мережею.\n\nФайли автоматично завантажуються на початку спроби проходження тесту.\n\nСторінка "Сховище" дозволяє вам керувати збереженими файлами та видаляти їх.'));
+    locator.get<DialogService>().showInfoDialog(
+        context,
+        'Цей додаток зберігає файли тестування, зображення та аудіо-файли на вашому пристрої, що дозволяє вам виконувати тести без зв\'язку з мережею.\n\nФайли автоматично завантажуються на початку спроби проходження тесту.\n\nСторінка "Сховище" дозволяє вам керувати збереженими файлами та видаляти їх.',
+        300.h,
+        isScrollAlwaysVisible: true);
   }
 
   @override

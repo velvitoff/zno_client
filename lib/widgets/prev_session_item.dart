@@ -1,7 +1,7 @@
 import 'package:client/dto/previous_session_data.dart';
 import 'package:client/dto/testing_route_data.dart';
 import 'package:client/routes.dart';
-import 'package:client/dialogs/confirm_dialog.dart';
+import 'package:client/services/dialog_service.dart';
 import 'package:client/services/utils_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,12 +18,11 @@ class PrevSessionItem extends StatelessWidget {
       : super(key: key);
 
   void onRestoreSession(BuildContext context) {
-    showDialog<bool>(
-        context: context,
-        builder: (context) => ConfirmDialog(
-            text: data.completed
-                ? 'Переглянути спробу?'
-                : 'Продовжити спробу?')).then((bool? value) {
+    locator
+        .get<DialogService>()
+        .showConfirmDialog(context,
+            data.completed ? 'Переглянути спробу?' : 'Продовжити спробу?')
+        .then((bool? value) {
       if (value != null && value == true) {
         context.go(Routes.testingRoute,
             extra: TestingRouteData(

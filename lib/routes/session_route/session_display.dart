@@ -1,10 +1,11 @@
-import 'package:client/dialogs/time_choice_dialog.dart';
 import 'package:client/dto/testing_route_data.dart';
+import 'package:client/locator.dart';
 import 'package:client/models/session_route_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/session_route/prev_sessions_list.dart';
 import 'package:client/routes/session_route/session_name_header.dart';
 import 'package:client/routes/session_route/timer_button.dart';
+import 'package:client/services/dialog_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -23,9 +24,10 @@ class SessionDisplay extends StatelessWidget {
               isTimerActivated: false,
               timerSecondsInTotal: 7200));
     } else {
-      showDialog<int?>(
-          context: context,
-          builder: (context) => const TimeChoiceDialog()).then((int? value) {
+      locator
+          .get<DialogService>()
+          .showTimeChoiceDialog(context)
+          .then((int? value) {
         if (value != null) {
           context.go(Routes.testingRoute,
               extra: TestingRouteData(

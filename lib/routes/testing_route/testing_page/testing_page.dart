@@ -6,6 +6,7 @@ import 'package:client/routes/testing_route/testing_page/answer_widget.dart';
 import 'package:client/routes/testing_route/testing_page/question_widget.dart';
 import 'package:client/routes/testing_route/testing_page/testing_buttons.dart';
 import 'package:client/routes/testing_route/testing_page/testing_page_timer.dart';
+import 'package:client/services/dialog_service.dart';
 import 'package:client/services/storage_service/main_storage_service.dart';
 import 'package:client/widgets/zno_divider_for_review.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../../locator.dart';
-import '../../../dialogs/confirm_dialog.dart';
 import '../../../widgets/zno_divider.dart';
 
 class TestingPage extends StatefulWidget {
@@ -49,11 +49,11 @@ class _TestingPageState extends State<TestingPage> {
 
   void onEndSession(BuildContext context) {
     bool isViewMode = context.read<TestingRouteModel>().isViewMode;
-    showDialog<bool>(
-        context: context,
-        builder: (BuildContext context) => ConfirmDialog(
-              text: isViewMode ? 'Завершити перегляд?' : 'Завершити спробу?',
-            )).then((bool? value) {
+    locator
+        .get<DialogService>()
+        .showConfirmDialog(
+            context, isViewMode ? 'Завершити перегляд?' : 'Завершити спробу?')
+        .then((bool? value) {
       if (value != null) {
         if (value) {
           locator
