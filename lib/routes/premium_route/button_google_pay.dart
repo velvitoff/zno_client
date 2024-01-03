@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:client/locator.dart';
 import 'package:client/models/auth_state_model.dart';
+import 'package:client/services/dialog_service.dart';
 import 'package:client/services/supabase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,7 +35,7 @@ class _ButtonGooglePayState extends State<ButtonGooglePay> {
     }, onDone: () {
       _subscription.cancel();
     }, onError: (error) {
-      // handle error here.
+      _showErrorDialog("Помилка зв'яку з магазином");
     });
     super.initState();
   }
@@ -45,22 +46,24 @@ class _ButtonGooglePayState extends State<ButtonGooglePay> {
     super.dispose();
   }
 
+  void _showErrorDialog(String text) {
+    locator.get<DialogService>().showInfoDialog(context, text, 230.h);
+  }
+
   Future<void> _handlePurchaseStreamUpdate(
       BuildContext context, List<PurchaseDetails> purchaseDetailsList) async {
     final authStateModel = context.read<AuthStateModel>();
     for (var purchaseDetails in purchaseDetailsList) {
       if (purchaseDetails.status == PurchaseStatus.error) {
-        //_handleError(purchaseDetails.error!);
+        _showErrorDialog("Помилка при спробі купівлі");
         return;
       }
-      if (purchaseDetails.status == PurchaseStatus.purchased ||
-          purchaseDetails.status == PurchaseStatus.restored) {
+      if (purchaseDetails.status == PurchaseStatus.purchased) {
         bool valid = await _verifyPurchase(purchaseDetails);
         if (valid) {
           authStateModel.updatePremiumStatusFromServer();
-          //_deliverProduct(purchaseDetails);
         } else {
-          //_handleInvalidPurchase(purchaseDetails);
+          _showErrorDialog("Помилка валідації покупки");
         }
         return;
       }
@@ -76,7 +79,6 @@ class _ButtonGooglePayState extends State<ButtonGooglePay> {
         .verifyPremiumPurchase(purchaseDetails);
   }
 
-  //error handle
   void onClick(ProductDetails productDetails) async {
     await InAppPurchase.instance.buyNonConsumable(
         purchaseParam: PurchaseParam(productDetails: productDetails));
@@ -95,7 +97,7 @@ class _ButtonGooglePayState extends State<ButtonGooglePay> {
                 onTap: () => onClick(prodDetails),
                 child: Container(
                   color: Colors.black,
-                  height: 30.h,
+                  height: 40.h,
                 ),
               );
             }
