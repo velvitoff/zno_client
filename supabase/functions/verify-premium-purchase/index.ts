@@ -43,9 +43,9 @@ Deno.serve(async (req) => {
 
     //get google oauth2 token
     const jwt = await generateJwtToken({
-      keyId: Deno.env.get("GOOGLE_KEY_ID"),
+      keyId: Deno.env.get("GOOGLE_SERVICE_ACCOUNT_KEY_ID"),
       email: Deno.env.get("GOOGLE_SERVICE_EMAIL"),
-      privateKey: Deno.env.get("GOOGLE_PRIVATE_KEY")
+      privateKey: Deno.env.get("GOOGLE_SERVICE_ACCOUNT_KEY")
     });
     const accessToken = await getOauth2AccessToken(jwt);
     //init googleApi class
@@ -53,7 +53,7 @@ Deno.serve(async (req) => {
       {
         packageName: "com.velvit.zno_client",
         productId: purchaseDetails.productId,
-        token: purchaseDetails.purchaseId,
+        purchaseToken: purchaseDetails.purchaseId,
       },
       accessToken.access_token
     );

@@ -18,7 +18,7 @@ export interface ProductPurchase {
 export interface ProductData {
   packageName: string,
   productId: string,
-  token: string
+  purchaseToken: string
 }
 
 enum PurchasesProductsRequestType {
@@ -49,7 +49,10 @@ export class GoogleApiPurchasesProducts {
   }
 
   private async request(requestType: PurchasesProductsRequestType): Promise<ProductPurchase> {
-    let url: string = "https://androidpublisher.googleapis.com/androidpublisher/v3/applications/${this.data.packageName}/purchases/products/${this.data.productId}/tokens/${this.data.token}";
+    let url: string =
+      "https://androidpublisher.googleapis.com/androidpublisher/v3/applications/" + encodeURIComponent(this.data.packageName)
+      + "/purchases/products/" + encodeURIComponent(this.data.productId)
+      + "/tokens/" + encodeURIComponent(this.data.purchaseToken);
     if(requestType == PurchasesProductsRequestType.acknowledge) {
       url = url + ":acknowledge";
     }
@@ -65,9 +68,8 @@ export class GoogleApiPurchasesProducts {
     const response = await fetch(url, {
       method: method,
       headers: {
-        Authorization: "Bearer ${this.accessToken}"
+        Authorization: "Bearer " + this.accessToken
       }
-      //developer payload?
     });
 
     if(!response.ok) {

@@ -3,6 +3,7 @@ import 'package:client/auth/auth_provider_interface.dart';
 import 'package:client/locator.dart';
 import 'package:client/services/storage_service/local_storage_service.dart';
 import 'package:client/services/storage_service/supabase_storage_service.dart';
+import 'package:client/services/supabase_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -66,8 +67,11 @@ extension AuthManagement on AuthStateModel {
   }
 
   Future<bool> signOut() async {
+    if (_authProvider == null) {
+      return false;
+    }
     try {
-      await client.auth.signOut();
+      await _authProvider!.signOut();
     } catch (_) {
       return false;
     }
@@ -80,27 +84,12 @@ extension AuthManagement on AuthStateModel {
 }
 
 extension PremiumManagement on AuthStateModel {
-  Future<bool> isUserPremium({String? id}) async {
-    if (currentUser == null && id == null) {
+  Future<bool> isUserPremium({User? user}) async {
+    final User? resUser = user ?? currentUser;
+    if (resUser == null) {
       return false;
     }
-    String resId = id ?? currentUser!.id;
-    try {
-      final List<dynamic> response = await client
-          .from('users_public_view')
-          .select('is_premium')
-          .eq('provided_id', resId);
-      if (response.length != 1) {
-        return false;
-      }
-
-      return Map<String, dynamic>.from(response[0])['is_premium'] as bool;
-    } catch (e) {
-      if (kDebugMode) {
-        print('userHasPremium() threw an error: $e');
-      }
-      return false;
-    }
+    return locator.get<SupabaseService>().isUserPremium(resUser);
   }
 
   Future<void> updatePremiumStatusFromServer() async {

@@ -1,4 +1,4 @@
-import { create } from "https://deno.land/x/djwt@v3.0.1/mod.ts";
+import { encodeBase64Url } from "https://deno.land/std@0.211.0/encoding/base64url.ts";
 
 export interface Oauth2Response {
     access_token: string,
@@ -16,29 +16,44 @@ export interface JwtTokenInput {
 export async function generateJwtToken(data: JwtTokenInput): Promise<string> {
   const header = {
     alg: "RS256",
-    typ: "JWT", kid: data.keyId
+    typ: "JWT",
+    kid: data.keyId
   };
   const payload = {
     iss: data.email,
     scope: ['https://www.googleapis.com/auth/androidpublisher'],
     exp: Date.now()+120,
-    iat: Date.now()
+    iat: Date.now(),
+    aud: "https://oauth2.googleapis.com/token"
   };
   
-  const binaryDerString = atob(data.privateKey);
-  const binaryDer = str2ab(binaryDerString);
-  const key = crypto.subtle.importKey(
+  const keyString = data.privateKey;
+  var enc = new TextEncoder();
+  const keyBuffer = enc.encode(keyString).buffer;
+  const key = await crypto.subtle.importKey(
     "pkcs8",
-    binaryDer,
+    keyBuffer,
     {
       name: "RSASSA-PKCS1-v1_5",
       hash: "SHA-256",
     },
     true,
     ["sign", "verify"]
-  )
+  );
 
-  return await create(header, payload, key);
+  const base64Header = encodeBase64Url(JSON.stringify(header));
+  const base64Payload = encodeBase64Url(JSON.stringify(payload));
+
+  /*const signature = await crypto.subtle.sign(
+    "RSASSA-PKCS1-v1_5",
+    key,
+    enc.encode(base64Header  + "." + base64Payload)
+  );
+
+  const base64Signature = encodeBase64Url(signature);*/
+
+  return "";
+  //return base64Header + "." + base64Payload + "." + base64Signature;
 }
 
 export async function getOauth2AccessToken(jwtToken: string): Promise<Oauth2Response> {
@@ -67,13 +82,4 @@ export async function getOauth2AccessToken(jwtToken: string): Promise<Oauth2Resp
     expires_in: json.expires_in
   };
   return data;
-}
-
-function str2ab(str: string): ArrayBuffer {
-  const buf = new ArrayBuffer(str.length);
-  const bufView = new Uint8Array(buf);
-  for (let i = 0, strLen = str.length; i < strLen; i++) {
-    bufView[i] = str.charCodeAt(i);
-  }
-  return buf;
 }

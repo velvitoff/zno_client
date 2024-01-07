@@ -4,6 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthProviderGoogle implements AuthProviderInterface {
+  //TO DO: check
   static const webClientId =
       '98934243915-6n2mmddkjjn9krggjj8uigd8h7i18ikr.apps.googleusercontent.com';
   static const scopes = ['email']; //'profile' 'openid'
@@ -44,7 +45,10 @@ class AuthProviderGoogle implements AuthProviderInterface {
     try {
       await Supabase.instance.client.auth.signOut();
       await googleSignIn.signOut();
-    } catch (_) {
+    } catch (e) {
+      if (kDebugMode) {
+        print("signOut exception: $e");
+      }
       return false;
     }
 

@@ -54,6 +54,15 @@ class _ButtonGooglePayState extends State<ButtonGooglePay> {
       BuildContext context, List<PurchaseDetails> purchaseDetailsList) async {
     final authStateModel = context.read<AuthStateModel>();
     for (var purchaseDetails in purchaseDetailsList) {
+      print(purchaseDetails.status);
+      if (purchaseDetails.status == PurchaseStatus.restored) {
+        print('${purchaseDetails.purchaseID}');
+        if (purchaseDetails.purchaseID != null) {
+          final state = await locator.get<SupabaseService>().getPurchaseState(
+              purchaseDetails.productID, purchaseDetails.purchaseID!);
+          print('PURCHASE STATE IS ${state}');
+        }
+      }
       if (purchaseDetails.status == PurchaseStatus.error) {
         _showErrorDialog("Помилка при спробі купівлі");
         return;
@@ -80,8 +89,9 @@ class _ButtonGooglePayState extends State<ButtonGooglePay> {
   }
 
   void onClick(ProductDetails productDetails) async {
-    await InAppPurchase.instance.buyNonConsumable(
-        purchaseParam: PurchaseParam(productDetails: productDetails));
+    //await InAppPurchase.instance.buyNonConsumable(
+    //    purchaseParam: PurchaseParam(productDetails: productDetails));
+    await InAppPurchase.instance.restorePurchases();
   }
 
   @override

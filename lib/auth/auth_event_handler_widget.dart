@@ -28,7 +28,7 @@ class _AuthEventHandlerWidgetState extends State<AuthEventHandlerWidget> {
         final model = context.read<AuthStateModel>();
 
         final bool isPremium =
-            await model.isUserPremium(id: data.session!.user.id);
+            await model.isUserPremium(user: data.session!.user);
         model.setData(
             user: data.session!.user,
             session: data.session!,
