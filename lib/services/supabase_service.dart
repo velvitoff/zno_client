@@ -85,6 +85,7 @@ class SupabaseService {
     }
     */
     final FunctionResponse res;
+    print('productId: $productId, purchaseId: $purchaseId');
     try {
       res = await client.functions.invoke("get-purchase-state", body: {
         "purchaseId": purchaseId,
