@@ -41,7 +41,7 @@ class StorageRouteHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return ZnoTopHeaderSmall(
       child: Padding(
-        padding: EdgeInsets.only(left: 6.w, right: 12.w),
+        padding: EdgeInsets.only(left: 6.w, right: 6.w),
         child: Stack(
           children: [
             Align(
@@ -56,44 +56,44 @@ class StorageRouteHeader extends StatelessWidget {
                   style: TextStyle(
                       color: const Color(0xFFEFEFEF), fontSize: 24.sp)),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                context.watch<StorageRouteModel>().isAtLeastOneItemMarked()
-                    ? GestureDetector(
-                        onTap: () => deleteSelectedItems(context),
-                        child: Icon(
-                          Icons.delete_outline,
-                          size: 39.sp,
-                          color: const Color(0xFFF1F1F1),
-                        ),
-                      )
-                    : Container(
-                        width: 39.sp,
+            Align(
+              alignment: Alignment.centerRight,
+              child: SizedBox(
+                height: double.infinity,
+                width: 126.w,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    context.watch<StorageRouteModel>().isAtLeastOneItemMarked()
+                        ? GestureDetector(
+                            onTap: () => deleteSelectedItems(context),
+                            child: Icon(
+                              Icons.delete_outline,
+                              size: 39.sp,
+                              color: const Color(0xFFF1F1F1),
+                            ),
+                          )
+                        : Container(width: 39.sp),
+                    GestureDetector(
+                      onTap: () =>
+                          context.read<StorageRouteModel>().setIsMarkedAll(),
+                      child: StorageHeaderRadioButton(
+                        isMarked:
+                            context.watch<StorageRouteModel>().getIsMarkedAll(),
                       ),
-                SizedBox(
-                  width: 25.w,
+                    ),
+                    GestureDetector(
+                      onTap: () => showStorageInfo(context),
+                      child: Icon(
+                        Icons.help_outline,
+                        size: 43.sp,
+                        color: const Color(0xFFF1F1F1),
+                      ),
+                    )
+                  ],
                 ),
-                GestureDetector(
-                  onTap: () =>
-                      context.read<StorageRouteModel>().setIsMarkedAll(),
-                  child: StorageHeaderRadioButton(
-                    isMarked:
-                        context.watch<StorageRouteModel>().getIsMarkedAll(),
-                  ),
-                ),
-                SizedBox(
-                  width: 25.w,
-                ),
-                GestureDetector(
-                  onTap: () => showStorageInfo(context),
-                  child: Icon(
-                    Icons.help_outline,
-                    size: 43.sp,
-                    color: const Color(0xFFF1F1F1),
-                  ),
-                )
-              ],
+              ),
             )
           ],
         ),
