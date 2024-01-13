@@ -43,7 +43,6 @@ class AuthProviderGoogle implements AuthProviderInterface {
   @override
   Future<bool> signOut() async {
     try {
-      await Supabase.instance.client.auth.signOut();
       await googleSignIn.signOut();
     } catch (e) {
       if (kDebugMode) {

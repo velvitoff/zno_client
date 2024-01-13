@@ -65,7 +65,7 @@ class SupabaseService {
   }
 
   Future<PurchaseState?> getPurchaseState(
-      String productId, String purchaseId) async {
+      PurchaseDetails purchaseDetails) async {
     /*
     export interface ProductPurchase {
       kind: string,
@@ -85,11 +85,12 @@ class SupabaseService {
     }
     */
     final FunctionResponse res;
-    print('productId: $productId, purchaseId: $purchaseId');
+    print(
+        'productId: ${purchaseDetails.productID}, purchaseId: ${purchaseDetails.purchaseID}');
     try {
       res = await client.functions.invoke("get-purchase-state", body: {
-        "purchaseId": purchaseId,
-        "productId": productId,
+        "purchaseId": purchaseDetails.verificationData.serverVerificationData,
+        "productId": purchaseDetails.productID,
       });
     } catch (e) {
       if (kDebugMode) {

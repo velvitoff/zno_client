@@ -67,6 +67,8 @@ extension AuthManagement on AuthStateModel {
   }
 
   Future<bool> signOut() async {
+    //Can signOut from Supabase without singing out from google if the app was relaucnhed
+    await Supabase.instance.client.auth.signOut();
     if (_authProvider == null) {
       return false;
     }

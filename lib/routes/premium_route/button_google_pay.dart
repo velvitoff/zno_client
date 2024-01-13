@@ -58,9 +58,12 @@ class _ButtonGooglePayState extends State<ButtonGooglePay> {
       if (purchaseDetails.status == PurchaseStatus.restored) {
         print('${purchaseDetails.purchaseID}');
         if (purchaseDetails.purchaseID != null) {
-          final state = await locator.get<SupabaseService>().getPurchaseState(
-              purchaseDetails.productID, purchaseDetails.purchaseID!);
+          final state = await locator
+              .get<SupabaseService>()
+              .getPurchaseState(purchaseDetails);
           print('PURCHASE STATE IS ${state}');
+          print(
+              'PURCHASE ID: ${purchaseDetails.purchaseID}, PRODUCT ID: ${purchaseDetails.productID}, TRANSACTION DATE: ${purchaseDetails.transactionDate}, STATUS: ${purchaseDetails.status}, VERIFICATION DATA:{ LOCALVD: ${purchaseDetails.verificationData.localVerificationData}, SOURCEVD: ${purchaseDetails.verificationData.serverVerificationData}, SOURCE: ${purchaseDetails.verificationData.source} }');
         }
       }
       if (purchaseDetails.status == PurchaseStatus.error) {
