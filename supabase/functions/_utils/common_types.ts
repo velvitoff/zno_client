@@ -5,9 +5,7 @@ export interface PurchaseVerificationData {
 }
   
 export interface PurchaseDetails {
-    purchaseId: string,
+    purchaseToken: string,
     productId: string,
-    verificationData: PurchaseVerificationData,
-    transactionDate?: string,
-    status: string, // pending, purchased, error, restored, canceled
+    orderId: string
   }

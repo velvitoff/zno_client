@@ -1,18 +1,13 @@
 export interface ProductPurchase {
   kind: string,
-  purchaseTimeMillis: string,
   purchaseState: number,
   consumptionState: number,
-  developerPayload: string,
   orderId: string,
   purchaseType: number,
   acknowledgementState: number,
   purchaseToken: string,
   productId: string,
   quantity: number,
-  obfuscatedExternalAccountId: string,
-  obfuscatedExternalProfileId: string,
-  regionCode: string
 }
 
 export interface ProductData {
@@ -80,19 +75,14 @@ export class GoogleApiPurchasesProducts {
 
     const productPurchase: ProductPurchase = {
         kind: json.kind,
-        purchaseTimeMillis: json.purchaseTimeMillis,
         purchaseState: json.purchaseState,
         consumptionState: json.consumptionState,
-        developerPayload: json.developerPayload,
         orderId: json.orderId,
         purchaseType: json.purchaseType,
         acknowledgementState: json.acknowledgementState,
         purchaseToken: json.purchaseToken,
         productId: json.productId,
         quantity: json.quantity,
-        obfuscatedExternalAccountId: json.obfuscatedExternalAccountId,
-        obfuscatedExternalProfileId: json.obfuscatedExternalProfileId,
-        regionCode: json.regionCode,
     };
     return productPurchase;
   }

@@ -11,30 +11,39 @@ export interface Database {
     Tables: {
       premium_purchases: {
         Row: {
-          created_at: string
-          productid: string
-          purchaseid: string
-          status: string
-          user: number
+          acknowledgementState: number
+          createdAt: string
+          ignoreCorrectness: boolean
+          orderId: string
+          productId: string
+          purchaseState: number
+          purchaseToken: string
+          userId: string
         }
         Insert: {
-          created_at?: string
-          productid: string
-          purchaseid?: string
-          status: string
-          user: number
+          acknowledgementState: number
+          createdAt?: string
+          ignoreCorrectness: boolean
+          orderId: string
+          productId: string
+          purchaseState: number
+          purchaseToken: string
+          userId: string
         }
         Update: {
-          created_at?: string
-          productid?: string
-          purchaseid?: string
-          status?: string
-          user?: number
+          acknowledgementState?: number
+          createdAt?: string
+          ignoreCorrectness?: boolean
+          orderId?: string
+          productId?: string
+          purchaseState?: number
+          purchaseToken?: string
+          userId?: string
         }
         Relationships: [
           {
-            foreignKeyName: "premium_purchases_user_fkey"
-            columns: ["user"]
+            foreignKeyName: "premium_purchases_userId_fkey"
+            columns: ["userId"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
@@ -62,36 +71,9 @@ export interface Database {
         }
         Relationships: []
       }
-      users: {
-        Row: {
-          created_at: string
-          email: string
-          id: number
-          provided_id: string
-        }
-        Insert: {
-          created_at?: string
-          email: string
-          id?: number
-          provided_id: string
-        }
-        Update: {
-          created_at?: string
-          email?: string
-          id?: number
-          provided_id?: string
-        }
-        Relationships: []
-      }
     }
     Views: {
-      users_public_view: {
-        Row: {
-          is_premium: boolean | null
-          provided_id: string | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
       [_ in never]: never

@@ -1,6 +1,15 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { Database } from '../../database.types.ts';
 import { PurchaseDetails } from "./common_types.ts";
+import { ProductPurchase } from "./verifier.ts";
+
+export interface SupabasePurchase {
+    orderId: string,
+    userId: string,
+    ignoreCorectness: boolean,
+    purchaseState: number,
+    acknowledgementState: number
+}
 
 export class SupabaseService {
     //singleton
@@ -16,42 +25,86 @@ export class SupabaseService {
         return SupabaseService.instance;
     }
 
-    // WARNING: The service role key has admin priviliges and should only be used in secure server environments!
     static supabaseAdmin = createClient<Database>(
-        Deno.env.get("SUPABASE_URL") ?? "",
-        Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+        Deno.env.get("SUPABASE_URL"),
+        Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")
     );
 
-    static async doesPurchaseExist(purchaseId: string): Promise<boolean> {
-        const { data, error } = await supabaseAdmin
+    //returns id of a user purchase belongs to
+    //if no purchase exists, returns empty string
+    static async getPurchase(orderId: string): Promise<SupabasePurchase> {
+
+        const { data, error } = await SupabaseService.supabaseAdmin
         .from("premium_purchases")
-        .select("purchaseid")
-        .eq("purchaseid", purchaseId);
+        .select("orderId, userId, ignoreCorrectness, purchaseState, acknowledgementState")
+        .eq("orderId", orderId);
     
         if(error) throw error;
 
-        if(data?.lenth === 1) {
-            return true;
+        if(data?.length === 1) {
+            return data[0];
         }
-        return false;
+        return { orderId: "", userId: "", ignoreCorectness: false, purchaseState: 1, acknowledgementState: 0};
     }
 
     static async getUserId(supabaseJwt: string): Promise<string> {
-        const {data: { user } } = await supabaseAdmin.auth.getUser(supabaseJwt);
+        const {data: { user } } = await SupabaseService.supabaseAdmin.auth.getUser(supabaseJwt);
         if (!user) throw new Error("No user found for JWT!");
         return user.id;
     }
 
-    static async grantPremium(userId: string, purchaseDetails: PurchaseDetails): Promise<void> {
-        const { _data, error } = await supabaseAdmin
+    static async insertToPremiumPurchases(
+        userId: string,
+        purchaseDetails: PurchaseDetails,
+        purchaseState: number,
+        acknowledgementState: number
+    ): Promise<void> {
+        const { _, error } = await SupabaseService.supabaseAdmin
         .from("premium_purchases")
         .insert({
-            purchaseid: purchaseDetails.purchaseId,
-            productid: purchaseDetails.productId,
-            status: purchaseDetails.status,
-            user: userId
+            orderId: purchaseDetails.orderId,
+            purchaseToken: purchaseDetails.purchaseToken,
+            userId: userId,
+            productId: purchaseDetails.productId,
+            purchaseState: purchaseState,
+            acknowledgementState: acknowledgementState
         })
         
         if(error) throw error;
+    }
+
+    static async updateToPremiumPurchases(
+        userId: string,
+        purchaseDetails: PurchaseDetails,
+        purchaseState: number,
+        acknowledgementState: number
+    ): Promise<void> {
+        const { _, error } = await SupabaseService.supabaseAdmin
+        .from("premium_purchases")
+        .update({
+            purchaseState: purchaseState,
+            acknowledgementState: acknowledgementState
+        })
+        .eq("orderId", purchaseDetails.orderId)
+        .eq("userId", userId);
+        
+        if(error) throw error;
+    }
+
+    static async syncSupabaseWithGoogleApi(
+        purchaseGoogleApi: ProductPurchase,
+        purchaseSupabase: SupabasePurchase,
+        purchaseDetails: PurchaseDetails,
+        supabaseUserId: string
+    ) : Promise<void> {
+        if(purchaseSupabase.orderId === "") {
+            await SupabaseService.insertToPremiumPurchases(supabaseUserId, purchaseDetails, purchaseGoogleApi.purchaseState, purchaseGoogleApi.acknowledgementState);
+        }
+        else if(purchaseSupabase.acknowledgementState !== purchaseGoogleApi.acknowledgementState || purchaseSupabase.purchaseState !== purchaseGoogleApi.purchaseState) {
+            await SupabaseService.updateToPremiumPurchases(supabaseUserId, purchaseDetails, purchaseGoogleApi.purchaseState, purchaseGoogleApi.acknowledgementState);
+        }
+        else {
+            return;
+        }
     }
 }
