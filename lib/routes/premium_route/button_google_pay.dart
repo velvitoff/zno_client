@@ -54,46 +54,60 @@ class _ButtonGooglePayState extends State<ButtonGooglePay> {
       BuildContext context, List<PurchaseDetails> purchaseDetailsList) async {
     final authStateModel = context.read<AuthStateModel>();
     for (var purchaseDetails in purchaseDetailsList) {
-      print(purchaseDetails.status);
-      if (purchaseDetails.status == PurchaseStatus.restored) {
-        print('${purchaseDetails.purchaseID}');
-        if (purchaseDetails.purchaseID != null) {
-          final state = await locator
-              .get<SupabaseService>()
-              .getPurchaseState(purchaseDetails);
-          print('PURCHASE STATE IS ${state}');
-          print(
-              'PURCHASE ID: ${purchaseDetails.purchaseID}, PRODUCT ID: ${purchaseDetails.productID}, TRANSACTION DATE: ${purchaseDetails.transactionDate}, STATUS: ${purchaseDetails.status}, VERIFICATION DATA:{ LOCALVD: ${purchaseDetails.verificationData.localVerificationData}, SOURCEVD: ${purchaseDetails.verificationData.serverVerificationData}, SOURCE: ${purchaseDetails.verificationData.source} }');
-        }
-      }
-      if (purchaseDetails.status == PurchaseStatus.error) {
-        _showErrorDialog("Помилка при спробі купівлі");
-        return;
-      }
-      if (purchaseDetails.status == PurchaseStatus.purchased) {
-        bool valid = await _verifyPurchase(purchaseDetails);
-        if (valid) {
-          authStateModel.updatePremiumStatusFromServer();
-        } else {
-          _showErrorDialog("Помилка валідації покупки");
-        }
-        return;
-      }
-      if (purchaseDetails.pendingCompletePurchase) {
-        await InAppPurchase.instance.completePurchase(purchaseDetails);
+      print('PURCHASE STATUS: ${purchaseDetails.status}');
+      switch (purchaseDetails.status) {
+        case PurchaseStatus.error:
+          _showErrorDialog("Помилка при спробі купівлі");
+          break;
+        case PurchaseStatus.canceled:
+          _showErrorDialog("Купівлю відмінено");
+          break;
+        case PurchaseStatus.pending:
+          break;
+        case PurchaseStatus.restored:
+          await _handleRestored(authStateModel, purchaseDetails);
+          break;
+        case PurchaseStatus.purchased:
+          await _handlePurchased(authStateModel, purchaseDetails);
+          break;
       }
     }
   }
 
-  Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) async {
-    return locator
-        .get<SupabaseService>()
-        .verifyPremiumPurchase(purchaseDetails);
+  Future<void> _handleRestored(
+      AuthStateModel authState, PurchaseDetails purchaseDetails) async {
+    if (purchaseDetails.purchaseID == null) {
+      return;
+    }
+    final ProductPurchase prodState =
+        await locator.get<SupabaseService>().getPurchaseState(purchaseDetails);
+    //TO DO: error handling
+    if (prodState.purchaseState == PurchaseState.purchased) {
+      await _handlePurchased(authState, purchaseDetails);
+    }
   }
 
-  void onClick(ProductDetails productDetails) async {
-    //await InAppPurchase.instance.buyNonConsumable(
-    //    purchaseParam: PurchaseParam(productDetails: productDetails));
+  Future<void> _handlePurchased(
+      AuthStateModel authState, PurchaseDetails purchaseDetails) async {
+    print('_handlePurchased');
+    final bool valid = await locator
+        .get<SupabaseService>()
+        .verifyPremiumPurchase(purchaseDetails);
+    print('received response');
+    if (valid) {
+      authState.updatePremiumStatusFromServer();
+    } else {
+      _showErrorDialog("Помилка валідації покупки");
+    }
+  }
+
+  void onClickBuy(ProductDetails productDetails) async {
+    await InAppPurchase.instance.buyNonConsumable(
+        purchaseParam: PurchaseParam(productDetails: productDetails));
+    await InAppPurchase.instance.restorePurchases();
+  }
+
+  void onClickRestore(ProductDetails productDetails) async {
     await InAppPurchase.instance.restorePurchases();
   }
 
@@ -106,12 +120,26 @@ class _ButtonGooglePayState extends State<ButtonGooglePay> {
             final isAvailable = snapshot.data![0] as bool;
             final prodDetails = snapshot.data![1] as ProductDetails;
             if (isAvailable) {
-              return GestureDetector(
-                onTap: () => onClick(prodDetails),
-                child: Container(
-                  color: Colors.black,
-                  height: 40.h,
-                ),
+              return Column(
+                children: [
+                  GestureDetector(
+                    onTap: () => onClickBuy(prodDetails),
+                    child: Container(
+                      color: Colors.black,
+                      height: 40.h,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  GestureDetector(
+                    onTap: () => onClickRestore(prodDetails),
+                    child: Container(
+                      color: Colors.black,
+                      height: 40.h,
+                    ),
+                  )
+                ],
               );
             }
             return const Text('Немає зв\'язку з магазином');

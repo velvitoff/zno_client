@@ -1,18 +1,12 @@
-import { GoogleApiPurchasesProducts } from "../_utils/verifier.ts";
+import { GoogleApiPurchasesProducts } from "../_utils/google_api.ts";
 import { generateJwtToken, getOauth2AccessToken } from "../_utils/oauth2.ts";
 import { PurchaseDetails } from '../_utils/common_types.ts';
 import { SupabaseService } from "../_utils/supabase.ts";
+import { Env } from "../_utils/env.ts";
 
-//ENV needs to have
-//SUPABASE_URL
-//SUPABASE_SERVICE_ROLE_KEY
-//GOOGLE_KEY_ID
-//GOOGLE_SERVICE_EMAIL
-//GOOGLE_PRIVATE_KEY
-
-Deno.serve(async (req) => {
+Deno.serve(async (req: any) => {
   const { purchaseToken, productId, orderId } = await req.json()
-  if(purchaseToken === null || productId == null) {
+  if(purchaseToken === null || productId === null || orderId === null) {
     return new Response("Invalid input data", {status: 400});
   }
 
@@ -29,11 +23,10 @@ Deno.serve(async (req) => {
 
   //get google oauth2 token
   const jwt = await generateJwtToken({
-    keyId: Deno.env.get("GOOGLE_SERVICE_ACCOUNT_KEY_ID"),
-    email: Deno.env.get("GOOGLE_SERVICE_EMAIL"),
-    privateKey: Deno.env.get("GOOGLE_SERVICE_ACCOUNT_KEY").replaceAll('\\n', '\n')
+    keyId: Env.i().GOOGLE_SERVICE_ACCOUNT_KEY_ID,
+    email: Env.i().GOOGLE_SERVICE_EMAIL,
+    privateKey: Env.i().GOOGLE_SERVICE_ACCOUNT_KEY
   });
-  const accessToken = await getOauth2AccessToken(jwt);
 
   //init googleApi class
   const googleApi = new GoogleApiPurchasesProducts(
@@ -42,23 +35,27 @@ Deno.serve(async (req) => {
       productId: purchaseDetails.productId,
       purchaseToken: purchaseDetails.purchaseToken,
     },
-    accessToken.access_token
+    (await getOauth2AccessToken(jwt)).access_token
   );
-
-  const purchaseSupabase = await SupabaseService.getPurchase(purchaseDetails.orderId);
 
   //get purchase from android publisher api
   let purchaseGoogleApi = await googleApi.get();
+
+  //if state is not "purchased" -> refuse
   if(purchaseGoogleApi.purchaseState !== 0) {
     return new Response("Purchase state is not \"purchased\"", {status: 400});
   }
 
+  //acknowledge purchase if necessary
   if(purchaseGoogleApi.acknowledgementState === 0) {
     await googleApi.acknowledge();
-    purchaseGoogleApi = await googleApi.get();
   }
 
-  await SupabaseService.syncSupabaseWithGoogleApi(purchaseGoogleApi, purchaseSupabase, purchaseDetails, supabaseUserId);
+  //If purchase doesn't exist in the database, create it
+  const purchaseSupabase = await SupabaseService.getPurchaseByOrderId(purchaseDetails.orderId);
+  if(purchaseSupabase === null) {
+    await SupabaseService.insertToPremiumPurchases(supabaseUserId, purchaseDetails);
+  }
 
   return new Response("", {status: 200});
 });

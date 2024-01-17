@@ -1,10 +1,42 @@
 import 'package:client/models/testing_route_model.dart';
-import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+//https://developers.google.com/android-publisher/api-ref/rest/v3/purchases.products
 //"Possible values are: 0. Purchased 1. Canceled 2. Pending"
 enum PurchaseState { purchased, canceled, pending }
+
+//The consumption state of the inapp product. Possible values are: 0. Yet to be consumed 1. Consumed
+enum ConsumptionState { notConsumed, consumed }
+
+//The acknowledgement state of the inapp product. Possible values are: 0. Yet to be acknowledged 1. Acknowledged
+enum AcknowledgementState { notAcknowledged, acknowledged }
+
+class ProductPurchase {
+  final String kind;
+  final PurchaseState purchaseState;
+  final ConsumptionState consumptionState;
+  final String orderId;
+  final AcknowledgementState acknowledgementState;
+
+  ProductPurchase(
+      {required this.kind,
+      required this.purchaseState,
+      required this.consumptionState,
+      required this.orderId,
+      required this.acknowledgementState});
+
+  factory ProductPurchase.fromJSON(Map<String, dynamic> map) {
+    return ProductPurchase(
+        kind: map['kind'] as String,
+        purchaseState: PurchaseState.values[map['purchaseState'] as int],
+        consumptionState:
+            ConsumptionState.values[map['consumptionState'] as int],
+        orderId: map['orderId'] as String,
+        acknowledgementState:
+            AcknowledgementState.values[map['acknowledgementState'] as int]);
+  }
+}
 
 class SupabaseService {
   SupabaseClient get client => Supabase.instance.client;
@@ -32,95 +64,36 @@ class SupabaseService {
   }
 
   Future<bool> isUserPremium(User user) async {
-    try {
-      final List<dynamic> response = await client
-          .from('premium_public_view')
-          .select('is_premium')
-          .eq('user', user.id);
-      if (response.length != 1) {
-        return false;
-      }
-
-      return Map<String, dynamic>.from(response[0])['is_premium'] as bool;
-    } catch (e) {
-      if (kDebugMode) {
-        print('userHasPremium() threw an error: $e');
-      }
+    final res = await client.functions.invoke("is-user-premium");
+    if (res.status != 200) {
       return false;
     }
+    return true;
   }
 
   Future<bool> verifyPremiumPurchase(PurchaseDetails purchaseDetails) async {
     final res = await client.functions.invoke("verify-premium-purchase", body: {
-      "purchaseId": purchaseDetails.purchaseID,
-      "productId": purchaseDetails.productID,
-      "verificationData": purchaseDetails.verificationData,
-      "transactionDate": purchaseDetails.transactionDate,
-      "status": purchaseDetails.status.name
+      "orderId": purchaseDetails.purchaseID,
+      "purchaseToken": purchaseDetails.verificationData.serverVerificationData,
+      "productId": purchaseDetails.productID
     });
+
     if (res.status != 200) {
       return false;
     }
-    return false;
+    return true;
   }
 
-  Future<PurchaseState?> getPurchaseState(
+  //throws
+  Future<ProductPurchase> getPurchaseState(
       PurchaseDetails purchaseDetails) async {
-    /*
-    export interface ProductPurchase {
-      kind: string,
-      purchaseTimeMillis: string,
-      purchaseState: number,
-      consumptionState: number,
-      developerPayload: string,
-      orderId: string,
-      purchaseType: number,
-      acknowledgementState: number,
-      purchaseToken: string,
-      productId: string,
-      quantity: number,
-      obfuscatedExternalAccountId: string,
-      obfuscatedExternalProfileId: string,
-      regionCode: string
-    }
-    */
-    final FunctionResponse res;
-    print(
-        'productId: ${purchaseDetails.productID}, purchaseId: ${purchaseDetails.purchaseID}');
-    try {
-      res = await client.functions.invoke("get-purchase-state", body: {
-        "purchaseId": purchaseDetails.verificationData.serverVerificationData,
-        "productId": purchaseDetails.productID,
-      });
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-      return null;
-    }
+    final FunctionResponse res =
+        await client.functions.invoke("get-purchase-state", body: {
+      "orderId": purchaseDetails.purchaseID,
+      "purchaseToken": purchaseDetails.verificationData.serverVerificationData,
+      "productId": purchaseDetails.productID,
+    });
 
-    print(res.status);
-    if (res.status != 200) {
-      return null;
-    }
-    final int stateNumber;
-    try {
-      stateNumber = res.data["purchaseState"] as int;
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-      return null;
-    }
-    switch (stateNumber) {
-      case 0:
-        return PurchaseState.purchased;
-      case 1:
-        return PurchaseState.canceled;
-      case 2:
-        return PurchaseState.pending;
-      default:
-        return null;
-    }
+    return ProductPurchase.fromJSON(Map<String, dynamic>.from(res.data));
   }
 }

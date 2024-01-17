@@ -11,32 +11,23 @@ export interface Database {
     Tables: {
       premium_purchases: {
         Row: {
-          acknowledgementState: number
           createdAt: string
-          ignoreCorrectness: boolean
           orderId: string
           productId: string
-          purchaseState: number
           purchaseToken: string
           userId: string
         }
         Insert: {
-          acknowledgementState: number
           createdAt?: string
-          ignoreCorrectness: boolean
           orderId: string
           productId: string
-          purchaseState: number
           purchaseToken: string
           userId: string
         }
         Update: {
-          acknowledgementState?: number
           createdAt?: string
-          ignoreCorrectness?: boolean
           orderId?: string
           productId?: string
-          purchaseState?: number
           purchaseToken?: string
           userId?: string
         }
