@@ -96,4 +96,11 @@ class SupabaseService {
 
     return ProductPurchase.fromJSON(Map<String, dynamic>.from(res.data));
   }
+
+  //throws
+  Future<List<String>> getPremiumText() async {
+    final FunctionResponse res =
+        await client.functions.invoke("get-premium-text");
+    return List<String>.from(res.data);
+  }
 }
