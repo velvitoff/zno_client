@@ -47,6 +47,7 @@ class ZnoBottomNavigationBar extends StatelessWidget {
         data: NavigationBarThemeData(
             height: 70.h,
             backgroundColor: const Color(0xFF3C7142),
+            indicatorColor: const Color.fromARGB(255, 68, 133, 76),
             labelTextStyle: MaterialStateProperty.all(TextStyle(
                 fontSize: 17.sp,
                 color: const Color(0xFFF4F4F4),

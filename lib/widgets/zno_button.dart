@@ -31,13 +31,16 @@ class ZnoButton extends StatelessWidget {
         padding: padding,
         color: const Color(0xFF428449),
         child: Center(
-          child: Text(
-            text,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.w400,
-                color: const Color(0xFFFFFFFF)),
+          child: FittedBox(
+            fit: BoxFit.contain,
+            child: Text(
+              text,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.w400,
+                  color: const Color(0xFFFFFFFF)),
+            ),
           ),
         ),
       ),

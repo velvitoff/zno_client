@@ -17,8 +17,8 @@ class SubjectChoiceListItem extends StatelessWidget {
         border: Border.all(width: 2, color: const Color(0x0A363636)),
         borderRadius: BorderRadius.circular(10),
         gradient: const LinearGradient(colors: [
-          Color.fromRGBO(153, 215, 132, 0.03),
-          Color.fromRGBO(118, 174, 98, 0.16)
+          Color.fromRGBO(118, 174, 98, 0.02),
+          Color.fromRGBO(118, 174, 98, 0.04)
         ], begin: Alignment.topLeft, end: Alignment.bottomRight));
 
     return Container(
@@ -56,7 +56,7 @@ class SubjectChoiceListItem extends StatelessWidget {
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      fontSize: subjectName.length < 19 ? 25.sp : 22.sp,
+                      fontSize: subjectName.length < 19 ? 25.sp : 19.sp,
                       fontWeight: FontWeight.w400)),
             ),
           )

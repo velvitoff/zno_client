@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:client/locator.dart';
 import 'package:client/models/testing_time_model.dart';
-import 'package:client/services/interfaces/utils_service_interface.dart';
+import 'package:client/services/utils_service.dart';
 
 import '../models/testing_route_model.dart';
 
@@ -41,7 +41,7 @@ class PreviousSessionData {
   factory PreviousSessionData.fromJson(Map<String, dynamic> map) =>
       PreviousSessionData(
           sessionName:
-              locator.get<UtilsServiceInterface>().fileNameToSessionName(map[
+              locator.get<UtilsService>().fileNameToSessionName(map[
                   'session_name'] as String),
           subjectName: map['subject_name'] as String,
           fileName: map['file_name'] as String,

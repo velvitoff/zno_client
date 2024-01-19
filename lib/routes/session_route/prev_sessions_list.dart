@@ -1,7 +1,7 @@
 import 'package:client/dto/previous_session_data.dart';
 import 'package:client/locator.dart';
+import 'package:client/services/storage_service/main_storage_service.dart';
 import 'package:client/widgets/prev_session_item.dart';
-import 'package:client/services/interfaces/storage_service_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -27,7 +27,7 @@ class _PastSessionsListState extends State<PrevSessionsList> {
   void initState() {
     super.initState();
     dataList = locator
-        .get<StorageServiceInterface>()
+        .get<MainStorageService>()
         .getPreviousSessionsList(widget.subjectName, widget.sessionName);
   }
 

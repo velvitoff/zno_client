@@ -1,6 +1,8 @@
 import 'package:client/dto/sessions_route_data.dart';
 import 'package:client/routes/sessions_route/sessions_list.dart';
 import 'package:client/routes/sessions_route/sessions_scroll_wrapper.dart';
+import 'package:client/services/storage_service/main_storage_service.dart';
+import 'package:client/services/utils_service.dart';
 import 'package:client/widgets/zno_bottom_navigation_bar.dart';
 import 'package:client/widgets/zno_error.dart';
 import 'package:client/widgets/zno_list_item.dart';
@@ -13,8 +15,6 @@ import 'package:go_router/go_router.dart';
 import '../../dto/session_data.dart';
 import '../../locator.dart';
 import '../../routes.dart';
-import '../../services/interfaces/storage_service_interface.dart';
-import '../../services/interfaces/utils_service_interface.dart';
 import '../../widgets/zno_loading.dart';
 import '../../widgets/zno_year_line.dart';
 
@@ -34,7 +34,7 @@ class SessionsRouteState extends State<SessionsRoute> {
   void initState() {
     super.initState();
     futureList = locator
-        .get<StorageServiceInterface>()
+        .get<MainStorageService>()
         .listSessions(widget.dto.folderName)
         .then((List<String> data) {
       final Map<String, List<String>> map = data.groupListsBy((element) =>
@@ -56,7 +56,7 @@ class SessionsRouteState extends State<SessionsRoute> {
 
         for (var el in map[key]!) {
           String sessionName =
-              locator.get<UtilsServiceInterface>().fileNameToSessionName(el);
+              locator.get<UtilsService>().fileNameToSessionName(el);
           result.add(ZnoListItem(
               text: sessionName,
               onTap: () => context.go(Routes.sessionRoute,
@@ -74,53 +74,62 @@ class SessionsRouteState extends State<SessionsRoute> {
     });
   }
 
+  void _onPopInvoked(bool didPop) {
+    context.go(Routes.subjectsRoute);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder(
-        future: futureList,
-        builder: (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data!.isEmpty) {
-              return SessionsScrollWrapper(
-                subjectName: widget.dto.subjectName,
-                child: SliverToBoxAdapter(
-                  child: ZnoError(
-                      text: 'Немає доступних тестів', textFontSize: 25.sp),
-                ),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: _onPopInvoked,
+      child: Scaffold(
+        body: FutureBuilder(
+          future: futureList,
+          builder:
+              (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data!.isEmpty) {
+                return SessionsScrollWrapper(
+                  subjectName: widget.dto.subjectName,
+                  child: SliverToBoxAdapter(
+                    child: ZnoError(
+                        text: 'Немає доступних тестів', textFontSize: 25.sp),
+                  ),
+                );
+              } else {
+                return SessionsScrollWrapper(
+                  subjectName: widget.dto.subjectName,
+                  child: SessionsList(list: snapshot.data!),
+                );
+              }
+            } else if (snapshot.hasError) {
+              return Column(
+                children: [
+                  ZnoTopHeaderText(text: widget.dto.subjectName),
+                  const ZnoError(text: 'Помилка завантаження даних')
+                ],
               );
             } else {
               return SessionsScrollWrapper(
-                subjectName: widget.dto.subjectName,
-                child: SessionsList(list: snapshot.data!),
-              );
+                  subjectName: widget.dto.subjectName,
+                  child: SliverToBoxAdapter(
+                    child: Column(
+                      children: [
+                        SizedBox(height: 100.h),
+                        SizedBox(
+                          height: 200.h,
+                          child: const ZnoLoading(),
+                        )
+                      ],
+                    ),
+                  ));
             }
-          } else if (snapshot.hasError) {
-            return Column(
-              children: [
-                ZnoTopHeaderText(text: widget.dto.subjectName),
-                const ZnoError(text: 'Помилка завантаження даних')
-              ],
-            );
-          } else {
-            return SessionsScrollWrapper(
-                subjectName: widget.dto.subjectName,
-                child: SliverToBoxAdapter(
-                  child: Column(
-                    children: [
-                      SizedBox(height: 100.h),
-                      SizedBox(
-                        height: 200.h,
-                        child: const ZnoLoading(),
-                      )
-                    ],
-                  ),
-                ));
-          }
-        },
+          },
+        ),
+        bottomNavigationBar: const ZnoBottomNavigationBar(
+            activeRoute: ZnoBottomNavigationEnum.subjects),
       ),
-      bottomNavigationBar: const ZnoBottomNavigationBar(
-          activeRoute: ZnoBottomNavigationEnum.subjects),
     );
   }
 }

@@ -1,12 +1,10 @@
-import 'package:client/dialogs/complaint_dialog.dart';
-import 'package:client/dialogs/info_dialog.dart';
-import 'package:client/dialogs/time_choice_dialog.dart';
+import 'package:client/models/auth_state_model.dart';
 import 'package:client/models/testing_route_model.dart';
 import 'package:client/models/testing_time_model.dart';
 import 'package:client/routes.dart';
-import 'package:client/services/implementations/supabase_service.dart';
-import 'package:client/services/interfaces/storage_service_interface.dart';
-import 'package:client/dialogs/confirm_dialog.dart';
+import 'package:client/services/dialog_service.dart';
+import 'package:client/services/storage_service/main_storage_service.dart';
+import 'package:client/services/supabase_service.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,17 +23,18 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
   void onChoice(BuildContext context, String value) {
     bool isViewMode = context.read<TestingRouteModel>().isViewMode;
     if (value == 'Вийти') {
-      showDialog<bool>(
-          context: context,
-          builder: (BuildContext context) => ConfirmDialog(
-                text: isViewMode
-                    ? 'Ви дійсно хочете припинити перегляд?'
-                    : 'Ви дійсно хочете покинути спробу?',
-              )).then((bool? value) {
+      locator
+          .get<DialogService>()
+          .showConfirmDialog(
+              context,
+              isViewMode
+                  ? 'Ви дійсно хочете припинити перегляд?'
+                  : 'Ви дійсно хочете покинути спробу?')
+          .then((bool? value) {
         if (value != null) {
           if (value) {
             locator
-                .get<StorageServiceInterface>()
+                .get<MainStorageService>()
                 .saveSessionEnd(context.read<TestingRouteModel>(),
                     context.read<TestingTimeModel>(), false)
                 .then((void val) => context.go(Routes.sessionRoute,
@@ -46,28 +45,33 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
     } else if (value == 'Сховати таймер' || value == 'Показати таймер') {
       context.read<TestingTimeModel>().switchIsActivated();
     } else if (value == 'Змінити час таймера') {
-      showDialog<int?>(
-          context: context,
-          builder: (context) => const TimeChoiceDialog()).then((int? value) {
+      locator
+          .get<DialogService>()
+          .showTimeChoiceDialog(context)
+          .then((int? value) {
         if (value != null) {
           context.read<TestingTimeModel>().secondsInTotal = value;
         }
       });
     } else if (value == 'Повідомити про помилку') {
-      showDialog<String?>(
-          context: context,
-          builder: (context) => const ComplaintDialog()).then((String? value) {
-        if (value != null) {
+      locator
+          .get<DialogService>()
+          .showComplaintDialog(context)
+          .then((String? value) {
+        if (value != null && value != "") {
           final model = context.read<TestingRouteModel>();
+          final authModel = context.read<AuthStateModel>();
           locator
               .get<SupabaseService>()
-              .sendComplaint(model, value)
+              .sendComplaint(
+                model,
+                value,
+                authModel.isPremium,
+                id: authModel.currentUser?.id,
+              )
               .then((bool response) {
-            showDialog(
-                context: context,
-                builder: (context) => InfoDialog(
-                    text: response ? 'Дякуємо за відгук!' : 'Сталася помилка ',
-                    height: 210.h));
+            locator.get<DialogService>().showInfoDialog(context,
+                response ? 'Дякуємо за відгук!' : 'Сталася помилка', 230.h);
           });
         }
       });

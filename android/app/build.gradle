@@ -33,6 +33,7 @@ if (keystorePropertiesFile.exists()) {
 
 
 android {
+    namespace "com.velvit.zno_client"
     compileSdkVersion 33
     ndkVersion flutter.ndkVersion
 

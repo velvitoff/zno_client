@@ -1,20 +1,23 @@
+import 'package:client/models/auth_state_model.dart';
 import 'package:client/widgets/icons/zno_google_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:client/locator.dart';
-import 'package:client/services/implementations/auth_service.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class ButtonGoogleLogin extends StatelessWidget {
   const ButtonGoogleLogin({super.key});
 
-  void onGoogleLoginButtonClick() async {
-    locator.get<AuthService>().signInGooglePack();
+  //TO DO: Error handling
+  void onClick(BuildContext context) {
+    final authModel = context.read<AuthStateModel>();
+    authModel.setAuthProviderGoogle();
+    authModel.signIn();
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () async => onGoogleLoginButtonClick(),
+      onTap: () => onClick(context),
       child: Container(
         height: 65.h,
         decoration: BoxDecoration(

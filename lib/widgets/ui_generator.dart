@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:client/dto/image_view_route_data.dart';
 import 'package:client/locator.dart';
 import 'package:client/routes.dart';
+import 'package:client/services/storage_service/main_storage_service.dart';
 import 'package:client/widgets/audio_player_widget.dart';
 import 'package:client/widgets/ui_gen_handler.dart';
 import 'package:client/widgets/zno_loading.dart';
@@ -14,7 +15,6 @@ import 'package:html/dom.dart' as html;
 import 'package:html/parser.dart' as html_parser;
 import 'dart:convert';
 import '../models/testing_route_model.dart';
-import '../services/interfaces/storage_service_interface.dart';
 
 import 'horizontal_scroll_wrapper.dart';
 
@@ -122,7 +122,7 @@ class UiGenerator {
       String subjectFolderName, String sessionName, String fileName) {
     return FutureBuilder(
       future: locator
-          .get<StorageServiceInterface>()
+          .get<MainStorageService>()
           .getFileBytes(subjectFolderName, sessionName, fileName),
       builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
         if (snapshot.hasData) {

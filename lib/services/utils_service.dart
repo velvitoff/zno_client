@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 import 'package:encrypt/encrypt.dart' as encrypt;
-import 'package:client/services/interfaces/utils_service_interface.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class UtilsService implements UtilsServiceInterface {
+class UtilsService {
   static Map<String, String> keywordMap = {
     'zno': 'ЗНО',
     'nmt': 'НМТ',
@@ -15,7 +15,6 @@ class UtilsService implements UtilsServiceInterface {
     'zrazok': 'Зразок завдань'
   };
 
-  @override
   String fileNameToSessionName(String fileName) {
     fileName = fileName.replaceFirst('.json', '');
     fileName = fileName.replaceFirst('.bin', '');
@@ -27,26 +26,13 @@ class UtilsService implements UtilsServiceInterface {
     return split.join(' ');
   }
 
-  @override
+  //throws
   String decryptBin(Uint8List data) {
-    final key = encrypt.Key.fromUtf8(String.fromCharCodes([
-      126,
-      208,
-      7,
-      74,
-      135,
-      173,
-      64,
-      215,
-      90,
-      178,
-      152,
-      161,
-      165,
-      55,
-      29,
-      127
-    ]));
+    final keyString = dotenv.env['keyEncrypt'];
+    if (keyString == null) {
+      throw ();
+    }
+    final key = encrypt.Key.fromUtf8(keyString);
     final encrypter = encrypt.Encrypter(
       encrypt.AES(key, mode: encrypt.AESMode.cbc),
     );

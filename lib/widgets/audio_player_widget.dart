@@ -1,7 +1,6 @@
 import 'dart:async';
-
 import 'package:audioplayers/audioplayers.dart';
-import 'package:client/services/interfaces/storage_service_interface.dart';
+import 'package:client/services/storage_service/main_storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -34,10 +33,8 @@ class _AudioPlayerState extends State<AudioPlayerWidget> {
   @override
   void initState() {
     super.initState();
-    source = DeviceFileSource(locator
-        .get<StorageServiceInterface>()
-        .getImagePath(
-            widget.folderName, widget.folderInnerName, widget.fileName));
+    source = DeviceFileSource(locator.get<MainStorageService>().getImagePath(
+        widget.folderName, widget.folderInnerName, widget.fileName));
 
     player.setSource(source);
 
@@ -89,16 +86,13 @@ class _AudioPlayerState extends State<AudioPlayerWidget> {
           Expanded(
             child: Container(
               margin: EdgeInsets.only(left: 8.w, right: 8.w),
-              child: SliderTheme(
-                data: SliderThemeData(
-                    overlayShape: SliderComponentShape.noOverlay),
-                child: Slider(
-                  min: 0,
-                  max: duration.inSeconds.toDouble(),
-                  value: position.inSeconds.toDouble(),
-                  onChanged: (value) =>
-                      player.seek(Duration(seconds: value.toInt())),
-                ),
+              child: Slider(
+                thumbColor: const Color(0xFF418C4A),
+                min: 0,
+                max: duration.inSeconds.toDouble(),
+                value: position.inSeconds.toDouble(),
+                onChanged: (value) =>
+                    player.seek(Duration(seconds: value.toInt())),
               ),
             ),
           ),
