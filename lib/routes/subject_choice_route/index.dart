@@ -23,27 +23,30 @@ class _SubjectChoiceRouteState extends State<SubjectChoiceRoute> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder(
-        future: futureData,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return SubjectChoiceRouteProvider(
-              data: snapshot.data!,
-              child: const SubjectChoiceLayout(),
-            );
-          } else if (snapshot.hasError) {
-            return const ZnoError(text: 'Помилка зчитування даних');
-          } else {
-            return const Center(
-              child: FractionallySizedBox(
-                widthFactor: 0.6,
-                heightFactor: 0.6,
-                child: ZnoLoading(),
-              ),
-            );
-          }
-        },
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        body: FutureBuilder(
+          future: futureData,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return SubjectChoiceRouteProvider(
+                data: snapshot.data!,
+                child: const SubjectChoiceLayout(),
+              );
+            } else if (snapshot.hasError) {
+              return const ZnoError(text: 'Помилка зчитування даних');
+            } else {
+              return const Center(
+                child: FractionallySizedBox(
+                  widthFactor: 0.6,
+                  heightFactor: 0.6,
+                  child: ZnoLoading(),
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }

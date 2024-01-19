@@ -29,59 +29,67 @@ class _HistoryRouteState extends State<HistoryRoute> {
         locator.get<MainStorageService>().getPreviousSessionsListGlobal();
   }
 
+  void _onPopInvoked(bool didPop) {
+    context.go(Routes.settingsRoute);
+  }
+
   @override
   Widget build(BuildContext context) {
     return HistoryRouteProvider(
-      child: Scaffold(
-          body: Column(
-        children: [
-          ZnoTopHeaderSmall(
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 6.w),
-                    child: ZnoIconButton(
-                        icon: Icons.arrow_back,
-                        onTap: () => context.go(Routes.settingsRoute)),
-                  ),
-                ),
-                Align(
-                    alignment: Alignment.center,
-                    child: Text('Історія',
-                        style: TextStyle(
-                            color: const Color(0xFFEFEFEF), fontSize: 24.sp)))
-              ],
-            ),
-          ),
-          Expanded(
-            child: FutureBuilder(
-              future: dataList,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  if (snapshot.data!.isEmpty) {
-                    return const ZnoError(
-                        text: 'Немає історії попередніх спроб');
-                  } else {
-                    return HistoryList(prevSessionsList: snapshot.data!);
-                  }
-                } else if (snapshot.hasError) {
-                  return const ZnoError(text: 'Помилка зчитування даних');
-                } else {
-                  return const Center(
-                    child: FractionallySizedBox(
-                      widthFactor: 0.6,
-                      heightFactor: 0.6,
-                      child: ZnoLoading(),
+      child: PopScope(
+        canPop: false,
+        onPopInvoked: _onPopInvoked,
+        child: Scaffold(
+            body: Column(
+          children: [
+            ZnoTopHeaderSmall(
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 6.w),
+                      child: ZnoIconButton(
+                          icon: Icons.arrow_back,
+                          onTap: () => context.go(Routes.settingsRoute)),
                     ),
-                  );
-                }
-              },
+                  ),
+                  Align(
+                      alignment: Alignment.center,
+                      child: Text('Історія',
+                          style: TextStyle(
+                              color: const Color(0xFFEFEFEF), fontSize: 24.sp)))
+                ],
+              ),
             ),
-          ),
-        ],
-      )),
+            Expanded(
+              child: FutureBuilder(
+                future: dataList,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data!.isEmpty) {
+                      return const ZnoError(
+                          text: 'Немає історії попередніх спроб');
+                    } else {
+                      return HistoryList(prevSessionsList: snapshot.data!);
+                    }
+                  } else if (snapshot.hasError) {
+                    return const ZnoError(text: 'Помилка зчитування даних');
+                  } else {
+                    return const Center(
+                      child: FractionallySizedBox(
+                        widthFactor: 0.6,
+                        heightFactor: 0.6,
+                        child: ZnoLoading(),
+                      ),
+                    );
+                  }
+                },
+              ),
+            ),
+          ],
+        )),
+      ),
     );
   }
 }

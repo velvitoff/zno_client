@@ -48,43 +48,46 @@ class TestingRouteState extends State<TestingRoute> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: FutureBuilder(
-      future: futureTestData,
-      builder: (BuildContext context, AsyncSnapshot<TestData> snapshot) {
-        if (snapshot.hasData) {
-          return TestingRouteProvider(
-            data: widget.dto,
-            testData: snapshot.data!,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                ZnoTestingHeader(text: widget.dto.sessionData.sessionName),
-                Expanded(
-                    child: MediaQuery.removePadding(
-                  context: context,
-                  removeTop: true,
-                  child: TestingPages(questions: snapshot.data!.questions),
-                ))
-              ],
-            ),
-          );
-        } else if (snapshot.hasError) {
-          return ZnoError(
-            text: 'Помилка завантаження даних',
-            buttonText: 'Повернутися',
-            onTap: () => context.go(Routes.subjectsRoute),
-          );
-        } else {
-          return const Center(
-            child: FractionallySizedBox(
-              widthFactor: 0.6,
-              heightFactor: 0.6,
-              child: ZnoLoading(),
-            ),
-          );
-        }
-      },
-    ));
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+          body: FutureBuilder(
+        future: futureTestData,
+        builder: (BuildContext context, AsyncSnapshot<TestData> snapshot) {
+          if (snapshot.hasData) {
+            return TestingRouteProvider(
+              data: widget.dto,
+              testData: snapshot.data!,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  ZnoTestingHeader(text: widget.dto.sessionData.sessionName),
+                  Expanded(
+                      child: MediaQuery.removePadding(
+                    context: context,
+                    removeTop: true,
+                    child: TestingPages(questions: snapshot.data!.questions),
+                  ))
+                ],
+              ),
+            );
+          } else if (snapshot.hasError) {
+            return ZnoError(
+              text: 'Помилка завантаження даних',
+              buttonText: 'Повернутися',
+              onTap: () => context.go(Routes.subjectsRoute),
+            );
+          } else {
+            return const Center(
+              child: FractionallySizedBox(
+                widthFactor: 0.6,
+                heightFactor: 0.6,
+                child: ZnoLoading(),
+              ),
+            );
+          }
+        },
+      )),
+    );
   }
 }

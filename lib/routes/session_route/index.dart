@@ -16,36 +16,43 @@ class SessionRoute extends StatelessWidget {
 
   const SessionRoute({Key? key, required this.dto}) : super(key: key);
 
+  void _goBack(BuildContext context) {
+    context.go(Routes.sessionsRoute,
+        extra: SessionsRouteData(
+            subjectName: dto.subjectName, folderName: dto.folderName));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SessionRouteProvider(
-        sessionData: dto,
-        child: Column(
-          children: [
-            ZnoTopHeaderText(
-                text: dto.subjectName,
-                fontSize: dto.subjectName.length > 24 ? 21.5.sp : 25.sp,
-                topLeftWidget: Padding(
-                  padding: EdgeInsets.only(top: 10.h),
-                  child: ZnoIconButton(
-                    icon: Icons.arrow_back,
-                    onTap: () => context.go(Routes.sessionsRoute,
-                        extra: SessionsRouteData(
-                            subjectName: dto.subjectName,
-                            folderName: dto.folderName)),
-                  ),
-                )),
-            const Expanded(
-              child: Center(
-                child: SessionDisplay(),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (bool val) => _goBack(context),
+      child: Scaffold(
+        body: SessionRouteProvider(
+          sessionData: dto,
+          child: Column(
+            children: [
+              ZnoTopHeaderText(
+                  text: dto.subjectName,
+                  fontSize: dto.subjectName.length > 24 ? 21.5.sp : 25.sp,
+                  topLeftWidget: Padding(
+                    padding: EdgeInsets.only(top: 10.h),
+                    child: ZnoIconButton(
+                      icon: Icons.arrow_back,
+                      onTap: () => _goBack(context),
+                    ),
+                  )),
+              const Expanded(
+                child: Center(
+                  child: SessionDisplay(),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+        bottomNavigationBar: const ZnoBottomNavigationBar(
+            activeRoute: ZnoBottomNavigationEnum.subjects),
       ),
-      bottomNavigationBar: const ZnoBottomNavigationBar(
-          activeRoute: ZnoBottomNavigationEnum.subjects),
     );
   }
 }
