@@ -88,7 +88,9 @@ class _AudioPlayerState extends State<AudioPlayerWidget> {
               margin: EdgeInsets.only(left: 8.w, right: 8.w),
               child: SliderTheme(
                 data: SliderThemeData(
-                    overlayShape: SliderComponentShape.noOverlay),
+                    overlayShape: SliderComponentShape.noOverlay,
+                    thumbColor: const Color(0xFF418C4A),
+                    activeTrackColor: const Color(0xFF418C4A)),
                 child: Slider(
                   min: 0,
                   max: duration.inSeconds.toDouble(),

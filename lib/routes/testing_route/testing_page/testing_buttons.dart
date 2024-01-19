@@ -64,7 +64,7 @@ class TestingButtons extends StatelessWidget {
             margin: EdgeInsets.fromLTRB(7.5.w, 0, 7.5.w, 0),
             padding: EdgeInsets.all(5.r),
             text: 'Завершити спробу',
-            fontSize: 18.sp));
+            fontSize: 17.sp));
       }
     }
 

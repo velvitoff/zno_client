@@ -56,7 +56,7 @@ class SubjectChoiceListItem extends StatelessWidget {
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      fontSize: subjectName.length < 19 ? 25.sp : 22.sp,
+                      fontSize: subjectName.length < 19 ? 25.sp : 19.sp,
                       fontWeight: FontWeight.w400)),
             ),
           )
