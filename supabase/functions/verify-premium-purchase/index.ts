@@ -52,7 +52,7 @@ Deno.serve(async (req: any) => {
   }
 
   //If purchase doesn't exist in the database, create it
-  const purchaseSupabase = await SupabaseService.getPurchaseByOrderId(purchaseDetails.orderId);
+  const purchaseSupabase = await SupabaseService.getPurchaseByUserId(supabaseUserId);
   if(purchaseSupabase === null) {
     await SupabaseService.insertToPremiumPurchases(supabaseUserId, purchaseDetails);
   }

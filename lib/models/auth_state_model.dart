@@ -94,7 +94,11 @@ extension PremiumManagement on AuthStateModel {
     return locator.get<SupabaseService>().isUserPremium(resUser);
   }
 
-  Future<void> updatePremiumStatusFromServer() async {
-    setData(premium: await isUserPremium());
+  Future<void> updatePremiumStatus({bool ignoreServer = false}) async {
+    if (ignoreServer) {
+      setData(premium: true);
+    } else {
+      setData(premium: await isUserPremium());
+    }
   }
 }

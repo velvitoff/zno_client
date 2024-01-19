@@ -3,6 +3,7 @@ import 'package:client/routes/premium_route/button_google_login.dart';
 import 'package:client/routes/premium_route/button_google_pay.dart';
 import 'package:client/routes/premium_route/premium_route_header.dart';
 import 'package:client/routes/premium_route/premium_text.dart';
+import 'package:client/widgets/golden_border.dart';
 import 'package:client/widgets/icons/zno_star_large_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -49,7 +50,21 @@ class PremiumRoute extends StatelessWidget {
                         padding: EdgeInsets.only(bottom: 35.h, top: 35.h),
                         child: model.currentUser != null
                             ? model.isPremium
-                                ? const Text('Ви вже придбали преміум')
+                                ? Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      CustomPaint(
+                                        painter: GoldenBorder(sWidth: 3.0),
+                                        child: SizedBox(
+                                            height: 60.h, width: 320.w),
+                                      ),
+                                      const Text(
+                                        'Ви вже придбали преміум',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500),
+                                      )
+                                    ],
+                                  )
                                 : const ButtonGooglePay()
                             : const ButtonGoogleLogin(),
                       ),

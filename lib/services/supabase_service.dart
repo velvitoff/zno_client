@@ -1,3 +1,4 @@
+import 'package:client/extensions/debug_print.dart';
 import 'package:client/models/testing_route_model.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -64,10 +65,14 @@ class SupabaseService {
   }
 
   Future<bool> isUserPremium(User user) async {
+    dbg('call isUserPremium()');
     final res = await client.functions.invoke("is-user-premium");
     if (res.status != 200) {
+      dbg('call isUserPremium() -> false, calling restorePurchases');
+      await InAppPurchase.instance.restorePurchases();
       return false;
     }
+    dbg('call isUserPremium() -> true');
     return true;
   }
 

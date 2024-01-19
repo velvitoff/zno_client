@@ -1,5 +1,6 @@
 import 'package:client/auth/auth_event_handler_widget.dart';
 import 'package:client/locator.dart';
+import 'package:client/payments/in_app_purchase_wrapper.dart';
 import 'package:client/providers/auth_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,14 +25,16 @@ class MyApp extends StatelessWidget {
         builder: (context, _) {
           return AuthStateProvider(
               child: AuthEventHandlerWidget(
-            child: MaterialApp.router(
-              debugShowCheckedModeBanner: false,
-              routerConfig: Routes.router,
-              title: 'Тести ЗНО і НМТ',
-              theme: ThemeData(
-                  primarySwatch: Colors.green,
-                  fontFamily: 'Ubuntu',
-                  scaffoldBackgroundColor: const Color(0xFFF9F9F9)),
+            child: InAppPurchaseWrapper(
+              child: MaterialApp.router(
+                debugShowCheckedModeBanner: false,
+                routerConfig: Routes.router,
+                title: 'Тести ЗНО і НМТ',
+                theme: ThemeData(
+                    primarySwatch: Colors.green,
+                    fontFamily: 'Ubuntu',
+                    scaffoldBackgroundColor: const Color(0xFFF9F9F9)),
+              ),
             ),
           ));
         });
