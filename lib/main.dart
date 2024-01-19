@@ -32,6 +32,10 @@ class MyApp extends StatelessWidget {
                 title: 'Тести ЗНО і НМТ',
                 theme: ThemeData(
                     primarySwatch: Colors.green,
+                    sliderTheme: SliderThemeData(
+                        overlayShape: SliderComponentShape.noOverlay,
+                        thumbColor: const Color(0xFF418C4A),
+                        activeTrackColor: const Color(0xFF418C4A)),
                     fontFamily: 'Ubuntu',
                     scaffoldBackgroundColor: const Color(0xFFF9F9F9)),
               ),
