@@ -3,7 +3,9 @@ import 'dart:typed_data';
 import 'package:client/dto/personal_config_data.dart';
 import 'package:client/dto/previous_session_data.dart';
 import 'package:client/dto/test_data.dart';
+import 'package:client/locator.dart';
 import 'package:client/models/testing_time_model.dart';
+import 'package:client/services/utils_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart' as path;
 import '../../dto/storage_route_item_data.dart';
@@ -234,8 +236,14 @@ class LocalStorageService {
     List<StorageRouteItemData> result = [];
     for (var entry in mapOfSessions.entries) {
       for (var file in entry.value) {
-        final data =
-            TestDataNoQuestions.fromJson(jsonDecode(await file.readAsString()));
+        String fileString;
+        if (file.path.endsWith('.bin')) {
+          fileString =
+              locator.get<UtilsService>().decryptBin(await file.readAsBytes());
+        } else {
+          fileString = await file.readAsString();
+        }
+        final data = TestDataNoQuestions.fromJson(jsonDecode(fileString));
         final String imageFolderPath = '$_imageDir${Platform.pathSeparator}'
             '${entry.key.path.split(Platform.pathSeparator).last}${Platform.pathSeparator}'
             '${data.imageFolderName}';
