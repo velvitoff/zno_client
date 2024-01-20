@@ -28,6 +28,7 @@ class UiGenHandler extends StatelessWidget {
       return UiGenerator.textToWidget(data[1], style: textStyle);
     }
     if (data[0] == 'img') {
+      //1
       var model = context.read<TestingRouteModel>();
       return UiGenerator.imageToWidget(model.sessionData.folderName,
           model.sessionData.fileNameNoExtension, data[1]);

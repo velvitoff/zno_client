@@ -1,13 +1,9 @@
-import 'dart:typed_data';
-import 'package:client/dto/image_view_route_data.dart';
 import 'package:client/locator.dart';
-import 'package:client/routes.dart';
 import 'package:client/services/storage_service/main_storage_service.dart';
 import 'package:client/widgets/audio_player_widget.dart';
+import 'package:client/widgets/image_in_a_test_wrapper.dart';
 import 'package:client/widgets/ui_gen_handler.dart';
-import 'package:client/widgets/zno_loading.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -120,30 +116,10 @@ class UiGenerator {
 
   static Widget imageToWidget(
       String subjectFolderName, String sessionName, String fileName) {
-    return FutureBuilder(
-      future: locator
-          .get<MainStorageService>()
-          .getFileBytes(subjectFolderName, sessionName, fileName),
-      builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
-        if (snapshot.hasData) {
-          return GestureDetector(
-              onTap: () => context.push(Routes.imageViewRoute,
-                  extra: ImageViewRouteData(
-                      imageProvider: MemoryImage(snapshot.data!))),
-              child: Image.memory(snapshot.data!));
-        } else if (snapshot.hasError) {
-          return const Text('Помилка завантаження зображення');
-        } else {
-          return Center(
-            child: SizedBox(
-              height: 100.r,
-              width: 100.r,
-              child: const ZnoLoading(),
-            ),
-          );
-        }
-      },
-    );
+    return ImageInATestWrapper(
+        futureBytes: locator
+            .get<MainStorageService>()
+            .getFileBytes(subjectFolderName, sessionName, fileName));
   }
 
   static Widget textToTable(BuildContext context, String data,
