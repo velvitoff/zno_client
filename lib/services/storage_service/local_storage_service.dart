@@ -26,10 +26,8 @@ class LocalStorageService {
 
   String get _znoDirPath =>
       '${_appDir.path}${Platform.pathSeparator}zno_client';
-  String get _testsDir =>
-      '$_znoDirPath${Platform.pathSeparator}${isPremium ? 'tests-premium' : 'tests'}';
-  String get _imageDir =>
-      '$_znoDirPath${Platform.pathSeparator}${isPremium ? 'images-premium' : 'images'}';
+  String get _testsDir => '$_znoDirPath${Platform.pathSeparator}tests';
+  String get _imageDir => '$_znoDirPath${Platform.pathSeparator}images';
   String get _historyDir => '$_znoDirPath${Platform.pathSeparator}history';
 
   String _sessionPath(String subjectFolderName, String sessionFileName) {

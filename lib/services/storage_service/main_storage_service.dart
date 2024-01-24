@@ -45,7 +45,7 @@ class MainStorageService {
       try {
         final Uint8List session =
             await externalStorage.getSession(folderName, fileName);
-        localStorage.saveSession(folderName, fileName, session); //not awaited
+        await localStorage.saveSession(folderName, fileName, session);
         await downloadImages(folderName, fileName);
         return session;
       } catch (e) {
