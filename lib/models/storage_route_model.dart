@@ -5,13 +5,11 @@ import 'dart:io';
 class StorageRouteModel extends ChangeNotifier {
   Map<StorageRouteItemData, bool> fileMap;
 
-  StorageRouteModel({
-    required this.fileMap
-  });
+  StorageRouteModel({required this.fileMap});
 
   bool getIsMarked(UniqueKey inKey) {
-    for(var entry in fileMap.entries) {
-      if (entry.key.key == inKey){
+    for (var entry in fileMap.entries) {
+      if (entry.key.key == inKey) {
         return entry.value;
       }
     }
@@ -19,7 +17,7 @@ class StorageRouteModel extends ChangeNotifier {
   }
 
   void setIsMarked(UniqueKey inKey) {
-    for(var data in fileMap.keys) {
+    for (var data in fileMap.keys) {
       if (data.key == inKey) {
         fileMap[data] = !fileMap[data]!;
         notifyListeners();
@@ -29,11 +27,11 @@ class StorageRouteModel extends ChangeNotifier {
   }
 
   bool getIsMarkedAll() {
-    if(fileMap.isEmpty) {
+    if (fileMap.isEmpty) {
       return false;
     }
-    for(var value in fileMap.values) {
-      if(value == false) {
+    for (var value in fileMap.values) {
+      if (value == false) {
         return false;
       }
     }
@@ -42,22 +40,22 @@ class StorageRouteModel extends ChangeNotifier {
 
   void setIsMarkedAll() {
     if (getIsMarkedAll()) {
-      for(var key in fileMap.keys) {
+      for (var key in fileMap.keys) {
         fileMap[key] = false;
       }
       notifyListeners();
       return;
     }
 
-    for(var key in fileMap.keys) {
+    for (var key in fileMap.keys) {
       fileMap[key] = true;
     }
     notifyListeners();
   }
 
   bool isAtLeastOneItemMarked() {
-    for(var value in fileMap.values) {
-      if(value) {
+    for (var value in fileMap.values) {
+      if (value) {
         return true;
       }
     }
@@ -71,14 +69,14 @@ class StorageRouteModel extends ChangeNotifier {
         .map((entry) => entry.key)
         .toList();
 
-    for(var item in selectedItems) {
+    for (var item in selectedItems) {
       File file = File(item.filePath);
       Directory imageDir = Directory(item.imageFolderPath);
 
-      if(await imageDir.exists()){
+      if (await imageDir.exists()) {
         await imageDir.delete(recursive: true);
       }
-      if(await file.exists()) {
+      if (await file.exists()) {
         await file.delete();
       }
 
@@ -88,30 +86,30 @@ class StorageRouteModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  //TO DO: move functionality to localStorage
   Future<void> deleteStorageItem(UniqueKey key) async {
     StorageRouteItemData? item;
-    for(var entry in fileMap.entries) {
-      if(entry.key.key == key) {
+    for (var entry in fileMap.entries) {
+      if (entry.key.key == key) {
         item = entry.key;
         break;
       }
     }
 
-    if(item == null) {
+    if (item == null) {
       return;
     }
 
     File file = File(item.filePath);
     Directory imageDir = Directory(item.imageFolderPath);
-    if(await imageDir.exists()){
+    if (await imageDir.exists()) {
       await imageDir.delete(recursive: true);
     }
-    if(await file.exists()) {
+    if (await file.exists()) {
       await file.delete();
     }
 
     fileMap.remove(item);
     notifyListeners();
   }
-
 }
