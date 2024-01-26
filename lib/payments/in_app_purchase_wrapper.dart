@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'dart:io' show Platform;
 
 class InAppPurchaseWrapper extends StatefulWidget {
   final Widget child;
@@ -22,20 +23,24 @@ class _InAppPurchaseWrapperState extends State<InAppPurchaseWrapper> {
 
   @override
   void initState() {
-    _subscription =
-        InAppPurchase.instance.purchaseStream.listen((purchaseDetailsList) {
-      _handlePurchaseStreamUpdate(context, purchaseDetailsList);
-    }, onDone: () {
-      _subscription.cancel();
-    }, onError: (error) {
-      _showErrorDialog("Помилка зв'яку з магазином");
-    });
+    if (Platform.isAndroid || Platform.isAndroid) {
+      _subscription =
+          InAppPurchase.instance.purchaseStream.listen((purchaseDetailsList) {
+        _handlePurchaseStreamUpdate(context, purchaseDetailsList);
+      }, onDone: () {
+        _subscription.cancel();
+      }, onError: (error) {
+        _showErrorDialog("Помилка зв'яку з магазином");
+      });
+    }
     super.initState();
   }
 
   @override
   void dispose() {
-    _subscription.cancel();
+    if (Platform.isAndroid || Platform.isAndroid) {
+      _subscription.cancel();
+    }
     super.dispose();
   }
 
