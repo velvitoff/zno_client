@@ -8,10 +8,10 @@ This application provides students with tests that were used during exams in pre
 By passing those tests from previous years, students can effectively prepare for the upcoming exams. 
 
 <div style="text-align:center" markdown="1">
-    <img width="308px" height="569px" src="repo_assets/main_screen.png" />
-    <img width="308px" height="569px" src="repo_assets/session_screen.png" />
-    <img width="308px" height="569px" src="repo_assets/testing_screen1.png" />
-    <img width="308px" height="569px" src="repo_assets/testing_screen2.png" />
+    <img width="275px" height="550.55px" src="repo_assets/main_screen.png" />
+    <img width="275px" height="550.55px" src="repo_assets/session_screen.png" />
+    <img width="275px" height="550.55px" src="repo_assets/testing_screen1.png" />
+    <img width="275px" height="550.55px" src="repo_assets/testing_screen2.png" />
 </div>
 
 Find it on [Play market](https://play.google.com/store/apps/details?id=com.velvit.zno_client)
