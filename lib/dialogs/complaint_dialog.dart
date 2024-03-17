@@ -34,6 +34,7 @@ class _ComplaintDialogState extends State<ComplaintDialog> {
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 20.h),
                 child: TextField(
+                    cursorColor: Colors.black,
                     expands: true,
                     enabled: true,
                     maxLines: null,

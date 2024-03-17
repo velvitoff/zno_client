@@ -43,6 +43,7 @@ class QuestionTextFieldsAnswerField extends StatelessWidget {
             width: 300.w,
             margin: EdgeInsets.fromLTRB(0, 8.h, 0, 8.h),
             child: TextField(
+                cursorColor: Colors.black,
                 controller: TextEditingController(text: values[i]),
                 enabled: true,
                 decoration: const InputDecoration(
