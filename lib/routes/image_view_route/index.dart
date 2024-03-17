@@ -2,7 +2,6 @@ import 'package:client/dto/image_view_route_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:photo_view/photo_view.dart';
 import '../../widgets/zno_top_header_small.dart';
 
 class ImageViewRoute extends StatelessWidget {
@@ -35,10 +34,11 @@ class ImageViewRoute extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: PhotoView(
-              imageProvider: dto.imageProvider,
-              backgroundDecoration:
-                  const BoxDecoration(color: Color(0xFFF5F5F5)),
+            child: ColoredBox(
+              color: const Color(0xFFF5F5F5),
+              child: InteractiveViewer(
+                child: Image(image: dto.imageProvider),
+              ),
             ),
           )
         ]),
