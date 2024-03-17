@@ -119,6 +119,8 @@ class PreviousSessionData {
         total += 1;
       } else if (q.complex != null) {
         total += q.complex!.correctMap.entries.length;
+      } else if (q.textFields != null) {
+        total += q.textFields!.correctList.length;
       }
     }
 
