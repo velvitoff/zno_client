@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -53,13 +54,11 @@ class ZnoListItem extends StatelessWidget {
         width: 320.w,
         height: 60.h,
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             text,
             maxLines: 2,
             textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: text.length < 19 ? 25.sp : 23.sp,
-                fontWeight: FontWeight.w400),
+            style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w400),
           ),
         ),
       ),
