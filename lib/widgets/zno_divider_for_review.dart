@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import '../dto/question_data.dart';
+import '../dto/questions/question_data.dart';
 
 class ZnoDividerForReview extends StatefulWidget {
   final int activeIndex;
@@ -55,75 +55,71 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
       return whiteColor;
     }
 
-    if (_questions![ind].single != null) {
-      if (_answers![index] == null) {
-        return whiteColor;
-      }
-      if (_questions![ind].single!.correct == _answers![index]) {
-        return greenColor;
-      } else {
-        return redColor;
-      }
-    }
-
-    if (_questions![ind].complex != null) {
-      final answers = Map<String, String>.from(_answers![index]);
-      if (_answers!.isEmpty) {
-        return whiteColor;
-      }
-
-      if (mapEquals(_questions![ind].complex!.correctMap, answers)) {
-        return greenColor;
-      }
-
-      bool isPartiallyCorrect = false;
-      for (var entry in answers.entries) {
-        if (_questions![ind].complex!.correctMap[entry.key] == entry.value) {
-          isPartiallyCorrect = true;
-          break;
+    switch (_questions![ind]) {
+      case QuestionSingle():
+        if (_answers![index] == null) return whiteColor;
+        if ((_questions![ind] as QuestionSingle).correct == _answers![index]) {
+          return greenColor;
         }
-      }
-
-      if (isPartiallyCorrect) {
-        return orangeColor;
-      } else {
         return redColor;
-      }
-    }
-    if (_questions![ind].textFields != null) {
-      List<String> answers;
-      try {
-        answers = List<String>.from(_answers![index]);
-      } catch (_) {
-        return whiteColor;
-      }
-
-      if (listEquals(_questions![ind].textFields!.correctList, answers) ||
-          listEquals(
-              _questions![ind]
-                  .textFields!
-                  .correctList
-                  .map((x) => x.replaceAll('.', ','))
-                  .toList(),
-              answers)) {
-        return greenColor;
-      }
-
-      bool isPartiallyCorrect = false;
-      for (int i = 0; i < answers.length; ++i) {
-        if (answers[i] == _questions![ind].textFields!.correctList[i]) {
-          isPartiallyCorrect = true;
-          break;
+      case QuestionComplex():
+        final answers = Map<String, String>.from(_answers![index]);
+        if (_answers!.isEmpty) {
+          return whiteColor;
         }
-      }
 
-      if (isPartiallyCorrect) {
-        return orangeColor;
-      } else {
+        if (mapEquals(
+            (_questions![ind] as QuestionComplex).correctMap, answers)) {
+          return greenColor;
+        }
+
+        bool isPartiallyCorrect = false;
+        for (var entry in answers.entries) {
+          if ((_questions![ind] as QuestionComplex).correctMap[entry.key] ==
+              entry.value) {
+            isPartiallyCorrect = true;
+            break;
+          }
+        }
+
+        if (isPartiallyCorrect) {
+          return orangeColor;
+        }
         return redColor;
-      }
-    } else {
-      return whiteColor;
+      case QuestionTextFields():
+        List<String> answers;
+        try {
+          answers = List<String>.from(_answers![index]);
+        } catch (_) {
+          return whiteColor;
+        }
+
+        if (listEquals((_questions![ind] as QuestionTextFields).correctList,
+                answers) ||
+            listEquals(
+                (_questions![ind] as QuestionTextFields)
+                    .correctList
+                    .map((x) => x.replaceAll('.', ','))
+                    .toList(),
+                answers)) {
+          return greenColor;
+        }
+
+        bool isPartiallyCorrect = false;
+        for (int i = 0; i < answers.length; ++i) {
+          if (answers[i] ==
+              (_questions![ind] as QuestionTextFields).correctList[i]) {
+            isPartiallyCorrect = true;
+            break;
+          }
+        }
+
+        if (isPartiallyCorrect) {
+          return orangeColor;
+        }
+        return redColor;
+      case QuestionNoAnswer():
+        return whiteColor;
     }
   }
 

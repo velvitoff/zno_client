@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../dto/previous_session_data.dart';
-import '../dto/question_data.dart';
+import '../dto/questions/question_data.dart';
 import '../dto/session_data.dart';
 
 class TestingRouteModel extends ChangeNotifier {

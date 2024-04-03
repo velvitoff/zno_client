@@ -1,4 +1,4 @@
-import 'package:client/dto/question_data.dart';
+import 'package:client/dto/questions/question_data.dart';
 import 'package:client/routes/testing_route/question_text_fields/text_field_answer_show.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';

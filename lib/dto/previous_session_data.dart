@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:client/dto/questions/question_data.dart';
 import 'package:client/locator.dart';
 import 'package:client/models/testing_time_model.dart';
 import 'package:client/services/utils_service.dart';
@@ -87,40 +88,67 @@ class PreviousSessionData {
     //calculating a score
     int score = 0;
 
-    for (var answerEntry in data.allAnswers.entries) {
-      var q = data.questions[int.parse(answerEntry.key) - 1];
-      if (q.single != null) {
-        if (q.single!.correct == answerEntry.value) {
+    void handleQuestionSingle(
+        QuestionSingle q, MapEntry<String, dynamic> answerEntry) {
+      if (q.correct == answerEntry.value) {
+        score += 1;
+      }
+    }
+
+    void handleQuestionComplex(
+        QuestionComplex q, MapEntry<String, dynamic> answerEntry) {
+      Map<String, dynamic> answerMap =
+          answerEntry.value as Map<String, dynamic>;
+      for (var correctEntry in q.correctMap.entries) {
+        if (correctEntry.value == answerMap[correctEntry.key]) {
           score += 1;
         }
-      } else if (q.complex != null) {
-        Map<String, dynamic> answerMap =
-            answerEntry.value as Map<String, dynamic>;
-        for (var correctEntry in q.complex!.correctMap.entries) {
-          if (correctEntry.value == answerMap[correctEntry.key]) {
-            score += 1;
-          }
+      }
+    }
+
+    void handleQuestionTextFields(
+        QuestionTextFields q, MapEntry<String, dynamic> answerEntry) {
+      List<String> answerList = List<String>.from(answerEntry.value);
+      for (int i = 0; i < q.correctList.length; ++i) {
+        if (q.correctList[i] == answerList[i] ||
+            q.correctList[i].replaceAll('.', ',') == answerList[i]) {
+          score += 1;
         }
-      } else if (q.textFields != null) {
-        List<String> answerList = List<String>.from(answerEntry.value);
-        for (int i = 0; i < q.textFields!.correctList.length; ++i) {
-          if (q.textFields!.correctList[i] == answerList[i] ||
-              q.textFields!.correctList[i].replaceAll('.', ',') ==
-                  answerList[i]) {
-            score += 1;
-          }
-        }
+      }
+    }
+
+    //TO DO: unite in 1 loop
+    for (var answerEntry in data.allAnswers.entries) {
+      var q = data.questions[int.parse(answerEntry.key) - 1];
+      switch (q) {
+        case QuestionSingle():
+          handleQuestionSingle(q, answerEntry);
+          break;
+        case QuestionComplex():
+          handleQuestionComplex(q, answerEntry);
+          break;
+        case QuestionTextFields():
+          handleQuestionTextFields(q, answerEntry);
+          break;
+        case QuestionNoAnswer():
+          break;
       }
     }
 
     int total = 0;
     for (var q in data.questions) {
-      if (q.single != null) {
-        total += 1;
-      } else if (q.complex != null) {
-        total += q.complex!.correctMap.entries.length;
-      } else if (q.textFields != null) {
-        total += q.textFields!.correctList.length;
+      switch (q) {
+        case QuestionSingle():
+          total += 1;
+          break;
+        case QuestionComplex():
+          total += q.correctMap.entries.length;
+          break;
+        case QuestionTextFields():
+          total += q.correctList.length;
+          break;
+        case QuestionNoAnswer():
+          break;
       }
     }
 

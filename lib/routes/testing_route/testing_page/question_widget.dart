@@ -1,4 +1,4 @@
-import 'package:client/dto/question_data.dart';
+import 'package:client/dto/questions/question_data.dart';
 import 'package:client/routes/testing_route/question_complex/index.dart';
 import 'package:client/routes/testing_route/question_no_answer/index.dart';
 import 'package:client/routes/testing_route/question_single/index.dart';
@@ -15,16 +15,16 @@ class QuestionWidget extends StatelessWidget {
   //TO DO: why are the columns needed?
   @override
   Widget build(BuildContext context) {
-    switch (question.type) {
-      case QuestionEnum.single:
-        return QuestionSingleWidget(question: question.single!);
-      case QuestionEnum.complex:
-        return QuestionComplexWidget(question: question.complex!);
-      case QuestionEnum.noAnswer:
-        return QuestionNoAnswerWidget(question: question.noAnswer!);
-      case QuestionEnum.textFields:
+    switch (question) {
+      case QuestionSingle():
+        return QuestionSingleWidget(question: question as QuestionSingle);
+      case QuestionComplex():
+        return QuestionComplexWidget(question: question as QuestionComplex);
+      case QuestionNoAnswer():
+        return QuestionNoAnswerWidget(question: question as QuestionNoAnswer);
+      case QuestionTextFields():
         return QuestionTextFieldsWidget(
-          question: question.textFields!,
+          question: question as QuestionTextFields,
         );
     }
   }

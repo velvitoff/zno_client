@@ -3,7 +3,7 @@ import 'package:client/routes/testing_route/question_single/question_single_answ
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../dto/question_data.dart';
+import '../../../dto/questions/question_data.dart';
 import '../question_text_fields/question_text_fields_answer_field.dart';
 
 class AnswerWidget extends StatelessWidget {
@@ -15,16 +15,16 @@ class AnswerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (question.type) {
-      case QuestionEnum.single:
+    switch (question) {
+      case QuestionSingle():
         return QuestionSingleAnswerField(
-          question: question.single!,
+          question: question as QuestionSingle,
           index: index,
         );
-      case QuestionEnum.complex:
+      case QuestionComplex():
         return QuestionComplexAnswerField(
-            index: index, question: question.complex!);
-      case QuestionEnum.noAnswer:
+            index: index, question: question as QuestionComplex);
+      case QuestionNoAnswer():
         return Container(
           margin: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
           child: Text(
@@ -32,9 +32,9 @@ class AnswerWidget extends StatelessWidget {
             style: TextStyle(fontSize: 20.sp),
           ),
         );
-      case QuestionEnum.textFields:
+      case QuestionTextFields():
         return QuestionTextFieldsAnswerField(
-            index: index, question: question.textFields!);
+            index: index, question: question as QuestionTextFields);
     }
   }
 }

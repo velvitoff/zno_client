@@ -1,18 +1,5 @@
-enum QuestionEnum { single, complex, noAnswer, textFields }
-
-class Question {
-  final QuestionEnum type;
-  final QuestionSingle? single;
-  final QuestionComplex? complex;
-  final QuestionTextFields? textFields;
-  final QuestionNoAnswer? noAnswer;
-
-  const Question(
-      {required this.type,
-      this.single,
-      this.complex,
-      this.noAnswer,
-      this.textFields});
+sealed class Question {
+  const Question();
 
   factory Question.fromJson(Map<String, dynamic> map) {
     final single = map['Single'];
@@ -20,31 +7,16 @@ class Question {
     final noAnswer = map['NoAnswer'];
     final textFields = map['TextFields'];
 
-    if (single != null) {
-      return Question(
-          type: QuestionEnum.single, single: QuestionSingle.fromJson(single));
-    }
-    if (complex != null) {
-      return Question(
-          type: QuestionEnum.complex,
-          complex: QuestionComplex.fromJson(complex));
-    }
-    if (noAnswer != null) {
-      return Question(
-          type: QuestionEnum.noAnswer,
-          noAnswer: QuestionNoAnswer.fromJson(noAnswer));
-    }
-    if (textFields != null) {
-      return Question(
-          type: QuestionEnum.textFields,
-          textFields: QuestionTextFields.fromJSON(textFields));
-    }
+    if (single != null) return QuestionSingle.fromJson(single);
+    if (complex != null) return QuestionComplex.fromJson(complex);
+    if (noAnswer != null) return QuestionNoAnswer.fromJson(noAnswer);
+    if (textFields != null) return QuestionTextFields.fromJSON(textFields);
 
     throw const FormatException('No fitting task type found');
   }
 }
 
-class QuestionSingle {
+class QuestionSingle extends Question {
   final int order;
   final List<List<String>> render;
   final List<Map<String, List<String>>> answers;
@@ -82,7 +54,7 @@ class QuestionSingle {
       };
 }
 
-class QuestionTextFields {
+class QuestionTextFields extends Question {
   final int order;
   final List<List<String>> render;
   final List<String> answerTitles;
@@ -97,23 +69,23 @@ class QuestionTextFields {
       required this.correctList});
 
   factory QuestionTextFields.fromJSON(Map<String, dynamic> map) => QuestionTextFields(
-        order: map['order'] as int,
-        render: List<List<String>>.from(
-            map['render'].map((x) => List<String>.from(x.map((x) => x)))),
-        answerTitles: (map['answer_titles'] == null || map['answer_titles'] == [])
-            ? []
-            : List<String>.from(map['answer_titles'].map((x) => x as String)),
-        answers: List<Map<String, List<String>>>.from(
-            List<dynamic>.from(map['answers'])
-                .map((mapItem) => Map<String, List<String>>.fromEntries(
-                    Map<String, dynamic>.from(mapItem).entries.map((entry) =>
-                        MapEntry<String, List<String>>(
-                            entry.key, List<String>.from(entry.value.map((x) => x))))))
-                .toList()),
-        correctList: List<String>.from(map['correct_list'].map((x) => x as String).toList()));
+      order: map['order'] as int,
+      render: List<List<String>>.from(
+          map['render'].map((x) => List<String>.from(x.map((x) => x)))),
+      answerTitles: (map['answer_titles'] == null || map['answer_titles'] == [])
+          ? []
+          : List<String>.from(map['answer_titles'].map((x) => x as String)),
+      answers: List<Map<String, List<String>>>.from(
+          List<dynamic>.from(map['answers'])
+              .map((mapItem) => Map<String, List<String>>.fromEntries(
+                  Map<String, dynamic>.from(mapItem).entries.map((entry) =>
+                      MapEntry<String, List<String>>(
+                          entry.key, List<String>.from(entry.value.map((x) => x))))))
+              .toList()),
+      correctList: List<String>.from(map['correct_list'].map((x) => x as String).toList()));
 }
 
-class QuestionComplex {
+class QuestionComplex extends Question {
   final int order;
   final List<List<String>> render;
   final List<String> titleList;
@@ -148,7 +120,7 @@ class QuestionComplex {
       );
 }
 
-class QuestionNoAnswer {
+class QuestionNoAnswer extends Question {
   final int order;
   final List<List<String>> render;
 
