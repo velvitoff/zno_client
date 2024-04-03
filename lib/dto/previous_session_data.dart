@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:client/dto/questions/question_data.dart';
+import 'package:client/dto/question_data.dart';
 import 'package:client/locator.dart';
 import 'package:client/models/testing_time_model.dart';
 import 'package:client/services/utils_service.dart';

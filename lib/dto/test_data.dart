@@ -1,4 +1,4 @@
-import 'package:client/dto/questions/question_data.dart';
+import 'package:client/dto/question_data.dart';
 
 class TestData {
   final String name;
