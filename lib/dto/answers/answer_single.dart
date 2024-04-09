@@ -8,6 +8,5 @@ class AnswerSingle extends Answer {
   dynamic get toDynamic => data;
 
   @override
-  Map<String, dynamic> get toSaveFormat =>
-      {"type": "single", "data": toDynamic};
+  Map<String, dynamic> get toSaveFormat => {"type": "single", "data": data};
 }

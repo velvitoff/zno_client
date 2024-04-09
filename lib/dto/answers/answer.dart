@@ -46,7 +46,7 @@ sealed class Answer {
     }));
   }
 
-  static Map<String, dynamic> toJson(Map<String, Answer?> map) {
+  static Map<String, dynamic> toJsonMap(Map<String, Answer?> map) {
     return Map<String, dynamic>.fromEntries(map.entries.map((e) {
       return MapEntry<String, dynamic>(e.key, e.value?.toSaveFormat);
     }));

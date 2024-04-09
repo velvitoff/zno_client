@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../dto/questions/question.dart';
 
+//TODO: improve performance
 class ZnoDividerForReview extends StatefulWidget {
   final int activeIndex;
   final int itemCount;
@@ -57,7 +58,7 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
 
     switch (_questions![ind]) {
       case QuestionSingle():
-        if (_answers![index] is! QuestionSingle) {
+        if (_answers![index] is! AnswerSingle) {
           return whiteColor;
         }
         if (_answers![index] == null) return whiteColor;
@@ -68,7 +69,7 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
         }
         return redColor;
       case QuestionComplex():
-        if (_answers![index] is! QuestionComplex) {
+        if (_answers![index] is! AnswerComplex) {
           return whiteColor;
         }
         final answer = (_answers![index] as AnswerComplex);
@@ -86,7 +87,7 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
         }
         return redColor;
       case QuestionTextFields():
-        if (_answers![index] is! QuestionTextFields) {
+        if (_answers![index] is! AnswerTextFields) {
           return whiteColor;
         }
         final answer = (_answers![index] as AnswerTextFields);

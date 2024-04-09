@@ -8,6 +8,5 @@ class AnswerComplex extends Answer {
   dynamic get toDynamic => data;
 
   @override
-  Map<String, dynamic> get toSaveFormat =>
-      {"type": "complex", "data": toDynamic};
+  Map<String, dynamic> get toSaveFormat => {"type": "complex", "data": data};
 }

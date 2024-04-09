@@ -76,9 +76,11 @@ class QuestionTextFieldsAnswerField extends StatelessWidget {
           children: [
             TextFieldAnswerShow(
                 leftText: 'Правильна відповідь:',
-                rightText: question.correctList.join("  ")),
+                rightText: question.correctList
+                    .map((e) => e.join(" або "))
+                    .join(" , ")),
             TextFieldAnswerShow(
-                leftText: 'Ваша відповідь:', rightText: values.join("  "))
+                leftText: 'Ваша відповідь:', rightText: values.join(" , "))
           ],
         ),
       );

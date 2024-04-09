@@ -30,28 +30,28 @@ const Map<String, dynamic> answerTextFieldsOld = {
 void main() {
   group('Saving and loading answers, new format', () {
     test('questionSingle save and load, new format', () {
-      final json = jsonEncode(Answer.toJson(answerSingle));
+      final json = jsonEncode(Answer.toJsonMap(answerSingle));
       final jsonDecoded = Answer.mapFromJson(jsonDecode(json));
       expect(jsonDecoded["1"]!.toDynamic, answerSingle["1"]!.toDynamic);
       expect(jsonDecoded["1"], isA<AnswerSingle>());
     });
 
     test('questionSingleMulti save and load, new format', () {
-      final json = jsonEncode(Answer.toJson(answerSingleMulti));
+      final json = jsonEncode(Answer.toJsonMap(answerSingleMulti));
       final jsonDecoded = Answer.mapFromJson(jsonDecode(json));
       expect(jsonDecoded["1"]!.toDynamic, answerSingleMulti["1"]!.toDynamic);
       expect(jsonDecoded["1"], isA<AnswerSingle>());
     });
 
     test('questionComplex save and load, new format', () {
-      final json = jsonEncode(Answer.toJson(answerComplex));
+      final json = jsonEncode(Answer.toJsonMap(answerComplex));
       final jsonDecoded = Answer.mapFromJson(jsonDecode(json));
       expect(jsonDecoded["1"]!.toDynamic, answerComplex["1"]!.toDynamic);
       expect(jsonDecoded["1"], isA<AnswerComplex>());
     });
 
     test('questionTextFields save and load, new format', () {
-      final json = jsonEncode(Answer.toJson(answerTextFields));
+      final json = jsonEncode(Answer.toJsonMap(answerTextFields));
       final jsonDecoded = Answer.mapFromJson(jsonDecode(json));
       expect(jsonDecoded["1"]!.toDynamic, answerTextFields["1"]!.toDynamic);
       expect(jsonDecoded["1"], isA<AnswerTextFields>());

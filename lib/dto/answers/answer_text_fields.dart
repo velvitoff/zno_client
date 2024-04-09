@@ -8,8 +8,7 @@ class AnswerTextFields extends Answer {
   dynamic get toDynamic => data;
 
   @override
-  Map<String, dynamic> get toSaveFormat =>
-      {"type": "textfields", "data": toDynamic};
+  Map<String, dynamic> get toSaveFormat => {"type": "textfields", "data": data};
 
   factory AnswerTextFields.fromListDynamic(List<dynamic> lst) {
     return AnswerTextFields(List<String>.from(lst.map((e) => e as String)));

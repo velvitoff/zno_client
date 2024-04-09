@@ -45,12 +45,12 @@ class _TestingPagesState extends State<TestingPages>
   void handleOnPause() {
     //should be saveSessionEndSync for correct behaviour in case of detached event
     final testingRouteModel = context.read<TestingRouteModel>();
+    if (testingRouteModel.isViewMode) return;
+
     final data = locator.get<MainStorageService>().saveSessionEndSync(
         testingRouteModel,
         context.read<TestingTimeModel>(),
-        testingRouteModel.prevSessionData == null
-            ? false
-            : testingRouteModel.prevSessionData!.completed);
+        testingRouteModel.prevSessionData?.completed ?? false);
     context.read<TestingRouteModel>().prevSessionData = data;
   }
 

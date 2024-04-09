@@ -80,7 +80,7 @@ class PreviousSessionData {
         'is_timer_activated': isTimerActivated,
         'timer_seconds': timerSeconds,
         'timer_seconds_in_total': timerSecondsInTotal,
-        'answers': jsonEncode(Answer.toJson(answers)),
+        'answers': jsonEncode(Answer.toJsonMap(answers)),
         'score': score
       };
 
@@ -145,7 +145,7 @@ class PreviousSessionData {
         isTimerActivated: timeData.isTimerActivated,
         timerSeconds: timeData.secondsSinceStart,
         timerSecondsInTotal: timeData.secondsInTotal,
-        answers: Answer.mapFromJson(data.allAnswers),
+        answers: data.allAnswers,
         score: '$score/$total');
   }
 }
