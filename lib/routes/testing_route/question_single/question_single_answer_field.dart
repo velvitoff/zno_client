@@ -1,4 +1,5 @@
-import 'package:client/dto/question_data.dart';
+import 'package:client/dto/answers/answer.dart';
+import 'package:client/dto/questions/question.dart';
 import 'package:client/models/testing_route_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,11 +10,15 @@ class QuestionSingleAnswerField extends StatelessWidget {
   final QuestionSingle question;
   final int index;
 
-  const QuestionSingleAnswerField({
-    Key? key,
-    required this.question,
-    required this.index,
-  }) : super(key: key);
+  const QuestionSingleAnswerField(
+      {Key? key, required this.question, required this.index})
+      : super(key: key);
+
+  void handleClickOnCell(BuildContext context, String newAnswer) {
+    context
+        .read<TestingRouteModel>()
+        .addAnswerSingle(question.order, newAnswer);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,33 +40,34 @@ class QuestionSingleAnswerField extends StatelessWidget {
                     style:
                         TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w500),
                   ),
-                  Selector<TestingRouteModel, dynamic>(
-                    selector: (_, model) =>
-                        model.getAnswer((index + 1).toString()),
+                  Selector<TestingRouteModel, Answer?>(
+                    selector: (_, model) => model.getAnswer(question.order),
                     builder: (_, answer, __) {
+                      if (answer is! AnswerSingle) {
+                        return AnswerCell(
+                            onTap: () => handleClickOnCell(context, variant));
+                      }
                       if (editable) {
-                        if (answer is String && answer == variant) {
+                        if (answer.data.contains(variant)) {
                           return AnswerCell(
-                              answerColor: AnswerCellColor.green, onTap: () {});
-                        } else {
-                          return AnswerCell(
-                              onTap: () => context
-                                  .read<TestingRouteModel>()
-                                  .addAnswer((index + 1).toString(), variant));
+                            answerColor: AnswerCellColor.green,
+                            onTap: () => handleClickOnCell(context, variant),
+                          );
                         }
+                        return AnswerCell(
+                            onTap: () => handleClickOnCell(context, variant));
                       }
                       //!editable
                       else {
-                        if (question.correct == variant) {
-                          return AnswerCell(
-                              answerColor: AnswerCellColor.green, onTap: () {});
-                        } else {
-                          if (answer is String && answer == variant) {
-                            return AnswerCell(
-                                answerColor: AnswerCellColor.red, onTap: () {});
-                          }
-                          return AnswerCell(onTap: () {});
+                        if (question.correct.contains(variant)) {
+                          return const AnswerCell(
+                              answerColor: AnswerCellColor.green);
                         }
+                        if (answer.data.contains(variant)) {
+                          return const AnswerCell(
+                              answerColor: AnswerCellColor.red);
+                        }
+                        return const AnswerCell();
                       }
                     },
                   )

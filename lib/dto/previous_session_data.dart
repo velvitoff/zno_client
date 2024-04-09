@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:client/dto/question_data.dart';
+import 'package:client/dto/answers/answer.dart';
+import 'package:client/dto/questions/question.dart';
 import 'package:client/locator.dart';
 import 'package:client/models/testing_time_model.dart';
 import 'package:client/services/utils_service.dart';
@@ -19,7 +20,7 @@ class PreviousSessionData {
   final bool isTimerActivated;
   final int timerSeconds;
   final int timerSecondsInTotal;
-  final Map<String, dynamic> answers;
+  final Map<String, Answer?> answers;
   final String? score;
 
   const PreviousSessionData(
@@ -64,7 +65,7 @@ class PreviousSessionData {
           timerSecondsInTotal: map['timer_seconds_in_total'] != null
               ? map['timer_seconds_in_total'] as int
               : 7200,
-          answers: jsonDecode(map['answers'] as String),
+          answers: Answer.mapFromJson(jsonDecode(map['answers'] as String)),
           score: map['score'] == null ? null : map['score'] as String);
 
   Map<String, dynamic> toJson() => {
@@ -79,7 +80,7 @@ class PreviousSessionData {
         'is_timer_activated': isTimerActivated,
         'timer_seconds': timerSeconds,
         'timer_seconds_in_total': timerSecondsInTotal,
-        'answers': jsonEncode(answers),
+        'answers': jsonEncode(Answer.toJson(answers)),
         'score': score
       };
 
@@ -87,65 +88,35 @@ class PreviousSessionData {
       TestingRouteModel data, TestingTimeModel timeData, bool completed) {
     //calculating a score
     int score = 0;
+    int total = 0;
 
-    void handleQuestionSingle(
-        QuestionSingle q, MapEntry<String, dynamic> answerEntry) {
-      if (q.correct == answerEntry.value) {
-        score += 1;
-      }
-    }
-
-    void handleQuestionComplex(
-        QuestionComplex q, MapEntry<String, dynamic> answerEntry) {
-      Map<String, dynamic> answerMap =
-          answerEntry.value as Map<String, dynamic>;
-      for (var correctEntry in q.correctMap.entries) {
-        if (correctEntry.value == answerMap[correctEntry.key]) {
-          score += 1;
-        }
-      }
-    }
-
-    void handleQuestionTextFields(
-        QuestionTextFields q, MapEntry<String, dynamic> answerEntry) {
-      List<String> answerList = List<String>.from(answerEntry.value);
-      for (int i = 0; i < q.correctList.length; ++i) {
-        if (q.correctList[i] == answerList[i] ||
-            q.correctList[i].replaceAll('.', ',') == answerList[i]) {
-          score += 1;
-        }
-      }
-    }
-
-    //TO DO: unite in 1 loop
     for (var answerEntry in data.allAnswers.entries) {
       var q = data.questions[int.parse(answerEntry.key) - 1];
+      final v = answerEntry.value;
       switch (q) {
         case QuestionSingle():
-          handleQuestionSingle(q, answerEntry);
+          if (v is! AnswerSingle?) {
+            continue;
+          }
+          final qscore = q.getScore(v);
+          score += qscore.score;
+          total += qscore.total;
           break;
         case QuestionComplex():
-          handleQuestionComplex(q, answerEntry);
+          if (v is! AnswerComplex?) {
+            continue;
+          }
+          final qscore = q.getScore(v);
+          score += qscore.score;
+          total += qscore.total;
           break;
         case QuestionTextFields():
-          handleQuestionTextFields(q, answerEntry);
-          break;
-        case QuestionNoAnswer():
-          break;
-      }
-    }
-
-    int total = 0;
-    for (var q in data.questions) {
-      switch (q) {
-        case QuestionSingle():
-          total += 1;
-          break;
-        case QuestionComplex():
-          total += q.correctMap.entries.length;
-          break;
-        case QuestionTextFields():
-          total += q.correctList.length;
+          if (v is! AnswerTextFields?) {
+            continue;
+          }
+          final qscore = q.getScore(v);
+          score += qscore.score;
+          total += qscore.total;
           break;
         case QuestionNoAnswer():
           break;
@@ -174,7 +145,7 @@ class PreviousSessionData {
         isTimerActivated: timeData.isTimerActivated,
         timerSeconds: timeData.secondsSinceStart,
         timerSecondsInTotal: timeData.secondsInTotal,
-        answers: data.allAnswers,
+        answers: Answer.mapFromJson(data.allAnswers),
         score: '$score/$total');
   }
 }

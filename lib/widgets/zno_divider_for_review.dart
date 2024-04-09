@@ -1,9 +1,9 @@
+import 'package:client/dto/answers/answer.dart';
 import 'package:client/models/testing_route_model.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import '../dto/question_data.dart';
+import '../dto/questions/question.dart';
 
 class ZnoDividerForReview extends StatefulWidget {
   final int activeIndex;
@@ -21,7 +21,7 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
   late final ScrollController _scrollController;
   late final int selected;
   late final List<Question>? _questions;
-  late final Map<String, dynamic>? _answers;
+  late final Map<String, Answer?>? _answers;
 
   static Color greenColor = const Color(0xAA34af34);
   static Color whiteColor = const Color(0xFFFAFAFA);
@@ -57,64 +57,46 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
 
     switch (_questions![ind]) {
       case QuestionSingle():
+        if (_answers![index] is! QuestionSingle) {
+          return whiteColor;
+        }
         if (_answers![index] == null) return whiteColor;
-        if ((_questions![ind] as QuestionSingle).correct == _answers![index]) {
+        final score = (_questions![ind] as QuestionSingle)
+            .getScore((_answers![index] as AnswerSingle));
+        if (score.scoringEnum == ScoringEnum.correct) {
           return greenColor;
         }
         return redColor;
       case QuestionComplex():
-        final answers = Map<String, String>.from(_answers![index]);
-        if (_answers!.isEmpty) {
+        if (_answers![index] is! QuestionComplex) {
           return whiteColor;
         }
+        final answer = (_answers![index] as AnswerComplex);
+        if (answer.data.isEmpty) {
+          return whiteColor;
+        }
+        final score = (_questions![ind] as QuestionComplex).getScore(answer);
 
-        if (mapEquals(
-            (_questions![ind] as QuestionComplex).correctMap, answers)) {
+        if (score.isCorrect) {
           return greenColor;
         }
 
-        bool isPartiallyCorrect = false;
-        for (var entry in answers.entries) {
-          if ((_questions![ind] as QuestionComplex).correctMap[entry.key] ==
-              entry.value) {
-            isPartiallyCorrect = true;
-            break;
-          }
-        }
-
-        if (isPartiallyCorrect) {
+        if (score.isPartial) {
           return orangeColor;
         }
         return redColor;
       case QuestionTextFields():
-        List<String> answers;
-        try {
-          answers = List<String>.from(_answers![index]);
-        } catch (_) {
+        if (_answers![index] is! QuestionTextFields) {
           return whiteColor;
         }
+        final answer = (_answers![index] as AnswerTextFields);
+        final score = (_questions![ind] as QuestionTextFields).getScore(answer);
 
-        if (listEquals((_questions![ind] as QuestionTextFields).correctList,
-                answers) ||
-            listEquals(
-                (_questions![ind] as QuestionTextFields)
-                    .correctList
-                    .map((x) => x.replaceAll('.', ','))
-                    .toList(),
-                answers)) {
+        if (score.isCorrect) {
           return greenColor;
         }
 
-        bool isPartiallyCorrect = false;
-        for (int i = 0; i < answers.length; ++i) {
-          if (answers[i] ==
-              (_questions![ind] as QuestionTextFields).correctList[i]) {
-            isPartiallyCorrect = true;
-            break;
-          }
-        }
-
-        if (isPartiallyCorrect) {
+        if (score.isPartial) {
           return orangeColor;
         }
         return redColor;

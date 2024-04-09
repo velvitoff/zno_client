@@ -1,4 +1,5 @@
-import 'package:client/dto/question_data.dart';
+import 'package:client/dto/answers/answer.dart';
+import 'package:client/dto/questions/question.dart';
 import 'package:client/widgets/answer_cell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,6 +15,13 @@ class QuestionComplexAnswerField extends StatelessWidget {
       {Key? key, required this.index, required this.question})
       : super(key: key);
 
+  void handleClickOnCell(
+      BuildContext context, String newAnswerKey, String newAnswerValue) {
+    context
+        .read<TestingRouteModel>()
+        .addAnswerComplex(question.order, newAnswerKey, newAnswerValue);
+  }
+
   @override
   Widget build(BuildContext context) {
     if (question.answerMappingList.length != 2) {
@@ -27,13 +35,10 @@ class QuestionComplexAnswerField extends StatelessWidget {
     return Container(
       margin: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
       child: Selector<TestingRouteModel, dynamic>(
-        selector: (_, model) => model.getAnswer((index + 1).toString()),
+        selector: (_, model) => model.getAnswer(question.order),
         builder: (_, answer, __) {
-          Map<String, String> answers;
-          if (answer is Map) {
-            answers = Map.from(answer);
-          } else {
-            answers = {};
+          if (answer is! AnswerComplex?) {
+            return const Text("AnswerComplex handling error");
           }
 
           return Column(
@@ -75,16 +80,18 @@ class QuestionComplexAnswerField extends StatelessWidget {
                           margin: EdgeInsets.all(3.r),
                           child: Builder(builder: (BuildContext context) {
                             if (editable) {
-                              if (answers[variantVertical] ==
+                              if (answer?.data[variantVertical] ==
                                   variantHorizontal) {
                                 return AnswerCell(
                                     answerColor: AnswerCellColor.green,
-                                    onTap: () {});
+                                    onTap: () {
+                                      handleClickOnCell(context,
+                                          variantVertical, variantHorizontal);
+                                    });
                               } else {
                                 return AnswerCell(onTap: () {
-                                  answers[variantVertical] = variantHorizontal;
-                                  context.read<TestingRouteModel>().addAnswer(
-                                      (index + 1).toString(), answers);
+                                  handleClickOnCell(context, variantVertical,
+                                      variantHorizontal);
                                 });
                               }
                             }
@@ -96,7 +103,7 @@ class QuestionComplexAnswerField extends StatelessWidget {
                                     answerColor: AnswerCellColor.green,
                                     onTap: () {});
                               } else {
-                                if (answers[variantVertical] ==
+                                if (answer?.data[variantVertical] ==
                                     variantHorizontal) {
                                   return AnswerCell(
                                       answerColor: AnswerCellColor.red,

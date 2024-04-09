@@ -2,25 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'icons/zno_cross.dart';
 
-enum AnswerCellColor {
-  green,
-  red,
-  none
-}
+enum AnswerCellColor { green, red, none }
 
 class AnswerCell extends StatelessWidget {
   final AnswerCellColor answerColor;
-  final void Function() onTap;
+  final void Function()? onTap;
 
-  const AnswerCell({
-    Key? key,
-    required this.onTap,
-    this.answerColor = AnswerCellColor.none
-  }) : super(key: key);
+  const AnswerCell(
+      {Key? key, this.onTap, this.answerColor = AnswerCellColor.none})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    switch(answerColor) {
+    switch (answerColor) {
       case AnswerCellColor.green:
         return GestureDetector(
           onTap: onTap,
@@ -45,11 +39,7 @@ class AnswerCell extends StatelessWidget {
             width: 46.5.r,
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(7)),
-                border: Border.all(
-                    color: const Color(0xFF545454),
-                    width: 3.r
-                )
-            ),
+                border: Border.all(color: const Color(0xFF545454), width: 3.r)),
           ),
         );
     }

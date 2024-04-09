@@ -3,7 +3,7 @@ import 'package:client/routes/testing_route/question_single/question_single_answ
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../dto/question_data.dart';
+import '../../../dto/questions/question.dart';
 import '../question_text_fields/question_text_fields_answer_field.dart';
 
 class AnswerWidget extends StatelessWidget {
@@ -18,9 +18,7 @@ class AnswerWidget extends StatelessWidget {
     switch (question) {
       case QuestionSingle():
         return QuestionSingleAnswerField(
-          question: question as QuestionSingle,
-          index: index,
-        );
+            question: question as QuestionSingle, index: index);
       case QuestionComplex():
         return QuestionComplexAnswerField(
             index: index, question: question as QuestionComplex);

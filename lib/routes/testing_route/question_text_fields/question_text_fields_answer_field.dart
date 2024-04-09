@@ -1,4 +1,5 @@
-import 'package:client/dto/question_data.dart';
+import 'package:client/dto/answers/answer.dart';
+import 'package:client/dto/questions/question.dart';
 import 'package:client/routes/testing_route/question_text_fields/text_field_answer_show.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -17,23 +18,29 @@ class QuestionTextFieldsAnswerField extends StatelessWidget {
     required this.index,
   }) : super(key: key);
 
+  void handleChange(BuildContext context, int answerIndex, String newAnswer) {
+    context
+        .read<TestingRouteModel>()
+        .addAnswerTextFields(question.order, answerIndex, newAnswer);
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool editable = !context.read<TestingRouteModel>().isViewMode;
 
-    dynamic initialValues =
-        context.read<TestingRouteModel>().getAnswer((index + 1).toString());
-    if (initialValues != null && initialValues is! List<dynamic>) {
+    Answer? answer =
+        context.read<TestingRouteModel>().getAnswer(question.order);
+    if (answer is! AnswerTextFields?) {
       return Container();
     }
 
     List<String> values;
-    try {
-      values = initialValues != null
-          ? List<String>.from(initialValues.map((x) => x as String))
-          : List<String>.generate(question.correctList.length, (i) => "");
-    } catch (e) {
-      return Container();
+    if (answer == null) {
+      values = List<String>.generate(question.correctList.length, (i) => "");
+    } else if (answer.data.isNotEmpty) {
+      values = answer.data;
+    } else {
+      values = List<String>.generate(question.correctList.length, (i) => "");
     }
 
     if (editable) {
@@ -53,11 +60,7 @@ class QuestionTextFieldsAnswerField extends StatelessWidget {
                 onChanged: !editable
                     ? null
                     : (String value) {
-                        List<String> newList = values;
-                        newList[i] = value;
-                        context
-                            .read<TestingRouteModel>()
-                            .addAnswer((index + 1).toString(), newList);
+                        handleChange(context, i, value);
                       },
                 style: TextStyle(fontSize: 21.sp)),
           );
