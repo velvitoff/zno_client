@@ -1,6 +1,6 @@
 import 'package:client/locator.dart';
 import 'package:client/services/supabase_service.dart';
-import 'package:client/widgets/zno_loading.dart';
+import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,10 +38,7 @@ class _PremiumTextState extends State<PremiumText> {
             return const Text("Помилка завантаження");
           } else {
             return Center(
-              child: SizedBox(
-                height: 170.h,
-                child: const ZnoLoading(),
-              ),
+              child: HexagonDotsLoading.def(),
             );
           }
         });

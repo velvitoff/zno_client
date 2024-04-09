@@ -1,12 +1,11 @@
 import 'package:client/dto/previous_session_data.dart';
 import 'package:client/locator.dart';
 import 'package:client/services/storage_service/main_storage_service.dart';
+import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:client/widgets/prev_session_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../widgets/zno_error.dart';
-import '../../widgets/zno_loading.dart';
 
 class PrevSessionsList extends StatefulWidget {
   final String subjectName;
@@ -93,10 +92,8 @@ class _PastSessionsListState extends State<PrevSessionsList> {
                 ],
               );
             } else {
-              return const FractionallySizedBox(
-                widthFactor: 0.6,
-                heightFactor: 0.6,
-                child: ZnoLoading(),
+              return Center(
+                child: HexagonDotsLoading.def(),
               );
             }
           },

@@ -5,10 +5,10 @@ import 'package:client/dto/personal_config_data.dart';
 import 'package:client/locator.dart';
 import 'package:client/routes.dart';
 import 'package:client/services/storage_service/local_storage_service.dart';
+import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:client/widgets/zno_bottom_navigation_bar.dart';
 import 'package:client/widgets/zno_button.dart';
 import 'package:client/widgets/zno_list.dart';
-import 'package:client/widgets/zno_loading.dart';
 import 'package:client/widgets/zno_top_header_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -159,12 +159,8 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
           } else if (snapshot.hasError) {
             return const ZnoError(text: 'Помилка завантаження даних');
           } else {
-            return const Center(
-              child: FractionallySizedBox(
-                widthFactor: 0.6,
-                heightFactor: 0.6,
-                child: ZnoLoading(),
-              ),
+            return Center(
+              child: HexagonDotsLoading.def(),
             );
           }
         },

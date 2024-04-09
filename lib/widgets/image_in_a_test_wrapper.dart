@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:client/dto/image_view_route_data.dart';
 import 'package:client/routes.dart';
-import 'package:client/widgets/zno_loading.dart';
+import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -33,11 +33,7 @@ class _ImageInATestWrapperState extends State<ImageInATestWrapper> {
           return const Text('Помилка завантаження зображення');
         } else {
           return Center(
-            child: SizedBox(
-              height: 100.r,
-              width: 100.r,
-              child: const ZnoLoading(),
-            ),
+            child: HexagonDotsLoading.size(80.r),
           );
         }
       },

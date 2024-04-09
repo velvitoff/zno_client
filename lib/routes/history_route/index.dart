@@ -2,6 +2,7 @@ import 'package:client/routes.dart';
 import 'package:client/routes/history_route/history_list.dart';
 import 'package:client/providers/history_route_provider.dart';
 import 'package:client/services/storage_service/main_storage_service.dart';
+import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:client/widgets/zno_error.dart';
 import 'package:client/widgets/zno_icon_button.dart';
 import 'package:client/widgets/zno_top_header_small.dart';
@@ -10,7 +11,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../dto/previous_session_data.dart';
 import '../../locator.dart';
-import '../../widgets/zno_loading.dart';
 
 class HistoryRoute extends StatefulWidget {
   const HistoryRoute({super.key});
@@ -76,12 +76,8 @@ class _HistoryRouteState extends State<HistoryRoute> {
                   } else if (snapshot.hasError) {
                     return const ZnoError(text: 'Помилка зчитування даних');
                   } else {
-                    return const Center(
-                      child: FractionallySizedBox(
-                        widthFactor: 0.6,
-                        heightFactor: 0.6,
-                        child: ZnoLoading(),
-                      ),
+                    return Center(
+                      child: HexagonDotsLoading.def(),
                     );
                   }
                 },

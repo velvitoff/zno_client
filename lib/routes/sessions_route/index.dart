@@ -3,6 +3,7 @@ import 'package:client/routes/sessions_route/sessions_list.dart';
 import 'package:client/routes/sessions_route/sessions_scroll_wrapper.dart';
 import 'package:client/services/storage_service/main_storage_service.dart';
 import 'package:client/services/utils_service.dart';
+import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:client/widgets/zno_bottom_navigation_bar.dart';
 import 'package:client/widgets/zno_error.dart';
 import 'package:client/widgets/zno_list_item.dart';
@@ -15,7 +16,6 @@ import 'package:go_router/go_router.dart';
 import '../../dto/session_data.dart';
 import '../../locator.dart';
 import '../../routes.dart';
-import '../../widgets/zno_loading.dart';
 import '../../widgets/zno_year_line.dart';
 
 class SessionsRoute extends StatefulWidget {
@@ -118,8 +118,8 @@ class SessionsRouteState extends State<SessionsRoute> {
                       children: [
                         SizedBox(height: 100.h),
                         SizedBox(
-                          height: 200.h,
-                          child: const ZnoLoading(),
+                          height: 300.h,
+                          child: HexagonDotsLoading.def(),
                         )
                       ],
                     ),

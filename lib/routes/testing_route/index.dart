@@ -8,13 +8,13 @@ import 'package:client/providers/testing_route_provider.dart';
 import 'package:client/routes/testing_route/zno_testing_header.dart';
 import 'package:client/services/storage_service/main_storage_service.dart';
 import 'package:client/services/utils_service.dart';
+import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../dto/testing_route_data.dart';
 import '../../locator.dart';
 import '../../widgets/zno_error.dart';
-import '../../widgets/zno_loading.dart';
 
 class TestingRoute extends StatefulWidget {
   final TestingRouteData dto;
@@ -78,12 +78,8 @@ class TestingRouteState extends State<TestingRoute> {
               onTap: () => context.go(Routes.subjectsRoute),
             );
           } else {
-            return const Center(
-              child: FractionallySizedBox(
-                widthFactor: 0.6,
-                heightFactor: 0.6,
-                child: ZnoLoading(),
-              ),
+            return Center(
+              child: HexagonDotsLoading.def(),
             );
           }
         },
