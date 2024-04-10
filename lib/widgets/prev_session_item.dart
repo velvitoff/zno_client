@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:client/dto/previous_session_data.dart';
 import 'package:client/dto/testing_route_data.dart';
 import 'package:client/routes.dart';
@@ -103,13 +104,11 @@ class PrevSessionItem extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                           ),
-                          Text(
+                          AutoSizeText(
                             locator
                                 .get<UtilsService>()
                                 .fileNameToSessionName(data.sessionName),
-                            style: TextStyle(
-                                fontSize: 16.sp,
-                                color: const Color(0xFF444444)),
+                            style: const TextStyle(color: Color(0xFF444444)),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                           ),

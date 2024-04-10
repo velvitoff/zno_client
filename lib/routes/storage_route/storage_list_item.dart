@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:client/dto/storage_route_item_data.dart';
 import 'package:client/locator.dart';
 import 'package:client/models/storage_route_model.dart';
@@ -70,10 +71,9 @@ class StorageListItem extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.clip,
                     ),
-                    Text(
+                    AutoSizeText(
                       data.sessionName,
-                      style: TextStyle(
-                          fontSize: 16.sp, color: const Color(0xFF444444)),
+                      style: const TextStyle(color: const Color(0xFF444444)),
                       maxLines: 2,
                       overflow: TextOverflow.clip,
                     )
