@@ -61,6 +61,7 @@ final model = TestingRouteModel(
       QuestionNoAnswer(order: 6, render: []),
       QuestionSingle(
           order: 7, render: [], answers: [], answerList: [], correct: [""]),
+      QuestionNoAnswer(order: 8, render: []),
     ],
     prevSessionData: null);
 
@@ -71,7 +72,7 @@ void main() {
     });
 
     test('pageAmount test', () {
-      expect(model.pageAmount, 7);
+      expect(model.pageAmount, 8);
     });
 
     test('answers empty test', () {

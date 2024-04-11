@@ -86,40 +86,34 @@ class PreviousSessionData {
 
   factory PreviousSessionData.fromTestingRouteModel(
       TestingRouteModel data, TestingTimeModel timeData, bool completed) {
-    //calculating a score
     int score = 0;
     int total = 0;
 
-    for (var answerEntry in data.allAnswers.entries) {
-      var q = data.questions[int.parse(answerEntry.key) - 1];
-      final v = answerEntry.value;
+    for (final q in data.questions) {
+      final answer = data.allAnswers[q.order.toString()];
       switch (q) {
         case QuestionSingle():
           total += q.getTotal;
-          if (v is! AnswerSingle?) {
+          if (answer is! AnswerSingle?) {
             continue;
           }
-          final qscore = q.getScore(v);
-          score += qscore.score;
+          score += q.getScore(answer).score;
           break;
         case QuestionComplex():
           total += q.getTotal;
-          if (v is! AnswerComplex?) {
+          if (answer is! AnswerComplex?) {
             continue;
           }
-          final qscore = q.getScore(v);
-          score += qscore.score;
+          score += q.getScore(answer).score;
           break;
         case QuestionTextFields():
           total += q.getTotal;
-          if (v is! AnswerTextFields?) {
+          if (answer is! AnswerTextFields?) {
             continue;
           }
-          final qscore = q.getScore(v);
-          score += qscore.score;
+          score += q.getScore(answer).score;
           break;
         case QuestionNoAnswer():
-          total += q.getTotal;
           break;
       }
     }

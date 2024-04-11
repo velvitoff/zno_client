@@ -14,7 +14,7 @@ class QuestionSingle extends Question {
       required this.correct});
 
   @override
-  int get getTotal => correct.length;
+  int get getTotal => 1;
 
   static List<String> _readCorrect(dynamic value) {
     assert(value is String || value is List);
