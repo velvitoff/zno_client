@@ -46,6 +46,7 @@ class ZnoListItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.h),
         margin: EdgeInsets.only(bottom: 13.h),
         decoration: BoxDecoration(
             border: Border.all(width: 2, color: const Color(0x0A363636)),
