@@ -18,19 +18,21 @@ class ZnoYearLine extends StatelessWidget {
             height: 1.h,
             color: const Color(0xFFCECECE),
           ),
-          Container(
-            width: 40.w,
-            height: 25.h,
-            color: const Color(0xFFFAFAFA),
-            child: Center(
-              child: Text(
-                text,
-                style: TextStyle(
-                    fontSize: 18.sp,
-                    color: const Color(0xFF787878).withOpacity(0.8)),
+          IntrinsicWidth(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 5.w),
+              height: 25.h,
+              color: const Color(0xFFFAFAFA),
+              child: Center(
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 18.sp,
+                      color: const Color(0xFF787878).withOpacity(0.8)),
+                ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
