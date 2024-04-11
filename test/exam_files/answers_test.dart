@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'package:client/dto/answers/answer.dart';
 import 'package:test/test.dart';
 
-//test loading answers back from files
-
 const Map<String, Answer?> answerSingle = {
   "1": AnswerSingle(["50"])
 };
