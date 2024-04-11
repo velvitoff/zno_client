@@ -13,6 +13,9 @@ class QuestionTextFields extends Question {
       required this.answers,
       required this.correctList});
 
+  @override
+  int get getTotal => correctList.length;
+
   static List<List<String>> _readCorrectList(dynamic value) {
     assert(value is List);
     List<List<String>> result = [];

@@ -59,6 +59,8 @@ final model = TestingRouteModel(
             ["30"]
           ]),
       QuestionNoAnswer(order: 6, render: []),
+      QuestionSingle(
+          order: 7, render: [], answers: [], answerList: [], correct: [""]),
     ],
     prevSessionData: null);
 
@@ -69,7 +71,7 @@ void main() {
     });
 
     test('pageAmount test', () {
-      expect(model.pageAmount, 6);
+      expect(model.pageAmount, 7);
     });
 
     test('answers empty test', () {
@@ -165,7 +167,7 @@ void main() {
               isViewMode: false),
           false);
 
-      expect(prev.score, "5/8");
+      expect(prev.score, "5/9");
     });
   });
 }

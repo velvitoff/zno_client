@@ -17,6 +17,8 @@ sealed class Question {
     required this.render,
   });
 
+  int get getTotal;
+
   factory Question.fromJson(Map<String, dynamic> map) {
     final single = map['Single'];
     final complex = map['Complex'];

@@ -9,4 +9,7 @@ class QuestionNoAnswer extends Question {
         render: List<List<String>>.from(
             map['render'].map((x) => List<String>.from(x.map((x) => x)))),
       );
+
+  @override
+  int get getTotal => 0;
 }

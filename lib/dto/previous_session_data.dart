@@ -95,30 +95,31 @@ class PreviousSessionData {
       final v = answerEntry.value;
       switch (q) {
         case QuestionSingle():
+          total += q.getTotal;
           if (v is! AnswerSingle?) {
             continue;
           }
           final qscore = q.getScore(v);
           score += qscore.score;
-          total += qscore.total;
           break;
         case QuestionComplex():
+          total += q.getTotal;
           if (v is! AnswerComplex?) {
             continue;
           }
           final qscore = q.getScore(v);
           score += qscore.score;
-          total += qscore.total;
           break;
         case QuestionTextFields():
+          total += q.getTotal;
           if (v is! AnswerTextFields?) {
             continue;
           }
           final qscore = q.getScore(v);
           score += qscore.score;
-          total += qscore.total;
           break;
         case QuestionNoAnswer():
+          total += q.getTotal;
           break;
       }
     }

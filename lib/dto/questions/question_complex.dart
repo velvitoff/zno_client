@@ -14,6 +14,9 @@ class QuestionComplex extends Question {
       required this.answerMappingList,
       required this.correctMap});
 
+  @override
+  int get getTotal => correctMap.keys.length;
+
   factory QuestionComplex.fromJson(Map<String, dynamic> map) => QuestionComplex(
         order: map['order'] as int,
         render: List<List<String>>.from(
