@@ -24,7 +24,6 @@ class _ZnoDividerState extends State<ZnoDivider> {
     super.initState();
     final TestingRouteModel model = context.read<TestingRouteModel>();
     selected = model.pageIndex + 1;
-    //_scrollController = ScrollController(initialScrollOffset: selected * 80.r);
     _scrollController = ScrollController(initialScrollOffset: selected * 80.r);
   }
 
