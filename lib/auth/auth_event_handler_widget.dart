@@ -18,25 +18,7 @@ class _AuthEventHandlerWidgetState extends State<AuthEventHandlerWidget> {
   @override
   void initState() {
     super.initState();
-    authListener = Supabase.instance.client.auth.onAuthStateChange
-        .listen((AuthState data) async {
-      if (data.event == AuthChangeEvent.signedIn ||
-          data.event == AuthChangeEvent.tokenRefreshed) {
-        if (data.session == null) {
-          return;
-        }
-        final model = context.read<AuthStateModel>();
-
-        final bool isPremium =
-            await model.isUserPremium(user: data.session!.user);
-        model.setData(
-            user: data.session!.user,
-            session: data.session!,
-            premium: isPremium);
-      } else if (data.event == AuthChangeEvent.signedOut) {
-        context.read<AuthStateModel>().clearData();
-      }
-    });
+    _setupListener();
   }
 
   @override
@@ -48,5 +30,26 @@ class _AuthEventHandlerWidgetState extends State<AuthEventHandlerWidget> {
   @override
   Widget build(BuildContext context) {
     return widget.child;
+  }
+
+  void _setupListener() {
+    final client = Supabase.instance.client;
+    authListener = client.auth.onAuthStateChange.listen((AuthState data) async {
+      if (data.event == AuthChangeEvent.signedOut) {
+        context.read<AuthStateModel>().clearData();
+        return;
+      }
+      final session = data.session;
+      if (session == null) {
+        return;
+      }
+      if (data.event == AuthChangeEvent.signedIn ||
+          data.event == AuthChangeEvent.tokenRefreshed) {
+        final model = context.read<AuthStateModel>();
+
+        final bool isPremium = await model.isUserPremium(user: session.user);
+        model.setData(user: session.user, session: session, premium: isPremium);
+      }
+    });
   }
 }

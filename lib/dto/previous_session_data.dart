@@ -122,11 +122,8 @@ class PreviousSessionData {
     String nowString = now.microsecondsSinceEpoch.toString();
 
     String fileName;
-    if (data.prevSessionData != null) {
-      fileName = data.prevSessionData!.sessionId;
-    } else {
-      fileName = nowString;
-    }
+    final prevData = data.prevSessionData;
+    fileName = prevData != null ? prevData.sessionId : nowString;
 
     return PreviousSessionData(
         sessionName: data.sessionData.sessionName,

@@ -18,9 +18,9 @@ class TestingRouteModel extends ChangeNotifier {
       {required this.sessionData,
       required this.questions,
       required this.prevSessionData}) {
+    _answers = prevSessionData?.answers ?? {};
     if (prevSessionData != null) {
-      _answers = prevSessionData!.answers;
-      int lastPage = prevSessionData != null ? prevSessionData!.lastPage : 0;
+      int lastPage = prevSessionData!.lastPage;
       pageController = PageController(initialPage: lastPage);
       _pageIndex = lastPage;
     } else {
