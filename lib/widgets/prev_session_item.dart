@@ -76,7 +76,7 @@ class PrevSessionItem extends StatelessWidget {
     return GestureDetector(
       onTap: () => onRestoreSession(context),
       child: Container(
-          height: detailed ? 120.h : 60.h,
+          height: detailed ? 130.h : 60.h,
           margin: EdgeInsets.only(left: 15.w, right: 15.w, bottom: 16.h),
           padding: EdgeInsets.fromLTRB(14.w, 3.h, 0, 3.h),
           decoration: BoxDecoration(
@@ -112,14 +112,14 @@ class PrevSessionItem extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                           ),
-                          Text(data.date.toString().split(' ').first,
+                          AutoSizeText(data.date.toString().split(' ').first,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 18.sp,
                                   color: const Color(0xFF444444))),
                         ],
                       )
-                    : Text(data.date.toString().split(' ').first,
+                    : AutoSizeText(data.date.toString().split(' ').first,
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontSize: 18.sp, color: const Color(0xFF444444))),
