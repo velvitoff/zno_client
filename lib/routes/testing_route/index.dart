@@ -5,6 +5,7 @@ import 'package:client/models/auth_state_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/testing_route/testing_pages.dart';
 import 'package:client/providers/testing_route_provider.dart';
+import 'package:client/routes/testing_route/testing_route_backuper.dart';
 import 'package:client/routes/testing_route/zno_testing_header.dart';
 import 'package:client/services/storage_service/main_storage_service.dart';
 import 'package:client/services/utils_service.dart';
@@ -58,7 +59,8 @@ class TestingRouteState extends State<TestingRoute> {
             return TestingRouteProvider(
               data: widget.dto,
               testData: snapshot.data!,
-              child: Column(
+              child: TestingRouteBackuper(
+                  child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   ZnoTestingHeader(text: widget.dto.sessionData.sessionName),
@@ -69,7 +71,7 @@ class TestingRouteState extends State<TestingRoute> {
                     child: TestingPages(questions: snapshot.data!.questions),
                   ))
                 ],
-              ),
+              )),
             );
           } else if (snapshot.hasError) {
             return ZnoError(
