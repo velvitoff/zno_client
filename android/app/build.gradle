@@ -58,6 +58,9 @@ android {
         versionName flutterVersionName
 
         manifestPlaceholders += [appAuthRedirectScheme: "com.velvit.zno_client"]
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64'
+        }
     }
 
    signingConfigs {
@@ -71,6 +74,9 @@ android {
    buildTypes {
        release {
            signingConfig signingConfigs.release
+           ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64'
+           }
        }
    }
 
