@@ -73,7 +73,7 @@ class StorageListItem extends StatelessWidget {
                     ),
                     AutoSizeText(
                       data.sessionName,
-                      style: const TextStyle(color: const Color(0xFF444444)),
+                      style: const TextStyle(color: Color(0xFF444444)),
                       maxLines: 2,
                       overflow: TextOverflow.clip,
                     )

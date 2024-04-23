@@ -37,7 +37,9 @@ class AuthProviderGoogle implements AuthProviderInterface {
     }
 
     return Supabase.instance.client.auth.signInWithIdToken(
-        provider: Provider.google, idToken: idToken, accessToken: accessToken);
+        provider: OAuthProvider.google,
+        idToken: idToken,
+        accessToken: accessToken);
   }
 
   @override
