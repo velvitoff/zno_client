@@ -34,8 +34,7 @@ class TestingRouteState extends State<TestingRoute> {
     super.initState();
     futureTestData = locator
         .get<MainStorageService>()
-        .getSession(
-            widget.dto.sessionData.folderName, widget.dto.sessionData.fileName)
+        .getExamFileBytes(widget.dto.sessionData)
         .then((Uint8List data) {
       if (widget.dto.sessionData.fileName.endsWith('.bin') &&
           context.read<AuthStateModel>().isPremium) {

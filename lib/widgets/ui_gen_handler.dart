@@ -30,8 +30,7 @@ class UiGenHandler extends StatelessWidget {
     if (data[0] == 'img') {
       //1
       var model = context.read<TestingRouteStateModel>();
-      return UiGenerator.imageToWidget(model.sessionData.folderName,
-          model.sessionData.fileNameNoExtension, data[1]);
+      return UiGenerator.imageToWidget(model.sessionData, data[1]);
     }
     if (data[0] == 'table' && allowRenderTables) {
       return UiGenerator.textToTable(context, data[1], style: textStyle);
@@ -47,8 +46,7 @@ class UiGenHandler extends StatelessWidget {
     }
     if (data[0] == 'audio') {
       var model = context.read<TestingRouteStateModel>();
-      return UiGenerator.audioPlayer(model.sessionData.folderName,
-          model.sessionData.fileNameNoExtension, data[1]);
+      return UiGenerator.audioPlayer(model.sessionData, data[1]);
     }
     return Container();
   }

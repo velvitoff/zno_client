@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:client/models/exam_file_adress_model.dart';
 import 'package:client/models/personal_config_model.dart';
 import 'package:client/models/previous_attempt_model.dart';
 import 'package:client/models/exam_file_model.dart';
@@ -30,29 +31,28 @@ class LocalStorageService {
   String get _imageDir => '$_znoDirPath${Platform.pathSeparator}images';
   String get _historyDir => '$_znoDirPath${Platform.pathSeparator}history';
 
-  String _sessionPath(String subjectFolderName, String sessionFileName) {
+  String _getSessionPath(ExamFileAddressModel file) {
     return '$_testsDir${Platform.pathSeparator}'
-        '$subjectFolderName${Platform.pathSeparator}'
-        '$sessionFileName';
+        '${file.folderName}${Platform.pathSeparator}'
+        '${file.fileName}';
   }
 
-  String getImagePath(
-      String subjectFolderName, String sessionFolderName, String fileName) {
+  String getImagePath(ExamFileAddressModel examFileAddress, String fileName) {
     return '$_imageDir${Platform.pathSeparator}'
-        '$subjectFolderName${Platform.pathSeparator}'
-        '$sessionFolderName${Platform.pathSeparator}'
+        '${examFileAddress.folderName}${Platform.pathSeparator}'
+        '${examFileAddress.fileNameNoExtension}${Platform.pathSeparator}'
         '$fileName';
   }
 
-  String _historyPath(
-      String subjectFolderName, String sessionFolderName, String fileName) {
+  String _historyPath(ExamFileAddressModel examFileAddress, String fileName) {
     return '$_historyDir${Platform.pathSeparator}'
-        '$subjectFolderName${Platform.pathSeparator}'
-        '$sessionFolderName${Platform.pathSeparator}'
+        '${examFileAddress.folderName}${Platform.pathSeparator}'
+        '${examFileAddress.fileNameNoExtension}${Platform.pathSeparator}'
         '$fileName';
   }
 
-  Future<List<String>> listSessions(String folderName) async {
+  Future<List<ExamFileAddressModel>> listExamFiles(
+      String folderName, String subjectName) async {
     var dir = Directory('$_testsDir${Platform.pathSeparator}$folderName');
     if (!await dir.exists()) {
       return [];
@@ -60,45 +60,47 @@ class LocalStorageService {
     return dir
         .list()
         .where((entity) => entity is File)
-        .map((file) => file.path.split(Platform.pathSeparator).last)
+        .map((file) => ExamFileAddressModel.fromIncomplete(
+              folderName: folderName,
+              subjectName: subjectName,
+              fileName: file.path.split(Platform.pathSeparator).last,
+            ))
         .toList();
   }
 
-  Future<Uint8List> getSession(String folderName, String fileName) async {
+  Future<Uint8List> getExamFileData(ExamFileAddressModel examFile) async {
     //throws FileSystemException
-    return await File(_sessionPath(folderName, fileName)).readAsBytes();
+    return await File(_getSessionPath(examFile)).readAsBytes();
   }
 
-  Future<DateTime> getSessionDate(String folderName, String fileName) async {
+  Future<DateTime> getExamFileDate(ExamFileAddressModel examFile) async {
     //throws FileSystemException
-    return await File(_sessionPath(folderName, fileName)).lastModified();
+    return await File(_getSessionPath(examFile)).lastModified();
   }
 
-  Future<void> saveSession(
-      String folderName, String fileName, Uint8List contents) async {
+  Future<void> saveExamFile(
+      ExamFileAddressModel examFileAddress, Uint8List contents) async {
     var file =
-        await File(_sessionPath(folderName, fileName)).create(recursive: true);
+        await File(_getSessionPath(examFileAddress)).create(recursive: true);
     await file.writeAsBytes(contents);
   }
 
-  Future<Uint8List> getFileBytes(
-      String folderName, String sessionName, String fileName) async {
-    return File(getImagePath(folderName, sessionName, fileName)).readAsBytes();
+  Future<Uint8List> getImageBytes(
+      ExamFileAddressModel examFileAddress, String fileName) async {
+    return File(getImagePath(examFileAddress, fileName)).readAsBytes();
   }
 
-  Future<void> saveImagesToFolder(String subjectName, String sessionName,
+  Future<void> saveImages(ExamFileAddressModel examFileAddress,
       Map<String, Uint8List> images) async {
     await Future.wait(images.entries.map((entry) {
-      return File(getImagePath(subjectName, sessionName, entry.key))
+      return File(getImagePath(examFileAddress, entry.key))
           .create(recursive: true)
           .then((file) => file.writeAsBytes(entry.value));
     }));
   }
 
-  Future<bool> imageFolderExists(String subjectName, String sessionName) async {
-    sessionName =
-        sessionName.replaceFirst('.json', '').replaceFirst('.bin', '');
-    return await Directory(getImagePath(subjectName, sessionName, '')).exists();
+  Future<bool> imageFolderExists(ExamFileAddressModel examFileAddress) async {
+    return await Directory(getImagePath(examFileAddress, '')).exists();
   }
 
   Future<PreviousAttemptModel?> saveSessionEnd(TestingRouteStateModel data,
@@ -114,8 +116,7 @@ class LocalStorageService {
         PreviousAttemptModel.fromTestingRouteModel(data, timerData, completed);
     final map = newData.toJson();
 
-    String filePath = _historyPath(data.sessionData.folderName,
-        data.sessionData.fileNameNoExtension, newData.sessionId);
+    String filePath = _historyPath(data.sessionData, newData.sessionId);
     File file = File(filePath);
 
     if (await file.exists()) {
@@ -141,8 +142,7 @@ class LocalStorageService {
         PreviousAttemptModel.fromTestingRouteModel(data, timerData, completed);
     final map = newData.toJson();
 
-    String filePath = _historyPath(data.sessionData.folderName,
-        data.sessionData.fileNameNoExtension, newData.sessionId);
+    String filePath = _historyPath(data.sessionData, newData.sessionId);
     File file = File(filePath);
 
     if (file.existsSync()) {

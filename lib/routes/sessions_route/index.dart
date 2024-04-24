@@ -5,17 +5,14 @@ import 'package:client/services/storage_service/main_storage_service.dart';
 import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:client/widgets/zno_bottom_navigation_bar.dart';
 import 'package:client/widgets/zno_error.dart';
-import 'package:client/widgets/zno_list_item.dart';
 import 'package:client/widgets/zno_top_header_text.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../models/exam_file_adress_model.dart';
 import '../../locator.dart';
 import '../../routes.dart';
-import '../../widgets/zno_year_line.dart';
 
 class SessionsRoute extends StatefulWidget {
   final SessionsRouteData dto;
@@ -27,50 +24,25 @@ class SessionsRoute extends StatefulWidget {
 }
 
 class SessionsRouteState extends State<SessionsRoute> {
-  late final Future<List<Widget>> futureList;
+  late final Future<List<MapEntry<String, List<ExamFileAddressModel>>>>
+      futureList;
+
+  Future<List<MapEntry<String, List<ExamFileAddressModel>>>>
+      getFutureList() async {
+    final list = await locator
+        .get<MainStorageService>()
+        .listExamFiles(widget.dto.folderName, widget.dto.subjectName);
+    final listGrouped = list
+        .groupListsBy((element) => element.fileNameNoExtension.split('_').last)
+        .entries
+        .sorted((a, b) => a.key.compareTo(b.key));
+    return listGrouped;
+  }
 
   @override
   void initState() {
     super.initState();
-    futureList = locator
-        .get<MainStorageService>()
-        .listSessions(widget.dto.folderName)
-        .then((List<String> data) {
-      final Map<String, List<String>> map = data.groupListsBy((element) =>
-          element
-              .replaceAll('.json', '')
-              .replaceAll('.bin', '')
-              .split('_')
-              .last);
-
-      //group items by years and sort years in descending order
-      List<Widget> result = [];
-      for (var key
-          in map.keys.sorted((String s1, String s2) => s2.compareTo(s1))) {
-        if (map[key] == null) {
-          continue;
-        }
-
-        result.add(ZnoYearLine(text: key));
-
-        for (var el in map[key]!) {
-          String sessionName =
-              ExamFileAddressModel.fileNameNoExtensionToSessionName(el);
-          result.add(ZnoListItem(
-              text: sessionName,
-              onTap: () => context.go(Routes.sessionRoute,
-                  extra: ExamFileAddressModel(
-                      fileName: el,
-                      fileNameNoExtension:
-                          el.replaceAll('.json', '').replaceAll('.bin', ''),
-                      sessionName: sessionName,
-                      subjectName: widget.dto.subjectName,
-                      folderName: widget.dto.folderName)),
-              colorType: ZnoListColorType.normal));
-        }
-      }
-      return result;
-    });
+    futureList = getFutureList();
   }
 
   void _onPopInvoked(bool didPop) {
@@ -85,8 +57,9 @@ class SessionsRouteState extends State<SessionsRoute> {
       child: Scaffold(
         body: FutureBuilder(
           future: futureList,
-          builder:
-              (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
+          builder: (BuildContext context,
+              AsyncSnapshot<List<MapEntry<String, List<ExamFileAddressModel>>>>
+                  snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.isEmpty) {
                 return SessionsScrollWrapper(

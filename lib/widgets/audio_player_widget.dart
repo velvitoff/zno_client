@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:client/models/exam_file_adress_model.dart';
 import 'package:client/services/storage_service/main_storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,15 +8,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../locator.dart';
 
 class AudioPlayerWidget extends StatefulWidget {
-  final String folderName;
-  final String folderInnerName;
+  final ExamFileAddressModel examFileAddress;
   final String fileName;
 
   const AudioPlayerWidget(
-      {super.key,
-      required this.folderName,
-      required this.folderInnerName,
-      required this.fileName});
+      {super.key, required this.examFileAddress, required this.fileName});
 
   @override
   State<AudioPlayerWidget> createState() => _AudioPlayerState();
@@ -33,8 +30,9 @@ class _AudioPlayerState extends State<AudioPlayerWidget> {
   @override
   void initState() {
     super.initState();
-    source = DeviceFileSource(locator.get<MainStorageService>().getImagePath(
-        widget.folderName, widget.folderInnerName, widget.fileName));
+    source = DeviceFileSource(locator
+        .get<MainStorageService>()
+        .getImagePath(widget.examFileAddress, widget.fileName));
 
     player.setSource(source);
 

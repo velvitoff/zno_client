@@ -1,13 +1,14 @@
 import 'dart:typed_data';
 import 'package:client/locator.dart';
+import 'package:client/models/exam_file_adress_model.dart';
 import 'package:client/state_models/testing_time_state_model.dart';
 import 'package:client/services/storage_service/local_storage_service.dart';
 import 'package:client/services/storage_service/supabase_storage_service.dart';
-
 import '../../models/previous_attempt_model.dart';
 import '../../models/storage_route_item_model.dart';
 import '../../state_models/testing_route_state_model.dart';
 
+//TODO: test
 class MainStorageService {
   MainStorageService();
 
@@ -15,28 +16,30 @@ class MainStorageService {
       locator.get<SupabaseStorageService>();
   LocalStorageService get localStorage => locator.get<LocalStorageService>();
 
-  Future<List<String>> listSessions(String folderName) async {
+  Future<List<ExamFileAddressModel>> listExamFiles(
+      String folderName, String subjectName) async {
     try {
-      return await externalStorage.listSessions(folderName);
+      return await externalStorage.listExamFiles(folderName, subjectName);
     } catch (e) {
       //fallback for listing sessions in case of network exception
-      return await localStorage.listSessions(folderName);
+      return await localStorage.listExamFiles(folderName, subjectName);
     }
   }
 
-  Future<Uint8List> getSession(String folderName, String fileName) async {
+  //TODO: remove side effect
+  Future<Uint8List> getExamFileBytes(
+      ExamFileAddressModel examFileAddress) async {
     //throws
     try {
       //return local file if it's recent enough
-      var lastModified =
-          await localStorage.getSessionDate(folderName, fileName);
+      var lastModified = await localStorage.getExamFileDate(examFileAddress);
       var now = DateTime.now();
       if (now.difference(lastModified).inDays < 3) {
-        if (!await localStorage.imageFolderExists(folderName, fileName)) {
-          await downloadImages(folderName, fileName);
+        if (!await localStorage.imageFolderExists(examFileAddress)) {
+          await downloadAllImages(examFileAddress);
         }
 
-        return localStorage.getSession(folderName, fileName);
+        return localStorage.getExamFileData(examFileAddress);
       } else {
         //if local file is older than three days, move on to a download attempt
         throw Exception();
@@ -44,38 +47,39 @@ class MainStorageService {
     } catch (e) {
       try {
         final Uint8List session =
-            await externalStorage.getSession(folderName, fileName);
-        await localStorage.saveSession(folderName, fileName, session);
-        await downloadImages(folderName, fileName);
+            await externalStorage.getExamFileData(examFileAddress);
+        await localStorage.saveExamFile(examFileAddress, session);
+        final imageMap = await downloadAllImages(examFileAddress);
+        await saveImages(examFileAddress, imageMap);
         return session;
       } catch (e) {
         //if the download attempt fails, try using local data without a recency restriction
-        return localStorage.getSession(folderName, fileName);
+        return localStorage.getExamFileData(examFileAddress);
       }
     }
   }
 
-  String getImagePath(
-      String subjectFolderName, String sessionFolderName, String fileName) {
-    return localStorage.getImagePath(
-        subjectFolderName, sessionFolderName, fileName);
+  String getImagePath(ExamFileAddressModel examFileAddress, String fileName) {
+    return localStorage.getImagePath(examFileAddress, fileName);
   }
 
-  Future<Uint8List> getFileBytes(
-      String folderName, String sessionName, String fileName) async {
+  Future<Uint8List> getImageBytes(
+      ExamFileAddressModel examFileAddress, String fileName) async {
     try {
-      return localStorage.getFileBytes(folderName, sessionName, fileName);
+      return localStorage.getImageBytes(examFileAddress, fileName);
     } catch (e) {
-      return externalStorage.getFileBytes(folderName, sessionName, fileName);
+      return externalStorage.getImageBytes(examFileAddress, fileName);
     }
   }
 
-  Future<void> downloadImages(String subjectName, String sessionName) async {
-    sessionName =
-        sessionName.replaceFirst('.json', '').replaceFirst('.bin', '');
-    var imageMap =
-        await externalStorage.downloadAllImages(subjectName, sessionName);
-    await localStorage.saveImagesToFolder(subjectName, sessionName, imageMap);
+  Future<Map<String, Uint8List>> downloadAllImages(
+      ExamFileAddressModel examFileAddress) async {
+    return await externalStorage.downloadAllImages(examFileAddress);
+  }
+
+  Future<void> saveImages(ExamFileAddressModel examFileAddress,
+      Map<String, Uint8List> imageMap) async {
+    await localStorage.saveImages(examFileAddress, imageMap);
   }
 
   Future<PreviousAttemptModel?> saveSessionEnd(TestingRouteStateModel data,

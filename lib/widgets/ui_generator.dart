@@ -1,4 +1,5 @@
 import 'package:client/locator.dart';
+import 'package:client/models/exam_file_adress_model.dart';
 import 'package:client/services/storage_service/main_storage_service.dart';
 import 'package:client/widgets/audio_player_widget.dart';
 import 'package:client/widgets/image_in_a_test_wrapper.dart';
@@ -115,11 +116,11 @@ class UiGenerator {
   }
 
   static Widget imageToWidget(
-      String subjectFolderName, String sessionName, String fileName) {
+      ExamFileAddressModel examFileAddress, String fileName) {
     return ImageInATestWrapper(
         futureBytes: locator
             .get<MainStorageService>()
-            .getFileBytes(subjectFolderName, sessionName, fileName));
+            .getImageBytes(examFileAddress, fileName));
   }
 
   static Widget textToTable(BuildContext context, String data,
@@ -194,9 +195,7 @@ class UiGenerator {
                         child: LimitedBox(
                           maxWidth: 114.w,
                           child: UiGenerator.imageToWidget(
-                              model.sessionData.folderName,
-                              model.sessionData.fileNameNoExtension,
-                              data[1]),
+                              model.sessionData, data[1]),
                         ),
                       );
                     } else {
@@ -210,10 +209,8 @@ class UiGenerator {
   }
 
   static Widget audioPlayer(
-      String folderName, String folderInnerName, String fileName) {
+      ExamFileAddressModel examFileAddress, String fileName) {
     return AudioPlayerWidget(
-        folderName: folderName,
-        folderInnerName: folderInnerName,
-        fileName: fileName);
+        examFileAddress: examFileAddress, fileName: fileName);
   }
 }
