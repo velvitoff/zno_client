@@ -9,7 +9,7 @@ import 'package:client/widgets/zno_top_header_small.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import '../../dto/previous_session_data.dart';
+import '../../models/previous_attempt_model.dart';
 import '../../locator.dart';
 
 class HistoryRoute extends StatefulWidget {
@@ -20,7 +20,7 @@ class HistoryRoute extends StatefulWidget {
 }
 
 class _HistoryRouteState extends State<HistoryRoute> {
-  late final Future<List<PreviousSessionData>> dataList;
+  late final Future<List<PreviousAttemptModel>> dataList;
 
   @override
   void initState() {

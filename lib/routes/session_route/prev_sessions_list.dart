@@ -1,4 +1,4 @@
-import 'package:client/dto/previous_session_data.dart';
+import 'package:client/models/previous_attempt_model.dart';
 import 'package:client/locator.dart';
 import 'package:client/services/storage_service/main_storage_service.dart';
 import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
@@ -20,7 +20,7 @@ class PrevSessionsList extends StatefulWidget {
 }
 
 class _PastSessionsListState extends State<PrevSessionsList> {
-  late final Future<List<PreviousSessionData>> dataList;
+  late final Future<List<PreviousAttemptModel>> dataList;
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class _PastSessionsListState extends State<PrevSessionsList> {
         child: FutureBuilder(
           future: dataList,
           builder: (BuildContext context,
-              AsyncSnapshot<List<PreviousSessionData>> snapshot) {
+              AsyncSnapshot<List<PreviousAttemptModel>> snapshot) {
             if (snapshot.hasError) {
               return const ZnoError(
                 text: 'Помилка завантаження попередніх спроб',
@@ -55,7 +55,7 @@ class _PastSessionsListState extends State<PrevSessionsList> {
                         fontWeight: FontWeight.w400));
               }
 
-              List<PreviousSessionData> sessionsList =
+              List<PreviousAttemptModel> sessionsList =
                   List.from(snapshot.data!);
               sessionsList.sort((a, b) => b.date.compareTo(a.date));
               return Column(

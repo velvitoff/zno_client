@@ -1,4 +1,4 @@
-import 'package:client/dto/questions/question.dart';
+import 'package:client/models/questions/question.dart';
 import 'package:client/state_models/testing_route_state_model.dart';
 import 'package:client/state_models/testing_time_state_model.dart';
 import 'package:client/routes.dart';

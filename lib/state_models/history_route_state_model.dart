@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../dto/previous_session_data.dart';
+import '../models/previous_attempt_model.dart';
 
 class HistoryRouteStateModel extends ChangeNotifier {
-  List<PreviousSessionData> sessionsList;
+  List<PreviousAttemptModel> sessionsList;
 
   HistoryRouteStateModel({required this.sessionsList});
 }

@@ -1,5 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:client/dto/storage_route_item_data.dart';
+import 'package:client/models/storage_route_item_model.dart';
 import 'package:client/locator.dart';
 import 'package:client/state_models/storage_route_state_model.dart';
 import 'package:client/routes/storage_route/storage_list_radio_button.dart';
@@ -9,7 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class StorageListItem extends StatelessWidget {
-  final StorageRouteItemData data;
+  final StorageRouteItemModel data;
   final bool selected;
 
   const StorageListItem({Key? key, required this.data, required this.selected})

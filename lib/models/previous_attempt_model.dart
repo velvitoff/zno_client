@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import 'package:client/dto/answers/answer.dart';
-import 'package:client/dto/questions/question.dart';
+import 'package:client/models/answers/answer.dart';
+import 'package:client/models/questions/question.dart';
 import 'package:client/locator.dart';
 import 'package:client/state_models/testing_time_state_model.dart';
 import 'package:client/services/utils_service.dart';
 
 import '../state_models/testing_route_state_model.dart';
 
-class PreviousSessionData {
+class PreviousAttemptModel {
   final String sessionName;
   final String subjectName;
   final String fileName;
@@ -23,7 +23,7 @@ class PreviousSessionData {
   final Map<String, Answer?> answers;
   final String? score;
 
-  const PreviousSessionData(
+  const PreviousAttemptModel(
       {required this.sessionName,
       required this.subjectName,
       required this.fileName,
@@ -40,26 +40,22 @@ class PreviousSessionData {
 
   bool get isEditable => !completed;
 
-  factory PreviousSessionData.fromJson(Map<String, dynamic> map) =>
-      PreviousSessionData(
-          sessionName:
-              locator.get<UtilsService>().fileNameToSessionName(map[
-                  'session_name'] as String),
+  factory PreviousAttemptModel.fromJson(Map<String, dynamic> map) =>
+      PreviousAttemptModel(
+          sessionName: locator
+              .get<UtilsService>()
+              .fileNameToSessionName(map['session_name'] as String),
           subjectName: map['subject_name'] as String,
           fileName: map['file_name'] as String,
           folderName: map['folder_name'] as String,
           sessionId: map['session_id'] as String,
-          date:
-              DateTime.fromMicrosecondsSinceEpoch(int.parse(map['date']
-                  as String)),
+          date: DateTime.fromMicrosecondsSinceEpoch(
+              int.parse(map['date'] as String)),
           completed: map['completed'] as bool,
           lastPage: map['last_page'],
-          isTimerActivated:
-              map[
-                          'is_timer_activated'] !=
-                      null
-                  ? map['is_timer_activated'] as bool
-                  : false,
+          isTimerActivated: map['is_timer_activated'] != null
+              ? map['is_timer_activated'] as bool
+              : false,
           timerSeconds:
               map['timer_seconds'] != null ? map['timer_seconds'] as int : 0,
           timerSecondsInTotal: map['timer_seconds_in_total'] != null
@@ -84,8 +80,10 @@ class PreviousSessionData {
         'score': score
       };
 
-  factory PreviousSessionData.fromTestingRouteModel(TestingRouteStateModel data,
-      TestingTimeStateModel timeData, bool completed) {
+  factory PreviousAttemptModel.fromTestingRouteModel(
+      TestingRouteStateModel data,
+      TestingTimeStateModel timeData,
+      bool completed) {
     int score = 0;
     int total = 0;
 
@@ -125,7 +123,7 @@ class PreviousSessionData {
     final prevData = data.prevSessionData;
     fileName = prevData != null ? prevData.sessionId : nowString;
 
-    return PreviousSessionData(
+    return PreviousAttemptModel(
         sessionName: data.sessionData.sessionName,
         subjectName: data.sessionData.subjectName,
         fileName: data.sessionData.fileName,

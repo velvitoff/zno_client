@@ -4,8 +4,8 @@ import 'package:client/state_models/testing_time_state_model.dart';
 import 'package:client/services/storage_service/local_storage_service.dart';
 import 'package:client/services/storage_service/supabase_storage_service.dart';
 
-import '../../dto/previous_session_data.dart';
-import '../../dto/storage_route_item_data.dart';
+import '../../models/previous_attempt_model.dart';
+import '../../models/storage_route_item_model.dart';
 import '../../state_models/testing_route_state_model.dart';
 
 class MainStorageService {
@@ -78,26 +78,26 @@ class MainStorageService {
     await localStorage.saveImagesToFolder(subjectName, sessionName, imageMap);
   }
 
-  Future<PreviousSessionData?> saveSessionEnd(TestingRouteStateModel data,
+  Future<PreviousAttemptModel?> saveSessionEnd(TestingRouteStateModel data,
       TestingTimeStateModel timerData, bool completed) async {
     return localStorage.saveSessionEnd(data, timerData, completed);
   }
 
-  PreviousSessionData? saveSessionEndSync(TestingRouteStateModel data,
+  PreviousAttemptModel? saveSessionEndSync(TestingRouteStateModel data,
       TestingTimeStateModel timerData, bool completed) {
     return localStorage.saveSessionEndSync(data, timerData, completed);
   }
 
-  Future<List<PreviousSessionData>> getPreviousSessionsList(
+  Future<List<PreviousAttemptModel>> getPreviousSessionsList(
       String subjectName, String sessionName) {
     return localStorage.getPreviousSessionsList(subjectName, sessionName);
   }
 
-  Future<List<PreviousSessionData>> getPreviousSessionsListGlobal() async {
+  Future<List<PreviousAttemptModel>> getPreviousSessionsListGlobal() async {
     return localStorage.getPreviousSessionsListGlobal();
   }
 
-  Future<List<StorageRouteItemData>> getStorageData() async {
+  Future<List<StorageRouteItemModel>> getStorageData() async {
     return localStorage.getStorageData();
   }
 }

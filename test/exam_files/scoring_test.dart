@@ -1,5 +1,5 @@
-import 'package:client/dto/answers/answer.dart';
-import 'package:client/dto/questions/question.dart';
+import 'package:client/models/answers/answer.dart';
+import 'package:client/models/questions/question.dart';
 import 'package:test/test.dart';
 
 const questionSingle = QuestionSingle(order: 1, render: [

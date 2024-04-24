@@ -1,6 +1,6 @@
 import '../all_subjects/all_subjects.dart';
 
-class PersonalConfigData {
+class PersonalConfigModel {
   final bool isFirstTimeUser;
   final List<String> selectedSubjects;
 
@@ -22,22 +22,22 @@ class PersonalConfigData {
     'english_lang'
   ];
 
-  const PersonalConfigData(
+  const PersonalConfigModel(
       {required this.isFirstTimeUser, required this.selectedSubjects});
 
-  factory PersonalConfigData.fromJSON(Map<String, dynamic> map) =>
-      PersonalConfigData(
+  factory PersonalConfigModel.fromJSON(Map<String, dynamic> map) =>
+      PersonalConfigModel(
           isFirstTimeUser: map['is_first_time_user'] as bool,
           selectedSubjects: List<String>.from(
               map['selected_subjects'].map((x) => x as String)));
 
   // ignore: prefer_const_constructors
-  factory PersonalConfigData.getDefault() => PersonalConfigData(
+  factory PersonalConfigModel.getDefault() => PersonalConfigModel(
       isFirstTimeUser: true, selectedSubjects: defaultSubjectsList);
 
-  PersonalConfigData copyWith(
+  PersonalConfigModel copyWith(
       {bool? isFirstTimeUser, List<String>? selectedSubjects}) {
-    return PersonalConfigData(
+    return PersonalConfigModel(
         isFirstTimeUser: isFirstTimeUser ?? this.isFirstTimeUser,
         selectedSubjects: selectedSubjects ?? this.selectedSubjects);
   }

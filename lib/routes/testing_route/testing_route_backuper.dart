@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:client/dto/answers/answer.dart';
+import 'package:client/models/answers/answer.dart';
 import 'package:client/locator.dart';
 import 'package:client/state_models/testing_route_state_model.dart';
 import 'package:client/state_models/testing_time_state_model.dart';

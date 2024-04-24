@@ -1,5 +1,5 @@
-import 'package:client/dto/answers/answer.dart';
-import 'package:client/dto/questions/question.dart';
+import 'package:client/models/answers/answer.dart';
+import 'package:client/models/questions/question.dart';
 import 'package:client/state_models/testing_route_state_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

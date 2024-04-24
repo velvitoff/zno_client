@@ -1,9 +1,9 @@
-import 'package:client/dto/storage_route_item_data.dart';
+import 'package:client/models/storage_route_item_model.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
 class StorageRouteStateModel extends ChangeNotifier {
-  Map<StorageRouteItemData, bool> fileMap;
+  Map<StorageRouteItemModel, bool> fileMap;
 
   StorageRouteStateModel({required this.fileMap});
 
@@ -64,7 +64,7 @@ class StorageRouteStateModel extends ChangeNotifier {
 
   //THROWS
   Future<void> deleteSelectedStorageItems() async {
-    final List<StorageRouteItemData> selectedItems = fileMap.entries
+    final List<StorageRouteItemModel> selectedItems = fileMap.entries
         .where((entry) => entry.value == true)
         .map((entry) => entry.key)
         .toList();
@@ -88,7 +88,7 @@ class StorageRouteStateModel extends ChangeNotifier {
 
   //TO DO: move functionality to localStorage
   Future<void> deleteStorageItem(UniqueKey key) async {
-    StorageRouteItemData? item;
+    StorageRouteItemModel? item;
     for (var entry in fileMap.entries) {
       if (entry.key.key == key) {
         item = entry.key;

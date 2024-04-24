@@ -1,5 +1,5 @@
-import 'package:client/dto/answers/answer.dart';
-import 'package:client/dto/questions/question.dart';
+import 'package:client/models/answers/answer.dart';
+import 'package:client/models/questions/question.dart';
 import 'package:client/routes/testing_route/question_text_fields/text_field_answer_show.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';

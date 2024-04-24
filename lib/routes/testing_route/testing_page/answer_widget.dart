@@ -3,7 +3,7 @@ import 'package:client/routes/testing_route/question_single/question_single_answ
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../dto/questions/question.dart';
+import '../../../models/questions/question.dart';
 import '../question_text_fields/question_text_fields_answer_field.dart';
 
 class AnswerWidget extends StatelessWidget {

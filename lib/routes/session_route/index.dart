@@ -1,5 +1,5 @@
-import 'package:client/dto/session_data.dart';
-import 'package:client/dto/sessions_route_data.dart';
+import 'package:client/models/exam_file_adress_model.dart';
+import 'package:client/routes/sessions_route/sessions_route_data.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/session_route/session_display.dart';
 import 'package:client/providers/session_route_provider.dart';
@@ -12,7 +12,7 @@ import '../../widgets/zno_bottom_navigation_bar.dart';
 import '../../widgets/zno_top_header_text.dart';
 
 class SessionRoute extends StatelessWidget {
-  final SessionData dto;
+  final ExamFileAdressModel dto;
 
   const SessionRoute({Key? key, required this.dto}) : super(key: key);
 

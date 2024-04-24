@@ -1,10 +1,10 @@
 import 'package:client/state_models/session_route_state_model.dart';
 import 'package:flutter/material.dart';
-import 'package:client/dto/session_data.dart';
+import 'package:client/models/exam_file_adress_model.dart';
 import 'package:provider/provider.dart';
 
 class SessionRouteProvider extends StatelessWidget {
-  final SessionData sessionData;
+  final ExamFileAdressModel sessionData;
   final Widget child;
 
   const SessionRouteProvider(

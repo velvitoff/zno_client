@@ -1,4 +1,4 @@
-import 'package:client/dto/questions/question.dart';
+import 'package:client/models/questions/question.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../widgets/ui_gen_handler.dart';

@@ -1,4 +1,4 @@
-import 'package:client/dto/testing_route_data.dart';
+import 'package:client/routes/testing_route/testing_route_data.dart';
 import 'package:client/locator.dart';
 import 'package:client/state_models/session_route_state_model.dart';
 import 'package:client/routes.dart';

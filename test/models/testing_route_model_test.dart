@@ -1,14 +1,14 @@
-import 'package:client/dto/answers/answer.dart';
-import 'package:client/dto/previous_session_data.dart';
-import 'package:client/dto/questions/question.dart';
-import 'package:client/dto/session_data.dart';
+import 'package:client/models/answers/answer.dart';
+import 'package:client/models/previous_attempt_model.dart';
+import 'package:client/models/questions/question.dart';
+import 'package:client/models/exam_file_adress_model.dart';
 import 'package:client/state_models/testing_route_state_model.dart';
 import 'package:client/state_models/testing_time_state_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 final model = TestingRouteStateModel(
-    sessionData: const SessionData(
+    sessionData: const ExamFileAdressModel(
         subjectName: 'test',
         sessionName: 'test session',
         folderName: 'empty',
@@ -159,7 +159,7 @@ void main() {
     });
 
     test('getScore in testing route model', () {
-      var prev = PreviousSessionData.fromTestingRouteModel(
+      var prev = PreviousAttemptModel.fromTestingRouteModel(
           model,
           TestingTimeStateModel(
               isTimerActivated: false,

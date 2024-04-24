@@ -1,4 +1,4 @@
-import 'package:client/dto/image_view_route_data.dart';
+import 'package:client/routes/image_view_route/image_view_route_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';

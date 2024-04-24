@@ -1,13 +1,13 @@
-import 'package:client/dto/answers/answer.dart';
+import 'package:client/models/answers/answer.dart';
 import 'package:flutter/material.dart';
-import '../dto/previous_session_data.dart';
-import '../dto/questions/question.dart';
-import '../dto/session_data.dart';
+import '../models/previous_attempt_model.dart';
+import '../models/questions/question.dart';
+import '../models/exam_file_adress_model.dart';
 
 class TestingRouteStateModel extends ChangeNotifier {
-  final SessionData sessionData;
+  final ExamFileAdressModel sessionData;
   final List<Question> questions;
-  PreviousSessionData? prevSessionData;
+  PreviousAttemptModel? prevSessionData;
 
   //page_number: answer(String, or Map<String, String> or List<String>)
   Map<String, Answer?> _answers = {};

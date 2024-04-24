@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:client/dto/questions/question.dart';
+import 'package:client/models/questions/question.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 

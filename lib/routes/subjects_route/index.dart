@@ -1,7 +1,7 @@
 import 'package:client/all_subjects/zno_subject.dart';
 import 'package:client/all_subjects/zno_subject_group.dart';
 import 'package:client/all_subjects/zno_subject_interface.dart';
-import 'package:client/dto/personal_config_data.dart';
+import 'package:client/models/personal_config_model.dart';
 import 'package:client/locator.dart';
 import 'package:client/routes.dart';
 import 'package:client/services/storage_service/local_storage_service.dart';
@@ -14,8 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../all_subjects/all_subjects.dart';
-import '../../dto/sessions_route_data.dart';
-import '../../dto/subjects_route_data.dart';
+import '../sessions_route/sessions_route_data.dart';
+import 'subjects_route_data.dart';
 import '../../widgets/zno_error.dart';
 
 bool globalHasAskedForPermissions = false;
@@ -30,7 +30,8 @@ class SubjectsRoute extends StatefulWidget {
 }
 
 class _SubjectsRouteState extends State<SubjectsRoute> {
-  late final Future<(PersonalConfigData, List<ZnoSubjectInterface>)> futureData;
+  late final Future<(PersonalConfigModel, List<ZnoSubjectInterface>)>
+      futureData;
 
   @override
   void initState() {

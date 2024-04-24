@@ -5,7 +5,7 @@ import 'package:client/routes/testing_route/testing_page/testing_page.dart';
 import 'package:client/services/storage_service/main_storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../dto/questions/question.dart';
+import '../../models/questions/question.dart';
 
 class TestingPages extends StatefulWidget {
   final List<Question> questions;

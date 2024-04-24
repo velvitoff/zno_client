@@ -1,4 +1,4 @@
-import 'package:client/dto/questions/question.dart';
+import 'package:client/models/questions/question.dart';
 import 'package:client/routes/testing_route/testing_page/answer_variants_complex.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

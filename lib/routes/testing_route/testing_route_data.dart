@@ -1,9 +1,9 @@
-import 'package:client/dto/previous_session_data.dart';
-import 'package:client/dto/session_data.dart';
+import 'package:client/models/previous_attempt_model.dart';
+import 'package:client/models/exam_file_adress_model.dart';
 
 class TestingRouteData {
-  final SessionData sessionData;
-  final PreviousSessionData? prevSessionData;
+  final ExamFileAdressModel sessionData;
+  final PreviousAttemptModel? prevSessionData;
   final bool isTimerActivated;
   final int timerSecondsInTotal;
 

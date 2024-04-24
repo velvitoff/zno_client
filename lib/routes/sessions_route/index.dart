@@ -1,4 +1,4 @@
-import 'package:client/dto/sessions_route_data.dart';
+import 'package:client/routes/sessions_route/sessions_route_data.dart';
 import 'package:client/routes/sessions_route/sessions_list.dart';
 import 'package:client/routes/sessions_route/sessions_scroll_wrapper.dart';
 import 'package:client/services/storage_service/main_storage_service.dart';
@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../dto/session_data.dart';
+import '../../models/exam_file_adress_model.dart';
 import '../../locator.dart';
 import '../../routes.dart';
 import '../../widgets/zno_year_line.dart';
@@ -60,7 +60,7 @@ class SessionsRouteState extends State<SessionsRoute> {
           result.add(ZnoListItem(
               text: sessionName,
               onTap: () => context.go(Routes.sessionRoute,
-                  extra: SessionData(
+                  extra: ExamFileAdressModel(
                       fileName: el,
                       fileNameNoExtension:
                           el.replaceAll('.json', '').replaceAll('.bin', ''),

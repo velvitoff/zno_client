@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:client/dto/image_view_route_data.dart';
+import 'package:client/routes/image_view_route/image_view_route_data.dart';
 import 'package:client/routes.dart';
 import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:flutter/material.dart';

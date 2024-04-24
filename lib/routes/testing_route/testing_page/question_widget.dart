@@ -1,4 +1,4 @@
-import 'package:client/dto/questions/question.dart';
+import 'package:client/models/questions/question.dart';
 import 'package:client/routes/testing_route/question_complex/index.dart';
 import 'package:client/routes/testing_route/question_no_answer/index.dart';
 import 'package:client/routes/testing_route/question_single/index.dart';

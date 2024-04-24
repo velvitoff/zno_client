@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:client/dto/previous_session_data.dart';
-import 'package:client/dto/testing_route_data.dart';
+import 'package:client/models/previous_attempt_model.dart';
+import 'package:client/routes/testing_route/testing_route_data.dart';
 import 'package:client/routes.dart';
 import 'package:client/services/dialog_service.dart';
 import 'package:client/services/utils_service.dart';
@@ -8,11 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-import '../dto/session_data.dart';
+import '../models/exam_file_adress_model.dart';
 import '../locator.dart';
 
 class PrevSessionItem extends StatelessWidget {
-  final PreviousSessionData data;
+  final PreviousAttemptModel data;
   final bool detailed;
 
   const PrevSessionItem({Key? key, required this.data, this.detailed = false})
@@ -27,7 +27,7 @@ class PrevSessionItem extends StatelessWidget {
       if (value != null && value == true) {
         context.go(Routes.testingRoute,
             extra: TestingRouteData(
-              sessionData: SessionData(
+              sessionData: ExamFileAdressModel(
                   subjectName: data.subjectName,
                   sessionName: data.sessionName,
                   folderName: data.folderName,

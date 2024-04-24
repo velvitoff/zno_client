@@ -1,14 +1,14 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:client/dto/personal_config_data.dart';
-import 'package:client/dto/previous_session_data.dart';
-import 'package:client/dto/test_data.dart';
+import 'package:client/models/personal_config_model.dart';
+import 'package:client/models/previous_attempt_model.dart';
+import 'package:client/models/exam_file_model.dart';
 import 'package:client/locator.dart';
 import 'package:client/state_models/testing_time_state_model.dart';
 import 'package:client/services/utils_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart' as path;
-import '../../dto/storage_route_item_data.dart';
+import '../../models/storage_route_item_model.dart';
 import '../../state_models/testing_route_state_model.dart';
 import 'dart:convert';
 import 'package:client/extensions/directory_extension.dart';
@@ -101,7 +101,7 @@ class LocalStorageService {
     return await Directory(getImagePath(subjectName, sessionName, '')).exists();
   }
 
-  Future<PreviousSessionData?> saveSessionEnd(TestingRouteStateModel data,
+  Future<PreviousAttemptModel?> saveSessionEnd(TestingRouteStateModel data,
       TestingTimeStateModel timerData, bool completed) async {
     if (data.prevSessionData != null && data.prevSessionData!.completed) {
       return null;
@@ -111,7 +111,7 @@ class LocalStorageService {
     }
 
     final newData =
-        PreviousSessionData.fromTestingRouteModel(data, timerData, completed);
+        PreviousAttemptModel.fromTestingRouteModel(data, timerData, completed);
     final map = newData.toJson();
 
     String filePath = _historyPath(data.sessionData.folderName,
@@ -128,7 +128,7 @@ class LocalStorageService {
     return newData;
   }
 
-  PreviousSessionData? saveSessionEndSync(TestingRouteStateModel data,
+  PreviousAttemptModel? saveSessionEndSync(TestingRouteStateModel data,
       TestingTimeStateModel timerData, bool completed) {
     if (data.prevSessionData != null && data.prevSessionData!.completed) {
       return null;
@@ -138,7 +138,7 @@ class LocalStorageService {
     }
 
     final newData =
-        PreviousSessionData.fromTestingRouteModel(data, timerData, completed);
+        PreviousAttemptModel.fromTestingRouteModel(data, timerData, completed);
     final map = newData.toJson();
 
     String filePath = _historyPath(data.sessionData.folderName,
@@ -155,7 +155,7 @@ class LocalStorageService {
     return newData;
   }
 
-  Future<List<PreviousSessionData>> getPreviousSessionsList(
+  Future<List<PreviousAttemptModel>> getPreviousSessionsList(
       String subjectName, String sessionName) async {
     var dir = Directory('$_historyDir${Platform.pathSeparator}'
         '$subjectName${Platform.pathSeparator}'
@@ -175,17 +175,17 @@ class LocalStorageService {
         await Future.wait(files.map((file) async => await file.readAsString()));
 
     return strings
-        .map((string) => PreviousSessionData.fromJson(jsonDecode(string)))
+        .map((string) => PreviousAttemptModel.fromJson(jsonDecode(string)))
         .toList();
   }
 
-  Future<List<PreviousSessionData>> getPreviousSessionsListGlobal() async {
+  Future<List<PreviousAttemptModel>> getPreviousSessionsListGlobal() async {
     Directory historyDir = Directory(_historyDir);
     if (!await historyDir.exists()) {
       return [];
     }
 
-    List<PreviousSessionData> result = [];
+    List<PreviousAttemptModel> result = [];
     for (Directory subjectFolder in await historyDir
         .list()
         .where((x) => x is Directory)
@@ -201,7 +201,7 @@ class LocalStorageService {
             .where((x) => x is File)
             .map((x) => x as File)
             .toList()) {
-          result.add(PreviousSessionData.fromJson(
+          result.add(PreviousAttemptModel.fromJson(
               jsonDecode(await session.readAsString())));
         }
       }
@@ -211,7 +211,7 @@ class LocalStorageService {
     return result;
   }
 
-  Future<List<StorageRouteItemData>> getStorageData() async {
+  Future<List<StorageRouteItemModel>> getStorageData() async {
     Directory testsDir = Directory(_testsDir);
     if (!await testsDir.exists()) {
       return [];
@@ -231,7 +231,7 @@ class LocalStorageService {
             .map((file) => file as File)
             .toList())));
 
-    List<StorageRouteItemData> result = [];
+    List<StorageRouteItemModel> result = [];
     for (var entry in mapOfSessions.entries) {
       for (var file in entry.value) {
         String fileString;
@@ -241,12 +241,12 @@ class LocalStorageService {
         } else {
           fileString = await file.readAsString();
         }
-        final data = TestDataNoQuestions.fromJson(jsonDecode(fileString));
+        final data = ExamFileModelNoQuestions.fromJson(jsonDecode(fileString));
         final String imageFolderPath = '$_imageDir${Platform.pathSeparator}'
             '${entry.key.path.split(Platform.pathSeparator).last}${Platform.pathSeparator}'
             '${data.imageFolderName}';
 
-        result.add(StorageRouteItemData(
+        result.add(StorageRouteItemModel(
             subjectName: data.subject,
             sessionName: data.name,
             filePath: file.path,
@@ -260,18 +260,18 @@ class LocalStorageService {
     return result;
   }
 
-  Future<PersonalConfigData> getPersonalConfigData() async {
+  Future<PersonalConfigModel> getPersonalConfigData() async {
     final file =
         File('$_znoDirPath${Platform.pathSeparator}personal_config.json');
     if (!await file.exists()) {
-      return PersonalConfigData.getDefault();
+      return PersonalConfigModel.getDefault();
     }
 
     final data = await file.readAsString();
-    return PersonalConfigData.fromJSON(jsonDecode(data));
+    return PersonalConfigModel.fromJSON(jsonDecode(data));
   }
 
-  Future<void> savePersonalConfigData(PersonalConfigData data) async {
+  Future<void> savePersonalConfigData(PersonalConfigModel data) async {
     final file =
         await File('$_znoDirPath${Platform.pathSeparator}personal_config.json')
             .create(recursive: true);

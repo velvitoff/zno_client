@@ -1,5 +1,5 @@
-import 'package:client/dto/image_view_route_data.dart';
-import 'package:client/dto/sessions_route_data.dart';
+import 'package:client/routes/image_view_route/image_view_route_data.dart';
+import 'package:client/routes/sessions_route/sessions_route_data.dart';
 import 'package:client/routes/history_route/index.dart';
 import 'package:client/routes/image_view_route/index.dart';
 import 'package:client/routes/premium_route/index.dart';
@@ -14,9 +14,9 @@ import 'package:go_router/go_router.dart';
 import 'package:client/routes/subjects_route/index.dart';
 import 'package:client/routes/sessions_route/index.dart';
 
-import 'dto/session_data.dart';
-import 'dto/subjects_route_data.dart';
-import 'dto/testing_route_data.dart';
+import 'models/exam_file_adress_model.dart';
+import 'routes/subjects_route/subjects_route_data.dart';
+import 'routes/testing_route/testing_route_data.dart';
 
 class Routes {
   Routes._();
@@ -109,7 +109,7 @@ class Routes {
         GoRoute(
             path: sessionRoute,
             pageBuilder: (context, state) {
-              SessionData dto = state.extra as SessionData;
+              ExamFileAdressModel dto = state.extra as ExamFileAdressModel;
               return CustomTransitionPage(
                   key: state.pageKey,
                   transitionDuration: const Duration(milliseconds: 250),

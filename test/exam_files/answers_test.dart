@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:client/dto/answers/answer.dart';
+import 'package:client/models/answers/answer.dart';
 import 'package:test/test.dart';
 
 const Map<String, Answer?> answerSingle = {

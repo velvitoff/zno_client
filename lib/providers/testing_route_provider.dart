@@ -1,12 +1,12 @@
-import 'package:client/dto/testing_route_data.dart';
+import 'package:client/routes/testing_route/testing_route_data.dart';
 import 'package:client/state_models/testing_time_state_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../dto/test_data.dart';
+import '../models/exam_file_model.dart';
 import '../state_models/testing_route_state_model.dart';
 
 class TestingRouteProvider extends StatelessWidget {
-  final TestData testData;
+  final ExamFileModel testData;
   final TestingRouteData data;
   final Widget child;
 

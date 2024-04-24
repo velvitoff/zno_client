@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:client/dto/test_data.dart';
+import 'package:client/models/exam_file_model.dart';
 import 'package:client/state_models/auth_state_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/testing_route/testing_pages.dart';
@@ -13,7 +13,7 @@ import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '../../dto/testing_route_data.dart';
+import 'testing_route_data.dart';
 import '../../locator.dart';
 import '../../widgets/zno_error.dart';
 
@@ -27,7 +27,7 @@ class TestingRoute extends StatefulWidget {
 }
 
 class TestingRouteState extends State<TestingRoute> {
-  late final Future<TestData> futureTestData;
+  late final Future<ExamFileModel> futureTestData;
 
   @override
   void initState() {
@@ -40,10 +40,10 @@ class TestingRouteState extends State<TestingRoute> {
       if (widget.dto.sessionData.fileName.endsWith('.bin') &&
           context.read<AuthStateModel>().isPremium) {
         final res = locator.get<UtilsService>().decryptBin(data);
-        return TestData.fromJson(jsonDecode(res));
+        return ExamFileModel.fromJson(jsonDecode(res));
       }
       final String res = const Utf8Decoder().convert(data);
-      return TestData.fromJson(jsonDecode(res));
+      return ExamFileModel.fromJson(jsonDecode(res));
     });
   }
 
@@ -54,7 +54,7 @@ class TestingRouteState extends State<TestingRoute> {
       child: Scaffold(
           body: FutureBuilder(
         future: futureTestData,
-        builder: (BuildContext context, AsyncSnapshot<TestData> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<ExamFileModel> snapshot) {
           if (snapshot.hasData) {
             return TestingRouteProvider(
               data: widget.dto,

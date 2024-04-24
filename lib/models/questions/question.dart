@@ -1,4 +1,4 @@
-import 'package:client/dto/answers/answer.dart';
+import 'package:client/models/answers/answer.dart';
 import 'package:client/extensions/list_get_extension.dart';
 import 'package:flutter/foundation.dart';
 

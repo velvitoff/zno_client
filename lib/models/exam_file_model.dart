@@ -1,18 +1,18 @@
-import 'package:client/dto/questions/question.dart';
+import 'package:client/models/questions/question.dart';
 
-class TestData {
+class ExamFileModel {
   final String name;
   final String subject;
   final String imageFolderName;
   final List<Question> questions;
 
-  TestData(
+  ExamFileModel(
       {required this.name,
       required this.subject,
       required this.imageFolderName,
       required this.questions});
 
-  factory TestData.fromJson(Map<String, dynamic> map) => TestData(
+  factory ExamFileModel.fromJson(Map<String, dynamic> map) => ExamFileModel(
       name: map['name'] as String,
       subject: map['subject'] as String,
       imageFolderName: map['image_folder_name'] as String,
@@ -20,18 +20,18 @@ class TestData {
           map['questions'].map((x) => Question.fromJson(x))));
 }
 
-class TestDataNoQuestions {
+class ExamFileModelNoQuestions {
   final String name;
   final String subject;
   final String imageFolderName;
 
-  TestDataNoQuestions(
+  ExamFileModelNoQuestions(
       {required this.name,
       required this.subject,
       required this.imageFolderName});
 
-  factory TestDataNoQuestions.fromJson(Map<String, dynamic> map) =>
-      TestDataNoQuestions(
+  factory ExamFileModelNoQuestions.fromJson(Map<String, dynamic> map) =>
+      ExamFileModelNoQuestions(
           name: map['name'] as String,
           subject: map['subject'] as String,
           imageFolderName: map['image_folder_name'] as String);

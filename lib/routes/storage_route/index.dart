@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '../../dto/storage_route_item_data.dart';
+import '../../models/storage_route_item_model.dart';
 import '../../locator.dart';
 import '../../state_models/storage_route_state_model.dart';
 
@@ -21,7 +21,7 @@ class StorageRoute extends StatefulWidget {
 }
 
 class _StorageRouteState extends State<StorageRoute> {
-  late final Future<List<StorageRouteItemData>> storageList;
+  late final Future<List<StorageRouteItemModel>> storageList;
 
   @override
   void initState() {
@@ -47,7 +47,7 @@ class _StorageRouteState extends State<StorageRoute> {
               child: FutureBuilder(
                 future: storageList,
                 builder: (BuildContext context,
-                    AsyncSnapshot<List<StorageRouteItemData>> snapshot) {
+                    AsyncSnapshot<List<StorageRouteItemModel>> snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.data!.isEmpty) {
                       return ZnoError(
