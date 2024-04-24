@@ -1,14 +1,13 @@
 import 'dart:typed_data';
 import 'package:client/models/exam_file_adress_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../constants.dart';
+import '../constants.dart';
 
-class SupabaseStorageService {
+class SupabaseStorageRepository {
   SupabaseClient get client => Supabase.instance.client;
-  bool isPremium = false;
 
   Future<List<ExamFileAddressModel>> listExamFiles(
-      String folderName, String subjectName) async {
+      String folderName, String subjectName, bool isPremium) async {
     List<FileObject> listFree =
         await client.storage.from(Constants.testsBucket).list(path: folderName);
     if (listFree[0].name == ".emptyFolderPlaceholder") {
@@ -31,7 +30,8 @@ class SupabaseStorageService {
         .toList();
   }
 
-  Future<Uint8List> getExamFileData(ExamFileAddressModel examFile) async {
+  Future<Uint8List> getExamFileData(
+      ExamFileAddressModel examFile, bool isPremium) async {
     Future<Uint8List> req(String bucket) async {
       return await client.storage
           .from(bucket)
@@ -49,8 +49,8 @@ class SupabaseStorageService {
     return req(Constants.testsBucket);
   }
 
-  Future<Uint8List> getImageBytes(
-      ExamFileAddressModel examFileAddress, String fileName) async {
+  Future<Uint8List> getImageBytes(ExamFileAddressModel examFileAddress,
+      String fileName, bool isPremium) async {
     Future<Uint8List> req(String bucket) async {
       return await client.storage.from(bucket).download(
           '${examFileAddress.folderName}/${examFileAddress.fileNameNoExtension}/$fileName');
@@ -67,7 +67,7 @@ class SupabaseStorageService {
   }
 
   Future<Map<String, Uint8List>> downloadAllImages(
-      ExamFileAddressModel examFileAddress) async {
+      ExamFileAddressModel examFileAddress, bool isPremium) async {
     final imageFolderName = examFileAddress.fileNameNoExtension;
     Map<String, Uint8List> result = {};
 
@@ -87,8 +87,8 @@ class SupabaseStorageService {
       }
     }
 
-    final imageList = await Future.wait(
-        list.map((file) => getImageBytes(examFileAddress, file.name)));
+    final imageList = await Future.wait(list
+        .map((file) => getImageBytes(examFileAddress, file.name, isPremium)));
 
     for (int i = 0; i < imageList.length; ++i) {
       result[list[i].name] = imageList[i];

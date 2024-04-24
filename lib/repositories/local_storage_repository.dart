@@ -9,19 +9,19 @@ import 'package:client/state_models/testing_time_state_model.dart';
 import 'package:client/services/decryption_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart' as path;
-import '../../models/storage_route_item_model.dart';
-import '../../state_models/testing_route_state_model.dart';
+import '../models/storage_route_item_model.dart';
+import '../state_models/testing_route_state_model.dart';
 import 'dart:convert';
 import 'package:client/extensions/directory_extension.dart';
 
-class LocalStorageService {
+class LocalStorageRepository {
   final Directory _appDir;
-  bool isPremium = false;
 
-  LocalStorageService._create(Directory appDirectory) : _appDir = appDirectory;
+  LocalStorageRepository._create(Directory appDirectory)
+      : _appDir = appDirectory;
 
-  static Future<LocalStorageService> create() async {
-    return LocalStorageService._create(
+  static Future<LocalStorageRepository> create() async {
+    return LocalStorageRepository._create(
         await path.getApplicationDocumentsDirectory());
   }
 

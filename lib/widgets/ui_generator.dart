@@ -1,6 +1,7 @@
 import 'package:client/locator.dart';
 import 'package:client/models/exam_file_adress_model.dart';
-import 'package:client/services/storage_service/main_storage_service.dart';
+import 'package:client/services/storage_service.dart';
+import 'package:client/state_models/auth_state_model.dart';
 import 'package:client/widgets/audio_player_widget.dart';
 import 'package:client/widgets/image_in_a_test_wrapper.dart';
 import 'package:client/widgets/ui_gen_handler.dart';
@@ -116,11 +117,11 @@ class UiGenerator {
   }
 
   static Widget imageToWidget(
-      ExamFileAddressModel examFileAddress, String fileName) {
+      ExamFileAddressModel examFileAddress, String fileName, bool isPremium) {
     return ImageInATestWrapper(
         futureBytes: locator
-            .get<MainStorageService>()
-            .getImageBytes(examFileAddress, fileName));
+            .get<StorageService>()
+            .getImageBytes(examFileAddress, fileName, isPremium));
   }
 
   static Widget textToTable(BuildContext context, String data,
@@ -190,12 +191,14 @@ class UiGenerator {
                       );
                     } else if (data[0] == 'img') {
                       var model = context.read<TestingRouteStateModel>();
+                      final isPremium =
+                          context.read<AuthStateModel>().isPremium;
                       return Container(
                         margin: EdgeInsets.fromLTRB(3.w, 0, 3.w, 0),
                         child: LimitedBox(
                           maxWidth: 114.w,
                           child: UiGenerator.imageToWidget(
-                              model.sessionData, data[1]),
+                              model.sessionData, data[1], isPremium),
                         ),
                       );
                     } else {

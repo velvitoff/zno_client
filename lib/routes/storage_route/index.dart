@@ -2,7 +2,7 @@ import 'package:client/routes.dart';
 import 'package:client/routes/storage_route/storage_list.dart';
 import 'package:client/routes/storage_route/storage_route_header.dart';
 import 'package:client/providers/storage_route_provider.dart';
-import 'package:client/services/storage_service/main_storage_service.dart';
+import 'package:client/services/storage_service.dart';
 import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:client/widgets/zno_error.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +25,7 @@ class _StorageRouteState extends State<StorageRoute> {
 
   @override
   void initState() {
-    storageList = locator.get<MainStorageService>().getStorageData();
+    storageList = locator.get<StorageService>().getStorageData();
     super.initState();
   }
 

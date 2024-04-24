@@ -2,7 +2,7 @@ import 'package:client/locator.dart';
 import 'package:client/state_models/testing_route_state_model.dart';
 import 'package:client/state_models/testing_time_state_model.dart';
 import 'package:client/routes/testing_route/testing_page/testing_page.dart';
-import 'package:client/services/storage_service/main_storage_service.dart';
+import 'package:client/services/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/questions/question.dart';
@@ -47,7 +47,7 @@ class _TestingPagesState extends State<TestingPages>
     final testingRouteModel = context.read<TestingRouteStateModel>();
     if (testingRouteModel.isViewMode) return;
 
-    final data = locator.get<MainStorageService>().saveSessionEndSync(
+    final data = locator.get<StorageService>().saveSessionEndSync(
         testingRouteModel,
         context.read<TestingTimeStateModel>(),
         testingRouteModel.prevSessionData?.completed ?? false);

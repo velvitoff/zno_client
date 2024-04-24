@@ -41,7 +41,6 @@ class ProductPurchase {
 
 class SupabaseService {
   SupabaseClient get client => Supabase.instance.client;
-
   const SupabaseService();
 
   Future<bool> sendComplaint(

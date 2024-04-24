@@ -1,3 +1,4 @@
+import 'package:client/state_models/auth_state_model.dart';
 import 'package:client/widgets/horizontal_scroll_wrapper.dart';
 import 'package:client/widgets/ui_generator.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,8 @@ class UiGenHandler extends StatelessWidget {
     if (data[0] == 'img') {
       //1
       var model = context.read<TestingRouteStateModel>();
-      return UiGenerator.imageToWidget(model.sessionData, data[1]);
+      final isPremium = context.read<AuthStateModel>().isPremium;
+      return UiGenerator.imageToWidget(model.sessionData, data[1], isPremium);
     }
     if (data[0] == 'table' && allowRenderTables) {
       return UiGenerator.textToTable(context, data[1], style: textStyle);

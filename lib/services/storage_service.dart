@@ -1,25 +1,30 @@
 import 'dart:typed_data';
-import 'package:client/locator.dart';
 import 'package:client/models/exam_file_adress_model.dart';
+import 'package:client/models/personal_config_model.dart';
 import 'package:client/state_models/testing_time_state_model.dart';
-import 'package:client/services/storage_service/local_storage_service.dart';
-import 'package:client/services/storage_service/supabase_storage_service.dart';
-import '../../models/previous_attempt_model.dart';
-import '../../models/storage_route_item_model.dart';
-import '../../state_models/testing_route_state_model.dart';
+import 'package:client/repositories/local_storage_repository.dart';
+import 'package:client/repositories/supabase_storage_service.dart';
+import '../models/previous_attempt_model.dart';
+import '../models/storage_route_item_model.dart';
+import '../state_models/testing_route_state_model.dart';
 
 //TODO: test
-class MainStorageService {
-  MainStorageService();
+class StorageService {
+  SupabaseStorageRepository externalStorage;
+  LocalStorageRepository localStorage;
 
-  SupabaseStorageService get externalStorage =>
-      locator.get<SupabaseStorageService>();
-  LocalStorageService get localStorage => locator.get<LocalStorageService>();
+  StorageService._({required this.externalStorage, required this.localStorage});
+  static Future<StorageService> create() async {
+    return StorageService._(
+        externalStorage: SupabaseStorageRepository(),
+        localStorage: await LocalStorageRepository.create());
+  }
 
   Future<List<ExamFileAddressModel>> listExamFiles(
-      String folderName, String subjectName) async {
+      String folderName, String subjectName, bool isPremium) async {
     try {
-      return await externalStorage.listExamFiles(folderName, subjectName);
+      return await externalStorage.listExamFiles(
+          folderName, subjectName, isPremium);
     } catch (e) {
       //fallback for listing sessions in case of network exception
       return await localStorage.listExamFiles(folderName, subjectName);
@@ -28,7 +33,7 @@ class MainStorageService {
 
   //TODO: remove side effect
   Future<Uint8List> getExamFileBytes(
-      ExamFileAddressModel examFileAddress) async {
+      ExamFileAddressModel examFileAddress, bool isPremium) async {
     //throws
     try {
       //return local file if it's recent enough
@@ -36,7 +41,7 @@ class MainStorageService {
       var now = DateTime.now();
       if (now.difference(lastModified).inDays < 3) {
         if (!await localStorage.imageFolderExists(examFileAddress)) {
-          await downloadAllImages(examFileAddress);
+          await downloadAllImages(examFileAddress, isPremium);
         }
 
         return localStorage.getExamFileData(examFileAddress);
@@ -47,9 +52,9 @@ class MainStorageService {
     } catch (e) {
       try {
         final Uint8List session =
-            await externalStorage.getExamFileData(examFileAddress);
+            await externalStorage.getExamFileData(examFileAddress, isPremium);
         await localStorage.saveExamFile(examFileAddress, session);
-        final imageMap = await downloadAllImages(examFileAddress);
+        final imageMap = await downloadAllImages(examFileAddress, isPremium);
         await saveImages(examFileAddress, imageMap);
         return session;
       } catch (e) {
@@ -63,18 +68,19 @@ class MainStorageService {
     return localStorage.getImagePath(examFileAddress, fileName);
   }
 
-  Future<Uint8List> getImageBytes(
-      ExamFileAddressModel examFileAddress, String fileName) async {
+  Future<Uint8List> getImageBytes(ExamFileAddressModel examFileAddress,
+      String fileName, bool isPremium) async {
     try {
       return localStorage.getImageBytes(examFileAddress, fileName);
     } catch (e) {
-      return externalStorage.getImageBytes(examFileAddress, fileName);
+      return externalStorage.getImageBytes(
+          examFileAddress, fileName, isPremium);
     }
   }
 
   Future<Map<String, Uint8List>> downloadAllImages(
-      ExamFileAddressModel examFileAddress) async {
-    return await externalStorage.downloadAllImages(examFileAddress);
+      ExamFileAddressModel examFileAddress, bool isPremium) async {
+    return await externalStorage.downloadAllImages(examFileAddress, isPremium);
   }
 
   Future<void> saveImages(ExamFileAddressModel examFileAddress,
@@ -103,5 +109,13 @@ class MainStorageService {
 
   Future<List<StorageRouteItemModel>> getStorageData() async {
     return localStorage.getStorageData();
+  }
+
+  Future<PersonalConfigModel> getPersonalConfigData() async {
+    return await localStorage.getPersonalConfigData();
+  }
+
+  Future<void> savePersonalConfigData(PersonalConfigModel data) async {
+    await localStorage.savePersonalConfigData(data);
   }
 }

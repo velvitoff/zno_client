@@ -1,7 +1,8 @@
 import 'package:client/routes/sessions_route/sessions_route_data.dart';
 import 'package:client/routes/sessions_route/sessions_list.dart';
 import 'package:client/routes/sessions_route/sessions_scroll_wrapper.dart';
-import 'package:client/services/storage_service/main_storage_service.dart';
+import 'package:client/services/storage_service.dart';
+import 'package:client/state_models/auth_state_model.dart';
 import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:client/widgets/zno_bottom_navigation_bar.dart';
 import 'package:client/widgets/zno_error.dart';
@@ -10,6 +11,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import '../../models/exam_file_adress_model.dart';
 import '../../locator.dart';
 import '../../routes.dart';
@@ -29,9 +31,9 @@ class SessionsRouteState extends State<SessionsRoute> {
 
   Future<List<MapEntry<String, List<ExamFileAddressModel>>>>
       getFutureList() async {
-    final list = await locator
-        .get<MainStorageService>()
-        .listExamFiles(widget.dto.folderName, widget.dto.subjectName);
+    final isPremium = context.read<AuthStateModel>().isPremium;
+    final list = await locator.get<StorageService>().listExamFiles(
+        widget.dto.folderName, widget.dto.subjectName, isPremium);
     final listGrouped = list
         .groupListsBy((element) => element.fileNameNoExtension.split('_').last)
         .entries

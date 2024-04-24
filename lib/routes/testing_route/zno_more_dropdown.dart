@@ -3,7 +3,7 @@ import 'package:client/state_models/testing_route_state_model.dart';
 import 'package:client/state_models/testing_time_state_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/services/dialog_service.dart';
-import 'package:client/services/storage_service/main_storage_service.dart';
+import 'package:client/services/storage_service.dart';
 import 'package:client/services/supabase_service.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +35,7 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
           if (value) {
             if (!isViewMode) {
               locator
-                  .get<MainStorageService>()
+                  .get<StorageService>()
                   .saveSessionEnd(context.read<TestingRouteStateModel>(),
                       context.read<TestingTimeStateModel>(), false)
                   .then((void val) => context.go(Routes.sessionRoute,

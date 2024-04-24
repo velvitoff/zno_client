@@ -1,5 +1,5 @@
 import 'package:client/services/dialog_service.dart';
-import 'package:client/services/storage_service/local_storage_service.dart';
+import 'package:client/services/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -35,7 +35,7 @@ class _SubjectChoiceHeaderState extends State<SubjectChoiceHeader> {
         .map((entry) => entry.key)
         .toList();
 
-    final storageService = locator.get<LocalStorageService>();
+    final storageService = locator.get<StorageService>();
 
     await storageService.getPersonalConfigData().then((config) {
       storageService.savePersonalConfigData(

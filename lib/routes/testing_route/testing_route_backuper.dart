@@ -4,7 +4,7 @@ import 'package:client/models/answers/answer.dart';
 import 'package:client/locator.dart';
 import 'package:client/state_models/testing_route_state_model.dart';
 import 'package:client/state_models/testing_time_state_model.dart';
-import 'package:client/services/storage_service/main_storage_service.dart';
+import 'package:client/services/storage_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -54,7 +54,7 @@ class _TestingRouteBackuperState extends State<TestingRouteBackuper> {
 
   Future<void> _handleBackup(TestingRouteStateModel model) async {
     await locator
-        .get<MainStorageService>()
+        .get<StorageService>()
         .saveSessionEnd(model, context.read<TestingTimeStateModel>(),
             model.prevSessionData?.completed ?? false)
         .then((data) {

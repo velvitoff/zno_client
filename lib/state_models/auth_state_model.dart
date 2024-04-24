@@ -1,8 +1,6 @@
 import 'package:client/auth/auth_provider_google.dart';
 import 'package:client/auth/auth_provider_interface.dart';
 import 'package:client/locator.dart';
-import 'package:client/services/storage_service/local_storage_service.dart';
-import 'package:client/services/storage_service/supabase_storage_service.dart';
 import 'package:client/services/supabase_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -16,11 +14,6 @@ class AuthStateModel extends ChangeNotifier {
   Session? currentSession;
   bool isPremium = false;
 
-  void updatePremiumStatusForServices() {
-    locator.get<LocalStorageService>().isPremium = isPremium;
-    locator.get<SupabaseStorageService>().isPremium = isPremium;
-  }
-
   void setAuthProviderGoogle() {
     _authProvider = AuthProviderGoogle();
     notifyListeners();
@@ -30,7 +23,6 @@ class AuthStateModel extends ChangeNotifier {
     currentUser = user ?? currentUser;
     currentSession = session ?? currentSession;
     isPremium = premium ?? isPremium;
-    updatePremiumStatusForServices();
     notifyListeners();
   }
 
@@ -38,7 +30,6 @@ class AuthStateModel extends ChangeNotifier {
     currentUser = null;
     currentSession = null;
     isPremium = false;
-    updatePremiumStatusForServices();
     notifyListeners();
   }
 }

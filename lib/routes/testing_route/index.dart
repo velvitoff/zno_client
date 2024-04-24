@@ -7,7 +7,7 @@ import 'package:client/routes/testing_route/testing_pages.dart';
 import 'package:client/providers/testing_route_provider.dart';
 import 'package:client/routes/testing_route/testing_route_backuper.dart';
 import 'package:client/routes/testing_route/zno_testing_header.dart';
-import 'package:client/services/storage_service/main_storage_service.dart';
+import 'package:client/services/storage_service.dart';
 import 'package:client/services/decryption_service.dart';
 import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:flutter/material.dart';
@@ -32,9 +32,10 @@ class TestingRouteState extends State<TestingRoute> {
   @override
   void initState() {
     super.initState();
+    final isPremium = context.read<AuthStateModel>().isPremium;
     futureTestData = locator
-        .get<MainStorageService>()
-        .getExamFileBytes(widget.dto.sessionData)
+        .get<StorageService>()
+        .getExamFileBytes(widget.dto.sessionData, isPremium)
         .then((Uint8List data) {
       if (widget.dto.sessionData.fileName.endsWith('.bin') &&
           context.read<AuthStateModel>().isPremium) {

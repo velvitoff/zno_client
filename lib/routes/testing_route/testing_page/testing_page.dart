@@ -7,7 +7,7 @@ import 'package:client/routes/testing_route/testing_page/question_widget.dart';
 import 'package:client/routes/testing_route/testing_page/testing_buttons.dart';
 import 'package:client/routes/testing_route/testing_page/testing_page_timer.dart';
 import 'package:client/services/dialog_service.dart';
-import 'package:client/services/storage_service/main_storage_service.dart';
+import 'package:client/services/storage_service.dart';
 import 'package:client/widgets/zno_divider_for_review.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -57,7 +57,7 @@ class _TestingPageState extends State<TestingPage> {
       if (value != null) {
         if (value) {
           locator
-              .get<MainStorageService>()
+              .get<StorageService>()
               .saveSessionEnd(context.read<TestingRouteStateModel>(),
                   context.read<TestingTimeStateModel>(), true)
               .then((_) {

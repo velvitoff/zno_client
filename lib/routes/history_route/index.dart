@@ -1,7 +1,7 @@
 import 'package:client/routes.dart';
 import 'package:client/routes/history_route/history_list.dart';
 import 'package:client/providers/history_route_provider.dart';
-import 'package:client/services/storage_service/main_storage_service.dart';
+import 'package:client/services/storage_service.dart';
 import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:client/widgets/zno_error.dart';
 import 'package:client/widgets/zno_icon_button.dart';
@@ -25,8 +25,7 @@ class _HistoryRouteState extends State<HistoryRoute> {
   @override
   void initState() {
     super.initState();
-    dataList =
-        locator.get<MainStorageService>().getPreviousSessionsListGlobal();
+    dataList = locator.get<StorageService>().getPreviousSessionsListGlobal();
   }
 
   void _onPopInvoked(bool didPop) {
