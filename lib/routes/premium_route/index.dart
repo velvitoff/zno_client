@@ -1,4 +1,4 @@
-import 'package:client/models/auth_state_model.dart';
+import 'package:client/state_models/auth_state_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/premium_route/button_google_login.dart';
 import 'package:client/routes/premium_route/button_google_pay.dart';

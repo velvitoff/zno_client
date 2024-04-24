@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:client/dto/answers/answer.dart';
 import 'package:client/locator.dart';
-import 'package:client/models/testing_route_model.dart';
-import 'package:client/models/testing_time_model.dart';
+import 'package:client/state_models/testing_route_state_model.dart';
+import 'package:client/state_models/testing_time_state_model.dart';
 import 'package:client/services/storage_service/main_storage_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ class _TestingRouteBackuperState extends State<TestingRouteBackuper> {
   void initState() {
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 30), (timer) async {
-      final model = context.read<TestingRouteModel>();
+      final model = context.read<TestingRouteStateModel>();
       if (_isBackupNecessary(model)) {
         await _handleBackup(model);
       }
@@ -45,20 +45,20 @@ class _TestingRouteBackuperState extends State<TestingRouteBackuper> {
     return widget.child;
   }
 
-  bool _isBackupNecessary(TestingRouteModel model) {
+  bool _isBackupNecessary(TestingRouteStateModel model) {
     if (model.isViewMode) return false;
     if (mapEquals(model.allAnswers, answersCopy)) return false;
     if (model.allAnswers.isEmpty) return false;
     return true;
   }
 
-  Future<void> _handleBackup(TestingRouteModel model) async {
+  Future<void> _handleBackup(TestingRouteStateModel model) async {
     await locator
         .get<MainStorageService>()
-        .saveSessionEnd(model, context.read<TestingTimeModel>(),
+        .saveSessionEnd(model, context.read<TestingTimeStateModel>(),
             model.prevSessionData?.completed ?? false)
         .then((data) {
-      context.read<TestingRouteModel>().prevSessionData = data;
+      context.read<TestingRouteStateModel>().prevSessionData = data;
     });
   }
 }

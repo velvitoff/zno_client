@@ -1,4 +1,4 @@
-import 'package:client/models/testing_route_model.dart';
+import 'package:client/state_models/testing_route_state_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -47,7 +47,7 @@ class TestingButtons extends StatelessWidget {
     }
     //isLastPage
     else {
-      if (context.read<TestingRouteModel>().isViewMode) {
+      if (context.read<TestingRouteStateModel>().isViewMode) {
         childList.add(ZnoButton(
             onTap: onForward,
             width: 145.w,

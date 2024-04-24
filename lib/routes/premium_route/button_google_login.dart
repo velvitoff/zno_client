@@ -1,4 +1,4 @@
-import 'package:client/models/auth_state_model.dart';
+import 'package:client/state_models/auth_state_model.dart';
 import 'package:client/widgets/icons/zno_google_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

@@ -1,6 +1,6 @@
 import 'package:client/dto/questions/question.dart';
-import 'package:client/models/testing_route_model.dart';
-import 'package:client/models/testing_time_model.dart';
+import 'package:client/state_models/testing_route_state_model.dart';
+import 'package:client/state_models/testing_time_state_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/testing_route/testing_page/answer_widget.dart';
 import 'package:client/routes/testing_route/testing_page/question_widget.dart';
@@ -48,7 +48,7 @@ class _TestingPageState extends State<TestingPage> {
   }
 
   void onEndSession(BuildContext context) {
-    bool isViewMode = context.read<TestingRouteModel>().isViewMode;
+    bool isViewMode = context.read<TestingRouteStateModel>().isViewMode;
     locator
         .get<DialogService>()
         .showConfirmDialog(
@@ -58,11 +58,11 @@ class _TestingPageState extends State<TestingPage> {
         if (value) {
           locator
               .get<MainStorageService>()
-              .saveSessionEnd(context.read<TestingRouteModel>(),
-                  context.read<TestingTimeModel>(), true)
+              .saveSessionEnd(context.read<TestingRouteStateModel>(),
+                  context.read<TestingTimeStateModel>(), true)
               .then((_) {
             context.go(Routes.sessionRoute,
-                extra: context.read<TestingRouteModel>().sessionData);
+                extra: context.read<TestingRouteStateModel>().sessionData);
           });
         }
       }
@@ -82,14 +82,14 @@ class _TestingPageState extends State<TestingPage> {
           children: [
             Column(
               children: [
-                context.read<TestingRouteModel>().isViewMode
+                context.read<TestingRouteStateModel>().isViewMode
                     ? ZnoDividerForReview(
                         activeIndex: widget.index,
                         itemCount: widget.questionsLength)
                     : ZnoDivider(
                         activeIndex: widget.index,
                         itemCount: widget.questionsLength),
-                context.select<TestingTimeModel, bool>(
+                context.select<TestingTimeStateModel, bool>(
                         (value) => value.isTimerActivated)
                     ? const TestingPageTimer()
                     : Container(),
@@ -111,11 +111,12 @@ class _TestingPageState extends State<TestingPage> {
                   ),
                   TestingButtons(
                     onBack: () =>
-                        context.read<TestingRouteModel>().decrementPage(),
+                        context.read<TestingRouteStateModel>().decrementPage(),
                     onForward: widget.index == widget.questionsLength - 1
                         ? () => onEndSession(context)
-                        : () =>
-                            context.read<TestingRouteModel>().incrementPage(),
+                        : () => context
+                            .read<TestingRouteStateModel>()
+                            .incrementPage(),
                     isFirstPage: widget.index == 0,
                     isLastPage: widget.index == widget.questionsLength - 1,
                   )

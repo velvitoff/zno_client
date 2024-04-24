@@ -2,12 +2,12 @@ import 'package:client/dto/answers/answer.dart';
 import 'package:client/dto/previous_session_data.dart';
 import 'package:client/dto/questions/question.dart';
 import 'package:client/dto/session_data.dart';
-import 'package:client/models/testing_route_model.dart';
-import 'package:client/models/testing_time_model.dart';
+import 'package:client/state_models/testing_route_state_model.dart';
+import 'package:client/state_models/testing_time_state_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-final model = TestingRouteModel(
+final model = TestingRouteStateModel(
     sessionData: const SessionData(
         subjectName: 'test',
         sessionName: 'test session',
@@ -161,7 +161,7 @@ void main() {
     test('getScore in testing route model', () {
       var prev = PreviousSessionData.fromTestingRouteModel(
           model,
-          TestingTimeModel(
+          TestingTimeStateModel(
               isTimerActivated: false,
               secondsInTotal: 0,
               secondsSinceStart: 0,

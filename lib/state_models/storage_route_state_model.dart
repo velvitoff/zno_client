@@ -2,10 +2,10 @@ import 'package:client/dto/storage_route_item_data.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
-class StorageRouteModel extends ChangeNotifier {
+class StorageRouteStateModel extends ChangeNotifier {
   Map<StorageRouteItemData, bool> fileMap;
 
-  StorageRouteModel({required this.fileMap});
+  StorageRouteStateModel({required this.fileMap});
 
   bool getIsMarked(UniqueKey inKey) {
     for (var entry in fileMap.entries) {

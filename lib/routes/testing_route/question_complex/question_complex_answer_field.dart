@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../../../models/testing_route_model.dart';
+import '../../../state_models/testing_route_state_model.dart';
 
 class QuestionComplexAnswerField extends StatelessWidget {
   final int index;
@@ -18,7 +18,7 @@ class QuestionComplexAnswerField extends StatelessWidget {
   void handleClickOnCell(
       BuildContext context, String newAnswerKey, String newAnswerValue) {
     context
-        .read<TestingRouteModel>()
+        .read<TestingRouteStateModel>()
         .addAnswerComplex(question.order, newAnswerKey, newAnswerValue);
   }
 
@@ -29,12 +29,13 @@ class QuestionComplexAnswerField extends StatelessWidget {
     }
 
     final bool editable =
-        context.read<TestingRouteModel>().prevSessionData?.isEditable ?? true;
+        context.read<TestingRouteStateModel>().prevSessionData?.isEditable ??
+            true;
     final List<List<String>> variants = question.answerMappingList;
 
     return Container(
       margin: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
-      child: Selector<TestingRouteModel, dynamic>(
+      child: Selector<TestingRouteStateModel, dynamic>(
         selector: (_, model) => model.getAnswer(question.order),
         builder: (_, answer, __) {
           if (answer is! AnswerComplex?) {

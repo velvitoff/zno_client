@@ -1,5 +1,5 @@
 import 'package:client/dto/answers/answer.dart';
-import 'package:client/models/testing_route_model.dart';
+import 'package:client/state_models/testing_route_state_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +32,7 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
   @override
   void initState() {
     super.initState();
-    final TestingRouteModel model = context.read<TestingRouteModel>();
+    final TestingRouteStateModel model = context.read<TestingRouteStateModel>();
     selected = model.pageIndex + 1;
     _scrollController = ScrollController(initialScrollOffset: selected * 80.r);
     _questions = model.questions;
@@ -133,7 +133,7 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
                 }
                 return GestureDetector(
                   onTap: () {
-                    context.read<TestingRouteModel>().jumpPage(index - 1);
+                    context.read<TestingRouteStateModel>().jumpPage(index - 1);
                   },
                   child: Container(
                     width: 50.r,

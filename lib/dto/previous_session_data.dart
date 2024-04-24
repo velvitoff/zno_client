@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:client/dto/answers/answer.dart';
 import 'package:client/dto/questions/question.dart';
 import 'package:client/locator.dart';
-import 'package:client/models/testing_time_model.dart';
+import 'package:client/state_models/testing_time_state_model.dart';
 import 'package:client/services/utils_service.dart';
 
-import '../models/testing_route_model.dart';
+import '../state_models/testing_route_state_model.dart';
 
 class PreviousSessionData {
   final String sessionName;
@@ -84,8 +84,8 @@ class PreviousSessionData {
         'score': score
       };
 
-  factory PreviousSessionData.fromTestingRouteModel(
-      TestingRouteModel data, TestingTimeModel timeData, bool completed) {
+  factory PreviousSessionData.fromTestingRouteModel(TestingRouteStateModel data,
+      TestingTimeStateModel timeData, bool completed) {
     int score = 0;
     int total = 0;
 

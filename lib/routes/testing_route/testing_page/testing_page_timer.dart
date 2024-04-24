@@ -1,4 +1,4 @@
-import 'package:client/models/testing_time_model.dart';
+import 'package:client/state_models/testing_time_state_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +17,7 @@ class TestingPageTimer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final timeData = context.select<TestingTimeModel, (int, int)>(
+    final timeData = context.select<TestingTimeStateModel, (int, int)>(
         (value) => (value.secondsSinceStart, value.secondsInTotal));
     if (timeData.$2 - timeData.$1 <= 0) {
       return const Text('Час вичерпано');

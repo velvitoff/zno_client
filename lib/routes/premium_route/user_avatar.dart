@@ -1,4 +1,4 @@
-import 'package:client/models/auth_state_model.dart';
+import 'package:client/state_models/auth_state_model.dart';
 import 'package:collection/collection.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';

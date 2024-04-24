@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../models/testing_route_model.dart';
+import '../state_models/testing_route_state_model.dart';
 
 class UiGenHandler extends StatelessWidget {
   final List<String> data;
@@ -29,7 +29,7 @@ class UiGenHandler extends StatelessWidget {
     }
     if (data[0] == 'img') {
       //1
-      var model = context.read<TestingRouteModel>();
+      var model = context.read<TestingRouteStateModel>();
       return UiGenerator.imageToWidget(model.sessionData.folderName,
           model.sessionData.fileNameNoExtension, data[1]);
     }
@@ -46,7 +46,7 @@ class UiGenHandler extends StatelessWidget {
       );
     }
     if (data[0] == 'audio') {
-      var model = context.read<TestingRouteModel>();
+      var model = context.read<TestingRouteStateModel>();
       return UiGenerator.audioPlayer(model.sessionData.folderName,
           model.sessionData.fileNameNoExtension, data[1]);
     }

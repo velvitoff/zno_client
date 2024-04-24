@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../../../models/testing_route_model.dart';
+import '../../../state_models/testing_route_state_model.dart';
 
 class QuestionTextFieldsAnswerField extends StatelessWidget {
   final QuestionTextFields question;
@@ -20,16 +20,16 @@ class QuestionTextFieldsAnswerField extends StatelessWidget {
 
   void handleChange(BuildContext context, int answerIndex, String newAnswer) {
     context
-        .read<TestingRouteModel>()
+        .read<TestingRouteStateModel>()
         .addAnswerTextFields(question.order, answerIndex, newAnswer);
   }
 
   @override
   Widget build(BuildContext context) {
-    final bool editable = !context.read<TestingRouteModel>().isViewMode;
+    final bool editable = !context.read<TestingRouteStateModel>().isViewMode;
 
     Answer? answer =
-        context.read<TestingRouteModel>().getAnswer(question.order);
+        context.read<TestingRouteStateModel>().getAnswer(question.order);
     if (answer is! AnswerTextFields?) {
       return Container();
     }

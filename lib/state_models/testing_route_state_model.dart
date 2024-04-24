@@ -4,7 +4,7 @@ import '../dto/previous_session_data.dart';
 import '../dto/questions/question.dart';
 import '../dto/session_data.dart';
 
-class TestingRouteModel extends ChangeNotifier {
+class TestingRouteStateModel extends ChangeNotifier {
   final SessionData sessionData;
   final List<Question> questions;
   PreviousSessionData? prevSessionData;
@@ -14,7 +14,7 @@ class TestingRouteModel extends ChangeNotifier {
   late PageController pageController;
   int _pageIndex = 0;
 
-  TestingRouteModel(
+  TestingRouteStateModel(
       {required this.sessionData,
       required this.questions,
       required this.prevSessionData}) {

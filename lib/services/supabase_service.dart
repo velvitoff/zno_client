@@ -1,5 +1,5 @@
 import 'package:client/extensions/debug_print.dart';
-import 'package:client/models/testing_route_model.dart';
+import 'package:client/state_models/testing_route_state_model.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -45,7 +45,7 @@ class SupabaseService {
   const SupabaseService();
 
   Future<bool> sendComplaint(
-      TestingRouteModel model, String text, bool isPremium,
+      TestingRouteStateModel model, String text, bool isPremium,
       {String? id}) async {
     try {
       await client.from('user_complaints').insert({

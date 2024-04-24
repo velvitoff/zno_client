@@ -10,7 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:html/dom.dart' as html;
 import 'package:html/parser.dart' as html_parser;
 import 'dart:convert';
-import '../models/testing_route_model.dart';
+import '../state_models/testing_route_state_model.dart';
 
 import 'horizontal_scroll_wrapper.dart';
 
@@ -188,7 +188,7 @@ class UiGenerator {
                         child: textToWidget(data[1], style: style),
                       );
                     } else if (data[0] == 'img') {
-                      var model = context.read<TestingRouteModel>();
+                      var model = context.read<TestingRouteStateModel>();
                       return Container(
                         margin: EdgeInsets.fromLTRB(3.w, 0, 3.w, 0),
                         child: LimitedBox(

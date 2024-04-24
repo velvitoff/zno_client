@@ -1,9 +1,9 @@
 import 'package:client/dto/testing_route_data.dart';
-import 'package:client/models/testing_time_model.dart';
+import 'package:client/state_models/testing_time_state_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../dto/test_data.dart';
-import '../models/testing_route_model.dart';
+import '../state_models/testing_route_state_model.dart';
 
 class TestingRouteProvider extends StatelessWidget {
   final TestData testData;
@@ -22,7 +22,7 @@ class TestingRouteProvider extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create: (context) => TestingRouteModel(
+            create: (context) => TestingRouteStateModel(
                 questions: testData.questions,
                 sessionData: data.sessionData,
                 prevSessionData: data.prevSessionData)),
@@ -30,13 +30,13 @@ class TestingRouteProvider extends StatelessWidget {
           create: (context) {
             final prevData = data.prevSessionData;
             if (prevData != null) {
-              return TestingTimeModel(
+              return TestingTimeStateModel(
                   isTimerActivated: prevData.isTimerActivated,
                   secondsSinceStart: prevData.timerSeconds,
                   secondsInTotal: prevData.timerSecondsInTotal,
                   isViewMode: prevData.completed);
             }
-            return TestingTimeModel(
+            return TestingTimeStateModel(
                 isTimerActivated: data.isTimerActivated,
                 secondsSinceStart: 0,
                 secondsInTotal: data.timerSecondsInTotal,

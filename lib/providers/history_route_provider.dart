@@ -1,4 +1,4 @@
-import 'package:client/models/history_route_model.dart';
+import 'package:client/state_models/history_route_state_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,7 +9,7 @@ class HistoryRouteProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => HistoryRouteModel(sessionsList: []),
+      create: (context) => HistoryRouteStateModel(sessionsList: []),
       child: child,
     );
   }

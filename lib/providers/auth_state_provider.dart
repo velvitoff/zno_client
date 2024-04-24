@@ -1,4 +1,4 @@
-import 'package:client/models/auth_state_model.dart';
+import 'package:client/state_models/auth_state_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 

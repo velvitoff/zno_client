@@ -1,6 +1,6 @@
 import 'package:client/locator.dart';
-import 'package:client/models/testing_route_model.dart';
-import 'package:client/models/testing_time_model.dart';
+import 'package:client/state_models/testing_route_state_model.dart';
+import 'package:client/state_models/testing_time_state_model.dart';
 import 'package:client/routes/testing_route/testing_page/testing_page.dart';
 import 'package:client/services/storage_service/main_storage_service.dart';
 import 'package:flutter/material.dart';
@@ -44,19 +44,19 @@ class _TestingPagesState extends State<TestingPages>
 
   void handleOnPause() {
     //should be saveSessionEndSync for correct behaviour in case of detached event
-    final testingRouteModel = context.read<TestingRouteModel>();
+    final testingRouteModel = context.read<TestingRouteStateModel>();
     if (testingRouteModel.isViewMode) return;
 
     final data = locator.get<MainStorageService>().saveSessionEndSync(
         testingRouteModel,
-        context.read<TestingTimeModel>(),
+        context.read<TestingTimeStateModel>(),
         testingRouteModel.prevSessionData?.completed ?? false);
-    context.read<TestingRouteModel>().prevSessionData = data;
+    context.read<TestingRouteStateModel>().prevSessionData = data;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Selector<TestingRouteModel, (PageController, List<Question>)>(
+    return Selector<TestingRouteStateModel, (PageController, List<Question>)>(
       selector: (_, model) => (model.pageController, model.questions),
       builder: (_, data, __) {
         return PageView.builder(

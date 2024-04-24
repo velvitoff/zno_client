@@ -1,5 +1,5 @@
 import 'package:client/locator.dart';
-import 'package:client/models/storage_route_model.dart';
+import 'package:client/state_models/storage_route_state_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/storage_route/storage_header_radio_button.dart';
 import 'package:client/services/dialog_service.dart';
@@ -20,7 +20,7 @@ class StorageRouteHeader extends StatelessWidget {
         .then((bool? value) {
       if (value != null && value) {
         try {
-          context.read<StorageRouteModel>().deleteSelectedStorageItems();
+          context.read<StorageRouteStateModel>().deleteSelectedStorageItems();
         } catch (e) {
           locator.get<DialogService>().showInfoDialog(context,
               'Сталася помилка під час видалення файлів тестів', 230.h);
@@ -65,7 +65,9 @@ class StorageRouteHeader extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    context.watch<StorageRouteModel>().isAtLeastOneItemMarked()
+                    context
+                            .watch<StorageRouteStateModel>()
+                            .isAtLeastOneItemMarked()
                         ? GestureDetector(
                             onTap: () => deleteSelectedItems(context),
                             child: Icon(
@@ -76,11 +78,13 @@ class StorageRouteHeader extends StatelessWidget {
                           )
                         : Container(width: 39.sp),
                     GestureDetector(
-                      onTap: () =>
-                          context.read<StorageRouteModel>().setIsMarkedAll(),
+                      onTap: () => context
+                          .read<StorageRouteStateModel>()
+                          .setIsMarkedAll(),
                       child: StorageHeaderRadioButton(
-                        isMarked:
-                            context.watch<StorageRouteModel>().getIsMarkedAll(),
+                        isMarked: context
+                            .watch<StorageRouteStateModel>()
+                            .getIsMarkedAll(),
                       ),
                     ),
                     GestureDetector(

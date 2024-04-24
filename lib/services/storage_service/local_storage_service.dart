@@ -4,12 +4,12 @@ import 'package:client/dto/personal_config_data.dart';
 import 'package:client/dto/previous_session_data.dart';
 import 'package:client/dto/test_data.dart';
 import 'package:client/locator.dart';
-import 'package:client/models/testing_time_model.dart';
+import 'package:client/state_models/testing_time_state_model.dart';
 import 'package:client/services/utils_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart' as path;
 import '../../dto/storage_route_item_data.dart';
-import '../../models/testing_route_model.dart';
+import '../../state_models/testing_route_state_model.dart';
 import 'dart:convert';
 import 'package:client/extensions/directory_extension.dart';
 
@@ -101,8 +101,8 @@ class LocalStorageService {
     return await Directory(getImagePath(subjectName, sessionName, '')).exists();
   }
 
-  Future<PreviousSessionData?> saveSessionEnd(TestingRouteModel data,
-      TestingTimeModel timerData, bool completed) async {
+  Future<PreviousSessionData?> saveSessionEnd(TestingRouteStateModel data,
+      TestingTimeStateModel timerData, bool completed) async {
     if (data.prevSessionData != null && data.prevSessionData!.completed) {
       return null;
     }
@@ -128,8 +128,8 @@ class LocalStorageService {
     return newData;
   }
 
-  PreviousSessionData? saveSessionEndSync(
-      TestingRouteModel data, TestingTimeModel timerData, bool completed) {
+  PreviousSessionData? saveSessionEndSync(TestingRouteStateModel data,
+      TestingTimeStateModel timerData, bool completed) {
     if (data.prevSessionData != null && data.prevSessionData!.completed) {
       return null;
     }

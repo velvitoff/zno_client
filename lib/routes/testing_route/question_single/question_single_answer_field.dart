@@ -1,6 +1,6 @@
 import 'package:client/dto/answers/answer.dart';
 import 'package:client/dto/questions/question.dart';
-import 'package:client/models/testing_route_model.dart';
+import 'package:client/state_models/testing_route_state_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -16,13 +16,13 @@ class QuestionSingleAnswerField extends StatelessWidget {
 
   void handleClickOnCell(BuildContext context, String newAnswer) {
     context
-        .read<TestingRouteModel>()
+        .read<TestingRouteStateModel>()
         .addAnswerSingle(question.order, newAnswer);
   }
 
   @override
   Widget build(BuildContext context) {
-    final bool editable = !context.read<TestingRouteModel>().isViewMode;
+    final bool editable = !context.read<TestingRouteStateModel>().isViewMode;
     final List<String> variants = question.answerList;
 
     return Container(
@@ -40,7 +40,7 @@ class QuestionSingleAnswerField extends StatelessWidget {
                     style:
                         TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w500),
                   ),
-                  Selector<TestingRouteModel, Answer?>(
+                  Selector<TestingRouteStateModel, Answer?>(
                     selector: (_, model) => model.getAnswer(question.order),
                     builder: (_, answer, __) {
                       if (answer is! AnswerSingle) {

@@ -1,4 +1,4 @@
-import 'package:client/models/subject_choice_route_model.dart';
+import 'package:client/state_models/subject_choice_route_state_model.dart';
 import 'package:client/widgets/zno_radio_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,8 +28,9 @@ class SubjectChoiceListItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           GestureDetector(
-            onTap: () =>
-                context.read<SubjectChoiceRouteModel>().setIsMarked(subjectKey),
+            onTap: () => context
+                .read<SubjectChoiceRouteStateModel>()
+                .setIsMarked(subjectKey),
             child: Container(
               width: 65.r,
               height: 65.r,
@@ -37,7 +38,7 @@ class SubjectChoiceListItem extends StatelessWidget {
               child: Center(
                 child: ZnoRadioBox(
                     isActive: context
-                        .watch<SubjectChoiceRouteModel>()
+                        .watch<SubjectChoiceRouteStateModel>()
                         .getIsMarked(subjectKey)),
               ),
             ),

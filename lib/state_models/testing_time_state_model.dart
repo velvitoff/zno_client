@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-class TestingTimeModel extends ChangeNotifier {
+class TestingTimeStateModel extends ChangeNotifier {
   late final Timer timer;
   bool isTimerActivated;
   int secondsSinceStart;
@@ -13,7 +13,7 @@ class TestingTimeModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  TestingTimeModel(
+  TestingTimeStateModel(
       {required this.isTimerActivated,
       required this.secondsSinceStart,
       required this.secondsInTotal,

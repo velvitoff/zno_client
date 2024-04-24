@@ -1,6 +1,6 @@
-import 'package:client/models/auth_state_model.dart';
-import 'package:client/models/testing_route_model.dart';
-import 'package:client/models/testing_time_model.dart';
+import 'package:client/state_models/auth_state_model.dart';
+import 'package:client/state_models/testing_route_state_model.dart';
+import 'package:client/state_models/testing_time_state_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/services/dialog_service.dart';
 import 'package:client/services/storage_service/main_storage_service.dart';
@@ -21,7 +21,7 @@ class ZnoMoreDropdown extends StatefulWidget {
 
 class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
   void onChoice(BuildContext context, String value) {
-    bool isViewMode = context.read<TestingRouteModel>().isViewMode;
+    bool isViewMode = context.read<TestingRouteStateModel>().isViewMode;
     if (value == 'Вийти') {
       locator
           .get<DialogService>()
@@ -36,26 +36,27 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
             if (!isViewMode) {
               locator
                   .get<MainStorageService>()
-                  .saveSessionEnd(context.read<TestingRouteModel>(),
-                      context.read<TestingTimeModel>(), false)
+                  .saveSessionEnd(context.read<TestingRouteStateModel>(),
+                      context.read<TestingTimeStateModel>(), false)
                   .then((void val) => context.go(Routes.sessionRoute,
-                      extra: context.read<TestingRouteModel>().sessionData));
+                      extra:
+                          context.read<TestingRouteStateModel>().sessionData));
             } else {
               context.go(Routes.sessionRoute,
-                  extra: context.read<TestingRouteModel>().sessionData);
+                  extra: context.read<TestingRouteStateModel>().sessionData);
             }
           }
         }
       });
     } else if (value == 'Сховати таймер' || value == 'Показати таймер') {
-      context.read<TestingTimeModel>().switchIsActivated();
+      context.read<TestingTimeStateModel>().switchIsActivated();
     } else if (value == 'Змінити час таймера') {
       locator
           .get<DialogService>()
           .showTimeChoiceDialog(context)
           .then((int? value) {
         if (value != null) {
-          context.read<TestingTimeModel>().secondsInTotal = value;
+          context.read<TestingTimeStateModel>().secondsInTotal = value;
         }
       });
     } else if (value == 'Повідомити про помилку') {
@@ -64,7 +65,7 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
           .showComplaintDialog(context)
           .then((String? value) {
         if (value != null && value != "") {
-          final model = context.read<TestingRouteModel>();
+          final model = context.read<TestingRouteStateModel>();
           final authModel = context.read<AuthStateModel>();
           locator
               .get<SupabaseService>()
@@ -91,8 +92,8 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
       'Змінити час таймера',
       'Повідомити про помилку'
     ];
-    if (context
-        .select<TestingTimeModel, bool>((value) => value.isTimerActivated)) {
+    if (context.select<TestingTimeStateModel, bool>(
+        (value) => value.isTimerActivated)) {
       items[1] = 'Сховати таймер';
     }
 

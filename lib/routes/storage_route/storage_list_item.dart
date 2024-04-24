@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:client/dto/storage_route_item_data.dart';
 import 'package:client/locator.dart';
-import 'package:client/models/storage_route_model.dart';
+import 'package:client/state_models/storage_route_state_model.dart';
 import 'package:client/routes/storage_route/storage_list_radio_button.dart';
 import 'package:client/services/dialog_service.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +23,7 @@ class StorageListItem extends StatelessWidget {
         .then((bool? value) {
       if (value != null && value) {
         try {
-          context.read<StorageRouteModel>().deleteStorageItem(data.key);
+          context.read<StorageRouteStateModel>().deleteStorageItem(data.key);
         } catch (e) {
           locator.get<DialogService>().showInfoDialog(context,
               'Сталася помилка під час видалення файлів тестів', 230.h);
@@ -52,8 +52,9 @@ class StorageListItem extends StatelessWidget {
           Row(
             children: [
               GestureDetector(
-                onTap: () =>
-                    context.read<StorageRouteModel>().setIsMarked(data.key),
+                onTap: () => context
+                    .read<StorageRouteStateModel>()
+                    .setIsMarked(data.key),
                 child: StorageListRadioButton(
                   isMarked: selected,
                 ),

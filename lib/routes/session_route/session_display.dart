@@ -1,6 +1,6 @@
 import 'package:client/dto/testing_route_data.dart';
 import 'package:client/locator.dart';
-import 'package:client/models/session_route_model.dart';
+import 'package:client/state_models/session_route_state_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/session_route/prev_sessions_list.dart';
 import 'package:client/routes/session_route/session_name_header.dart';
@@ -15,7 +15,7 @@ import '../../widgets/zno_list_item.dart';
 class SessionDisplay extends StatelessWidget {
   const SessionDisplay({Key? key}) : super(key: key);
 
-  void onSessionStart(BuildContext context, SessionRouteModel model) {
+  void onSessionStart(BuildContext context, SessionRouteStateModel model) {
     if (!model.isTimerSelected) {
       context.go(Routes.testingRoute,
           extra: TestingRouteData(
@@ -42,7 +42,7 @@ class SessionDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SessionRouteModel model = context.read<SessionRouteModel>();
+    SessionRouteStateModel model = context.read<SessionRouteStateModel>();
     return Container(
       width: 340.w,
       margin: EdgeInsets.fromLTRB(10.w, 20.h, 10.w, 20.h),

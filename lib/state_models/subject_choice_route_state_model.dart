@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 
 import '../all_subjects/all_subjects.dart';
 
-class SubjectChoiceRouteModel extends ChangeNotifier {
+class SubjectChoiceRouteStateModel extends ChangeNotifier {
   Map<String, bool> subjects;
 
-  SubjectChoiceRouteModel({required this.subjects});
+  SubjectChoiceRouteStateModel({required this.subjects});
 
-  static Future<SubjectChoiceRouteModel> pullSubjectsFromConfig() async {
+  static Future<SubjectChoiceRouteStateModel> pullSubjectsFromConfig() async {
     final List<String> selectedSubjects =
         (await locator.get<LocalStorageService>().getPersonalConfigData())
             .selectedSubjects;
@@ -26,7 +26,7 @@ class SubjectChoiceRouteModel extends ChangeNotifier {
         }
       }
     }
-    return SubjectChoiceRouteModel(subjects: result);
+    return SubjectChoiceRouteStateModel(subjects: result);
   }
 
   void setIsMarked(String subject) {

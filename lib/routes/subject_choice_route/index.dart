@@ -3,7 +3,7 @@ import 'package:client/providers/subject_choice_route_provider.dart';
 import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:client/widgets/zno_error.dart';
 import 'package:flutter/material.dart';
-import '../../models/subject_choice_route_model.dart';
+import '../../state_models/subject_choice_route_state_model.dart';
 
 class SubjectChoiceRoute extends StatefulWidget {
   const SubjectChoiceRoute({super.key});
@@ -13,12 +13,12 @@ class SubjectChoiceRoute extends StatefulWidget {
 }
 
 class _SubjectChoiceRouteState extends State<SubjectChoiceRoute> {
-  late final Future<SubjectChoiceRouteModel> futureData;
+  late final Future<SubjectChoiceRouteStateModel> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = SubjectChoiceRouteModel.pullSubjectsFromConfig();
+    futureData = SubjectChoiceRouteStateModel.pullSubjectsFromConfig();
   }
 
   @override

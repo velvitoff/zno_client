@@ -11,7 +11,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../dto/storage_route_item_data.dart';
 import '../../locator.dart';
-import '../../models/storage_route_model.dart';
+import '../../state_models/storage_route_state_model.dart';
 
 class StorageRoute extends StatefulWidget {
   const StorageRoute({Key? key}) : super(key: key);
@@ -55,8 +55,9 @@ class _StorageRouteState extends State<StorageRoute> {
                         textFontSize: 25.sp,
                       );
                     }
-                    context.read<StorageRouteModel>().fileMap = Map.fromEntries(
-                        snapshot.data!.map((x) => MapEntry(x, false)));
+                    context.read<StorageRouteStateModel>().fileMap =
+                        Map.fromEntries(
+                            snapshot.data!.map((x) => MapEntry(x, false)));
                     return const StorageList();
                   } else if (snapshot.hasError) {
                     return const ZnoError(text: 'Помилка зчитування даних');

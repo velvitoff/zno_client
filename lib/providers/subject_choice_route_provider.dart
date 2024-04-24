@@ -1,10 +1,10 @@
-import 'package:client/models/subject_choice_route_model.dart';
+import 'package:client/state_models/subject_choice_route_state_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SubjectChoiceRouteProvider extends StatelessWidget {
   final Widget child;
-  final SubjectChoiceRouteModel data;
+  final SubjectChoiceRouteStateModel data;
 
   const SubjectChoiceRouteProvider(
       {super.key, required this.child, required this.data});

@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../locator.dart';
-import '../../models/subject_choice_route_model.dart';
+import '../../state_models/subject_choice_route_state_model.dart';
 import '../../routes.dart';
 import '../../widgets/zno_icon_button.dart';
 import '../../widgets/zno_top_header_small.dart';
@@ -28,7 +28,7 @@ class _SubjectChoiceHeaderState extends State<SubjectChoiceHeader> {
   Future<void> onClose(BuildContext context) async {
     //save user's changes
     final List<String> newPreferenceList = context
-        .read<SubjectChoiceRouteModel>()
+        .read<SubjectChoiceRouteStateModel>()
         .subjects
         .entries
         .where((entry) => entry.value == true)
