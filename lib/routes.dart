@@ -109,7 +109,7 @@ class Routes {
         GoRoute(
             path: sessionRoute,
             pageBuilder: (context, state) {
-              ExamFileAdressModel dto = state.extra as ExamFileAdressModel;
+              ExamFileAddressModel dto = state.extra as ExamFileAddressModel;
               return CustomTransitionPage(
                   key: state.pageKey,
                   transitionDuration: const Duration(milliseconds: 250),

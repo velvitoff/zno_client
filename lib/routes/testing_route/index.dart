@@ -8,7 +8,7 @@ import 'package:client/providers/testing_route_provider.dart';
 import 'package:client/routes/testing_route/testing_route_backuper.dart';
 import 'package:client/routes/testing_route/zno_testing_header.dart';
 import 'package:client/services/storage_service/main_storage_service.dart';
-import 'package:client/services/utils_service.dart';
+import 'package:client/services/decryption_service.dart';
 import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -39,7 +39,7 @@ class TestingRouteState extends State<TestingRoute> {
         .then((Uint8List data) {
       if (widget.dto.sessionData.fileName.endsWith('.bin') &&
           context.read<AuthStateModel>().isPremium) {
-        final res = locator.get<UtilsService>().decryptBin(data);
+        final res = locator.get<DecryptionService>().decryptBin(data);
         return ExamFileModel.fromJson(jsonDecode(res));
       }
       final String res = const Utf8Decoder().convert(data);

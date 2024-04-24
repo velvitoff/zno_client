@@ -1,10 +1,9 @@
 import 'dart:convert';
 
 import 'package:client/models/answers/answer.dart';
+import 'package:client/models/exam_file_adress_model.dart';
 import 'package:client/models/questions/question.dart';
-import 'package:client/locator.dart';
 import 'package:client/state_models/testing_time_state_model.dart';
-import 'package:client/services/utils_service.dart';
 
 import '../state_models/testing_route_state_model.dart';
 
@@ -42,9 +41,8 @@ class PreviousAttemptModel {
 
   factory PreviousAttemptModel.fromJson(Map<String, dynamic> map) =>
       PreviousAttemptModel(
-          sessionName: locator
-              .get<UtilsService>()
-              .fileNameToSessionName(map['session_name'] as String),
+          sessionName: ExamFileAddressModel.fileNameNoExtensionToSessionName(
+              map['session_name'] as String),
           subjectName: map['subject_name'] as String,
           fileName: map['file_name'] as String,
           folderName: map['folder_name'] as String,

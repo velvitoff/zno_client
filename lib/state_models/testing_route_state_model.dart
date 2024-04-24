@@ -5,7 +5,7 @@ import '../models/questions/question.dart';
 import '../models/exam_file_adress_model.dart';
 
 class TestingRouteStateModel extends ChangeNotifier {
-  final ExamFileAdressModel sessionData;
+  final ExamFileAddressModel sessionData;
   final List<Question> questions;
   PreviousAttemptModel? prevSessionData;
 

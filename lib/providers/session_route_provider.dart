@@ -4,7 +4,7 @@ import 'package:client/models/exam_file_adress_model.dart';
 import 'package:provider/provider.dart';
 
 class SessionRouteProvider extends StatelessWidget {
-  final ExamFileAdressModel sessionData;
+  final ExamFileAddressModel sessionData;
   final Widget child;
 
   const SessionRouteProvider(

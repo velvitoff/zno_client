@@ -2,7 +2,6 @@ import 'package:client/routes/sessions_route/sessions_route_data.dart';
 import 'package:client/routes/sessions_route/sessions_list.dart';
 import 'package:client/routes/sessions_route/sessions_scroll_wrapper.dart';
 import 'package:client/services/storage_service/main_storage_service.dart';
-import 'package:client/services/utils_service.dart';
 import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:client/widgets/zno_bottom_navigation_bar.dart';
 import 'package:client/widgets/zno_error.dart';
@@ -56,11 +55,11 @@ class SessionsRouteState extends State<SessionsRoute> {
 
         for (var el in map[key]!) {
           String sessionName =
-              locator.get<UtilsService>().fileNameToSessionName(el);
+              ExamFileAddressModel.fileNameNoExtensionToSessionName(el);
           result.add(ZnoListItem(
               text: sessionName,
               onTap: () => context.go(Routes.sessionRoute,
-                  extra: ExamFileAdressModel(
+                  extra: ExamFileAddressModel(
                       fileName: el,
                       fileNameNoExtension:
                           el.replaceAll('.json', '').replaceAll('.bin', ''),

@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 final model = TestingRouteStateModel(
-    sessionData: const ExamFileAdressModel(
+    sessionData: const ExamFileAddressModel(
         subjectName: 'test',
         sessionName: 'test session',
         folderName: 'empty',

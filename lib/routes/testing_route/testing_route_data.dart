@@ -2,7 +2,7 @@ import 'package:client/models/previous_attempt_model.dart';
 import 'package:client/models/exam_file_adress_model.dart';
 
 class TestingRouteData {
-  final ExamFileAdressModel sessionData;
+  final ExamFileAddressModel sessionData;
   final PreviousAttemptModel? prevSessionData;
   final bool isTimerActivated;
   final int timerSecondsInTotal;

@@ -5,7 +5,7 @@ import 'package:client/models/previous_attempt_model.dart';
 import 'package:client/models/exam_file_model.dart';
 import 'package:client/locator.dart';
 import 'package:client/state_models/testing_time_state_model.dart';
-import 'package:client/services/utils_service.dart';
+import 'package:client/services/decryption_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart' as path;
 import '../../models/storage_route_item_model.dart';
@@ -236,8 +236,9 @@ class LocalStorageService {
       for (var file in entry.value) {
         String fileString;
         if (file.path.endsWith('.bin')) {
-          fileString =
-              locator.get<UtilsService>().decryptBin(await file.readAsBytes());
+          fileString = locator
+              .get<DecryptionService>()
+              .decryptBin(await file.readAsBytes());
         } else {
           fileString = await file.readAsString();
         }

@@ -2,7 +2,7 @@ import 'package:client/models/exam_file_adress_model.dart';
 import 'package:flutter/material.dart';
 
 class SessionRouteStateModel extends ChangeNotifier {
-  final ExamFileAdressModel sessionData;
+  final ExamFileAddressModel sessionData;
   bool isTimerSelected;
 
   SessionRouteStateModel(

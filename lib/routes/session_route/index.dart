@@ -12,7 +12,7 @@ import '../../widgets/zno_bottom_navigation_bar.dart';
 import '../../widgets/zno_top_header_text.dart';
 
 class SessionRoute extends StatelessWidget {
-  final ExamFileAdressModel dto;
+  final ExamFileAddressModel dto;
 
   const SessionRoute({Key? key, required this.dto}) : super(key: key);
 

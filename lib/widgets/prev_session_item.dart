@@ -3,7 +3,6 @@ import 'package:client/models/previous_attempt_model.dart';
 import 'package:client/routes/testing_route/testing_route_data.dart';
 import 'package:client/routes.dart';
 import 'package:client/services/dialog_service.dart';
-import 'package:client/services/utils_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -27,7 +26,7 @@ class PrevSessionItem extends StatelessWidget {
       if (value != null && value == true) {
         context.go(Routes.testingRoute,
             extra: TestingRouteData(
-              sessionData: ExamFileAdressModel(
+              sessionData: ExamFileAddressModel(
                   subjectName: data.subjectName,
                   sessionName: data.sessionName,
                   folderName: data.folderName,
@@ -105,9 +104,9 @@ class PrevSessionItem extends StatelessWidget {
                             maxLines: 2,
                           ),
                           AutoSizeText(
-                            locator
-                                .get<UtilsService>()
-                                .fileNameToSessionName(data.sessionName),
+                            ExamFileAddressModel
+                                .fileNameNoExtensionToSessionName(
+                                    data.sessionName),
                             style: const TextStyle(color: Color(0xFF444444)),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
