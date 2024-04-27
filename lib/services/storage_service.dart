@@ -3,7 +3,7 @@ import 'package:client/models/exam_file_adress_model.dart';
 import 'package:client/models/personal_config_model.dart';
 import 'package:client/state_models/testing_time_state_model.dart';
 import 'package:client/repositories/local_storage_repository.dart';
-import 'package:client/repositories/supabase_storage_service.dart';
+import 'package:client/repositories/supabase_storage_repository.dart';
 import '../models/previous_attempt_model.dart';
 import '../models/storage_route_item_model.dart';
 import '../state_models/testing_route_state_model.dart';
@@ -42,7 +42,6 @@ class StorageService {
         if (!await localStorage.imageFolderExists(examFileAddress)) {
           await downloadAllImages(examFileAddress, isPremium);
         }
-
         return localStorage.getExamFileData(examFileAddress);
       } else {
         //if local file is older than three days, move on to a download attempt

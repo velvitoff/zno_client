@@ -18,7 +18,7 @@ class SupabaseStorageRepository {
       List<FileObject> listPremium = await client.storage
           .from(Constants.testsBucketPaid)
           .list(path: folderName);
-      if (listPremium[0].name != ".emptyFolderPlaceholder") {
+      if (listPremium[0].name == ".emptyFolderPlaceholder") {
         listPremium = [];
       }
       listFree.addAll(listPremium);
