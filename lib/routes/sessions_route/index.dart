@@ -37,7 +37,7 @@ class SessionsRouteState extends State<SessionsRoute> {
     final listGrouped = list
         .groupListsBy((element) => element.fileNameNoExtension.split('_').last)
         .entries
-        .sorted((a, b) => a.key.compareTo(b.key));
+        .sorted((a, b) => b.key.compareTo(a.key));
     return listGrouped;
   }
 
