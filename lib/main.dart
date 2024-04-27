@@ -18,29 +18,30 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-        designSize: const Size(360, 800),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: (context, _) {
-          return AuthStateProvider(
-              child: AuthEventHandlerWidget(
-            child: InAppPurchaseWrapper(
-              child: MaterialApp.router(
-                debugShowCheckedModeBanner: false,
-                routerConfig: Routes.router,
-                title: 'Тести ЗНО і НМТ',
-                theme: ThemeData(
-                    primarySwatch: Colors.green,
-                    sliderTheme: SliderThemeData(
-                        overlayShape: SliderComponentShape.noOverlay,
-                        thumbColor: const Color(0xFF418C4A),
-                        activeTrackColor: const Color(0xFF418C4A)),
-                    fontFamily: 'Ubuntu',
-                    scaffoldBackgroundColor: const Color(0xFFF9F9F9)),
-              ),
-            ),
-          ));
-        });
+    return AuthStateProvider(
+        child: AuthEventHandlerWidget(
+      child: InAppPurchaseWrapper(
+        child: ScreenUtilInit(
+          designSize: const Size(360, 800),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (context, _) {
+            return MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              routerConfig: Routes.router,
+              title: 'Тести ЗНО і НМТ',
+              theme: ThemeData(
+                  primarySwatch: Colors.green,
+                  sliderTheme: SliderThemeData(
+                      overlayShape: SliderComponentShape.noOverlay,
+                      thumbColor: const Color(0xFF418C4A),
+                      activeTrackColor: const Color(0xFF418C4A)),
+                  fontFamily: 'Ubuntu',
+                  scaffoldBackgroundColor: const Color(0xFFF9F9F9)),
+            );
+          },
+        ),
+      ),
+    ));
   }
 }
