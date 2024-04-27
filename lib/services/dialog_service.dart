@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class DialogService {
   const DialogService();
 
-  //TO DO: handle height properly
+  //TODO: handle height properly
   Future<void> showInfoDialog(BuildContext context, String text, double height,
       {bool isScrollAlwaysVisible = false}) async {
     await showDialog(

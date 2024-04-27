@@ -17,69 +17,16 @@ class PrevSessionItem extends StatelessWidget {
   const PrevSessionItem({Key? key, required this.data, this.detailed = false})
       : super(key: key);
 
-  void onRestoreSession(BuildContext context) {
-    locator
-        .get<DialogService>()
-        .showConfirmDialog(context,
-            data.completed ? 'Переглянути спробу?' : 'Продовжити спробу?')
-        .then((bool? value) {
-      if (value != null && value == true) {
-        context.go(Routes.testingRoute,
-            extra: TestingRouteData(
-              sessionData: ExamFileAddressModel(
-                  subjectName: data.subjectName,
-                  sessionName: data.sessionName,
-                  folderName: data.folderName,
-                  fileName: data.fileName,
-                  fileNameNoExtension: data.fileName
-                      .replaceFirst('.json', '')
-                      .replaceFirst('.bin', '')),
-              prevSessionData: data,
-              isTimerActivated: data.isTimerActivated,
-              timerSecondsInTotal: data.timerSecondsInTotal,
-            ));
-      }
-    });
-  }
-
-  LinearGradient getGradient() {
-    if (detailed) {
-      return const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color.fromRGBO(153, 215, 132, 0.04),
-            Color.fromRGBO(118, 174, 98, 0.08)
-          ]);
-    }
-
-    return data.completed
-        ? const LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-                Color.fromRGBO(153, 215, 132, 0.7),
-                Color.fromRGBO(118, 174, 98, 0.73)
-              ])
-        : const LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-                Color.fromRGBO(178, 177, 176, 0.147),
-                Color.fromRGBO(178, 177, 176, 0.247)
-              ]);
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onRestoreSession(context),
+      onTap: () => _onRestoreSession(context),
       child: Container(
           height: detailed ? 130.h : 60.h,
           margin: EdgeInsets.only(left: 15.w, right: 15.w, bottom: 16.h),
           padding: EdgeInsets.fromLTRB(14.w, 3.h, 0, 3.h),
           decoration: BoxDecoration(
-              gradient: getGradient(),
+              gradient: _getGradient(),
               border: Border.all(
                 color: const Color.fromRGBO(54, 54, 54, 0.1),
               ),
@@ -137,5 +84,52 @@ class PrevSessionItem extends StatelessWidget {
             ],
           )),
     );
+  }
+
+  void _onRestoreSession(BuildContext context) {
+    locator
+        .get<DialogService>()
+        .showConfirmDialog(context,
+            data.completed ? 'Переглянути спробу?' : 'Продовжити спробу?')
+        .then((bool? value) {
+      if (value != null && value == true) {
+        context.go(Routes.testingRoute,
+            extra: TestingRouteData(
+              examFileAddress:
+                  ExamFileAddressModel.fromPreviousAttemptModel(data),
+              prevAttemptModel: data,
+              isTimerActivated: data.isTimerActivated,
+              timerSecondsInTotal: data.timerSecondsInTotal,
+            ));
+      }
+    });
+  }
+
+  LinearGradient _getGradient() {
+    if (detailed) {
+      return const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color.fromRGBO(153, 215, 132, 0.04),
+            Color.fromRGBO(118, 174, 98, 0.08)
+          ]);
+    }
+
+    return data.completed
+        ? const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+                Color.fromRGBO(153, 215, 132, 0.7),
+                Color.fromRGBO(118, 174, 98, 0.73)
+              ])
+        : const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+                Color.fromRGBO(178, 177, 176, 0.147),
+                Color.fromRGBO(178, 177, 176, 0.247)
+              ]);
   }
 }

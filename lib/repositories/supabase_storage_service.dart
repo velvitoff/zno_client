@@ -30,7 +30,7 @@ class SupabaseStorageRepository {
         .toList();
   }
 
-  Future<Uint8List> getExamFileData(
+  Future<Uint8List> getExamFileBytes(
       ExamFileAddressModel examFile, bool isPremium) async {
     Future<Uint8List> req(String bucket) async {
       return await client.storage

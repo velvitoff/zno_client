@@ -23,7 +23,7 @@ class _InAppPurchaseWrapperState extends State<InAppPurchaseWrapper> {
 
   @override
   void initState() {
-    if (Platform.isAndroid || Platform.isAndroid) {
+    if (Platform.isAndroid) {
       _subscription =
           InAppPurchase.instance.purchaseStream.listen((purchaseDetailsList) {
         _handlePurchaseStreamUpdate(context, purchaseDetailsList);
@@ -38,7 +38,7 @@ class _InAppPurchaseWrapperState extends State<InAppPurchaseWrapper> {
 
   @override
   void dispose() {
-    if (Platform.isAndroid || Platform.isAndroid) {
+    if (Platform.isAndroid) {
       _subscription.cancel();
     }
     super.dispose();

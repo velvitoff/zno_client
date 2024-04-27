@@ -19,8 +19,8 @@ class SessionDisplay extends StatelessWidget {
     if (!model.isTimerSelected) {
       context.go(Routes.testingRoute,
           extra: TestingRouteData(
-              sessionData: model.sessionData,
-              prevSessionData: null,
+              examFileAddress: model.sessionData,
+              prevAttemptModel: null,
               isTimerActivated: false,
               timerSecondsInTotal: 7200));
     } else {
@@ -31,8 +31,8 @@ class SessionDisplay extends StatelessWidget {
         if (value != null) {
           context.go(Routes.testingRoute,
               extra: TestingRouteData(
-                  sessionData: model.sessionData,
-                  prevSessionData: null,
+                  examFileAddress: model.sessionData,
+                  prevAttemptModel: null,
                   isTimerActivated: true,
                   timerSecondsInTotal: value));
         }

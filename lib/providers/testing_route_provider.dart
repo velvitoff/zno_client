@@ -24,11 +24,11 @@ class TestingRouteProvider extends StatelessWidget {
         ChangeNotifierProvider(
             create: (context) => TestingRouteStateModel(
                 questions: testData.questions,
-                sessionData: data.sessionData,
-                prevSessionData: data.prevSessionData)),
+                sessionData: data.examFileAddress,
+                prevSessionData: data.prevAttemptModel)),
         ChangeNotifierProvider(
           create: (context) {
-            final prevData = data.prevSessionData;
+            final prevData = data.prevAttemptModel;
             if (prevData != null) {
               return TestingTimeStateModel(
                   isTimerActivated: prevData.isTimerActivated,

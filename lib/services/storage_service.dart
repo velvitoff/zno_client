@@ -31,7 +31,6 @@ class StorageService {
     }
   }
 
-  //TODO: remove side effect
   Future<Uint8List> getExamFileBytes(
       ExamFileAddressModel examFileAddress, bool isPremium) async {
     //throws
@@ -52,7 +51,7 @@ class StorageService {
     } catch (e) {
       try {
         final Uint8List session =
-            await externalStorage.getExamFileData(examFileAddress, isPremium);
+            await externalStorage.getExamFileBytes(examFileAddress, isPremium);
         await localStorage.saveExamFile(examFileAddress, session);
         final imageMap = await downloadAllImages(examFileAddress, isPremium);
         await saveImages(examFileAddress, imageMap);

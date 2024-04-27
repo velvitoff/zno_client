@@ -35,9 +35,9 @@ class TestingRouteState extends State<TestingRoute> {
     final isPremium = context.read<AuthStateModel>().isPremium;
     futureTestData = locator
         .get<StorageService>()
-        .getExamFileBytes(widget.dto.sessionData, isPremium)
+        .getExamFileBytes(widget.dto.examFileAddress, isPremium)
         .then((Uint8List data) {
-      if (widget.dto.sessionData.fileName.endsWith('.bin') &&
+      if (widget.dto.examFileAddress.fileName.endsWith('.bin') &&
           context.read<AuthStateModel>().isPremium) {
         final res = locator.get<DecryptionService>().decryptBin(data);
         return ExamFileModel.fromJson(jsonDecode(res));
@@ -63,7 +63,8 @@ class TestingRouteState extends State<TestingRoute> {
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  ZnoTestingHeader(text: widget.dto.sessionData.sessionName),
+                  ZnoTestingHeader(
+                      text: widget.dto.examFileAddress.sessionName),
                   Expanded(
                       child: MediaQuery.removePadding(
                     context: context,

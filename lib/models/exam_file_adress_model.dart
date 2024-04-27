@@ -1,3 +1,5 @@
+import 'package:client/models/previous_attempt_model.dart';
+
 class ExamFileAddressModel {
   final String subjectName;
   final String sessionName;
@@ -26,6 +28,18 @@ class ExamFileAddressModel {
       folderName: folderName,
       fileName: fileName,
       fileNameNoExtension: fileNameNoExtension,
+    );
+  }
+
+  factory ExamFileAddressModel.fromPreviousAttemptModel(
+      PreviousAttemptModel data) {
+    return ExamFileAddressModel(
+      subjectName: data.subjectName,
+      sessionName: data.sessionName,
+      folderName: data.folderName,
+      fileName: data.fileName,
+      fileNameNoExtension:
+          data.fileName.replaceFirst('.json', '').replaceFirst('.bin', ''),
     );
   }
 
