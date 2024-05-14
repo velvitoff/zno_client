@@ -1,5 +1,6 @@
 import 'package:client/extensions/debug_print.dart';
 import 'package:client/state_models/testing_route_state_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -45,20 +46,23 @@ class SupabaseService {
 
   Future<bool> sendComplaint(
       TestingRouteStateModel model, String text, bool isPremium,
-      {String? id}) async {
+      {String? userId}) async {
     try {
       await client.from('user_complaints').insert({
-        'id': id,
         'data': {
           "subjectName": model.sessionData.subjectName,
           "sessionName": model.sessionData.sessionName,
           "premium": isPremium,
           "page": model.pageIndex + 1,
           "text": text
-        }.toString()
+        }.toString(),
+        'user_id': userId,
       });
       return true;
-    } catch (_) {
+    } catch (e) {
+      if (kDebugMode) {
+        print("sendComplaint error: $e");
+      }
       return false;
     }
   }

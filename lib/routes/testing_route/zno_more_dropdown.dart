@@ -73,7 +73,7 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
                 model,
                 value,
                 authModel.isPremium,
-                id: authModel.currentUser?.id,
+                userId: authModel.currentUser?.id,
               )
               .then((bool response) {
             locator.get<DialogService>().showInfoDialog(context,
