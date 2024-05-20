@@ -69,12 +69,19 @@ class SupabaseService {
 
   Future<bool> isUserPremium(User user) async {
     dbg('call isUserPremium()');
-    final res = await client.functions.invoke("is-user-premium");
-    if (res.status != 200) {
+
+    try {
+      final res = await client.functions.invoke("is-user-premium");
+      if (res.status != 200) {
+        dbg("call isUserPremium() -> false, status is not 200");
+        return false;
+      }
+    } catch (e) {
       dbg('call isUserPremium() -> false, calling restorePurchases');
       await InAppPurchase.instance.restorePurchases();
       return false;
     }
+
     dbg('call isUserPremium() -> true');
     return true;
   }

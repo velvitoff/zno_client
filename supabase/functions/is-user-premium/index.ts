@@ -7,9 +7,9 @@ Deno.serve(async (req) => {
 
   const purchase = await SupabaseService.getPurchaseByUserId(supabaseUserId);
 
-  if(purchase === null) {
-    return new Response("", {status: 400});
+  if(purchase !== null) {
+    return new Response("", {status: 200});
   }
 
-  return new Response("", {status: 200});
+  return new Response("", {status: 400});
 });

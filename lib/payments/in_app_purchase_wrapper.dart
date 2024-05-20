@@ -50,22 +50,28 @@ class _InAppPurchaseWrapperState extends State<InAppPurchaseWrapper> {
 
   Future<void> _handlePurchaseStreamUpdate(
       BuildContext context, List<PurchaseDetails> purchaseDetailsList) async {
+    dbg("_handlePurchaseStreamUpdate");
     final authStateModel = context.read<AuthStateModel>();
     for (var purchaseDetails in purchaseDetailsList) {
       dbg('handlePurchaseStreamUpdate => PURCHASE STATUS: ${purchaseDetails.status}');
       switch (purchaseDetails.status) {
         case PurchaseStatus.error:
+          dbg("PurchaseStatus.error");
           _showErrorDialog("Помилка при спробі купівлі");
           break;
         case PurchaseStatus.canceled:
+          dbg("PurchaseStatus.canceled");
           _showErrorDialog("Купівлю відмінено");
           break;
         case PurchaseStatus.pending:
+          dbg("PurchaseStatus.pending");
           break;
         case PurchaseStatus.restored:
+          dbg("PurchaseStatus.restored");
           await _handleRestored(authStateModel, purchaseDetails);
           break;
         case PurchaseStatus.purchased:
+          dbg("PurchaseStatus.purchased");
           await _handlePurchased(authStateModel, purchaseDetails);
           break;
       }
