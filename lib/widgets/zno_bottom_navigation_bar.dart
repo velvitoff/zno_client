@@ -61,7 +61,7 @@ class ZnoBottomNavigationBar extends StatelessWidget {
                 icon: Icon(
                   Icons.school_outlined,
                   color: const Color(0xffF4F4F4),
-                  size: 37.sp,
+                  size: 32.sp,
                 ),
                 label: 'Предмети',
                 tooltip: '',
@@ -70,7 +70,7 @@ class ZnoBottomNavigationBar extends StatelessWidget {
                 icon: Icon(
                   Icons.settings,
                   color: const Color(0xffF4F4F4),
-                  size: 37.sp,
+                  size: 32.sp,
                 ),
                 label: 'Налаштування',
                 tooltip: '',

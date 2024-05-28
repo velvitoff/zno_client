@@ -2,6 +2,7 @@ import 'package:client/widgets/zno_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+//TODO: Fix
 class InfoDialog extends StatefulWidget {
   final String text;
   final double height;

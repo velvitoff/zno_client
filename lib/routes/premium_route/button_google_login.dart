@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 class ButtonGoogleLogin extends StatelessWidget {
   const ButtonGoogleLogin({super.key});
 
-  //TO DO: Error handling
+  //TODO: Error handling
   void onClick(BuildContext context) {
     final authModel = context.read<AuthStateModel>();
     authModel.setAuthProviderGoogle();

@@ -28,7 +28,6 @@ class TestingButtons extends StatelessWidget {
         width: 145.w,
         height: 50.h,
         margin: EdgeInsets.fromLTRB(7.5.w, 0, 7.5.w, 0),
-        padding: EdgeInsets.all(5.r),
         text: 'Назад',
         fontSize: 20.sp,
       ));
@@ -40,7 +39,6 @@ class TestingButtons extends StatelessWidget {
         width: isFirstPage ? 290.w : 145.w,
         height: 50.h,
         margin: EdgeInsets.fromLTRB(7.5.w, 0, 7.5.w, 0),
-        padding: EdgeInsets.all(5.r),
         text: 'Далі',
         fontSize: 20.sp,
       ));
@@ -53,7 +51,6 @@ class TestingButtons extends StatelessWidget {
             width: 145.w,
             height: 50.h,
             margin: EdgeInsets.fromLTRB(7.5.w, 0, 7.5.w, 0),
-            padding: EdgeInsets.all(5.r),
             text: 'Завершити перегляд',
             fontSize: 17.sp));
       } else {
@@ -62,7 +59,6 @@ class TestingButtons extends StatelessWidget {
             width: 145.w,
             height: 50.h,
             margin: EdgeInsets.fromLTRB(7.5.w, 0, 7.5.w, 0),
-            padding: EdgeInsets.all(5.r),
             text: 'Завершити спробу',
             fontSize: 17.sp));
       }

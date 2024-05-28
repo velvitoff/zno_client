@@ -11,7 +11,7 @@ class ImageViewRouteHeader extends StatelessWidget {
     return ZnoTopHeaderSmall(
       backgroundColor: const Color(0xFFF5F5F5),
       child: Container(
-        margin: EdgeInsets.fromLTRB(7.w, 0, 0, 0),
+        margin: EdgeInsets.only(left: 7.w),
         child: Align(
           alignment: Alignment.centerLeft,
           child: GestureDetector(

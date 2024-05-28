@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ZnoButton extends StatelessWidget {
   final double width;
@@ -7,7 +8,6 @@ class ZnoButton extends StatelessWidget {
   final double fontSize;
   final void Function() onTap;
   final EdgeInsets margin;
-  final EdgeInsets padding;
 
   const ZnoButton({
     Key? key,
@@ -17,7 +17,6 @@ class ZnoButton extends StatelessWidget {
     required this.onTap,
     required this.fontSize,
     this.margin = const EdgeInsets.all(0),
-    this.padding = const EdgeInsets.all(0),
   }) : super(key: key);
 
   @override
@@ -28,8 +27,11 @@ class ZnoButton extends StatelessWidget {
         width: width,
         height: height,
         margin: margin,
-        padding: padding,
-        color: const Color(0xFF428449),
+        padding: EdgeInsets.all(5.r),
+        decoration: BoxDecoration(
+          color: const Color(0xFF428449),
+          borderRadius: BorderRadius.circular(3),
+        ),
         child: Center(
           child: FittedBox(
             fit: BoxFit.contain,
