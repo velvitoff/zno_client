@@ -1,3 +1,5 @@
+import 'package:client/locator.dart';
+import 'package:client/services/dialog_service.dart';
 import 'package:client/state_models/testing_time_state_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,14 +25,28 @@ class TestingPageTimer extends StatelessWidget {
       return const Text('Час вичерпано');
     }
 
-    return Container(
-      margin: EdgeInsets.only(top: 5.h),
-      padding: EdgeInsets.all(4.r),
-      decoration: BoxDecoration(
-          border: Border.all(color: const Color(0xFF3C6D42), width: 3),
-          borderRadius: BorderRadius.circular(5)),
-      child: Text(formattedTime(timeData.$2 - timeData.$1),
-          style: TextStyle(fontSize: 22.sp)),
+    return GestureDetector(
+      onTap: () => _onTap(context),
+      child: Container(
+        margin: EdgeInsets.only(top: 5.h),
+        padding: EdgeInsets.all(4.r),
+        decoration: BoxDecoration(
+            border: Border.all(color: const Color(0xFF3C6D42), width: 3),
+            borderRadius: BorderRadius.circular(5)),
+        child: Text(formattedTime(timeData.$2 - timeData.$1),
+            style: TextStyle(fontSize: 22.sp)),
+      ),
     );
+  }
+
+  void _onTap(BuildContext context) {
+    locator
+        .get<DialogService>()
+        .showTimeChoiceDialog(context)
+        .then((int? value) {
+      if (value != null) {
+        context.read<TestingTimeStateModel>().secondsInTotal = value;
+      }
+    });
   }
 }
