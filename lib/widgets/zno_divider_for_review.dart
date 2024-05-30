@@ -53,7 +53,7 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
     String index = (ind + 1).toString();
 
     if (_answers![index] == null) {
-      return whiteColor;
+      return redColor;
     }
 
     switch (_questions![ind]) {
@@ -61,7 +61,6 @@ class _ZnoDividerState extends State<ZnoDividerForReview> {
         if (_answers![index] is! AnswerSingle) {
           return whiteColor;
         }
-        if (_answers![index] == null) return whiteColor;
         final score = (_questions![ind] as QuestionSingle)
             .getScore((_answers![index] as AnswerSingle));
         if (score.scoringEnum == ScoringEnum.correct) {

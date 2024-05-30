@@ -43,11 +43,11 @@ class QuestionSingleAnswerField extends StatelessWidget {
                   Selector<TestingRouteStateModel, Answer?>(
                     selector: (_, model) => model.getAnswer(question.order),
                     builder: (_, answer, __) {
-                      if (answer is! AnswerSingle) {
-                        return AnswerCell(
-                            onTap: () => handleClickOnCell(context, variant));
-                      }
                       if (editable) {
+                        if (answer is! AnswerSingle) {
+                          return AnswerCell(
+                              onTap: () => handleClickOnCell(context, variant));
+                        }
                         if (answer.data.contains(variant)) {
                           return AnswerCell(
                             answerColor: AnswerCellColor.green,
@@ -62,6 +62,9 @@ class QuestionSingleAnswerField extends StatelessWidget {
                         if (question.correct.contains(variant)) {
                           return const AnswerCell(
                               answerColor: AnswerCellColor.green);
+                        }
+                        if (answer is! AnswerSingle) {
+                          return const AnswerCell();
                         }
                         if (answer.data.contains(variant)) {
                           return const AnswerCell(
