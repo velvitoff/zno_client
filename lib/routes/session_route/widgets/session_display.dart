@@ -2,42 +2,35 @@ import 'package:client/routes/testing_route/testing_route_data.dart';
 import 'package:client/locator.dart';
 import 'package:client/state_models/session_route_state_model.dart';
 import 'package:client/routes.dart';
-import 'package:client/routes/session_route/prev_sessions_list.dart';
-import 'package:client/routes/session_route/session_name_header.dart';
-import 'package:client/routes/session_route/timer_button.dart';
+import 'package:client/routes/session_route/widgets/prev_attempts_list.dart';
+import 'package:client/routes/session_route/widgets/timer_button.dart';
 import 'package:client/services/dialog_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '../../widgets/zno_list_item.dart';
+import '../../../widgets/zno_list_item.dart';
 
 class SessionDisplay extends StatelessWidget {
   const SessionDisplay({Key? key}) : super(key: key);
 
-  void onSessionStart(BuildContext context, SessionRouteStateModel model) {
-    if (!model.isTimerSelected) {
-      context.go(Routes.testingRoute,
-          extra: TestingRouteData(
-              examFileAddress: model.sessionData,
-              prevAttemptModel: null,
-              isTimerActivated: false,
-              timerSecondsInTotal: 7200));
-    } else {
-      locator
-          .get<DialogService>()
-          .showTimeChoiceDialog(context)
-          .then((int? value) {
-        if (value != null) {
-          context.go(Routes.testingRoute,
-              extra: TestingRouteData(
-                  examFileAddress: model.sessionData,
-                  prevAttemptModel: null,
-                  isTimerActivated: true,
-                  timerSecondsInTotal: value));
-        }
-      });
+  Future<void> _onSessionStart(
+    BuildContext context,
+    SessionRouteStateModel model,
+  ) async {
+    int? timeValue;
+    if (model.isTimerSelected) {
+      timeValue =
+          await locator.get<DialogService>().showTimeChoiceDialog(context);
     }
+
+    if (!context.mounted) return;
+    context.go(Routes.testingRoute,
+        extra: TestingRouteData(
+            examFileAddress: model.sessionData,
+            prevAttemptModel: null,
+            isTimerActivated: false,
+            timerSecondsInTotal: timeValue ?? 7200));
   }
 
   @override
@@ -52,10 +45,10 @@ class SessionDisplay extends StatelessWidget {
         children: [
           Container(
             margin: EdgeInsets.only(bottom: 10.h),
-            child: SessionNameHeader(text: model.sessionData.sessionName),
+            child: _SessionNameHeader(text: model.sessionData.sessionName),
           ),
           Expanded(
-            child: PrevSessionsList(
+            child: PrevAttemptsList(
                 subjectName: model.sessionData.folderName,
                 sessionName: model.sessionData.fileNameNoExtension),
           ),
@@ -65,10 +58,26 @@ class SessionDisplay extends StatelessWidget {
           ZnoListItem(
             text: 'Почати спробу',
             colorType: ZnoListColorType.button,
-            onTap: () => onSessionStart(context, model),
+            onTap: () => _onSessionStart(context, model),
           )
         ],
       ),
+    );
+  }
+}
+
+class _SessionNameHeader extends StatelessWidget {
+  final String text;
+  const _SessionNameHeader({super.key, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: TextStyle(
+          color: const Color(0xFF444444),
+          fontSize: 26.sp,
+          fontWeight: FontWeight.w400),
     );
   }
 }

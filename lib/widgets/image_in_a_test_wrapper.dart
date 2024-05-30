@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:client/routes/image_view_route/image_view_route_data.dart';
+import 'package:client/routes/image_view_route/state/image_view_route_input_data.dart';
 import 'package:client/routes.dart';
 import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ class _ImageInATestWrapperState extends State<ImageInATestWrapper> {
         if (snapshot.hasData) {
           return GestureDetector(
               onTap: () => context.push(Routes.imageViewRoute,
-                  extra: ImageViewRouteData(
+                  extra: ImageViewRouteInputData(
                       imageProvider: MemoryImage(snapshot.data!))),
               child: Image.memory(snapshot.data!));
         } else if (snapshot.hasError) {

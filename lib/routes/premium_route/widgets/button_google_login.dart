@@ -8,7 +8,7 @@ class ButtonGoogleLogin extends StatelessWidget {
   const ButtonGoogleLogin({super.key});
 
   //TODO: Error handling
-  void onClick(BuildContext context) {
+  void _onClick(BuildContext context) {
     final authModel = context.read<AuthStateModel>();
     authModel.setAuthProviderGoogle();
     authModel.signIn();
@@ -17,7 +17,7 @@ class ButtonGoogleLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onClick(context),
+      onTap: () => _onClick(context),
       child: Container(
         height: 65.h,
         decoration: BoxDecoration(

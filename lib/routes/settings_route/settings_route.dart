@@ -1,5 +1,5 @@
 import 'package:client/routes.dart';
-import 'package:client/routes/settings_route/settings_item.dart';
+import 'package:client/routes/settings_route/widgets/settings_list.dart';
 import 'package:client/widgets/zno_top_header_small.dart';
 import 'package:flutter/material.dart';
 import 'package:client/widgets/zno_bottom_navigation_bar.dart';
@@ -7,7 +7,6 @@ import 'package:client/widgets/icons/zno_map_icon.dart';
 import 'package:client/widgets/icons/zno_storage_icon.dart';
 import 'package:client/widgets/icons/zno_list_icon.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:client/widgets/icons/zno_star_icon.dart';
 
 class SettingsRoute extends StatelessWidget {
@@ -40,28 +39,8 @@ class SettingsRoute extends StatelessWidget {
                     TextStyle(color: const Color(0xFFEFEFEF), fontSize: 24.sp),
               )),
             ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(right: 20.w, left: 20.w, top: 5.h),
-                child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    itemCount: listValues.length,
-                    itemBuilder: (context, index) => Padding(
-                          padding: EdgeInsets.only(bottom: 5.h, top: 5.h),
-                          child: SettingsItem(
-                            text: listValues[index].$1,
-                            goldenBorder: listValues[index].$1 == 'Преміум',
-                            onTap: () => context.go(listValues[index].$2),
-                            icon: CustomPaint(
-                              painter: listValues[index].$3,
-                              child: SizedBox(
-                                width: 40.r,
-                                height: 40.r,
-                              ),
-                            ),
-                          ),
-                        )),
-              ),
+            const Expanded(
+              child: SettingsList(list: listValues),
             )
           ],
         ));

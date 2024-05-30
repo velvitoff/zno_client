@@ -1,19 +1,22 @@
 import 'package:client/state_models/auth_state_model.dart';
 import 'package:client/routes.dart';
-import 'package:client/routes/premium_route/button_google_login.dart';
-import 'package:client/routes/premium_route/button_google_pay.dart';
-import 'package:client/routes/premium_route/premium_route_header.dart';
-import 'package:client/routes/premium_route/premium_text.dart';
+import 'package:client/routes/premium_route/widgets/button_google_login.dart';
+import 'package:client/routes/premium_route/widgets/button_google_pay.dart';
+import 'package:client/routes/premium_route/widgets/premium_route_header.dart';
+import 'package:client/routes/premium_route/widgets/premium_text.dart';
 import 'package:client/widgets/golden_border.dart';
 import 'package:client/widgets/icons/zno_star_large_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:provider/provider.dart';
 
 class PremiumRoute extends StatelessWidget {
   const PremiumRoute({super.key});
+
+  void _onPopInvoked(BuildContext context, bool didPop) {
+    context.go(Routes.settingsRoute);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,7 @@ class PremiumRoute extends StatelessWidget {
 
     return PopScope(
       canPop: false,
-      onPopInvoked: (bool didPop) => context.go(Routes.settingsRoute),
+      onPopInvoked: (bool didPop) => _onPopInvoked(context, didPop),
       child: Scaffold(
           body: Column(
         children: [
@@ -46,32 +49,16 @@ class PremiumRoute extends StatelessWidget {
                         Text(
                           'Преміум',
                           style: TextStyle(
-                              fontSize: 36.sp, fontWeight: FontWeight.w500),
+                            fontSize: 36.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 10.h),
                         const PremiumText(),
                         Padding(
                           padding: EdgeInsets.only(bottom: 35.h, top: 35.h),
-                          child: model.currentUser != null
-                              ? model.isPremium
-                                  ? Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        CustomPaint(
-                                          painter: GoldenBorder(sWidth: 3.0),
-                                          child: SizedBox(
-                                              height: 60.h, width: 320.w),
-                                        ),
-                                        const Text(
-                                          'Ви вже придбали преміум',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w500),
-                                        )
-                                      ],
-                                    )
-                                  : const ButtonGooglePay()
-                              : const ButtonGoogleLogin(),
+                          child: _PremiumButton(model: model),
                         ),
                       ],
                     ),
@@ -82,6 +69,31 @@ class PremiumRoute extends StatelessWidget {
           )
         ],
       )),
+    );
+  }
+}
+
+class _PremiumButton extends StatelessWidget {
+  final AuthStateModel model;
+  const _PremiumButton({required this.model});
+
+  @override
+  Widget build(BuildContext context) {
+    if (model.currentUser == null) return const ButtonGoogleLogin();
+    if (!model.isPremium) return const ButtonGooglePay();
+
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        CustomPaint(
+          painter: GoldenBorder(sWidth: 3.0),
+          child: SizedBox(height: 60.h, width: 320.w),
+        ),
+        const Text(
+          'Ви вже придбали преміум',
+          style: TextStyle(fontWeight: FontWeight.w500),
+        )
+      ],
     );
   }
 }

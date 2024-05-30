@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../routes.dart';
-import '../../widgets/zno_icon_button.dart';
-import '../../widgets/zno_top_header_text.dart';
+import '../../../routes.dart';
+import '../../../widgets/zno_icon_button.dart';
+import '../../../widgets/zno_top_header_text.dart';
 
 class SessionsScrollWrapper extends StatelessWidget {
   final String subjectName;

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:client/routes.dart';
-import 'package:client/routes/premium_route/user_avatar.dart';
+import 'package:client/routes/premium_route/widgets/user_avatar.dart';
 
 class PremiumRouteHeader extends StatelessWidget {
   const PremiumRouteHeader({super.key});

@@ -6,15 +6,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class UserAvatar extends StatefulWidget {
+class UserAvatar extends StatelessWidget {
   const UserAvatar({super.key});
 
-  @override
-  State<UserAvatar> createState() => _UserAvatarState();
-}
-
-class _UserAvatarState extends State<UserAvatar> {
-  void onChoice(BuildContext context, String newValue) {
+  void _onChoice(BuildContext context, String newValue) {
     if (newValue == 'Увійти через Google') {
       final authModel = context.read<AuthStateModel>();
       authModel.setAuthProviderGoogle();
@@ -82,7 +77,7 @@ class _UserAvatarState extends State<UserAvatar> {
             }).toList(),
             onChanged: (String? newValue) {
               if (newValue != null) {
-                onChoice(context, newValue);
+                _onChoice(context, newValue);
               }
             }));
   }

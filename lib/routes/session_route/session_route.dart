@@ -1,7 +1,7 @@
 import 'package:client/models/exam_file_adress_model.dart';
-import 'package:client/routes/sessions_route/sessions_route_data.dart';
+import 'package:client/routes/sessions_route/widgets/sessions_route_input_data.dart';
 import 'package:client/routes.dart';
-import 'package:client/routes/session_route/session_display.dart';
+import 'package:client/routes/session_route/widgets/session_display.dart';
 import 'package:client/providers/session_route_provider.dart';
 import 'package:client/widgets/zno_icon_button.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ class SessionRoute extends StatelessWidget {
 
   void _goBack(BuildContext context) {
     context.go(Routes.sessionsRoute,
-        extra: SessionsRouteData(
+        extra: SessionsRouteInputData(
             subjectName: dto.subjectName, folderName: dto.folderName));
   }
 

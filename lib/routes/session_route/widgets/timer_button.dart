@@ -2,16 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../../state_models/session_route_state_model.dart';
-import '../../widgets/zno_radio_box.dart';
+import '../../../state_models/session_route_state_model.dart';
+import '../../../widgets/zno_radio_box.dart';
 
 class TimerButton extends StatelessWidget {
   const TimerButton({super.key});
 
+  void _onTap(BuildContext context) {
+    context.read<SessionRouteStateModel>().invertTimerSelected();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.read<SessionRouteStateModel>().invertTimerSelected(),
+      onTap: () => _onTap(context),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

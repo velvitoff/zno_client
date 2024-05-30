@@ -1,7 +1,7 @@
 import 'package:client/models/previous_attempt_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../widgets/prev_session_item.dart';
+import '../../../widgets/prev_session_item.dart';
 
 class HistoryList extends StatelessWidget {
   final List<PreviousAttemptModel> prevSessionsList;

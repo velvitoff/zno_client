@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import '../../widgets/zno_top_header_small.dart';
+import '../../../widgets/zno_top_header_small.dart';
 
 class ImageViewRouteHeader extends StatelessWidget {
   const ImageViewRouteHeader({super.key});

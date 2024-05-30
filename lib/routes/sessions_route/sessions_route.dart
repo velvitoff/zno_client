@@ -1,6 +1,9 @@
-import 'package:client/routes/sessions_route/sessions_route_data.dart';
-import 'package:client/routes/sessions_route/sessions_list.dart';
-import 'package:client/routes/sessions_route/sessions_scroll_wrapper.dart';
+import 'package:client/locator.dart';
+import 'package:client/models/exam_file_adress_model.dart';
+import 'package:client/routes.dart';
+import 'package:client/routes/sessions_route/widgets/sessions_route_input_data.dart';
+import 'package:client/routes/sessions_route/widgets/sessions_list.dart';
+import 'package:client/routes/sessions_route/widgets/sessions_scroll_wrapper.dart';
 import 'package:client/services/storage_service.dart';
 import 'package:client/state_models/auth_state_model.dart';
 import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
@@ -12,12 +15,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '../../models/exam_file_adress_model.dart';
-import '../../locator.dart';
-import '../../routes.dart';
 
 class SessionsRoute extends StatefulWidget {
-  final SessionsRouteData dto;
+  final SessionsRouteInputData dto;
 
   const SessionsRoute({Key? key, required this.dto}) : super(key: key);
 
@@ -30,7 +30,7 @@ class SessionsRouteState extends State<SessionsRoute> {
       futureList;
 
   Future<List<MapEntry<String, List<ExamFileAddressModel>>>>
-      getFutureList() async {
+      _getFutureList() async {
     final isPremium = context.read<AuthStateModel>().isPremium;
     final list = await locator.get<StorageService>().listExamFiles(
         widget.dto.folderName, widget.dto.subjectName, isPremium);
@@ -44,7 +44,7 @@ class SessionsRouteState extends State<SessionsRoute> {
   @override
   void initState() {
     super.initState();
-    futureList = getFutureList();
+    futureList = _getFutureList();
   }
 
   void _onPopInvoked(bool didPop) {

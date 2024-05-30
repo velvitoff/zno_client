@@ -13,8 +13,13 @@ class PremiumText extends StatefulWidget {
 }
 
 class _PremiumTextState extends State<PremiumText> {
-  final Future<List<String>> textFuture =
-      locator.get<SupabaseService>().getPremiumText();
+  late final Future<List<String>> textFuture;
+
+  @override
+  void initState() {
+    textFuture = locator.get<SupabaseService>().getPremiumText();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../all_subjects/all_subjects.dart';
-import '../sessions_route/sessions_route_data.dart';
+import '../sessions_route/widgets/sessions_route_input_data.dart';
 import 'subjects_route_data.dart';
 import '../../widgets/zno_error.dart';
 
@@ -138,7 +138,7 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
                                 subject.getName,
                                 subject.getChildren().isEmpty
                                     ? () => context.go(Routes.sessionsRoute,
-                                        extra: SessionsRouteData(
+                                        extra: SessionsRouteInputData(
                                             subjectName: subject.getName,
                                             folderName: subject.getId))
                                     : () => context.go(Routes.subjectsRoute,
