@@ -12,7 +12,7 @@ class ConfirmDialog extends StatelessWidget {
     return Dialog(
       child: Container(
         width: 260.w,
-        height: 220.h,
+        height: 235.h,
         padding: EdgeInsets.fromLTRB(6.w, 14.h, 6.w, 14.h),
         decoration: const BoxDecoration(
             color: Color(0xFFF5F5F5),
@@ -28,6 +28,9 @@ class ConfirmDialog extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
+            ),
+            SizedBox(
+              height: 10.h,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

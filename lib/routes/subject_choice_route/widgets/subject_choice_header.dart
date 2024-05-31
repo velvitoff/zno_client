@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '../../locator.dart';
-import '../../state_models/subject_choice_route_state_model.dart';
-import '../../routes.dart';
-import '../../widgets/zno_icon_button.dart';
-import '../../widgets/zno_top_header_small.dart';
+import '../../../locator.dart';
+import '../state/subject_choice_route_state_model.dart';
+import '../../../routes.dart';
+import '../../../widgets/zno_icon_button.dart';
+import '../../../widgets/zno_top_header_small.dart';
 
 class SubjectChoiceHeader extends StatefulWidget {
   const SubjectChoiceHeader({super.key});
@@ -18,14 +18,14 @@ class SubjectChoiceHeader extends StatefulWidget {
 }
 
 class _SubjectChoiceHeaderState extends State<SubjectChoiceHeader> {
-  void showInfo(BuildContext context) {
+  void _showInfo(BuildContext context) {
     locator.get<DialogService>().showInfoDialog(
         context,
         'Ця сторінка дозволяє обрати предмети, які відображатимуться на головній сторінці',
         230.h);
   }
 
-  Future<void> onClose(BuildContext context) async {
+  Future<void> _onClose(BuildContext context) async {
     //save user's changes
     final List<String> newPreferenceList = context
         .read<SubjectChoiceRouteStateModel>()
@@ -36,11 +36,12 @@ class _SubjectChoiceHeaderState extends State<SubjectChoiceHeader> {
         .toList();
 
     final storageService = locator.get<StorageService>();
+    final config = await storageService.getPersonalConfigModel();
+    storageService.savePersonalConfigData(
+        config.copyWith(selectedSubjects: newPreferenceList));
 
-    await storageService.getPersonalConfigData().then((config) {
-      storageService.savePersonalConfigData(
-          config.copyWith(selectedSubjects: newPreferenceList));
-    });
+    if (!context.mounted) return;
+    context.go(Routes.settingsRoute);
   }
 
   @override
@@ -55,23 +56,22 @@ class _SubjectChoiceHeaderState extends State<SubjectChoiceHeader> {
               alignment: Alignment.centerLeft,
               child: ZnoIconButton(
                 icon: Icons.arrow_back,
-                onTap: () {
-                  onClose(context)
-                      .then((_) => context.go(Routes.settingsRoute));
-                },
+                onTap: () => _onClose(context),
               ),
             ),
             Align(
               alignment: Alignment.center,
               child: Text('Вибір предметів',
                   style: TextStyle(
-                      color: const Color(0xFFEFEFEF), fontSize: 24.sp)),
+                    color: const Color(0xFFEFEFEF),
+                    fontSize: 24.sp,
+                  )),
             ),
             Align(
               alignment: Alignment.centerRight,
               child: ZnoIconButton(
                 icon: Icons.help_outline,
-                onTap: () => showInfo(context),
+                onTap: () => _showInfo(context),
               ),
             )
           ],

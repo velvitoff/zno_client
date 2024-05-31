@@ -1,3 +1,7 @@
+import 'package:client/all_subjects/zno_subject.dart';
+import 'package:client/all_subjects/zno_subject_group.dart';
+import 'package:client/all_subjects/zno_subject_interface.dart';
+
 import '../all_subjects/all_subjects.dart';
 
 class PersonalConfigModel {
@@ -47,5 +51,25 @@ class PersonalConfigModel {
       'is_first_time_user': isFirstTimeUser,
       'selected_subjects': selectedSubjects
     };
+  }
+
+  List<ZnoSubjectInterface> get selectedSubjectsAsZnoInterfaces {
+    var res = <ZnoSubjectInterface>[];
+    for (final subject in allSubjects) {
+      if (subject is ZnoSubject) {
+        if (selectedSubjects.contains(subject.subjectId)) {
+          res.add(subject);
+        }
+      } else if (subject is ZnoSubjectGroup) {
+        for (final childSubject in subject.children) {
+          if (selectedSubjects.contains(childSubject.subjectId) &&
+              !res.contains(subject)) {
+            res.add(subject);
+          }
+        }
+      }
+    }
+
+    return res;
   }
 }

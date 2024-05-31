@@ -109,8 +109,8 @@ class StorageService {
     return localStorage.getStorageData();
   }
 
-  Future<PersonalConfigModel> getPersonalConfigData() async {
-    return await localStorage.getPersonalConfigData();
+  Future<PersonalConfigModel> getPersonalConfigModel() async {
+    return await localStorage.getPersonalConfigModel();
   }
 
   Future<void> savePersonalConfigData(PersonalConfigModel data) async {

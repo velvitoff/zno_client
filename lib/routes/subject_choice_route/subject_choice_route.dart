@@ -1,9 +1,10 @@
-import 'package:client/routes/subject_choice_route/subject_choice_layout.dart';
-import 'package:client/providers/subject_choice_route_provider.dart';
+import 'package:client/routes/subject_choice_route/widgets/subject_choice_header.dart';
+import 'package:client/routes/subject_choice_route/state/subject_choice_route_provider.dart';
+import 'package:client/routes/subject_choice_route/widgets/subject_choice_list.dart';
 import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:client/widgets/zno_error.dart';
 import 'package:flutter/material.dart';
-import '../../state_models/subject_choice_route_state_model.dart';
+import 'state/subject_choice_route_state_model.dart';
 
 class SubjectChoiceRoute extends StatefulWidget {
   const SubjectChoiceRoute({super.key});
@@ -32,7 +33,14 @@ class _SubjectChoiceRouteState extends State<SubjectChoiceRoute> {
             if (snapshot.hasData) {
               return SubjectChoiceRouteProvider(
                 data: snapshot.data!,
-                child: const SubjectChoiceLayout(),
+                child: const Column(
+                  children: [
+                    SubjectChoiceHeader(),
+                    Expanded(
+                      child: SubjectChoiceList(),
+                    ),
+                  ],
+                ),
               );
             } else if (snapshot.hasError) {
               return const ZnoError(text: 'Помилка зчитування даних');

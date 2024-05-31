@@ -1,6 +1,6 @@
 import 'package:client/routes/testing_route/testing_route_data.dart';
 import 'package:client/locator.dart';
-import 'package:client/state_models/session_route_state_model.dart';
+import 'package:client/routes/session_route/state/session_route_state_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/session_route/widgets/prev_attempts_list.dart';
 import 'package:client/routes/session_route/widgets/timer_button.dart';

@@ -1,4 +1,4 @@
-import 'package:client/state_models/session_route_state_model.dart';
+import 'package:client/routes/session_route/state/session_route_state_model.dart';
 import 'package:flutter/material.dart';
 import 'package:client/models/exam_file_adress_model.dart';
 import 'package:provider/provider.dart';

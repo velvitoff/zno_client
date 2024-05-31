@@ -261,7 +261,7 @@ class LocalStorageRepository {
     return result;
   }
 
-  Future<PersonalConfigModel> getPersonalConfigData() async {
+  Future<PersonalConfigModel> getPersonalConfigModel() async {
     final file =
         File('$_znoDirPath${Platform.pathSeparator}personal_config.json');
     if (!await file.exists()) {

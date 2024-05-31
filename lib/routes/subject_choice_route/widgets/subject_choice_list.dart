@@ -14,12 +14,15 @@ class SubjectChoiceList extends StatelessWidget {
     for (final subject in allSubjects) {
       if (subject is ZnoSubject) {
         children.add(SubjectChoiceListItem(
-            subjectKey: subject.getId, subjectName: subject.getName));
+          subjectKey: subject.getId,
+          subjectName: subject.getName,
+        ));
       } else if (subject is ZnoSubjectGroup) {
         for (final innerSubject in subject.children) {
           children.add(SubjectChoiceListItem(
-              subjectKey: innerSubject.getId,
-              subjectName: innerSubject.getName));
+            subjectKey: innerSubject.getId,
+            subjectName: innerSubject.getName,
+          ));
         }
       }
     }

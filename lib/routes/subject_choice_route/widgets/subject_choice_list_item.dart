@@ -1,4 +1,5 @@
-import 'package:client/state_models/subject_choice_route_state_model.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:client/routes/subject_choice_route/state/subject_choice_route_state_model.dart';
 import 'package:client/widgets/zno_radio_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,8 +12,15 @@ class SubjectChoiceListItem extends StatelessWidget {
   const SubjectChoiceListItem(
       {super.key, required this.subjectKey, required this.subjectName});
 
+  void _onMarkSubject(BuildContext context) {
+    context.read<SubjectChoiceRouteStateModel>().setIsMarked(subjectKey);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isMarked =
+        context.watch<SubjectChoiceRouteStateModel>().getIsMarked(subjectKey);
+
     BoxDecoration decoration = BoxDecoration(
         border: Border.all(width: 2, color: const Color(0x0A363636)),
         borderRadius: BorderRadius.circular(10),
@@ -28,18 +36,15 @@ class SubjectChoiceListItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           GestureDetector(
-            onTap: () => context
-                .read<SubjectChoiceRouteStateModel>()
-                .setIsMarked(subjectKey),
+            onTap: () => _onMarkSubject(context),
             child: Container(
-              width: 65.r,
-              height: 65.r,
+              width: 70.r,
+              height: 70.r,
               decoration: decoration,
               child: Center(
                 child: ZnoRadioBox(
-                    isActive: context
-                        .watch<SubjectChoiceRouteStateModel>()
-                        .getIsMarked(subjectKey)),
+                  isActive: isMarked,
+                ),
               ),
             ),
           ),
@@ -48,17 +53,20 @@ class SubjectChoiceListItem extends StatelessWidget {
           ),
           Container(
             width: 245.w,
-            height: 65.r,
+            height: 70.r,
             padding: EdgeInsets.all(4.r),
             decoration: decoration,
             child: Center(
-              child: Text(subjectName,
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontSize: subjectName.length < 19 ? 25.sp : 19.sp,
-                      fontWeight: FontWeight.w400)),
+              child: AutoSizeText(
+                subjectName,
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 22.sp,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
             ),
           )
         ],

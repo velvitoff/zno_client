@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../../../state_models/session_route_state_model.dart';
+import '../state/session_route_state_model.dart';
 import '../../../widgets/zno_radio_box.dart';
 
 class TimerButton extends StatelessWidget {

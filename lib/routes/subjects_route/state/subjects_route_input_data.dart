@@ -1,6 +1,6 @@
 import 'package:client/all_subjects/zno_subject_interface.dart';
 
-class SubjectsRouteData {
+class SubjectsRouteInputData {
   final List<ZnoSubjectInterface> subjectsList;
-  const SubjectsRouteData({required this.subjectsList});
+  const SubjectsRouteInputData({required this.subjectsList});
 }

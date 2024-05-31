@@ -1,4 +1,4 @@
-import 'package:client/state_models/subject_choice_route_state_model.dart';
+import 'package:client/routes/subject_choice_route/state/subject_choice_route_state_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

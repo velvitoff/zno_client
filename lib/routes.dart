@@ -1,3 +1,4 @@
+import 'package:client/models/exam_file_adress_model.dart';
 import 'package:client/routes/image_view_route/state/image_view_route_input_data.dart';
 import 'package:client/routes/sessions_route/widgets/sessions_route_input_data.dart';
 import 'package:client/routes/history_route/history_route.dart';
@@ -5,18 +6,16 @@ import 'package:client/routes/image_view_route/image_view_route.dart';
 import 'package:client/routes/premium_route/premium_route.dart';
 import 'package:client/routes/session_route/session_route.dart';
 import 'package:client/routes/settings_route/settings_route.dart';
-import 'package:client/routes/storage_route/index.dart';
-import 'package:client/routes/subject_choice_route/index.dart';
+import 'package:client/routes/storage_route/storage_route.dart';
+import 'package:client/routes/subject_choice_route/subject_choice_route.dart';
+import 'package:client/routes/subjects_route/state/subjects_route_input_data.dart';
 import 'package:client/routes/testing_route/index.dart';
+import 'package:client/routes/testing_route/testing_route_data.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:client/routes/subjects_route/index.dart';
+import 'package:client/routes/subjects_route/subjects_route.dart';
 import 'package:client/routes/sessions_route/sessions_route.dart';
-
-import 'models/exam_file_adress_model.dart';
-import 'routes/subjects_route/subjects_route_data.dart';
-import 'routes/testing_route/testing_route_data.dart';
 
 class Routes {
   Routes._();
@@ -41,7 +40,8 @@ class Routes {
         GoRoute(
             path: subjectsRoute,
             pageBuilder: (context, state) {
-              SubjectsRouteData? dto = state.extra as SubjectsRouteData?;
+              SubjectsRouteInputData? dto =
+                  state.extra as SubjectsRouteInputData?;
               return CustomTransitionPage(
                   key: state.pageKey,
                   child: SubjectsRoute(
