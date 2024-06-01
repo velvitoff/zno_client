@@ -16,8 +16,10 @@ class TextFieldAnswerShow extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(leftText, style: TextStyle(fontSize: 23.sp)),
-          Text(rightText,
-              style: TextStyle(fontSize: 23.sp, fontWeight: FontWeight.bold)),
+          Text(
+            rightText,
+            style: TextStyle(fontSize: 23.sp, fontWeight: FontWeight.bold),
+          ),
         ],
       ),
     );

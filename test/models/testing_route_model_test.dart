@@ -2,8 +2,8 @@ import 'package:client/models/answers/answer.dart';
 import 'package:client/models/previous_attempt_model.dart';
 import 'package:client/models/questions/question.dart';
 import 'package:client/models/exam_file_adress_model.dart';
-import 'package:client/state_models/testing_route_state_model.dart';
-import 'package:client/state_models/testing_time_state_model.dart';
+import 'package:client/routes/testing_route/state/testing_route_state_model.dart';
+import 'package:client/routes/testing_route/state/testing_time_state_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 

@@ -1,11 +1,11 @@
 import 'package:client/locator.dart';
-import 'package:client/state_models/testing_route_state_model.dart';
-import 'package:client/state_models/testing_time_state_model.dart';
-import 'package:client/routes/testing_route/testing_page/testing_page.dart';
+import 'package:client/routes/testing_route/state/testing_route_state_model.dart';
+import 'package:client/routes/testing_route/state/testing_time_state_model.dart';
+import 'package:client/routes/testing_route/widgets/testing_page/testing_page.dart';
 import 'package:client/services/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../models/questions/question.dart';
+import '../../../models/questions/question.dart';
 
 class TestingPages extends StatefulWidget {
   final List<Question> questions;
@@ -38,11 +38,11 @@ class _TestingPagesState extends State<TestingPages>
       return;
     }
     if (state == AppLifecycleState.paused) {
-      handleOnPause();
+      _handleOnPause();
     }
   }
 
-  void handleOnPause() {
+  void _handleOnPause() {
     //should be saveSessionEndSync for correct behaviour in case of detached event
     final testingRouteModel = context.read<TestingRouteStateModel>();
     if (testingRouteModel.isViewMode) return;
@@ -56,19 +56,20 @@ class _TestingPagesState extends State<TestingPages>
 
   @override
   Widget build(BuildContext context) {
-    return Selector<TestingRouteStateModel, (PageController, List<Question>)>(
-      selector: (_, model) => (model.pageController, model.questions),
-      builder: (_, data, __) {
+    return Selector<TestingRouteStateModel, PageController>(
+      selector: (_, model) => model.pageController,
+      builder: (_, pageController, __) {
         return PageView.builder(
           physics: const NeverScrollableScrollPhysics(),
-          controller: data.$1,
+          controller: pageController,
           scrollDirection: Axis.vertical,
-          itemCount: data.$2.length,
+          itemCount: widget.questions.length,
           itemBuilder: (context, position) {
             return TestingPage(
-                index: position,
-                question: data.$2[position],
-                questionsLength: data.$2.length);
+              index: position,
+              question: widget.questions[position],
+              questionsLength: widget.questions.length,
+            );
           },
         );
       },

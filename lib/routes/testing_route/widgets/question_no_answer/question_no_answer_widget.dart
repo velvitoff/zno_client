@@ -1,8 +1,7 @@
 import 'package:client/models/questions/question.dart';
+import 'package:client/widgets/ui_gen_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../widgets/ui_gen_handler.dart';
 
 class QuestionNoAnswerWidget extends StatelessWidget {
   final QuestionNoAnswer question;

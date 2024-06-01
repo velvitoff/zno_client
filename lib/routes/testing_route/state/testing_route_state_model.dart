@@ -1,8 +1,8 @@
 import 'package:client/models/answers/answer.dart';
+import 'package:client/models/exam_file_adress_model.dart';
+import 'package:client/models/previous_attempt_model.dart';
+import 'package:client/models/questions/question.dart';
 import 'package:flutter/material.dart';
-import '../models/previous_attempt_model.dart';
-import '../models/questions/question.dart';
-import '../models/exam_file_adress_model.dart';
 
 class TestingRouteStateModel extends ChangeNotifier {
   final ExamFileAddressModel sessionData;

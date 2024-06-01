@@ -9,8 +9,8 @@ import 'package:client/routes/settings_route/settings_route.dart';
 import 'package:client/routes/storage_route/storage_route.dart';
 import 'package:client/routes/subject_choice_route/subject_choice_route.dart';
 import 'package:client/routes/subjects_route/state/subjects_route_input_data.dart';
-import 'package:client/routes/testing_route/index.dart';
-import 'package:client/routes/testing_route/testing_route_data.dart';
+import 'package:client/routes/testing_route/testing_route.dart';
+import 'package:client/routes/testing_route/state/testing_route_input_data.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -127,7 +127,7 @@ class Routes {
         GoRoute(
             path: testingRoute,
             pageBuilder: (context, state) {
-              TestingRouteData dto = state.extra as TestingRouteData;
+              TestingRouteInputData dto = state.extra as TestingRouteInputData;
               return CustomTransitionPage(
                   key: state.pageKey,
                   transitionDuration: const Duration(milliseconds: 250),

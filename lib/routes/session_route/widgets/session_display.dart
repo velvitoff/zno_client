@@ -1,4 +1,4 @@
-import 'package:client/routes/testing_route/testing_route_data.dart';
+import 'package:client/routes/testing_route/state/testing_route_input_data.dart';
 import 'package:client/locator.dart';
 import 'package:client/routes/session_route/state/session_route_state_model.dart';
 import 'package:client/routes.dart';
@@ -26,7 +26,7 @@ class SessionDisplay extends StatelessWidget {
 
     if (!context.mounted) return;
     context.go(Routes.testingRoute,
-        extra: TestingRouteData(
+        extra: TestingRouteInputData(
             examFileAddress: model.sessionData,
             prevAttemptModel: null,
             isTimerActivated: false,

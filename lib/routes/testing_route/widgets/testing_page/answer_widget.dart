@@ -1,10 +1,9 @@
-import 'package:client/routes/testing_route/question_complex/question_complex_answer_field.dart';
-import 'package:client/routes/testing_route/question_single/question_single_answer_field.dart';
+import 'package:client/models/questions/question.dart';
+import 'package:client/routes/testing_route/widgets/question_complex/question_complex_answer_field.dart';
+import 'package:client/routes/testing_route/widgets/question_single/question_single_answer_field.dart';
+import 'package:client/routes/testing_route/widgets/question_text_fields/question_text_fields_answer_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../models/questions/question.dart';
-import '../question_text_fields/question_text_fields_answer_field.dart';
 
 class AnswerWidget extends StatelessWidget {
   final Question question;
@@ -18,10 +17,19 @@ class AnswerWidget extends StatelessWidget {
     switch (question) {
       case QuestionSingle():
         return QuestionSingleAnswerField(
-            question: question as QuestionSingle, index: index);
+          index: index,
+          question: question as QuestionSingle,
+        );
       case QuestionComplex():
         return QuestionComplexAnswerField(
-            index: index, question: question as QuestionComplex);
+          index: index,
+          question: question as QuestionComplex,
+        );
+      case QuestionTextFields():
+        return QuestionTextFieldsAnswerField(
+          index: index,
+          question: question as QuestionTextFields,
+        );
       case QuestionNoAnswer():
         return Container(
           margin: EdgeInsets.fromLTRB(0, 10.h, 0, 10.h),
@@ -30,9 +38,6 @@ class AnswerWidget extends StatelessWidget {
             style: TextStyle(fontSize: 20.sp),
           ),
         );
-      case QuestionTextFields():
-        return QuestionTextFieldsAnswerField(
-            index: index, question: question as QuestionTextFields);
     }
   }
 }

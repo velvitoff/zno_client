@@ -22,7 +22,9 @@ class QuestionSingleWidget extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: question.render
-                .map((list) => UiGenHandler(data: list))
+                .map(
+                  (list) => UiGenHandler(data: list),
+                )
                 .toList(),
           ),
           AnswerVariantsComplex(

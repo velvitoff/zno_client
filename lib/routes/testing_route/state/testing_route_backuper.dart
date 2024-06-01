@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:client/models/answers/answer.dart';
 import 'package:client/locator.dart';
-import 'package:client/state_models/testing_route_state_model.dart';
-import 'package:client/state_models/testing_time_state_model.dart';
+import 'package:client/routes/testing_route/state/testing_route_state_model.dart';
+import 'package:client/routes/testing_route/state/testing_time_state_model.dart';
 import 'package:client/services/storage_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

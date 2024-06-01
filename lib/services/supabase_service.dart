@@ -1,5 +1,5 @@
 import 'package:client/extensions/debug_print.dart';
-import 'package:client/state_models/testing_route_state_model.dart';
+import 'package:client/routes/testing_route/state/testing_route_state_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

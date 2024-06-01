@@ -1,13 +1,13 @@
 import 'package:client/models/questions/question.dart';
+import 'package:client/routes/testing_route/widgets/testing_page/answer_variants_complex.dart';
+import 'package:client/widgets/ui_gen_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../widgets/ui_gen_handler.dart';
-import '../testing_page/answer_variants_complex.dart';
 
-class QuestionTextFieldsWidget extends StatelessWidget {
-  final QuestionTextFields question;
+class QuestionComplexWidget extends StatelessWidget {
+  final QuestionComplex question;
 
-  const QuestionTextFieldsWidget({Key? key, required this.question})
+  const QuestionComplexWidget({Key? key, required this.question})
       : super(key: key);
 
   @override
@@ -25,9 +25,9 @@ class QuestionTextFieldsWidget extends StatelessWidget {
                 .toList(),
           ),
           AnswerVariantsComplex(
-            titleList: question.answerTitles,
-            tableList: question.answers,
-          ),
+            titleList: question.titleList,
+            tableList: question.tableList,
+          )
         ],
       ),
     );

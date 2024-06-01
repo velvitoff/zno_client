@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:client/models/previous_attempt_model.dart';
-import 'package:client/routes/testing_route/testing_route_data.dart';
+import 'package:client/routes/testing_route/state/testing_route_input_data.dart';
 import 'package:client/routes.dart';
 import 'package:client/services/dialog_service.dart';
 import 'package:flutter/material.dart';
@@ -94,7 +94,7 @@ class PrevSessionItem extends StatelessWidget {
         .then((bool? value) {
       if (value != null && value == true) {
         context.go(Routes.testingRoute,
-            extra: TestingRouteData(
+            extra: TestingRouteInputData(
               examFileAddress:
                   ExamFileAddressModel.fromPreviousAttemptModel(data),
               prevAttemptModel: data,

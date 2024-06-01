@@ -12,7 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:html/dom.dart' as html;
 import 'package:html/parser.dart' as html_parser;
 import 'dart:convert';
-import '../state_models/testing_route_state_model.dart';
+import '../routes/testing_route/state/testing_route_state_model.dart';
 
 import 'horizontal_scroll_wrapper.dart';
 

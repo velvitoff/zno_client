@@ -1,9 +1,8 @@
-import 'package:client/state_models/testing_route_state_model.dart';
+import 'package:client/routes/testing_route/state/testing_route_state_model.dart';
+import 'package:client/widgets/zno_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
-import '../../../widgets/zno_button.dart';
 
 class TestingButtons extends StatelessWidget {
   final void Function() onBack;
@@ -23,36 +22,43 @@ class TestingButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> childList = [];
     if (!isFirstPage) {
-      childList.add(ZnoButton(
-        onTap: onBack,
-        width: 145.w,
-        height: 50.h,
-        margin: EdgeInsets.fromLTRB(7.5.w, 0, 7.5.w, 0),
-        text: 'Назад',
-        fontSize: 20.sp,
-      ));
+      childList.add(
+        ZnoButton(
+          onTap: onBack,
+          width: 145.w,
+          height: 50.h,
+          margin: EdgeInsets.fromLTRB(7.5.w, 0, 7.5.w, 0),
+          text: 'Назад',
+          fontSize: 20.sp,
+        ),
+      );
     }
 
     if (!isLastPage) {
-      childList.add(ZnoButton(
-        onTap: onForward,
-        width: isFirstPage ? 290.w : 145.w,
-        height: 50.h,
-        margin: EdgeInsets.fromLTRB(7.5.w, 0, 7.5.w, 0),
-        text: 'Далі',
-        fontSize: 20.sp,
-      ));
+      childList.add(
+        ZnoButton(
+          onTap: onForward,
+          width: isFirstPage ? 290.w : 145.w,
+          height: 50.h,
+          margin: EdgeInsets.fromLTRB(7.5.w, 0, 7.5.w, 0),
+          text: 'Далі',
+          fontSize: 20.sp,
+        ),
+      );
     }
     //isLastPage
     else {
       if (context.read<TestingRouteStateModel>().isViewMode) {
-        childList.add(ZnoButton(
+        childList.add(
+          ZnoButton(
             onTap: onForward,
             width: 145.w,
             height: 50.h,
             margin: EdgeInsets.fromLTRB(7.5.w, 0, 7.5.w, 0),
             text: 'Завершити перегляд',
-            fontSize: 17.sp));
+            fontSize: 17.sp,
+          ),
+        );
       } else {
         childList.add(ZnoButton(
             onTap: onForward,

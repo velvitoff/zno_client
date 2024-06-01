@@ -5,12 +5,12 @@ import 'package:client/models/personal_config_model.dart';
 import 'package:client/models/previous_attempt_model.dart';
 import 'package:client/models/exam_file_model.dart';
 import 'package:client/locator.dart';
-import 'package:client/state_models/testing_time_state_model.dart';
+import 'package:client/routes/testing_route/state/testing_time_state_model.dart';
 import 'package:client/services/decryption_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart' as path;
 import '../models/storage_route_item_model.dart';
-import '../state_models/testing_route_state_model.dart';
+import '../routes/testing_route/state/testing_route_state_model.dart';
 import 'dart:convert';
 import 'package:client/extensions/directory_extension.dart';
 

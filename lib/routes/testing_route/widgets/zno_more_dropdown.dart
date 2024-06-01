@@ -1,6 +1,7 @@
+import 'package:client/locator.dart';
 import 'package:client/state_models/auth_state_model.dart';
-import 'package:client/state_models/testing_route_state_model.dart';
-import 'package:client/state_models/testing_time_state_model.dart';
+import 'package:client/routes/testing_route/state/testing_route_state_model.dart';
+import 'package:client/routes/testing_route/state/testing_time_state_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/services/dialog_service.dart';
 import 'package:client/services/storage_service.dart';
@@ -10,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '../../locator.dart';
 
 class ZnoMoreDropdown extends StatefulWidget {
   const ZnoMoreDropdown({Key? key}) : super(key: key);

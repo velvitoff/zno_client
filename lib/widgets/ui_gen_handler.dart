@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../state_models/testing_route_state_model.dart';
+import '../routes/testing_route/state/testing_route_state_model.dart';
 
 class UiGenHandler extends StatelessWidget {
   final List<String> data;

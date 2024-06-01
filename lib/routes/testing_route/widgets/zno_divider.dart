@@ -1,4 +1,4 @@
-import 'package:client/state_models/testing_route_state_model.dart';
+import 'package:client/routes/testing_route/state/testing_route_state_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
