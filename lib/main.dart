@@ -1,7 +1,7 @@
 import 'package:client/auth/auth_event_handler_widget.dart';
+import 'package:client/auth/auth_state_provider.dart';
 import 'package:client/locator.dart';
 import 'package:client/payments/in_app_purchase_wrapper.dart';
-import 'package:client/providers/auth_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:client/routes.dart';
