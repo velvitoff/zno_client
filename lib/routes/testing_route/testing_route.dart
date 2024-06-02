@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:client/locator.dart';
 import 'package:client/models/exam_file_model.dart';
-import 'package:client/state_models/auth_state_model.dart';
+import 'package:client/auth/state/auth_state_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/testing_route/widgets/testing_pages.dart';
 import 'package:client/routes/testing_route/state/testing_route_provider.dart';

@@ -1,4 +1,4 @@
-import 'package:client/state_models/auth_state_model.dart';
+import 'package:client/auth/state/auth_state_model.dart';
 import 'package:client/widgets/horizontal_scroll_wrapper.dart';
 import 'package:client/widgets/ui_generator.dart';
 import 'package:flutter/material.dart';

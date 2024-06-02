@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:client/extensions/debug_print.dart';
 import 'package:client/locator.dart';
-import 'package:client/state_models/auth_state_model.dart';
+import 'package:client/auth/state/auth_state_model.dart';
 import 'package:client/services/dialog_service.dart';
 import 'package:client/services/supabase_service.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

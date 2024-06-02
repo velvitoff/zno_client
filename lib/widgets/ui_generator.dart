@@ -1,7 +1,7 @@
 import 'package:client/locator.dart';
 import 'package:client/models/exam_file_adress_model.dart';
 import 'package:client/services/storage_service.dart';
-import 'package:client/state_models/auth_state_model.dart';
+import 'package:client/auth/state/auth_state_model.dart';
 import 'package:client/widgets/audio_player_widget.dart';
 import 'package:client/widgets/image_in_a_test_wrapper.dart';
 import 'package:client/widgets/ui_gen_handler.dart';

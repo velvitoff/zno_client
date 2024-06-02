@@ -1,5 +1,5 @@
 import 'package:client/locator.dart';
-import 'package:client/state_models/auth_state_model.dart';
+import 'package:client/auth/state/auth_state_model.dart';
 import 'package:client/routes/testing_route/state/testing_route_state_model.dart';
 import 'package:client/routes/testing_route/state/testing_time_state_model.dart';
 import 'package:client/routes.dart';

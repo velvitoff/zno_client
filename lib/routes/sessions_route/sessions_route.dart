@@ -5,7 +5,7 @@ import 'package:client/routes/sessions_route/widgets/sessions_route_input_data.d
 import 'package:client/routes/sessions_route/widgets/sessions_list.dart';
 import 'package:client/routes/sessions_route/widgets/sessions_scroll_wrapper.dart';
 import 'package:client/services/storage_service.dart';
-import 'package:client/state_models/auth_state_model.dart';
+import 'package:client/auth/state/auth_state_model.dart';
 import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:client/widgets/zno_bottom_navigation_bar.dart';
 import 'package:client/widgets/zno_error.dart';
