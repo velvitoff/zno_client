@@ -16,17 +16,18 @@ class SessionRoute extends StatelessWidget {
 
   const SessionRoute({Key? key, required this.dto}) : super(key: key);
 
-  void _goBack(BuildContext context) {
-    context.go(Routes.sessionsRoute,
-        extra: SessionsRouteInputData(
-            subjectName: dto.subjectName, folderName: dto.folderName));
+  void _handlePop() {}
+
+  void _goBack(BuildContext context, bool shouldPop) {
+    if (!shouldPop) return;
+    context.pop();
   }
 
   @override
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      onPopInvoked: (bool val) => _goBack(context),
+      onPopInvoked: (bool val) => _handlePop(),
       child: Scaffold(
         body: SessionRouteProvider(
           sessionData: dto,
@@ -39,7 +40,7 @@ class SessionRoute extends StatelessWidget {
                     padding: EdgeInsets.only(top: 10.h),
                     child: ZnoIconButton(
                       icon: Icons.arrow_back,
-                      onTap: () => _goBack(context),
+                      onTap: () => _goBack(context, true),
                     ),
                   )),
               const Expanded(

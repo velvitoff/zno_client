@@ -32,19 +32,21 @@ class _SessionsListState extends State<SessionsList> {
   }
 
   void _onItemTap(ExamFileAddressModel examFileAddress) {
-    context.go(Routes.sessionRoute, extra: examFileAddress);
+    context.push(Routes.sessionRoute, extra: examFileAddress);
   }
 
   @override
   Widget build(BuildContext context) {
     return SliverList(
-      delegate:
-          SliverChildBuilderDelegate((BuildContext context, int position) {
-        return Align(
-          alignment: Alignment.center,
-          child: children[position],
-        );
-      }, childCount: children.length),
+      delegate: SliverChildBuilderDelegate(
+        (BuildContext context, int position) {
+          return Align(
+            alignment: Alignment.center,
+            child: children[position],
+          );
+        },
+        childCount: children.length,
+      ),
     );
   }
 }

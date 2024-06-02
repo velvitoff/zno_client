@@ -44,6 +44,7 @@ class SessionsRouteState extends State<SessionsRoute> {
   @override
   void initState() {
     super.initState();
+    print("SESSIONS ROUTE INIT STATE");
     futureList = _getFutureList();
   }
 
