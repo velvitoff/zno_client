@@ -1,3 +1,4 @@
+import 'package:client/models/exam_file_adress_model.dart';
 import 'package:client/routes/session_route/state/session_route_state_model.dart';
 import 'package:client/routes/session_route/widgets/prev_attempts_list.dart';
 import 'package:client/routes/session_route/widgets/timer_button.dart';
@@ -7,7 +8,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class SessionDisplay extends StatelessWidget {
-  const SessionDisplay({Key? key}) : super(key: key);
+  final ExamFileAddressModel sessionData;
+
+  const SessionDisplay({
+    super.key,
+    required this.sessionData,
+  });
 
   void _onStartAttempt(BuildContext context) {
     context.read<SessionRouteStateModel>().onStartAttempt(context);
@@ -15,7 +21,6 @@ class SessionDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SessionRouteStateModel model = context.read<SessionRouteStateModel>();
     return Container(
       width: 340.w,
       margin: EdgeInsets.fromLTRB(10.w, 20.h, 10.w, 20.h),
@@ -25,7 +30,7 @@ class SessionDisplay extends StatelessWidget {
         children: [
           Container(
             margin: EdgeInsets.only(bottom: 10.h),
-            child: _SessionNameHeader(text: model.sessionData.sessionName),
+            child: _SessionNameHeader(text: sessionData.sessionName),
           ),
           const Expanded(
             child: PrevAttemptsList(),
@@ -46,7 +51,7 @@ class SessionDisplay extends StatelessWidget {
 
 class _SessionNameHeader extends StatelessWidget {
   final String text;
-  const _SessionNameHeader({super.key, required this.text});
+  const _SessionNameHeader({required this.text});
 
   @override
   Widget build(BuildContext context) {

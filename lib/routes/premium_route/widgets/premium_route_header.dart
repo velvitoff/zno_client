@@ -1,16 +1,16 @@
+import 'package:client/routes/premium_route/state/premium_route_state_model.dart';
 import 'package:client/widgets/zno_icon_button.dart';
 import 'package:client/widgets/zno_top_header_small.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:client/routes/premium_route/widgets/user_avatar.dart';
+import 'package:provider/provider.dart';
 
 class PremiumRouteHeader extends StatelessWidget {
   const PremiumRouteHeader({super.key});
 
-  void _goBack(BuildContext context) {
-    if (!context.canPop()) return;
-    context.pop();
+  void _onBack(BuildContext context) {
+    context.read<PremiumRouteStateModel>().onBack(context);
   }
 
   @override
@@ -24,7 +24,7 @@ class PremiumRouteHeader extends StatelessWidget {
               padding: EdgeInsets.only(left: 6.w),
               child: ZnoIconButton(
                 icon: Icons.arrow_back,
-                onTap: () => _goBack(context),
+                onTap: () => _onBack(context),
               ),
             ),
           ),

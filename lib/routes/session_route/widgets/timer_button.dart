@@ -13,6 +13,7 @@ class TimerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isActive = context.watch<SessionRouteStateModel>().isTimerSelected;
     return GestureDetector(
       onTap: () => _onTap(context),
       child: Row(
@@ -23,8 +24,8 @@ class TimerButton extends StatelessWidget {
             child: Container(
               margin: EdgeInsets.fromLTRB(4.w, 0, 4.w, 0),
               child: ZnoRadioBox(
-                  isActive:
-                      context.watch<SessionRouteStateModel>().isTimerSelected),
+                isActive: isActive,
+              ),
             ),
           ),
           Flexible(

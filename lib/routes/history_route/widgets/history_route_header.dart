@@ -1,15 +1,15 @@
+import 'package:client/routes/history_route/state/history_route_state_model.dart';
 import 'package:client/widgets/zno_icon_button.dart';
 import 'package:client/widgets/zno_top_header_small.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class HistoryRouteHeader extends StatelessWidget {
   const HistoryRouteHeader({super.key});
 
   void _onBack(BuildContext context) {
-    if (!context.canPop()) return;
-    context.pop();
+    context.read<HistoryRouteStateModel>().onBack(context);
   }
 
   @override

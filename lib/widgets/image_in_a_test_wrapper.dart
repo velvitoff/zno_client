@@ -18,6 +18,15 @@ class ImageInATestWrapper extends StatefulWidget {
 class _ImageInATestWrapperState extends State<ImageInATestWrapper> {
   late final Future<Uint8List> data = widget.futureBytes;
 
+  void _onOpenImage(BuildContext context, Uint8List image) {
+    context.push(
+      Routes.imageViewRoute,
+      extra: ImageViewRouteInputData(
+        imageProvider: MemoryImage(image),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -25,9 +34,10 @@ class _ImageInATestWrapperState extends State<ImageInATestWrapper> {
       builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
         if (snapshot.hasData) {
           return GestureDetector(
-              onTap: () => context.push(Routes.imageViewRoute,
-                  extra: ImageViewRouteInputData(
-                      imageProvider: MemoryImage(snapshot.data!))),
+              onTap: () => _onOpenImage(
+                    context,
+                    snapshot.data!,
+                  ),
               child: Image.memory(snapshot.data!));
         } else if (snapshot.hasError) {
           return const Text('Помилка завантаження зображення');

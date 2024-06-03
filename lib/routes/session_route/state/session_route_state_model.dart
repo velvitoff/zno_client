@@ -9,12 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class SessionRouteStateModel extends ChangeNotifier {
-  final ExamFileAddressModel sessionData;
+  final ExamFileAddressModel inputSessionData;
   bool isTimerSelected;
   late Future<List<PreviousAttemptModel>> previousAttempts;
 
   SessionRouteStateModel({
-    required this.sessionData,
+    required this.inputSessionData,
     this.isTimerSelected = false,
   }) {
     _updatePreviousAttempts();
@@ -25,11 +25,16 @@ class SessionRouteStateModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void onBack(BuildContext context) {
+    if (!context.canPop()) return;
+    context.pop();
+  }
+
   void onStartAttempt(
     BuildContext context,
   ) {
     if (!isTimerSelected) {
-      _pushTestingRoute(context, sessionData, null);
+      _pushTestingRoute(context, inputSessionData, null);
       return;
     }
 
@@ -38,14 +43,14 @@ class SessionRouteStateModel extends ChangeNotifier {
         .showTimeChoiceDialog(context)
         .then((int? value) {
       if (value == null) return;
-      _pushTestingRoute(context, sessionData, value);
+      _pushTestingRoute(context, inputSessionData, value);
     });
   }
 
   void _updatePreviousAttempts({bool notify = false}) {
     previousAttempts = locator.get<StorageService>().getPreviousAttemptsList(
-          sessionData.folderName,
-          sessionData.fileNameNoExtension,
+          inputSessionData.folderName,
+          inputSessionData.fileNameNoExtension,
         );
     if (notify) {
       notifyListeners();
