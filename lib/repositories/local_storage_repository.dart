@@ -103,8 +103,11 @@ class LocalStorageRepository {
     return await Directory(getImagePath(examFileAddress, '')).exists();
   }
 
-  Future<PreviousAttemptModel?> saveSessionEnd(TestingRouteStateModel data,
-      TestingTimeStateModel timerData, bool completed) async {
+  Future<PreviousAttemptModel?> saveSessionEnd(
+    TestingRouteStateModel data,
+    TestingTimeStateModel timerData,
+    bool completed,
+  ) async {
     if (data.prevSessionData != null && data.prevSessionData!.completed) {
       return null;
     }
@@ -155,7 +158,7 @@ class LocalStorageRepository {
     return newData;
   }
 
-  Future<List<PreviousAttemptModel>> getPreviousSessionsList(
+  Future<List<PreviousAttemptModel>> getPreviousAttemptsList(
       String subjectName, String sessionName) async {
     var dir = Directory('$_historyDir${Platform.pathSeparator}'
         '$subjectName${Platform.pathSeparator}'
@@ -179,7 +182,7 @@ class LocalStorageRepository {
         .toList();
   }
 
-  Future<List<PreviousAttemptModel>> getPreviousSessionsListGlobal() async {
+  Future<List<PreviousAttemptModel>> getPreviousAttemptsListGlobal() async {
     Directory historyDir = Directory(_historyDir);
     if (!await historyDir.exists()) {
       return [];

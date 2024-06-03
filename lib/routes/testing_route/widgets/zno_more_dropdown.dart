@@ -2,7 +2,6 @@ import 'package:client/locator.dart';
 import 'package:client/auth/state/auth_state_model.dart';
 import 'package:client/routes/testing_route/state/testing_route_state_model.dart';
 import 'package:client/routes/testing_route/state/testing_time_state_model.dart';
-import 'package:client/routes.dart';
 import 'package:client/services/dialog_service.dart';
 import 'package:client/services/storage_service.dart';
 import 'package:client/services/supabase_service.dart';
@@ -115,17 +114,21 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
     if (!confirmation) return;
     if (!context.mounted) return;
 
-    if (!isViewMode) {
-      locator
-          .get<StorageService>()
-          .saveSessionEnd(context.read<TestingRouteStateModel>(),
-              context.read<TestingTimeStateModel>(), false)
-          .then((void val) => context.go(Routes.sessionRoute,
-              extra: context.read<TestingRouteStateModel>().sessionData));
-    } else {
-      context.go(Routes.sessionRoute,
-          extra: context.read<TestingRouteStateModel>().sessionData);
+    if (isViewMode) {
+      if (!context.canPop()) return;
+      context.pop(false);
+      return;
     }
+
+    final result = await locator.get<StorageService>().saveSessionEnd(
+        context.read<TestingRouteStateModel>(),
+        context.read<TestingTimeStateModel>(),
+        false);
+
+    if (result == null) return;
+    if (!context.mounted) return;
+    if (!context.canPop()) return;
+    context.pop(true);
   }
 
   void _handleSwitchTimer(BuildContext context) {

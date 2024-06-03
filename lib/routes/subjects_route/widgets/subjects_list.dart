@@ -4,7 +4,7 @@ import 'package:client/routes/subjects_route/state/subjects_route_input_data.dar
 import 'package:client/services/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:client/routes.dart';
-import 'package:client/routes/sessions_route/widgets/sessions_route_input_data.dart';
+import 'package:client/routes/sessions_route/state/sessions_route_input_data.dart';
 import 'package:client/widgets/zno_button.dart';
 import 'package:client/widgets/zno_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,25 +23,28 @@ class SubjectsList extends StatelessWidget {
     ZnoSubjectInterface subject,
   ) async {
     if (subject.getChildren().isEmpty) {
-      context.go(
+      context.push(
         Routes.sessionsRoute,
         extra: SessionsRouteInputData(
           subjectName: subject.getName,
           folderName: subject.getId,
         ),
       );
-    } else {
-      final config =
-          await locator.get<StorageService>().getPersonalConfigModel();
-      if (!context.mounted) return;
-
-      context.go(Routes.subjectsRoute,
-          extra: SubjectsRouteInputData(
-              subjectsList: subject
-                  .getChildren()
-                  .where((e) => config.selectedSubjects.contains(e.getId))
-                  .toList()));
+      return;
     }
+
+    final config = await locator.get<StorageService>().getPersonalConfigModel();
+    if (!context.mounted) return;
+
+    context.push(
+      Routes.subjectsRoute,
+      extra: SubjectsRouteInputData(
+        subjectsList: subject
+            .getChildren()
+            .where((e) => config.selectedSubjects.contains(e.getId))
+            .toList(),
+      ),
+    );
   }
 
   @override

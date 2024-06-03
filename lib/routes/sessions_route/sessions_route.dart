@@ -1,7 +1,6 @@
 import 'package:client/locator.dart';
 import 'package:client/models/exam_file_adress_model.dart';
-import 'package:client/routes.dart';
-import 'package:client/routes/sessions_route/widgets/sessions_route_input_data.dart';
+import 'package:client/routes/sessions_route/state/sessions_route_input_data.dart';
 import 'package:client/routes/sessions_route/widgets/sessions_list.dart';
 import 'package:client/routes/sessions_route/widgets/sessions_scroll_wrapper.dart';
 import 'package:client/services/storage_service.dart';
@@ -13,7 +12,6 @@ import 'package:client/widgets/zno_top_header_text.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class SessionsRoute extends StatefulWidget {
@@ -44,67 +42,60 @@ class SessionsRouteState extends State<SessionsRoute> {
   @override
   void initState() {
     super.initState();
-    print("SESSIONS ROUTE INIT STATE");
     futureList = _getFutureList();
-  }
-
-  void _onPopInvoked(bool didPop) {
-    context.go(Routes.subjectsRoute);
   }
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvoked: _onPopInvoked,
-      child: Scaffold(
-        body: FutureBuilder(
-          future: futureList,
-          builder: (BuildContext context,
-              AsyncSnapshot<List<MapEntry<String, List<ExamFileAddressModel>>>>
-                  snapshot) {
-            if (snapshot.hasData) {
-              if (snapshot.data!.isEmpty) {
-                return SessionsScrollWrapper(
-                  subjectName: widget.dto.subjectName,
-                  child: SliverToBoxAdapter(
-                    child: ZnoError(
-                        text: 'Немає доступних тестів', textFontSize: 25.sp),
+    return Scaffold(
+      body: FutureBuilder(
+        future: futureList,
+        builder: (BuildContext context,
+            AsyncSnapshot<List<MapEntry<String, List<ExamFileAddressModel>>>>
+                snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data!.isEmpty) {
+              return SessionsScrollWrapper(
+                subjectName: widget.dto.subjectName,
+                child: SliverToBoxAdapter(
+                  child: ZnoError(
+                    text: 'Немає доступних тестів',
+                    textFontSize: 25.sp,
                   ),
-                );
-              } else {
-                return SessionsScrollWrapper(
-                  subjectName: widget.dto.subjectName,
-                  child: SessionsList(list: snapshot.data!),
-                );
-              }
-            } else if (snapshot.hasError) {
-              return Column(
-                children: [
-                  ZnoTopHeaderText(text: widget.dto.subjectName),
-                  const ZnoError(text: 'Помилка завантаження даних')
-                ],
+                ),
               );
             } else {
               return SessionsScrollWrapper(
-                  subjectName: widget.dto.subjectName,
-                  child: SliverToBoxAdapter(
-                    child: Column(
-                      children: [
-                        SizedBox(height: 100.h),
-                        SizedBox(
-                          height: 300.h,
-                          child: HexagonDotsLoading.def(),
-                        )
-                      ],
-                    ),
-                  ));
+                subjectName: widget.dto.subjectName,
+                child: SessionsList(list: snapshot.data!),
+              );
             }
-          },
-        ),
-        bottomNavigationBar: const ZnoBottomNavigationBar(
-            activeRoute: ZnoBottomNavigationEnum.subjects),
+          } else if (snapshot.hasError) {
+            return Column(
+              children: [
+                ZnoTopHeaderText(text: widget.dto.subjectName),
+                const ZnoError(text: 'Помилка завантаження даних')
+              ],
+            );
+          } else {
+            return SessionsScrollWrapper(
+                subjectName: widget.dto.subjectName,
+                child: SliverToBoxAdapter(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 100.h),
+                      SizedBox(
+                        height: 300.h,
+                        child: HexagonDotsLoading.def(),
+                      )
+                    ],
+                  ),
+                ));
+          }
+        },
       ),
+      bottomNavigationBar: const ZnoBottomNavigationBar(
+          activeRoute: ZnoBottomNavigationEnum.subjects),
     );
   }
 }

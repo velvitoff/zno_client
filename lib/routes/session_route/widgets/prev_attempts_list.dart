@@ -1,37 +1,18 @@
 import 'package:client/models/previous_attempt_model.dart';
-import 'package:client/locator.dart';
-import 'package:client/services/storage_service.dart';
+import 'package:client/routes/session_route/state/session_route_state_model.dart';
 import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:client/widgets/prev_session_item.dart';
+import 'package:client/widgets/zno_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../widgets/zno_error.dart';
+import 'package:provider/provider.dart';
 
-class PrevAttemptsList extends StatefulWidget {
-  final String subjectName;
-  final String sessionName;
-
-  const PrevAttemptsList(
-      {Key? key, required this.subjectName, required this.sessionName})
-      : super(key: key);
-
-  @override
-  State<PrevAttemptsList> createState() => _PastSessionsListState();
-}
-
-class _PastSessionsListState extends State<PrevAttemptsList> {
-  late final Future<List<PreviousAttemptModel>> dataList;
-
-  @override
-  void initState() {
-    super.initState();
-    dataList = locator
-        .get<StorageService>()
-        .getPreviousSessionsList(widget.subjectName, widget.sessionName);
-  }
+class PrevAttemptsList extends StatelessWidget {
+  const PrevAttemptsList({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final dataList = context.watch<SessionRouteStateModel>().previousAttempts;
     return SizedBox(
       width: 320.w,
       height: 300.h,
@@ -48,12 +29,14 @@ class _PastSessionsListState extends State<PrevAttemptsList> {
             }
             if (snapshot.hasData) {
               if (snapshot.data!.isEmpty) {
-                return Text('Немає попередніх спроб',
-                    style: TextStyle(
-                      color: const Color(0xFF5F5F5F),
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w400,
-                    ));
+                return Text(
+                  'Немає попередніх спроб',
+                  style: TextStyle(
+                    color: const Color(0xFF5F5F5F),
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+                );
               }
 
               List<PreviousAttemptModel> sessionsList =
@@ -81,12 +64,14 @@ class _AttemptsList extends StatelessWidget {
       children: [
         Flexible(
           flex: 4,
-          child: Text('Попередні спроби',
-              style: TextStyle(
-                color: const Color(0xFF5F5F5F),
-                fontSize: 20.sp,
-                fontWeight: FontWeight.w400,
-              )),
+          child: Text(
+            'Попередні спроби',
+            style: TextStyle(
+              color: const Color(0xFF5F5F5F),
+              fontSize: 20.sp,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
         ),
         const Spacer(flex: 1),
         Flexible(

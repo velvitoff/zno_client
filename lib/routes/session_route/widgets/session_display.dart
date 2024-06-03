@@ -1,36 +1,16 @@
-import 'package:client/routes/testing_route/state/testing_route_input_data.dart';
-import 'package:client/locator.dart';
 import 'package:client/routes/session_route/state/session_route_state_model.dart';
-import 'package:client/routes.dart';
 import 'package:client/routes/session_route/widgets/prev_attempts_list.dart';
 import 'package:client/routes/session_route/widgets/timer_button.dart';
-import 'package:client/services/dialog_service.dart';
+import 'package:client/widgets/zno_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '../../../widgets/zno_list_item.dart';
 
 class SessionDisplay extends StatelessWidget {
   const SessionDisplay({Key? key}) : super(key: key);
 
-  Future<void> _onSessionStart(
-    BuildContext context,
-    SessionRouteStateModel model,
-  ) async {
-    int? timeValue;
-    if (model.isTimerSelected) {
-      timeValue =
-          await locator.get<DialogService>().showTimeChoiceDialog(context);
-    }
-
-    if (!context.mounted) return;
-    context.go(Routes.testingRoute,
-        extra: TestingRouteInputData(
-            examFileAddress: model.sessionData,
-            prevAttemptModel: null,
-            isTimerActivated: false,
-            timerSecondsInTotal: timeValue ?? 7200));
+  void _onStartAttempt(BuildContext context) {
+    context.read<SessionRouteStateModel>().onStartAttempt(context);
   }
 
   @override
@@ -47,10 +27,8 @@ class SessionDisplay extends StatelessWidget {
             margin: EdgeInsets.only(bottom: 10.h),
             child: _SessionNameHeader(text: model.sessionData.sessionName),
           ),
-          Expanded(
-            child: PrevAttemptsList(
-                subjectName: model.sessionData.folderName,
-                sessionName: model.sessionData.fileNameNoExtension),
+          const Expanded(
+            child: PrevAttemptsList(),
           ),
           SizedBox(height: 10.h),
           const TimerButton(),
@@ -58,7 +36,7 @@ class SessionDisplay extends StatelessWidget {
           ZnoListItem(
             text: 'Почати спробу',
             colorType: ZnoListColorType.button,
-            onTap: () => _onSessionStart(context, model),
+            onTap: () => _onStartAttempt(context),
           )
         ],
       ),
@@ -75,9 +53,10 @@ class _SessionNameHeader extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-          color: const Color(0xFF444444),
-          fontSize: 26.sp,
-          fontWeight: FontWeight.w400),
+        color: const Color(0xFF444444),
+        fontSize: 26.sp,
+        fontWeight: FontWeight.w400,
+      ),
     );
   }
 }

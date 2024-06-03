@@ -93,14 +93,16 @@ class PrevSessionItem extends StatelessWidget {
             data.completed ? 'Переглянути спробу?' : 'Продовжити спробу?')
         .then((bool? value) {
       if (value != null && value == true) {
-        context.go(Routes.testingRoute,
-            extra: TestingRouteInputData(
-              examFileAddress:
-                  ExamFileAddressModel.fromPreviousAttemptModel(data),
-              prevAttemptModel: data,
-              isTimerActivated: data.isTimerActivated,
-              timerSecondsInTotal: data.timerSecondsInTotal,
-            ));
+        context.push(
+          Routes.testingRoute,
+          extra: TestingRouteInputData(
+            examFileAddress:
+                ExamFileAddressModel.fromPreviousAttemptModel(data),
+            prevAttemptModel: data,
+            isTimerActivated: data.isTimerActivated,
+            timerSecondsInTotal: data.timerSecondsInTotal,
+          ),
+        );
       }
     });
   }

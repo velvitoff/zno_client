@@ -7,17 +7,34 @@ class ZnoTopHeaderText extends StatelessWidget {
   final Widget? topLeftWidget;
   final double? fontSize;
 
-  const ZnoTopHeaderText(
-      {Key? key,
-      required this.text,
-      this.topRightWidget,
-      this.topLeftWidget,
-      this.fontSize})
-      : super(key: key);
+  const ZnoTopHeaderText({
+    Key? key,
+    required this.text,
+    this.topRightWidget,
+    this.topLeftWidget,
+    this.fontSize,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     List<Widget> stackChildren = [];
+    stackChildren.add(Center(
+      child: Container(
+        margin: EdgeInsets.only(left: 5.w),
+        width: 330.w,
+        child: Text(
+          text,
+          maxLines: 2,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: const Color(0xFFEFEFEF),
+            fontSize: fontSize ?? 25.sp,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+    ));
+
     if (topLeftWidget != null) {
       stackChildren
           .add(Align(alignment: Alignment.topLeft, child: topLeftWidget));
@@ -26,20 +43,6 @@ class ZnoTopHeaderText extends StatelessWidget {
       stackChildren
           .add(Align(alignment: Alignment.topRight, child: topRightWidget));
     }
-
-    stackChildren.add(Center(
-      child: Container(
-        margin: EdgeInsets.only(left: 5.w),
-        width: 330.w,
-        child: Text(text,
-            maxLines: 2,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: const Color(0xFFEFEFEF),
-                fontSize: fontSize ?? 25.sp,
-                fontWeight: FontWeight.w500)),
-      ),
-    ));
 
     final double topPadding = MediaQuery.of(context).padding.top;
     return Container(

@@ -1,6 +1,5 @@
 import 'package:client/locator.dart';
 import 'package:client/routes/storage_route/state/storage_route_state_model.dart';
-import 'package:client/routes.dart';
 import 'package:client/routes/storage_route/widgets/storage_header_radio_button.dart';
 import 'package:client/services/dialog_service.dart';
 import 'package:client/widgets/zno_icon_button.dart';
@@ -13,6 +12,11 @@ import 'package:provider/provider.dart';
 class StorageRouteHeader extends StatelessWidget {
   const StorageRouteHeader({Key? key}) : super(key: key);
 
+  void _onBack(BuildContext context) {
+    if (!context.canPop()) return;
+    context.pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ZnoTopHeaderSmall(
@@ -23,8 +27,9 @@ class StorageRouteHeader extends StatelessWidget {
             Align(
               alignment: Alignment.centerLeft,
               child: ZnoIconButton(
-                  icon: Icons.arrow_back,
-                  onTap: () => context.go(Routes.settingsRoute)),
+                icon: Icons.arrow_back,
+                onTap: () => _onBack(context),
+              ),
             ),
             Align(
               alignment: Alignment.center,

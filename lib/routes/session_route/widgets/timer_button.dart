@@ -1,9 +1,8 @@
+import 'package:client/routes/session_route/state/session_route_state_model.dart';
+import 'package:client/widgets/zno_radio_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
-import '../state/session_route_state_model.dart';
-import '../../../widgets/zno_radio_box.dart';
 
 class TimerButton extends StatelessWidget {
   const TimerButton({super.key});
@@ -35,9 +34,10 @@ class TimerButton extends StatelessWidget {
               overflow: TextOverflow.visible,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  color: const Color(0xFF444444),
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w400),
+                color: const Color(0xFF444444),
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w400,
+              ),
             ),
           )
         ],

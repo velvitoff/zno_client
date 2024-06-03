@@ -1,14 +1,13 @@
+import 'package:client/locator.dart';
+import 'package:client/routes/subject_choice_route/state/subject_choice_route_state_model.dart';
 import 'package:client/services/dialog_service.dart';
 import 'package:client/services/storage_service.dart';
+import 'package:client/widgets/zno_icon_button.dart';
+import 'package:client/widgets/zno_top_header_small.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '../../../locator.dart';
-import '../state/subject_choice_route_state_model.dart';
-import '../../../routes.dart';
-import '../../../widgets/zno_icon_button.dart';
-import '../../../widgets/zno_top_header_small.dart';
 
 class SubjectChoiceHeader extends StatefulWidget {
   const SubjectChoiceHeader({super.key});
@@ -41,7 +40,8 @@ class _SubjectChoiceHeaderState extends State<SubjectChoiceHeader> {
         config.copyWith(selectedSubjects: newPreferenceList));
 
     if (!context.mounted) return;
-    context.go(Routes.settingsRoute);
+    if (!context.canPop()) return;
+    context.pop();
   }
 
   @override

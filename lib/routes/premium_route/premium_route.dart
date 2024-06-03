@@ -1,5 +1,4 @@
 import 'package:client/auth/state/auth_state_model.dart';
-import 'package:client/routes.dart';
 import 'package:client/routes/premium_route/widgets/button_google_login.dart';
 import 'package:client/routes/premium_route/widgets/button_google_pay.dart';
 import 'package:client/routes/premium_route/widgets/premium_route_header.dart';
@@ -8,25 +7,17 @@ import 'package:client/widgets/golden_border.dart';
 import 'package:client/widgets/icons/zno_star_large_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class PremiumRoute extends StatelessWidget {
   const PremiumRoute({super.key});
 
-  void _onPopInvoked(BuildContext context, bool didPop) {
-    context.go(Routes.settingsRoute);
-  }
-
   @override
   Widget build(BuildContext context) {
     final AuthStateModel model = context.watch<AuthStateModel>();
 
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (bool didPop) => _onPopInvoked(context, didPop),
-      child: Scaffold(
-          body: Column(
+    return Scaffold(
+      body: Column(
         children: [
           const PremiumRouteHeader(),
           Expanded(
@@ -68,7 +59,7 @@ class PremiumRoute extends StatelessWidget {
             ),
           )
         ],
-      )),
+      ),
     );
   }
 }

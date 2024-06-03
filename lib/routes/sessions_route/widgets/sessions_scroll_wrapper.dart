@@ -1,10 +1,8 @@
+import 'package:client/widgets/zno_icon_button.dart';
+import 'package:client/widgets/zno_top_header_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../routes.dart';
-import '../../../widgets/zno_icon_button.dart';
-import '../../../widgets/zno_top_header_text.dart';
 
 class SessionsScrollWrapper extends StatelessWidget {
   final String subjectName;
@@ -12,20 +10,27 @@ class SessionsScrollWrapper extends StatelessWidget {
   const SessionsScrollWrapper(
       {super.key, required this.subjectName, required this.child});
 
+  void _goBack(BuildContext context) {
+    if (!context.canPop()) return;
+    context.pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     final double topPadding = MediaQuery.of(context).padding.top;
     return CustomScrollView(
       slivers: [
         SliverAppBar(
+          automaticallyImplyLeading: false,
           flexibleSpace: ZnoTopHeaderText(
             text: subjectName,
             fontSize: subjectName.length > 24 ? 21.5.sp : 25.sp,
             topLeftWidget: Padding(
               padding: EdgeInsets.only(top: 10.h),
               child: ZnoIconButton(
-                  icon: Icons.arrow_back,
-                  onTap: () => context.go(Routes.subjectsRoute)),
+                icon: Icons.arrow_back,
+                onTap: () => _goBack(context),
+              ),
             ),
           ),
           backgroundColor: const Color(0xFFF5F5F5),

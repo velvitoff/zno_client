@@ -2,7 +2,6 @@ import 'package:client/locator.dart';
 import 'package:client/models/questions/question.dart';
 import 'package:client/routes/testing_route/state/testing_route_state_model.dart';
 import 'package:client/routes/testing_route/state/testing_time_state_model.dart';
-import 'package:client/routes.dart';
 import 'package:client/routes/testing_route/widgets/testing_page/answer_widget.dart';
 import 'package:client/routes/testing_route/widgets/testing_page/question_widget.dart';
 import 'package:client/routes/testing_route/widgets/testing_page/testing_buttons.dart';
@@ -133,6 +132,14 @@ class _TestingAreaFooter extends StatelessWidget {
         );
 
     if (!confirm) return;
+
+    if (isViewMode) {
+      if (!context.mounted) return;
+      if (!context.canPop()) return;
+      context.pop(false);
+      return;
+    }
+
     await locator.get<StorageService>().saveSessionEnd(
           testingRouteStateModel,
           testingTimeStateModel,
@@ -140,10 +147,8 @@ class _TestingAreaFooter extends StatelessWidget {
         );
 
     if (!context.mounted) return;
-    context.go(
-      Routes.sessionRoute,
-      extra: context.read<TestingRouteStateModel>().sessionData,
-    );
+    if (!context.canPop()) return;
+    context.pop(true);
   }
 
   void _onBack(BuildContext context) {

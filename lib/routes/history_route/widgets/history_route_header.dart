@@ -1,4 +1,3 @@
-import 'package:client/routes.dart';
 import 'package:client/widgets/zno_icon_button.dart';
 import 'package:client/widgets/zno_top_header_small.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,8 @@ class HistoryRouteHeader extends StatelessWidget {
   const HistoryRouteHeader({super.key});
 
   void _onBack(BuildContext context) {
-    context.go(Routes.settingsRoute);
+    if (!context.canPop()) return;
+    context.pop();
   }
 
   @override

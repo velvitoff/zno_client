@@ -1,6 +1,6 @@
 import 'package:client/models/exam_file_adress_model.dart';
 import 'package:client/routes/image_view_route/state/image_view_route_input_data.dart';
-import 'package:client/routes/sessions_route/widgets/sessions_route_input_data.dart';
+import 'package:client/routes/sessions_route/state/sessions_route_input_data.dart';
 import 'package:client/routes/history_route/history_route.dart';
 import 'package:client/routes/image_view_route/image_view_route.dart';
 import 'package:client/routes/premium_route/premium_route.dart';

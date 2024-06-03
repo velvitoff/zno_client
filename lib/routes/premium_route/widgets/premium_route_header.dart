@@ -3,11 +3,15 @@ import 'package:client/widgets/zno_top_header_small.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:client/routes.dart';
 import 'package:client/routes/premium_route/widgets/user_avatar.dart';
 
 class PremiumRouteHeader extends StatelessWidget {
   const PremiumRouteHeader({super.key});
+
+  void _goBack(BuildContext context) {
+    if (!context.canPop()) return;
+    context.pop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +23,9 @@ class PremiumRouteHeader extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.only(left: 6.w),
               child: ZnoIconButton(
-                  icon: Icons.arrow_back,
-                  onTap: () => context.go(Routes.settingsRoute)),
+                icon: Icons.arrow_back,
+                onTap: () => _goBack(context),
+              ),
             ),
           ),
           Align(

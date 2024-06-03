@@ -46,12 +46,9 @@ class _SubjectsRouteState extends State<SubjectsRoute> {
           if (snapshot.hasData) {
             final listToShow = widget.dto?.subjectsList ??
                 snapshot.data!.selectedSubjectsAsZnoInterfaces;
-            return Column(
-              children: [
-                Expanded(
-                  child: SubjectsScrollView(list: listToShow),
-                ),
-              ],
+            return SubjectsScrollView(
+              list: listToShow,
+              shouldHaveBackArrow: widget.dto != null,
             );
           } else if (snapshot.hasError) {
             return const ZnoError(text: 'Помилка завантаження даних');

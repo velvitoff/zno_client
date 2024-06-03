@@ -88,7 +88,7 @@ class StorageService {
 
   Future<PreviousAttemptModel?> saveSessionEnd(TestingRouteStateModel data,
       TestingTimeStateModel timerData, bool completed) async {
-    return localStorage.saveSessionEnd(data, timerData, completed);
+    return await localStorage.saveSessionEnd(data, timerData, completed);
   }
 
   PreviousAttemptModel? saveSessionEndSync(TestingRouteStateModel data,
@@ -96,17 +96,17 @@ class StorageService {
     return localStorage.saveSessionEndSync(data, timerData, completed);
   }
 
-  Future<List<PreviousAttemptModel>> getPreviousSessionsList(
-      String subjectName, String sessionName) {
-    return localStorage.getPreviousSessionsList(subjectName, sessionName);
+  Future<List<PreviousAttemptModel>> getPreviousAttemptsList(
+      String subjectName, String sessionName) async {
+    return await localStorage.getPreviousAttemptsList(subjectName, sessionName);
   }
 
-  Future<List<PreviousAttemptModel>> getPreviousSessionsListGlobal() async {
-    return localStorage.getPreviousSessionsListGlobal();
+  Future<List<PreviousAttemptModel>> getPreviousAttemptsListGlobal() async {
+    return await localStorage.getPreviousAttemptsListGlobal();
   }
 
   Future<List<StorageRouteItemModel>> getStorageData() async {
-    return localStorage.getStorageData();
+    return await localStorage.getStorageData();
   }
 
   Future<PersonalConfigModel> getPersonalConfigModel() async {

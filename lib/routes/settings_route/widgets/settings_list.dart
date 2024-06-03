@@ -8,7 +8,7 @@ class SettingsList extends StatelessWidget {
   const SettingsList({super.key, required this.list});
 
   void _onItemTap(BuildContext context, String route) {
-    context.go(route);
+    context.push(route);
   }
 
   @override
