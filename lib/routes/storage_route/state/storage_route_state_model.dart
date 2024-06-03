@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 
 class StorageRouteStateModel extends ChangeNotifier {
-  Map<StorageRouteItemModel, bool> fileMap;
+  final Map<StorageRouteItemModel, bool> fileMap;
 
   StorageRouteStateModel({required this.fileMap});
 

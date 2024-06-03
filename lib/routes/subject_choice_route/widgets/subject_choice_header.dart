@@ -1,12 +1,10 @@
 import 'package:client/locator.dart';
 import 'package:client/routes/subject_choice_route/state/subject_choice_route_state_model.dart';
 import 'package:client/services/dialog_service.dart';
-import 'package:client/services/storage_service.dart';
 import 'package:client/widgets/zno_icon_button.dart';
 import 'package:client/widgets/zno_top_header_small.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class SubjectChoiceHeader extends StatefulWidget {
@@ -24,24 +22,8 @@ class _SubjectChoiceHeaderState extends State<SubjectChoiceHeader> {
         230.h);
   }
 
-  Future<void> _onClose(BuildContext context) async {
-    //save user's changes
-    final List<String> newPreferenceList = context
-        .read<SubjectChoiceRouteStateModel>()
-        .subjects
-        .entries
-        .where((entry) => entry.value == true)
-        .map((entry) => entry.key)
-        .toList();
-
-    final storageService = locator.get<StorageService>();
-    final config = await storageService.getPersonalConfigModel();
-    storageService.savePersonalConfigData(
-        config.copyWith(selectedSubjects: newPreferenceList));
-
-    if (!context.mounted) return;
-    if (!context.canPop()) return;
-    context.pop();
+  Future<void> _onBack(BuildContext context) async {
+    context.read<SubjectChoiceRouteStateModel>().onBack(context);
   }
 
   @override
@@ -56,7 +38,7 @@ class _SubjectChoiceHeaderState extends State<SubjectChoiceHeader> {
               alignment: Alignment.centerLeft,
               child: ZnoIconButton(
                 icon: Icons.arrow_back,
-                onTap: () => _onClose(context),
+                onTap: () => _onBack(context),
               ),
             ),
             Align(

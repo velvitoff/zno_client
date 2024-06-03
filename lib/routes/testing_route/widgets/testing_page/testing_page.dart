@@ -7,12 +7,10 @@ import 'package:client/routes/testing_route/widgets/testing_page/question_widget
 import 'package:client/routes/testing_route/widgets/testing_page/testing_buttons.dart';
 import 'package:client/routes/testing_route/widgets/testing_page/testing_page_timer.dart';
 import 'package:client/services/dialog_service.dart';
-import 'package:client/services/storage_service.dart';
 import 'package:client/routes/testing_route/widgets/zno_divider.dart';
 import 'package:client/routes/testing_route/widgets/zno_divider_for_review.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class TestingPage extends StatefulWidget {
@@ -132,23 +130,8 @@ class _TestingAreaFooter extends StatelessWidget {
         );
 
     if (!confirm) return;
-
-    if (isViewMode) {
-      if (!context.mounted) return;
-      if (!context.canPop()) return;
-      context.pop(false);
-      return;
-    }
-
-    await locator.get<StorageService>().saveSessionEnd(
-          testingRouteStateModel,
-          testingTimeStateModel,
-          true,
-        );
-
     if (!context.mounted) return;
-    if (!context.canPop()) return;
-    context.pop(true);
+    testingRouteStateModel.onExit(context, testingTimeStateModel, true);
   }
 
   void _onBack(BuildContext context) {

@@ -1,8 +1,9 @@
+import 'package:client/routes/sessions_route/state/sessions_route_state_model.dart';
 import 'package:client/widgets/zno_icon_button.dart';
 import 'package:client/widgets/zno_top_header_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class SessionsScrollWrapper extends StatelessWidget {
   final String subjectName;
@@ -11,8 +12,7 @@ class SessionsScrollWrapper extends StatelessWidget {
       {super.key, required this.subjectName, required this.child});
 
   void _goBack(BuildContext context) {
-    if (!context.canPop()) return;
-    context.pop();
+    context.read<SessionsRouteStateModel>().onBack(context);
   }
 
   @override

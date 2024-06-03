@@ -1,26 +1,37 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:client/locator.dart';
+import 'package:client/models/exam_file_adress_model.dart';
 import 'package:client/models/previous_attempt_model.dart';
-import 'package:client/routes/testing_route/state/testing_route_input_data.dart';
-import 'package:client/routes.dart';
+import 'package:client/routes/history_route/state/history_route_state_model.dart';
 import 'package:client/services/dialog_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-import '../models/exam_file_adress_model.dart';
-import '../locator.dart';
-
-class PrevSessionItem extends StatelessWidget {
+class HistoryListItem extends StatelessWidget {
   final PreviousAttemptModel data;
   final bool detailed;
 
-  const PrevSessionItem({Key? key, required this.data, this.detailed = false})
-      : super(key: key);
+  const HistoryListItem({
+    Key? key,
+    required this.data,
+    this.detailed = false,
+  }) : super(key: key);
+
+  Future<void> _onRestoreAttempt(BuildContext context) async {
+    final confirm = await locator.get<DialogService>().showConfirmDialog(
+        context, data.completed ? 'Переглянути спробу?' : 'Продовжити спробу?');
+
+    if (!confirm) return;
+    if (!context.mounted) return;
+
+    context.read<HistoryRouteStateModel>().onRestoreAttempt(context, data);
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _onRestoreSession(context),
+      onTap: () => _onRestoreAttempt(context),
       child: Container(
           height: detailed ? 130.h : 60.h,
           margin: EdgeInsets.only(left: 15.w, right: 15.w, bottom: 16.h),
@@ -84,27 +95,6 @@ class PrevSessionItem extends StatelessWidget {
             ],
           )),
     );
-  }
-
-  void _onRestoreSession(BuildContext context) {
-    locator
-        .get<DialogService>()
-        .showConfirmDialog(context,
-            data.completed ? 'Переглянути спробу?' : 'Продовжити спробу?')
-        .then((bool? value) {
-      if (value != null && value == true) {
-        context.push(
-          Routes.testingRoute,
-          extra: TestingRouteInputData(
-            examFileAddress:
-                ExamFileAddressModel.fromPreviousAttemptModel(data),
-            prevAttemptModel: data,
-            isTimerActivated: data.isTimerActivated,
-            timerSecondsInTotal: data.timerSecondsInTotal,
-          ),
-        );
-      }
-    });
   }
 
   LinearGradient _getGradient() {

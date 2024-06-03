@@ -1,7 +1,7 @@
 import 'package:client/models/previous_attempt_model.dart';
 import 'package:client/routes/session_route/state/session_route_state_model.dart';
+import 'package:client/routes/session_route/widgets/prev_attempt_item.dart';
 import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
-import 'package:client/widgets/prev_session_item.dart';
 import 'package:client/widgets/zno_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -85,7 +85,7 @@ class _AttemptsList extends StatelessWidget {
             child: ListView(
               padding: EdgeInsets.only(top: 12.h),
               children: data.map((item) {
-                return PrevSessionItem(
+                return PrevAttemptItem(
                   data: item,
                 );
               }).toList(),

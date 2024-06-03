@@ -1,8 +1,15 @@
+import 'package:client/auth/state/auth_state_model.dart';
+import 'package:client/locator.dart';
 import 'package:client/models/answers/answer.dart';
 import 'package:client/models/exam_file_adress_model.dart';
 import 'package:client/models/previous_attempt_model.dart';
 import 'package:client/models/questions/question.dart';
+import 'package:client/routes/testing_route/state/testing_time_state_model.dart';
+import 'package:client/services/dialog_service.dart';
+import 'package:client/services/storage_service.dart';
+import 'package:client/services/supabase_service.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class TestingRouteStateModel extends ChangeNotifier {
   final ExamFileAddressModel sessionData;
@@ -126,5 +133,47 @@ class TestingRouteStateModel extends ChangeNotifier {
 
     _answers[key.toString()] = result;
     notifyListeners();
+  }
+
+  Future<void> onExit(
+    BuildContext context,
+    TestingTimeStateModel timeStateModel,
+    bool isCompleted,
+  ) async {
+    if (isViewMode || allAnswers.isEmpty) {
+      if (!context.canPop()) return;
+      context.pop(false);
+      return;
+    }
+
+    final result = await locator.get<StorageService>().saveSessionEnd(
+          this,
+          timeStateModel,
+          isCompleted,
+        );
+
+    if (result == null) return;
+    if (!context.mounted) return;
+    if (!context.canPop()) return;
+
+    context.pop(true);
+  }
+
+  Future<bool> onComplaint(
+      BuildContext context, AuthStateModel authModel) async {
+    String? text =
+        await locator.get<DialogService>().showComplaintDialog(context);
+
+    if (text == null || text == "") return false;
+
+    final complaintResponse =
+        await locator.get<SupabaseService>().sendComplaint(
+              this,
+              text,
+              authModel.isPremium,
+              userId: authModel.currentUser?.id,
+            );
+
+    return complaintResponse;
   }
 }

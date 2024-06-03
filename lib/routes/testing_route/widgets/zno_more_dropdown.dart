@@ -3,12 +3,9 @@ import 'package:client/auth/state/auth_state_model.dart';
 import 'package:client/routes/testing_route/state/testing_route_state_model.dart';
 import 'package:client/routes/testing_route/state/testing_time_state_model.dart';
 import 'package:client/services/dialog_service.dart';
-import 'package:client/services/storage_service.dart';
-import 'package:client/services/supabase_service.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class ZnoMoreDropdown extends StatefulWidget {
@@ -114,21 +111,11 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
     if (!confirmation) return;
     if (!context.mounted) return;
 
-    if (isViewMode) {
-      if (!context.canPop()) return;
-      context.pop(false);
-      return;
-    }
-
-    final result = await locator.get<StorageService>().saveSessionEnd(
-        context.read<TestingRouteStateModel>(),
-        context.read<TestingTimeStateModel>(),
-        false);
-
-    if (result == null) return;
-    if (!context.mounted) return;
-    if (!context.canPop()) return;
-    context.pop(true);
+    context.read<TestingRouteStateModel>().onExit(
+          context,
+          context.read<TestingTimeStateModel>(),
+          false,
+        );
   }
 
   void _handleSwitchTimer(BuildContext context) {
@@ -136,22 +123,9 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
   }
 
   Future<void> _handleComplaint(BuildContext context) async {
-    String? text =
-        await locator.get<DialogService>().showComplaintDialog(context);
-
-    if (text == null || text == "") return;
-    if (!context.mounted) return;
-
-    final model = context.read<TestingRouteStateModel>();
-    final authModel = context.read<AuthStateModel>();
-
-    final complaintResponse =
-        await locator.get<SupabaseService>().sendComplaint(
-              model,
-              text,
-              authModel.isPremium,
-              userId: authModel.currentUser?.id,
-            );
+    final complaintResponse = await context
+        .read<TestingRouteStateModel>()
+        .onComplaint(context, context.read<AuthStateModel>());
 
     if (!context.mounted) return;
     locator.get<DialogService>().showInfoDialog(context,

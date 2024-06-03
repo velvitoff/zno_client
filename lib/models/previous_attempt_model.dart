@@ -121,6 +121,7 @@ class PreviousAttemptModel {
     final prevData = data.prevSessionData;
     fileName = prevData != null ? prevData.sessionId : nowString;
 
+    print("saving pageIndex: ${data.pageIndex}");
     return PreviousAttemptModel(
         sessionName: data.sessionData.sessionName,
         subjectName: data.sessionData.subjectName,

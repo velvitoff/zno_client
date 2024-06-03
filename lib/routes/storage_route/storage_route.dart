@@ -1,15 +1,12 @@
 import 'package:client/locator.dart';
 import 'package:client/models/storage_route_item_model.dart';
-import 'package:client/routes/storage_route/widgets/storage_list.dart';
-import 'package:client/routes/storage_route/widgets/storage_route_header.dart';
-import 'package:client/routes/storage_route/state/storage_route_provider.dart';
-import 'package:client/services/storage_service.dart';
+import 'package:client/routes/storage_route/storage_page.dart';
 import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:client/widgets/zno_error.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'state/storage_route_state_model.dart';
+import 'package:flutter/material.dart';
+import 'package:client/services/storage_service.dart';
 
 class StorageRoute extends StatefulWidget {
   const StorageRoute({Key? key}) : super(key: key);
@@ -19,51 +16,42 @@ class StorageRoute extends StatefulWidget {
 }
 
 class _StorageRouteState extends State<StorageRoute> {
-  late final Future<List<StorageRouteItemModel>> storageList;
+  late final Future<Map<StorageRouteItemModel, bool>> fileMap;
 
   @override
   void initState() {
-    storageList = locator.get<StorageService>().getStorageData();
     super.initState();
+    fileMap = locator.get<StorageService>().getStorageData().then((data) {
+      return Map.fromEntries(data.map((x) => MapEntry(x, false)));
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return StorageRouteProvider(
-      child: Scaffold(
-        body: Column(
-          children: [
-            const StorageRouteHeader(),
-            Expanded(
-              child: FutureBuilder(
-                future: storageList,
-                builder: (
-                  BuildContext context,
-                  AsyncSnapshot<List<StorageRouteItemModel>> snapshot,
-                ) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data!.isEmpty) {
-                      return ZnoError(
-                        text: 'Немає збережених даних',
-                        textFontSize: 25.sp,
-                      );
-                    }
-                    context.read<StorageRouteStateModel>().fileMap =
-                        Map.fromEntries(
-                            snapshot.data!.map((x) => MapEntry(x, false)));
-                    return const StorageList();
-                  } else if (snapshot.hasError) {
-                    return const ZnoError(text: 'Помилка зчитування даних');
-                  } else {
-                    return Center(
-                      child: HexagonDotsLoading.def(),
-                    );
-                  }
-                },
+    return Scaffold(
+      body: FutureBuilder(
+        future: fileMap,
+        builder: (
+          context,
+          AsyncSnapshot<Map<StorageRouteItemModel, bool>> snapshot,
+        ) {
+          if (snapshot.hasData) {
+            return ChangeNotifierProvider(
+              create: (context) => StorageRouteStateModel(
+                fileMap: snapshot.data!,
               ),
-            )
-          ],
-        ),
+              child: const Scaffold(
+                body: StoragePage(),
+              ),
+            );
+          } else if (snapshot.hasError) {
+            return const ZnoError(text: 'Помилка зчитування даних');
+          } else {
+            return Center(
+              child: HexagonDotsLoading.def(),
+            );
+          }
+        },
       ),
     );
   }

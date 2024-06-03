@@ -1,10 +1,8 @@
 import 'package:client/locator.dart';
 import 'package:client/models/exam_file_adress_model.dart';
 import 'package:client/models/previous_attempt_model.dart';
-import 'package:client/routes.dart';
-import 'package:client/routes/testing_route/state/testing_route_input_data.dart';
-import 'package:client/services/dialog_service.dart';
 import 'package:client/services/storage_service.dart';
+import 'package:client/services/testing_route_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,21 +28,24 @@ class SessionRouteStateModel extends ChangeNotifier {
     context.pop();
   }
 
-  void onStartAttempt(
+  Future<void> onStartAttempt(
     BuildContext context,
-  ) {
-    if (!isTimerSelected) {
-      _pushTestingRoute(context, inputSessionData, null);
-      return;
-    }
+  ) async {
+    final response = await locator.get<TestingRouteService>().onStartAttempt(
+          context,
+          this,
+        );
+    _updatePreviousAttempts(notify: response);
+  }
 
-    locator
-        .get<DialogService>()
-        .showTimeChoiceDialog(context)
-        .then((int? value) {
-      if (value == null) return;
-      _pushTestingRoute(context, inputSessionData, value);
-    });
+  Future<void> onRestoreAttempt(
+    BuildContext context,
+    PreviousAttemptModel previousAttemptModel,
+  ) async {
+    final response = await locator
+        .get<TestingRouteService>()
+        .onRestoreAttempt(context, previousAttemptModel);
+    _updatePreviousAttempts(notify: response);
   }
 
   void _updatePreviousAttempts({bool notify = false}) {
@@ -55,23 +56,5 @@ class SessionRouteStateModel extends ChangeNotifier {
     if (notify) {
       notifyListeners();
     }
-  }
-
-  Future<void> _pushTestingRoute(BuildContext context,
-      ExamFileAddressModel examFileAddress, int? timeValue) async {
-    // Testing Route returns true if a new attempt file was created
-    final response = await context.push(
-      Routes.testingRoute,
-      extra: TestingRouteInputData(
-        examFileAddress: examFileAddress,
-        prevAttemptModel: null,
-        isTimerActivated: false,
-        timerSecondsInTotal: timeValue ?? 7200,
-      ),
-    );
-    if (response is! bool) return;
-    if (!response) return;
-
-    _updatePreviousAttempts(notify: true);
   }
 }
