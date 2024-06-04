@@ -63,7 +63,7 @@ class SubjectChoiceRouteStateModel extends ChangeNotifier {
 
     final storageService = locator.get<StorageService>();
     final config = await storageService.getPersonalConfigModel();
-    storageService.savePersonalConfigData(
+    await storageService.savePersonalConfigData(
         config.copyWith(selectedSubjects: newPreferenceList));
 
     if (!context.mounted) return;

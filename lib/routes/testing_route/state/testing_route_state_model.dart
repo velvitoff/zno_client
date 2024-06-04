@@ -4,6 +4,7 @@ import 'package:client/models/answers/answer.dart';
 import 'package:client/models/exam_file_adress_model.dart';
 import 'package:client/models/previous_attempt_model.dart';
 import 'package:client/models/questions/question.dart';
+import 'package:client/routes.dart';
 import 'package:client/routes/testing_route/state/testing_time_state_model.dart';
 import 'package:client/services/dialog_service.dart';
 import 'package:client/services/storage_service.dart';
@@ -175,5 +176,9 @@ class TestingRouteStateModel extends ChangeNotifier {
             );
 
     return complaintResponse;
+  }
+
+  void onReturnBecauseOfError(BuildContext context) {
+    context.go(Routes.subjectsRoute);
   }
 }

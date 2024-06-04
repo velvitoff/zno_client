@@ -1,50 +1,26 @@
 import 'package:client/all_subjects/zno_subject_interface.dart';
-import 'package:client/locator.dart';
-import 'package:client/routes/subjects_route/state/subjects_route_input_data.dart';
-import 'package:client/services/storage_service.dart';
+import 'package:client/routes/subjects_route/state/subjects_route_state_model.dart';
 import 'package:flutter/material.dart';
-import 'package:client/routes.dart';
-import 'package:client/routes/sessions_route/state/sessions_route_input_data.dart';
 import 'package:client/widgets/zno_button.dart';
 import 'package:client/widgets/zno_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class SubjectsList extends StatelessWidget {
   final List<ZnoSubjectInterface> list;
   const SubjectsList({super.key, required this.list});
 
   void _onTapNoSubjects(BuildContext context) {
-    context.go(Routes.subjectChoiceRoute);
+    context.read<SubjectsRouteStateModel>().onTapSelectNewSubjects(context);
   }
 
   Future<void> _onTapSingleSubject(
     BuildContext context,
     ZnoSubjectInterface subject,
   ) async {
-    if (subject.getChildren().isEmpty) {
-      context.push(
-        Routes.sessionsRoute,
-        extra: SessionsRouteInputData(
-          subjectName: subject.getName,
-          folderName: subject.getId,
-        ),
-      );
-      return;
-    }
-
-    final config = await locator.get<StorageService>().getPersonalConfigModel();
-    if (!context.mounted) return;
-
-    context.push(
-      Routes.subjectsRoute,
-      extra: SubjectsRouteInputData(
-        subjectsList: subject
-            .getChildren()
-            .where((e) => config.selectedSubjects.contains(e.getId))
-            .toList(),
-      ),
-    );
+    context
+        .read<SubjectsRouteStateModel>()
+        .onTapOpenSingleSubject(context, subject);
   }
 
   @override
@@ -57,6 +33,7 @@ class SubjectsList extends StatelessWidget {
             Text(
               'Наразі у списку немає предметів',
               style: TextStyle(fontSize: 22.sp),
+              textAlign: TextAlign.center,
             ),
             SizedBox(height: 30.h),
             ZnoButton(

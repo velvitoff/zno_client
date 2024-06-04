@@ -51,24 +51,27 @@ class SubjectChoiceListItem extends StatelessWidget {
           SizedBox(
             width: 15.r,
           ),
-          Container(
-            width: 245.w,
-            height: 70.r,
-            padding: EdgeInsets.all(4.r),
-            decoration: decoration,
-            child: Center(
-              child: AutoSizeText(
-                subjectName,
-                maxLines: 2,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 22.sp,
-                  fontWeight: FontWeight.w400,
+          GestureDetector(
+            onTap: () => _onMarkSubject(context),
+            child: Container(
+              width: 245.w,
+              height: 70.r,
+              padding: EdgeInsets.all(4.r),
+              decoration: decoration,
+              child: Center(
+                child: AutoSizeText(
+                  subjectName,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
