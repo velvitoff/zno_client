@@ -1,7 +1,7 @@
 import 'package:client/models/questions/question.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../widgets/ui_gen_handler.dart';
+import '../../ui_creator/ui_creator.dart';
 import '../testing_page/answer_variants_complex.dart';
 
 class QuestionTextFieldsWidget extends StatelessWidget {
@@ -20,9 +20,8 @@ class QuestionTextFieldsWidget extends StatelessWidget {
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: question.render
-                .map((list) => UiGenHandler(data: list))
-                .toList(),
+            children:
+                question.render.map((list) => UiCreator(data: list)).toList(),
           ),
           AnswerVariantsComplex(
             titleList: question.answerTitles,

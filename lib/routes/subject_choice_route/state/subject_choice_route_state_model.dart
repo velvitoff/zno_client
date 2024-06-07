@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class SubjectChoiceRouteStateModel extends ChangeNotifier {
-  Map<String, bool> subjects;
+  Future<Map<String, bool>> subjectsFuture;
 
-  SubjectChoiceRouteStateModel({required this.subjects});
+  SubjectChoiceRouteStateModel({required this.subjectsFuture});
 
   // Returns a list of subjects user has selected to be shown on the subjects_route
   static Future<Map<String, bool>> pullSubjectsFromConfig() async {
@@ -30,7 +30,9 @@ class SubjectChoiceRouteStateModel extends ChangeNotifier {
     return result;
   }
 
-  void setIsMarked(String subject) {
+  Future<void> setIsMarked(String subject) async {
+    final subjects = await subjectsFuture;
+
     for (var key in subjects.keys) {
       if (subject == key) {
         subjects[subject] = !subjects[subject]!;
@@ -40,11 +42,14 @@ class SubjectChoiceRouteStateModel extends ChangeNotifier {
     }
   }
 
-  bool getIsMarked(String subject) {
+  Future<bool> getIsMarked(String subject) async {
+    final subjects = await subjectsFuture;
+
     return subjects[subject] == true;
   }
 
   Future<void> savePersonalConfigChanges() async {
+    final subjects = await subjectsFuture;
     final data = await locator.get<StorageService>().getPersonalConfigModel();
     final newData = data.copyWith(
         selectedSubjects: subjects.entries
@@ -54,20 +59,12 @@ class SubjectChoiceRouteStateModel extends ChangeNotifier {
     await locator.get<StorageService>().savePersonalConfigData(newData);
   }
 
-  Future<void> onBack(BuildContext context) async {
-    //save user's changes
-    final List<String> newPreferenceList = subjects.entries
-        .where((entry) => entry.value == true)
-        .map((entry) => entry.key)
-        .toList();
-
-    final storageService = locator.get<StorageService>();
-    final config = await storageService.getPersonalConfigModel();
-    await storageService.savePersonalConfigData(
-        config.copyWith(selectedSubjects: newPreferenceList));
-
-    if (!context.mounted) return;
+  void onBack(BuildContext context) {
     if (!context.canPop()) return;
     context.pop();
+  }
+
+  Future<void> onPop() async {
+    savePersonalConfigChanges();
   }
 }

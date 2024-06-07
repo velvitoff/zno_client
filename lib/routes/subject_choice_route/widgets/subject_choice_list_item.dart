@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:client/routes/subject_choice_route/state/subject_choice_route_state_model.dart';
+import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:client/widgets/zno_radio_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -42,8 +43,16 @@ class SubjectChoiceListItem extends StatelessWidget {
               height: 70.r,
               decoration: decoration,
               child: Center(
-                child: ZnoRadioBox(
-                  isActive: isMarked,
+                child: FutureBuilder(
+                  future: isMarked,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ZnoRadioBox(
+                        isActive: snapshot.data!,
+                      );
+                    }
+                    return HexagonDotsLoading.size(60.r);
+                  },
                 ),
               ),
             ),

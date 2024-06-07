@@ -1,11 +1,9 @@
 import 'dart:typed_data';
-
-import 'package:client/routes/image_view_route/state/image_view_route_input_data.dart';
-import 'package:client/routes.dart';
+import 'package:client/routes/testing_route/state/testing_route_state_model.dart';
 import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class ImageInATestWrapper extends StatefulWidget {
   final Future<Uint8List> futureBytes;
@@ -19,12 +17,7 @@ class _ImageInATestWrapperState extends State<ImageInATestWrapper> {
   late final Future<Uint8List> data = widget.futureBytes;
 
   void _onOpenImage(BuildContext context, Uint8List image) {
-    context.push(
-      Routes.imageViewRoute,
-      extra: ImageViewRouteInputData(
-        imageProvider: MemoryImage(image),
-      ),
-    );
+    context.read<TestingRouteStateModel>().onOpenImage(context, image);
   }
 
   @override
@@ -34,11 +27,12 @@ class _ImageInATestWrapperState extends State<ImageInATestWrapper> {
       builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
         if (snapshot.hasData) {
           return GestureDetector(
-              onTap: () => _onOpenImage(
-                    context,
-                    snapshot.data!,
-                  ),
-              child: Image.memory(snapshot.data!));
+            onTap: () => _onOpenImage(
+              context,
+              snapshot.data!,
+            ),
+            child: Image.memory(snapshot.data!),
+          );
         } else if (snapshot.hasError) {
           return const Text('Помилка завантаження зображення');
         } else {

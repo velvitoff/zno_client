@@ -10,14 +10,14 @@ class ZnoButton extends StatelessWidget {
   final EdgeInsets margin;
 
   const ZnoButton({
-    Key? key,
+    super.key,
     required this.width,
     required this.height,
     required this.text,
     required this.onTap,
     required this.fontSize,
     this.margin = const EdgeInsets.all(0),
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +39,10 @@ class ZnoButton extends StatelessWidget {
               text,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.w400,
-                  color: const Color(0xFFFFFFFF)),
+                fontSize: fontSize,
+                fontWeight: FontWeight.w400,
+                color: const Color(0xFFFFFFFF),
+              ),
             ),
           ),
         ),

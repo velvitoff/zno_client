@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'icons/zno_cross.dart';
+import '../../../widgets/icons/zno_cross.dart';
 
 enum AnswerCellColor { green, red, none }
 
@@ -8,9 +8,11 @@ class AnswerCell extends StatelessWidget {
   final AnswerCellColor answerColor;
   final void Function()? onTap;
 
-  const AnswerCell(
-      {Key? key, this.onTap, this.answerColor = AnswerCellColor.none})
-      : super(key: key);
+  const AnswerCell({
+    super.key,
+    this.onTap,
+    this.answerColor = AnswerCellColor.none,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +40,9 @@ class AnswerCell extends StatelessWidget {
             height: 46.5.r,
             width: 46.5.r,
             decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(7)),
-                border: Border.all(color: const Color(0xFF545454), width: 3.r)),
+              borderRadius: const BorderRadius.all(Radius.circular(7)),
+              border: Border.all(color: const Color(0xFF545454), width: 3.r),
+            ),
           ),
         );
     }

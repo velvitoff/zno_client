@@ -1,18 +1,20 @@
 import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:client/locator.dart';
 import 'package:client/models/exam_file_adress_model.dart';
 import 'package:client/services/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../locator.dart';
-
 class AudioPlayerWidget extends StatefulWidget {
   final ExamFileAddressModel examFileAddress;
   final String fileName;
 
-  const AudioPlayerWidget(
-      {super.key, required this.examFileAddress, required this.fileName});
+  const AudioPlayerWidget({
+    super.key,
+    required this.examFileAddress,
+    required this.fileName,
+  });
 
   @override
   State<AudioPlayerWidget> createState() => _AudioPlayerState();
@@ -59,6 +61,23 @@ class _AudioPlayerState extends State<AudioPlayerWidget> {
     super.dispose();
   }
 
+  void _onTap() {
+    if (isPlaying) {
+      player.pause();
+    } else {
+      player.play(source);
+    }
+    setState(() => isPlaying = !isPlaying);
+  }
+
+  void _sliderOnChanged(double value) {
+    player.seek(Duration(seconds: value.toInt()));
+  }
+
+  String _durationToText(Duration position, Duration duration) {
+    return '${position.inMinutes}:${(position.inSeconds % 60).toString().padLeft(2, '0')} / ${duration.inMinutes}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -67,14 +86,7 @@ class _AudioPlayerState extends State<AudioPlayerWidget> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           GestureDetector(
-            onTap: () {
-              if (isPlaying) {
-                player.pause();
-              } else {
-                player.play(source);
-              }
-              setState(() => isPlaying = !isPlaying);
-            },
+            onTap: _onTap,
             child: Icon(
               isPlaying ? Icons.pause_circle : Icons.play_circle,
               size: 50.r,
@@ -89,13 +101,11 @@ class _AudioPlayerState extends State<AudioPlayerWidget> {
                 min: 0,
                 max: duration.inSeconds.toDouble(),
                 value: position.inSeconds.toDouble(),
-                onChanged: (value) =>
-                    player.seek(Duration(seconds: value.toInt())),
+                onChanged: _sliderOnChanged,
               ),
             ),
           ),
-          Text(
-              '${position.inMinutes}:${(position.inSeconds % 60).toString().padLeft(2, '0')} / ${duration.inMinutes}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}')
+          Text(_durationToText(position, duration))
         ],
       ),
     );

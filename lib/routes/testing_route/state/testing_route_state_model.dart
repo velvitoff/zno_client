@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:client/auth/state/auth_state_model.dart';
 import 'package:client/locator.dart';
 import 'package:client/models/answers/answer.dart';
@@ -5,6 +7,7 @@ import 'package:client/models/exam_file_adress_model.dart';
 import 'package:client/models/previous_attempt_model.dart';
 import 'package:client/models/questions/question.dart';
 import 'package:client/routes.dart';
+import 'package:client/routes/image_view_route/state/image_view_route_input_data.dart';
 import 'package:client/routes/testing_route/state/testing_time_state_model.dart';
 import 'package:client/services/dialog_service.dart';
 import 'package:client/services/storage_service.dart';
@@ -180,5 +183,14 @@ class TestingRouteStateModel extends ChangeNotifier {
 
   void onReturnBecauseOfError(BuildContext context) {
     context.go(Routes.subjectsRoute);
+  }
+
+  void onOpenImage(BuildContext context, Uint8List image) {
+    context.push(
+      Routes.imageViewRoute,
+      extra: ImageViewRouteInputData(
+        imageProvider: MemoryImage(image),
+      ),
+    );
   }
 }

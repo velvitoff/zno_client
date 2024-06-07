@@ -1,7 +1,7 @@
 import 'package:client/models/exam_file_adress_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/widgets/zno_list_item.dart';
-import 'package:client/widgets/zno_year_line.dart';
+import 'package:client/routes/sessions_route/widgets/zno_year_line.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

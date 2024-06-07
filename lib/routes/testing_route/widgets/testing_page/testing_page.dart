@@ -56,13 +56,18 @@ class _TestingPageState extends State<TestingPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _TestingAreaHeader(
-              activeIndex: widget.index,
-              questionsLength: widget.questionsLength,
-            ),
-            QuestionWidget(
-              index: widget.index,
-              question: widget.question,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                _TestingAreaHeader(
+                  activeIndex: widget.index,
+                  questionsLength: widget.questionsLength,
+                ),
+                QuestionWidget(
+                  index: widget.index,
+                  question: widget.question,
+                ),
+              ],
             ),
             _TestingAreaFooter(
               activeIndex: widget.index,

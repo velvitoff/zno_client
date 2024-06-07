@@ -1,5 +1,5 @@
-import 'package:client/widgets/ui_gen_handler.dart';
-import 'package:client/widgets/ui_generator.dart';
+import 'package:client/routes/testing_route/ui_creator/creators/text_creator.dart';
+import 'package:client/routes/testing_route/ui_creator/ui_creator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,7 +21,7 @@ class AnswerVariantsTable extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          title == null ? Container() : UiGenerator.textToWidget(title!),
+          title == null ? Container() : TextCreator(text: title!).create(),
           ...answers.entries
               .map((entry) => Container(
                     margin: EdgeInsets.fromLTRB(0, 5.h, 0, 5.h),
@@ -64,7 +64,7 @@ class _AnswerVariantsRow extends StatelessWidget {
         ),
         LimitedBox(
           maxWidth: 270.w,
-          child: UiGenHandler(
+          child: UiCreator(
             data: entry.value,
             textStyle: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w400),
           ),

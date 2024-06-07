@@ -1,7 +1,7 @@
 import 'package:client/models/answers/answer.dart';
 import 'package:client/models/questions/question.dart';
 import 'package:client/routes/testing_route/state/testing_route_state_model.dart';
-import 'package:client/widgets/answer_cell.dart';
+import 'package:client/routes/testing_route/widgets/answer_cell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';

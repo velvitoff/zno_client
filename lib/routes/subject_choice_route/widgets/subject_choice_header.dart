@@ -19,7 +19,7 @@ class _SubjectChoiceHeaderState extends State<SubjectChoiceHeader> {
     locator.get<DialogService>().showInfoDialog(
         context,
         'Ця сторінка дозволяє обрати предмети, які відображатимуться на головній сторінці',
-        230.h);
+        250.h);
   }
 
   Future<void> _onBack(BuildContext context) async {

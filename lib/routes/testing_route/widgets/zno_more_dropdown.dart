@@ -35,7 +35,7 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
               color: Colors.white, borderRadius: BorderRadius.circular(2)),
         ),
         menuItemStyleData: MenuItemStyleData(
-          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          padding: const EdgeInsets.symmetric(horizontal: 6.0),
           customHeights: _getCustomItemsHeights(items),
         ),
         customButton: Icon(

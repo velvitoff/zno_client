@@ -9,14 +9,15 @@ class ZnoError extends StatelessWidget {
   final double? textFontSize;
   final Color? textColor;
   final double? buttonFontSize;
-  const ZnoError(
-      {super.key,
-      required this.text,
-      this.buttonText,
-      this.onTap,
-      this.textFontSize,
-      this.textColor,
-      this.buttonFontSize});
+  const ZnoError({
+    super.key,
+    required this.text,
+    this.buttonText,
+    this.onTap,
+    this.textFontSize,
+    this.textColor,
+    this.buttonFontSize,
+  });
 
   @override
   Widget build(BuildContext context) {
