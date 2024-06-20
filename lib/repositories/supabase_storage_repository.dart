@@ -7,10 +7,13 @@ class SupabaseStorageRepository {
   SupabaseClient get client => Supabase.instance.client;
 
   Future<List<ExamFileAddressModel>> listExamFiles(
-      String folderName, String subjectName, bool isPremium) async {
+    String folderName,
+    String subjectName,
+    bool isPremium,
+  ) async {
     List<FileObject> listFree =
         await client.storage.from(Constants.testsBucket).list(path: folderName);
-    if (listFree[0].name == ".emptyFolderPlaceholder") {
+    if (listFree.isNotEmpty && listFree[0].name == ".emptyFolderPlaceholder") {
       listFree = [];
     }
 
@@ -18,10 +21,11 @@ class SupabaseStorageRepository {
       List<FileObject> listPremium = await client.storage
           .from(Constants.testsBucketPaid)
           .list(path: folderName);
-      if (listPremium[0].name == ".emptyFolderPlaceholder") {
-        listPremium = [];
+
+      if (listPremium.isNotEmpty &&
+          listPremium[0].name != ".emptyFolderPlaceholder") {
+        listFree.addAll(listPremium);
       }
-      listFree.addAll(listPremium);
     }
 
     return listFree
