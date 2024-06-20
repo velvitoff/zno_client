@@ -181,10 +181,6 @@ class TestingRouteStateModel extends ChangeNotifier {
     return complaintResponse;
   }
 
-  void onReturnBecauseOfError(BuildContext context) {
-    context.go(Routes.subjectsRoute);
-  }
-
   void onOpenImage(BuildContext context, Uint8List image) {
     context.push(
       Routes.imageViewRoute,

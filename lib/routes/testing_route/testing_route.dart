@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:client/locator.dart';
 import 'package:client/models/exam_file_model.dart';
 import 'package:client/auth/state/auth_state_model.dart';
-import 'package:client/routes/testing_route/state/testing_route_state_model.dart';
+import 'package:client/routes.dart';
 import 'package:client/routes/testing_route/widgets/testing_pages.dart';
 import 'package:client/routes/testing_route/state/testing_route_provider.dart';
 import 'package:client/routes/testing_route/state/testing_route_backuper.dart';
@@ -13,6 +13,7 @@ import 'package:client/services/decryption_service.dart';
 import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:client/widgets/zno_error.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'state/testing_route_input_data.dart';
 
@@ -47,7 +48,7 @@ class TestingRouteState extends State<TestingRoute> {
   }
 
   void _onReturnToMainScreen(BuildContext context) {
-    context.read<TestingRouteStateModel>().onReturnBecauseOfError(context);
+    context.go(Routes.subjectsRoute);
   }
 
   @override
