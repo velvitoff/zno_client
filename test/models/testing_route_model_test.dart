@@ -162,10 +162,7 @@ void main() {
       var prev = PreviousAttemptModel.fromTestingRouteModel(
           model,
           TestingTimeStateModel(
-              isTimerActivated: false,
-              secondsInTotal: 0,
-              secondsSinceStart: 0,
-              isViewMode: false),
+              isTimerActivated: false, secondsSinceStart: 0, isViewMode: false),
           false);
 
       expect(prev.score, "5/9");

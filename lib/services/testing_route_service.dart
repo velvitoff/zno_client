@@ -1,10 +1,8 @@
-import 'package:client/locator.dart';
 import 'package:client/models/exam_file_adress_model.dart';
 import 'package:client/models/previous_attempt_model.dart';
 import 'package:client/routes.dart';
 import 'package:client/routes/session_route/state/session_route_state_model.dart';
 import 'package:client/routes/testing_route/state/testing_route_input_data.dart';
-import 'package:client/services/dialog_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -23,15 +21,10 @@ class TestingRouteService {
           context, sessionRouteModel.inputSessionData);
     }
 
-    int? timeValue =
-        await locator.get<DialogService>().showTimeChoiceDialog(context);
-    if (timeValue == null) return false;
-
     if (!context.mounted) return false;
     return await _pushTestingRoute(
       context,
       sessionRouteModel.inputSessionData,
-      timeValue: timeValue,
       isTimerActivated: sessionRouteModel.isTimerSelected,
     );
   }
@@ -45,14 +38,12 @@ class TestingRouteService {
       ExamFileAddressModel.fromPreviousAttemptModel(previousAttemptModel),
       prevAttemptModel: previousAttemptModel,
       isTimerActivated: previousAttemptModel.isTimerActivated,
-      timeValue: previousAttemptModel.timerSecondsInTotal,
     );
   }
 
   Future<bool> _pushTestingRoute(
     BuildContext context,
     ExamFileAddressModel examFileAddress, {
-    int? timeValue,
     PreviousAttemptModel? prevAttemptModel,
     bool isTimerActivated = false,
   }) async {
@@ -63,7 +54,6 @@ class TestingRouteService {
         examFileAddress: examFileAddress,
         prevAttemptModel: prevAttemptModel,
         isTimerActivated: isTimerActivated,
-        timerSecondsInTotal: timeValue ?? 7200,
       ),
     );
 

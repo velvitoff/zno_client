@@ -5,11 +5,10 @@ class TestingRouteInputData {
   final ExamFileAddressModel examFileAddress;
   final PreviousAttemptModel? prevAttemptModel;
   final bool isTimerActivated;
-  final int timerSecondsInTotal;
 
-  const TestingRouteInputData(
-      {required this.examFileAddress,
-      required this.prevAttemptModel,
-      required this.isTimerActivated,
-      required this.timerSecondsInTotal});
+  const TestingRouteInputData({
+    required this.examFileAddress,
+    required this.prevAttemptModel,
+    required this.isTimerActivated,
+  });
 }

@@ -1,7 +1,6 @@
 import 'package:client/dialogs/complaint_dialog.dart';
 import 'package:client/dialogs/confirm_dialog.dart';
 import 'package:client/dialogs/info_dialog.dart';
-import 'package:client/dialogs/time_choice_dialog.dart';
 import 'package:flutter/material.dart';
 
 class DialogService {
@@ -31,10 +30,5 @@ class DialogService {
   Future<String?> showComplaintDialog(BuildContext context) async {
     return showDialog<String?>(
         context: context, builder: (context) => const ComplaintDialog());
-  }
-
-  Future<int?> showTimeChoiceDialog(BuildContext context) async {
-    return showDialog<int?>(
-        context: context, builder: (context) => const TimeChoiceDialog());
   }
 }

@@ -16,9 +16,10 @@ class PreviousAttemptModel {
   final DateTime date;
   final bool completed;
   final int lastPage;
+
+  /// Should be isTimerShown instead
   final bool isTimerActivated;
   final int timerSeconds;
-  final int timerSecondsInTotal;
   final Map<String, Answer?> answers;
   final String? score;
 
@@ -33,7 +34,6 @@ class PreviousAttemptModel {
       required this.lastPage,
       required this.isTimerActivated,
       required this.timerSeconds,
-      required this.timerSecondsInTotal,
       required this.answers,
       required this.score});
 
@@ -56,9 +56,6 @@ class PreviousAttemptModel {
               : false,
           timerSeconds:
               map['timer_seconds'] != null ? map['timer_seconds'] as int : 0,
-          timerSecondsInTotal: map['timer_seconds_in_total'] != null
-              ? map['timer_seconds_in_total'] as int
-              : 7200,
           answers: Answer.mapFromJson(jsonDecode(map['answers'] as String)),
           score: map['score'] == null ? null : map['score'] as String);
 
@@ -73,7 +70,6 @@ class PreviousAttemptModel {
         'last_page': lastPage,
         'is_timer_activated': isTimerActivated,
         'timer_seconds': timerSeconds,
-        'timer_seconds_in_total': timerSecondsInTotal,
         'answers': jsonEncode(Answer.toJsonMap(answers)),
         'score': score
       };
@@ -132,7 +128,6 @@ class PreviousAttemptModel {
         lastPage: data.pageIndex,
         isTimerActivated: timeData.isTimerActivated,
         timerSeconds: timeData.secondsSinceStart,
-        timerSecondsInTotal: timeData.secondsInTotal,
         answers: data.allAnswers,
         score: '$score/$total');
   }

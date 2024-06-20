@@ -33,13 +33,11 @@ class TestingRouteProvider extends StatelessWidget {
               return TestingTimeStateModel(
                   isTimerActivated: prevData.isTimerActivated,
                   secondsSinceStart: prevData.timerSeconds,
-                  secondsInTotal: prevData.timerSecondsInTotal,
                   isViewMode: prevData.completed);
             }
             return TestingTimeStateModel(
                 isTimerActivated: data.isTimerActivated,
                 secondsSinceStart: 0,
-                secondsInTotal: data.timerSecondsInTotal,
                 isViewMode: false);
           },
         )

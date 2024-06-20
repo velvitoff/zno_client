@@ -5,7 +5,6 @@ class TestingTimeStateModel extends ChangeNotifier {
   late final Timer timer;
   bool isTimerActivated;
   int secondsSinceStart;
-  int secondsInTotal;
   bool isViewMode;
 
   void switchIsActivated() {
@@ -16,7 +15,6 @@ class TestingTimeStateModel extends ChangeNotifier {
   TestingTimeStateModel(
       {required this.isTimerActivated,
       required this.secondsSinceStart,
-      required this.secondsInTotal,
       required this.isViewMode}) {
     if (!isViewMode) {
       timer = Timer.periodic(const Duration(seconds: 1), (_) {
