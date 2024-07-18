@@ -127,6 +127,7 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
         .read<TestingRouteStateModel>()
         .onComplaint(context, context.read<AuthStateModel>());
 
+    if (complaintResponse == null) return;
     if (!context.mounted) return;
     locator.get<DialogService>().showInfoDialog(context,
         complaintResponse ? 'Дякуємо за відгук!' : 'Сталася помилка', 230.h);

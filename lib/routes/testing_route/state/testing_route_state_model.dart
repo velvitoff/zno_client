@@ -163,12 +163,12 @@ class TestingRouteStateModel extends ChangeNotifier {
     context.pop(true);
   }
 
-  Future<bool> onComplaint(
+  Future<bool?> onComplaint(
       BuildContext context, AuthStateModel authModel) async {
     String? text =
         await locator.get<DialogService>().showComplaintDialog(context);
 
-    if (text == null || text == "") return false;
+    if (text == null || text == "") return null;
 
     final complaintResponse =
         await locator.get<SupabaseService>().sendComplaint(
