@@ -13,20 +13,18 @@ class StoragePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final data = context.watch<StorageRouteStateModel>().fileMap;
 
-    if (data.isEmpty) {
-      return ZnoError(
-        text: 'Немає збережених даних',
-        textFontSize: 25.sp,
-      );
-    }
-
     return Column(
       children: [
         const StorageRouteHeader(),
         Expanded(
-          child: StorageList(
-            data: data,
-          ),
+          child: data.isNotEmpty
+              ? StorageList(
+                  data: data,
+                )
+              : ZnoError(
+                  text: 'Немає збережених даних',
+                  textFontSize: 25.sp,
+                ),
         ),
       ],
     );
