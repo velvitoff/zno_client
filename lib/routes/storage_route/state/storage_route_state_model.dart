@@ -7,6 +7,10 @@ class StorageRouteStateModel extends ChangeNotifier {
 
   StorageRouteStateModel({required this.fileMap});
 
+  bool isEmpty() {
+    return fileMap.isEmpty;
+  }
+
   bool getIsMarked(UniqueKey inKey) {
     for (var entry in fileMap.entries) {
       if (entry.key.key == inKey) {

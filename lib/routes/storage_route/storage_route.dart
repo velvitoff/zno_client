@@ -1,6 +1,7 @@
 import 'package:client/locator.dart';
 import 'package:client/models/storage_route_item_model.dart';
 import 'package:client/routes/storage_route/storage_page.dart';
+import 'package:client/routes/storage_route/widgets/storage_route_header.dart';
 import 'package:client/widgets/hexagon_dots/hexagon_dots_loading.dart';
 import 'package:client/widgets/zno_error.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +46,14 @@ class _StorageRouteState extends State<StorageRoute> {
               ),
             );
           } else if (snapshot.hasError) {
-            return const ZnoError(text: 'Помилка зчитування даних');
+            return const Column(
+              children: [
+                StorageRouteHeader(),
+                Expanded(
+                  child: ZnoError(text: 'Помилка зчитування даних'),
+                )
+              ],
+            );
           } else {
             return Center(
               child: HexagonDotsLoading.def(),

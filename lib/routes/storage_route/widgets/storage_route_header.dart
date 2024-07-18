@@ -33,9 +33,13 @@ class StorageRouteHeader extends StatelessWidget {
             ),
             Align(
               alignment: Alignment.center,
-              child: Text('Сховище',
-                  style: TextStyle(
-                      color: const Color(0xFFEFEFEF), fontSize: 24.sp)),
+              child: Text(
+                'Сховище',
+                style: TextStyle(
+                  color: const Color(0xFFEFEFEF),
+                  fontSize: 24.sp,
+                ),
+              ),
             ),
             const Align(
               alignment: Alignment.centerRight,
@@ -81,10 +85,14 @@ class _RightSideMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isAtLeastOneItemMarked =
-        context.watch<StorageRouteStateModel>().isAtLeastOneItemMarked();
-    final isMarkedAll =
-        context.watch<StorageRouteStateModel>().getIsMarkedAll();
+    final StorageRouteStateModel? storageModel =
+        context.watch<StorageRouteStateModel?>();
+    if (storageModel == null || storageModel.isEmpty()) {
+      return Container();
+    }
+
+    final isAtLeastOneItemMarked = storageModel.isAtLeastOneItemMarked();
+    final isMarkedAll = storageModel.getIsMarkedAll();
 
     return SizedBox(
       height: double.infinity,
