@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
-const Set<String> _kIds = <String>{'zno_client_premium'};
+const Set<String> _kIds = <String>{'znoclient_premium'};
 
 class ButtonGooglePay extends StatefulWidget {
   const ButtonGooglePay({super.key});
@@ -18,7 +18,7 @@ class _ButtonGooglePayState extends State<ButtonGooglePay> {
   final Future<ProductDetails> productDetails = InAppPurchase.instance
       .queryProductDetails(_kIds)
       .then((response) => response.productDetails
-          .where((e) => e.id == "zno_client_premium")
+          .where((e) => e.id == "znoclient_premium")
           .first);
 
   void _onClickBuy(ProductDetails productDetails) async {
