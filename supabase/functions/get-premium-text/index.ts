@@ -1,3 +1,4 @@
+//supabase functions deploy get-premium-text --project-ref ydhnhgdhqmsgivefgczz
 Deno.serve(async (req: any) => {
   return new Response(
     new TextEncoder().encode(JSON.stringify([
