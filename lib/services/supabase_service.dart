@@ -1,7 +1,5 @@
-import 'package:client/extensions/debug_print.dart';
 import 'package:client/routes/testing_route/state/testing_route_state_model.dart';
 import 'package:flutter/foundation.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 //https://developers.google.com/android-publisher/api-ref/rest/v3/purchases.products
@@ -45,18 +43,17 @@ class SupabaseService {
   const SupabaseService();
 
   Future<bool> sendComplaint(
-      TestingRouteStateModel model, String text, bool isPremium,
-      {String? userId}) async {
+    TestingRouteStateModel model,
+    String text,
+  ) async {
     try {
       await client.from('user_complaints').insert({
         'data': {
           "subjectName": model.sessionData.subjectName,
           "sessionName": model.sessionData.sessionName,
-          "premium": isPremium,
           "page": model.pageIndex + 1,
           "text": text
         }.toString(),
-        'user_id': userId,
       });
       return true;
     } catch (e) {
@@ -65,57 +62,5 @@ class SupabaseService {
       }
       return false;
     }
-  }
-
-  Future<bool> isUserPremium(User user) async {
-    dbg('call isUserPremium()');
-
-    try {
-      final res = await client.functions.invoke("is-user-premium");
-      if (res.status != 200) {
-        dbg("call isUserPremium() -> false, status is not 200");
-        return false;
-      }
-    } catch (e) {
-      dbg('call isUserPremium() -> false, calling restorePurchases');
-      await InAppPurchase.instance.restorePurchases();
-      return false;
-    }
-
-    dbg('call isUserPremium() -> true');
-    return true;
-  }
-
-  Future<bool> verifyPremiumPurchase(PurchaseDetails purchaseDetails) async {
-    final res = await client.functions.invoke("verify-premium-purchase", body: {
-      "orderId": purchaseDetails.purchaseID,
-      "purchaseToken": purchaseDetails.verificationData.serverVerificationData,
-      "productId": purchaseDetails.productID
-    });
-
-    if (res.status != 200) {
-      return false;
-    }
-    return true;
-  }
-
-  //throws
-  Future<ProductPurchase> getPurchaseState(
-      PurchaseDetails purchaseDetails) async {
-    final FunctionResponse res =
-        await client.functions.invoke("get-purchase-state", body: {
-      "orderId": purchaseDetails.purchaseID,
-      "purchaseToken": purchaseDetails.verificationData.serverVerificationData,
-      "productId": purchaseDetails.productID,
-    });
-
-    return ProductPurchase.fromJSON(Map<String, dynamic>.from(res.data));
-  }
-
-  //throws
-  Future<List<String>> getPremiumText() async {
-    final FunctionResponse res =
-        await client.functions.invoke("get-premium-text");
-    return List<String>.from(res.data);
   }
 }

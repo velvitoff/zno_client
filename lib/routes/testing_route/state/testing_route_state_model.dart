@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:client/auth/state/auth_state_model.dart';
 import 'package:client/locator.dart';
 import 'package:client/models/answers/answer.dart';
 import 'package:client/models/exam_file_adress_model.dart';
@@ -163,8 +162,7 @@ class TestingRouteStateModel extends ChangeNotifier {
     context.pop(true);
   }
 
-  Future<bool?> onComplaint(
-      BuildContext context, AuthStateModel authModel) async {
+  Future<bool?> onComplaint(BuildContext context) async {
     String? text =
         await locator.get<DialogService>().showComplaintDialog(context);
 
@@ -174,8 +172,6 @@ class TestingRouteStateModel extends ChangeNotifier {
         await locator.get<SupabaseService>().sendComplaint(
               this,
               text,
-              authModel.isPremium,
-              userId: authModel.currentUser?.id,
             );
 
     return complaintResponse;

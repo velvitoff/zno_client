@@ -4,7 +4,6 @@ import 'package:client/routes/sessions_route/sessions_page.dart';
 import 'package:client/routes/sessions_route/state/sessions_route_input_data.dart';
 import 'package:client/routes/sessions_route/state/sessions_route_state_model.dart';
 import 'package:client/services/storage_service.dart';
-import 'package:client/auth/state/auth_state_model.dart';
 import 'package:client/widgets/zno_bottom_navigation_bar.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -25,9 +24,9 @@ class SessionsRouteState extends State<SessionsRoute> {
 
   Future<List<MapEntry<String, List<ExamFileAddressModel>>>>
       _getFutureList() async {
-    final isPremium = context.read<AuthStateModel>().isPremium;
-    final list = await locator.get<StorageService>().listExamFiles(
-        widget.dto.folderName, widget.dto.subjectName, isPremium);
+    final list = await locator
+        .get<StorageService>()
+        .listExamFiles(widget.dto.folderName, widget.dto.subjectName);
     final listGrouped = list
         .groupListsBy((element) => element.fileNameNoExtension.split('_').last)
         .entries

@@ -1,5 +1,4 @@
 import 'package:client/locator.dart';
-import 'package:client/auth/state/auth_state_model.dart';
 import 'package:client/routes/testing_route/state/testing_route_state_model.dart';
 import 'package:client/routes/testing_route/state/testing_time_state_model.dart';
 import 'package:client/services/dialog_service.dart';
@@ -123,9 +122,8 @@ class _ZnoMoreDropdownState extends State<ZnoMoreDropdown> {
   }
 
   Future<void> _handleComplaint(BuildContext context) async {
-    final complaintResponse = await context
-        .read<TestingRouteStateModel>()
-        .onComplaint(context, context.read<AuthStateModel>());
+    final complaintResponse =
+        await context.read<TestingRouteStateModel>().onComplaint(context);
 
     if (complaintResponse == null) return;
     if (!context.mounted) return;

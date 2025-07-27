@@ -1,18 +1,18 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+
+import 'package:client/extensions/directory_extension.dart';
 import 'package:client/models/exam_file_adress_model.dart';
+import 'package:client/models/exam_file_model.dart';
 import 'package:client/models/personal_config_model.dart';
 import 'package:client/models/previous_attempt_model.dart';
-import 'package:client/models/exam_file_model.dart';
-import 'package:client/locator.dart';
 import 'package:client/routes/testing_route/state/testing_time_state_model.dart';
-import 'package:client/services/decryption_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart' as path;
+
 import '../models/storage_route_item_model.dart';
 import '../routes/testing_route/state/testing_route_state_model.dart';
-import 'dart:convert';
-import 'package:client/extensions/directory_extension.dart';
 
 class LocalStorageRepository {
   final Directory _appDir;
@@ -238,13 +238,7 @@ class LocalStorageRepository {
     for (var entry in mapOfSessions.entries) {
       for (var file in entry.value) {
         String fileString;
-        if (file.path.endsWith('.bin')) {
-          fileString = locator
-              .get<DecryptionService>()
-              .decryptBin(await file.readAsBytes());
-        } else {
-          fileString = await file.readAsString();
-        }
+        fileString = await file.readAsString();
         final data = ExamFileModelNoQuestions.fromJson(jsonDecode(fileString));
         final String imageFolderPath = '$_imageDir${Platform.pathSeparator}'
             '${entry.key.path.split(Platform.pathSeparator).last}${Platform.pathSeparator}'

@@ -1,9 +1,11 @@
 import 'dart:typed_data';
+
 import 'package:client/models/exam_file_adress_model.dart';
 import 'package:client/models/personal_config_model.dart';
-import 'package:client/routes/testing_route/state/testing_time_state_model.dart';
 import 'package:client/repositories/local_storage_repository.dart';
 import 'package:client/repositories/supabase_storage_repository.dart';
+import 'package:client/routes/testing_route/state/testing_time_state_model.dart';
+
 import '../models/previous_attempt_model.dart';
 import '../models/storage_route_item_model.dart';
 import '../routes/testing_route/state/testing_route_state_model.dart';
@@ -21,10 +23,9 @@ class StorageService {
   }
 
   Future<List<ExamFileAddressModel>> listExamFiles(
-      String folderName, String subjectName, bool isPremium) async {
+      String folderName, String subjectName) async {
     try {
-      return await externalStorage.listExamFiles(
-          folderName, subjectName, isPremium);
+      return await externalStorage.listExamFiles(folderName, subjectName);
     } catch (e) {
       //fallback for listing sessions in case of network exception
       return await localStorage.listExamFiles(folderName, subjectName);
@@ -32,7 +33,7 @@ class StorageService {
   }
 
   Future<Uint8List> getExamFileBytes(
-      ExamFileAddressModel examFileAddress, bool isPremium) async {
+      ExamFileAddressModel examFileAddress) async {
     //throws
     try {
       //return local file if it's recent enough
@@ -40,7 +41,7 @@ class StorageService {
       var now = DateTime.now();
       if (now.difference(lastModified).inDays < 3) {
         if (!await localStorage.imageFolderExists(examFileAddress)) {
-          await downloadAllImages(examFileAddress, isPremium);
+          await downloadAllImages(examFileAddress);
         }
         return localStorage.getExamFileData(examFileAddress);
       } else {
@@ -50,9 +51,9 @@ class StorageService {
     } catch (e) {
       try {
         final Uint8List session =
-            await externalStorage.getExamFileBytes(examFileAddress, isPremium);
+            await externalStorage.getExamFileBytes(examFileAddress);
         await localStorage.saveExamFile(examFileAddress, session);
-        final imageMap = await downloadAllImages(examFileAddress, isPremium);
+        final imageMap = await downloadAllImages(examFileAddress);
         await saveImages(examFileAddress, imageMap);
         return session;
       } catch (e) {
@@ -66,19 +67,19 @@ class StorageService {
     return localStorage.getImagePath(examFileAddress, fileName);
   }
 
-  Future<Uint8List> getImageBytes(ExamFileAddressModel examFileAddress,
-      String fileName, bool isPremium) async {
+  Future<Uint8List> getImageBytes(
+      ExamFileAddressModel examFileAddress, String fileName) async {
     try {
       return localStorage.getImageBytes(examFileAddress, fileName);
     } catch (e) {
-      return externalStorage.getImageBytes(
-          examFileAddress, fileName, isPremium);
+      return externalStorage.getImageBytes(examFileAddress, fileName);
     }
   }
 
   Future<Map<String, Uint8List>> downloadAllImages(
-      ExamFileAddressModel examFileAddress, bool isPremium) async {
-    return await externalStorage.downloadAllImages(examFileAddress, isPremium);
+    ExamFileAddressModel examFileAddress,
+  ) async {
+    return await externalStorage.downloadAllImages(examFileAddress);
   }
 
   Future<void> saveImages(ExamFileAddressModel examFileAddress,

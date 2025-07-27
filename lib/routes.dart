@@ -3,7 +3,6 @@ import 'package:client/routes/image_view_route/state/image_view_route_input_data
 import 'package:client/routes/sessions_route/state/sessions_route_input_data.dart';
 import 'package:client/routes/history_route/history_route.dart';
 import 'package:client/routes/image_view_route/image_view_route.dart';
-import 'package:client/routes/premium_route/premium_route.dart';
 import 'package:client/routes/session_route/session_route.dart';
 import 'package:client/routes/settings_route/settings_route.dart';
 import 'package:client/routes/storage_route/storage_route.dart';
@@ -29,7 +28,6 @@ class Routes {
   static const imageViewRoute = '/image_view';
   static const subjectChoiceRoute = '/subject_choice';
   static const settingsRoute = '/settings';
-  static const premiumRoute = '/premium';
 
   static GoRouter get router => _router;
 
@@ -181,21 +179,5 @@ class Routes {
                     );
                   });
             }),
-        GoRoute(
-            path: premiumRoute,
-            pageBuilder: (context, state) {
-              return CustomTransitionPage(
-                  key: state.pageKey,
-                  transitionDuration: const Duration(milliseconds: 250),
-                  child: const PremiumRoute(),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnimation, child) {
-                    return FadeTransition(
-                      opacity: CurveTween(curve: Curves.easeInOutCirc)
-                          .animate(animation),
-                      child: child,
-                    );
-                  });
-            })
       ]);
 }
