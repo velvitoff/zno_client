@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -237,24 +238,30 @@ class LocalStorageRepository {
     List<StorageRouteItemModel> result = [];
     for (var entry in mapOfSessions.entries) {
       for (var file in entry.value) {
-        String fileString;
-        fileString = await file.readAsString();
-        final data = ExamFileModelNoQuestions.fromJson(jsonDecode(fileString));
-        final String imageFolderPath = '$_imageDir${Platform.pathSeparator}'
-            '${entry.key.path.split(Platform.pathSeparator).last}${Platform.pathSeparator}'
-            '${data.imageFolderName}';
+        try {
+          String fileString;
+          fileString = await file.readAsString();
+          final data =
+              ExamFileModelNoQuestions.fromJson(jsonDecode(fileString));
+          final String imageFolderPath = '$_imageDir${Platform.pathSeparator}'
+              '${entry.key.path.split(Platform.pathSeparator).last}${Platform.pathSeparator}'
+              '${data.imageFolderName}';
 
-        result.add(
-          StorageRouteItemModel(
-            subjectName: data.subject,
-            sessionName: data.name,
-            filePath: file.path,
-            imageFolderPath: imageFolderPath,
-            size:
-                await file.length() + await Directory(imageFolderPath).length(),
-            key: UniqueKey(),
-          ),
-        );
+          result.add(
+            StorageRouteItemModel(
+              subjectName: data.subject,
+              sessionName: data.name,
+              filePath: file.path,
+              imageFolderPath: imageFolderPath,
+              size: await file.length() +
+                  await Directory(imageFolderPath).length(),
+              key: UniqueKey(),
+            ),
+          );
+        } catch (e) {
+          log("Failed parsing for a storage file");
+          continue;
+        }
       }
     }
 
