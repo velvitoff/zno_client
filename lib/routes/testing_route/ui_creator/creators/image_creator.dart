@@ -17,7 +17,7 @@ class ImageCreator {
   Widget create() {
     final model = context.read<TestingRouteStateModel>();
     return ImageInATestWrapper(
-      futureBytes: locator
+      getFutureBytes: () => locator
           .get<StorageService>()
           .getImageBytes(model.sessionData, fileName),
     );

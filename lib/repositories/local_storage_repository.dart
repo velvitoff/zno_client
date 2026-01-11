@@ -244,14 +244,17 @@ class LocalStorageRepository {
             '${entry.key.path.split(Platform.pathSeparator).last}${Platform.pathSeparator}'
             '${data.imageFolderName}';
 
-        result.add(StorageRouteItemModel(
+        result.add(
+          StorageRouteItemModel(
             subjectName: data.subject,
             sessionName: data.name,
             filePath: file.path,
             imageFolderPath: imageFolderPath,
             size:
                 await file.length() + await Directory(imageFolderPath).length(),
-            key: UniqueKey()));
+            key: UniqueKey(),
+          ),
+        );
       }
     }
 

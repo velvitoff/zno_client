@@ -70,9 +70,13 @@ class StorageService {
   Future<Uint8List> getImageBytes(
       ExamFileAddressModel examFileAddress, String fileName) async {
     try {
-      return localStorage.getImageBytes(examFileAddress, fileName);
+      // Needs to be awaited for try catch to work
+      final data = await localStorage.getImageBytes(examFileAddress, fileName);
+      return data;
     } catch (e) {
-      return externalStorage.getImageBytes(examFileAddress, fileName);
+      final data =
+          await externalStorage.getImageBytes(examFileAddress, fileName);
+      return data;
     }
   }
 
