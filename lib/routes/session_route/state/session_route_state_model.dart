@@ -1,6 +1,7 @@
 import 'package:client/locator.dart';
 import 'package:client/models/exam_file_adress_model.dart';
 import 'package:client/models/previous_attempt_model.dart';
+import 'package:client/services/in_app_review_service.dart';
 import 'package:client/services/storage_service.dart';
 import 'package:client/services/testing_route_service.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,10 @@ class SessionRouteStateModel extends ChangeNotifier {
           this,
         );
     _updatePreviousAttempts(notify: response);
+
+    if (response) {
+      locator.get<InAppReviewService>().onTestingSessionEnd();
+    }
   }
 
   Future<void> onRestoreAttempt(
@@ -46,6 +51,10 @@ class SessionRouteStateModel extends ChangeNotifier {
         .get<TestingRouteService>()
         .onRestoreAttempt(context, previousAttemptModel);
     _updatePreviousAttempts(notify: response);
+
+    if (response) {
+      locator.get<InAppReviewService>().onTestingSessionEnd();
+    }
   }
 
   void _updatePreviousAttempts({bool notify = false}) {

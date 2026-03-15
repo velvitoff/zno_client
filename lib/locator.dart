@@ -1,4 +1,5 @@
 import 'package:client/services/dialog_service.dart';
+import 'package:client/services/in_app_review_service.dart';
 import 'package:client/services/init_service.dart';
 import 'package:client/services/storage_service.dart';
 import 'package:client/services/supabase_service.dart';
@@ -21,4 +22,5 @@ void getItSetup() {
 
   locator.registerSingleton<DialogService>(const DialogService());
   locator.registerSingleton<TestingRouteService>(const TestingRouteService());
+  locator.registerSingleton<InAppReviewService>(const InAppReviewService());
 }
