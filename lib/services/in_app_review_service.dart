@@ -17,6 +17,7 @@ class InAppReviewService {
     final newCount = count + 1;
     await prefs.setInt(_endSessionKey, newCount);
 
+    // Current limit on build 39 is <= 6
     if (newCount % 2 == 0 && newCount <= 12) {
       await InAppReview.instance.requestReview();
     }
